@@ -5,6 +5,8 @@
 /reviewer @pwlsghq
 /reviewer @soye0822
 
+/remove_reviewer me
+
 ## :bookmark_tabs: 제목
 
 (작업 내역 한줄로 요약)
