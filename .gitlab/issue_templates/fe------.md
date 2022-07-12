@@ -1,11 +1,6 @@
----
-name: FE 기능 추가
-about: FE 기능 추가
-title: "[FE]"
-labels: frontend
-assignees: ''
-
----
+/title "[FE]"
+/label ~frontend
+/assign me
 
 ## :hammer: 기능 설명
 

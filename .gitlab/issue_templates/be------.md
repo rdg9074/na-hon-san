@@ -1,11 +1,6 @@
----
-name: BE 기능 추가
-about: BE 기능 추가
-title: "[BE]"
-labels: ''
-assignees: ''
-
----
+/title "[BE]"
+/label ~backend
+/assign me
 
 ## :hammer: 기능 설명
 
