@@ -1,7 +1,9 @@
 /title "[FE]"
 /label ~frontend
 /assign me
-/reviewer @rdg9074 @soye0822
+/reviewer @rdg9074
+/reviewer @pwlsghq
+/reviewer @soye0822
 
 ## :bookmark_tabs: 제목
 

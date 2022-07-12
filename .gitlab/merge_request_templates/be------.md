@@ -1,7 +1,9 @@
 /title "[BE]"
 /label ~backend
 /assign me
-/reviewer @cg1735 @aa981204 @stopone2639
+/reviewer @cg1735  
+/reviewer @aa981204
+/reviewer @stopone2639
 
 ## :bookmark_tabs: 제목
 
