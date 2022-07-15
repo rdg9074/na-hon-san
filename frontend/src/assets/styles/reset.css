@@ -29,6 +29,7 @@ button {
   cursor: pointer;
   color: inherit;
   font-family: inherit;
+  padding: 0;
 }
 
 /* custom reset end  */
