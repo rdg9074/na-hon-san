@@ -1,0 +1,196 @@
+#chk-email {
+  margin: vw(44px) vw(483px) vw(200px) vw(484px);
+  padding: vw(64px) vw(72px) vw(61px) vw(72px);
+  border: 1px solid $GRAY_DB;
+  border-radius: vw(20px);
+  .header {
+    &__title {
+      margin-bottom: vw(16px);
+    }
+    &__sub-title {
+      margin-bottom: vw(36px);
+      line-height: vw(24px);
+    }
+  }
+  .form {
+    &__title {
+      margin-bottom: vw(20px);
+    }
+    &__input {
+      margin-bottom: vw(8px);
+      padding: vw(12px);
+
+      width: vw(329px);
+      height: vw(48px);
+      border: 1px solid $GRAY_DB;
+      border-radius: vw(4px);
+    }
+    &__msg {
+      margin-bottom: vw(16px);
+      color: $RED;
+    }
+    &__btn {
+      margin-bottom: vw(24px);
+
+      width: vw(329px);
+      height: vw(48px);
+      background-color: $MAIN_YELLOW;
+      border-radius: vw(4px);
+    }
+  }
+  .footer {
+    &-top {
+      margin-bottom: vw(40px);
+      color: $GRAY_76;
+      &__msg {
+        margin-right: vw(16px);
+      }
+    }
+    &-bottom {
+      padding: vw(20px) vw(16px) vw(27px) vw(15px);
+
+      width: vw(329px);
+      height: vw(160px);
+      background-color: $GRAY_F3;
+      border-radius: vw(4px);
+
+      .notice-ul {
+        margin-left: vw(24px);
+        list-style-type: disc;
+        color: $GRAY_61;
+        line-height: vw(16px);
+        &__li + .notice-ul__li {
+          margin-top: vw(20px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width:$TABLET-VW) {
+  #chk-email {
+    margin: vw-t(72px) vw-t(148px) vw-t(172px) vw-t(147px);
+    padding: vw-t(64px) vw-t(72px) vw-t(61px) vw-t(72px);
+    border-radius: vw-t(20px);
+
+    .header {
+      &__title {
+        margin-bottom: vw-t(16px);
+      }
+      &__sub-title {
+        margin-bottom: vw-t(36px);
+        line-height: vw-t(24px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-t(20px);
+      }
+      &__input {
+        margin-bottom: vw-t(8px);
+        padding: vw-t(12px);
+
+        width: vw-t(329px);
+        height: vw-t(48px);
+        border-radius: vw-t(4px);
+      }
+      &__msg {
+        margin-bottom: vw-t(16px);
+      }
+      &__btn {
+        margin-bottom: vw-t(24px);
+
+        width: vw-t(329px);
+        height: vw-t(48px);
+        border-radius: vw-t(4px);
+      }
+    }
+    .footer {
+      &-top {
+        margin-bottom: vw-t(40px);
+        &__msg {
+          margin-right: vw-t(16px);
+        }
+      }
+      &-bottom {
+        padding: vw-t(20px) vw-t(16px) vw-t(27px) vw-t(15px);
+
+        width: vw-t(329px);
+        height: vw-t(160px);
+        border-radius: vw-t(4px);
+
+        .notice-ul {
+          margin-left: vw-t(24px);
+          line-height: vw-t(16px);
+          &__li + .notice-ul__li {
+            margin-top: vw-t(20px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width:$PHONE-VW) {
+  #chk-email {
+    margin: vw-p(72px) vw-p(22px) vw-p(72px) vw-p(22px);
+    padding: 0;
+    border: none;
+
+    .header {
+      &__title {
+        margin-bottom: vw-p(16px);
+      }
+      &__sub-title {
+        margin-bottom: vw-p(36px);
+        line-height: vw-p(24px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-p(20px);
+      }
+      &__input {
+        margin-bottom: vw-p(8px);
+        padding: vw-p(12px);
+
+        width: vw-p(329px);
+        height: vw-p(48px);
+        border-radius: vw-p(4px);
+      }
+      &__msg {
+        margin-bottom: vw-p(16px);
+      }
+      &__btn {
+        margin-bottom: vw-p(24px);
+
+        width: vw-p(329px);
+        height: vw-p(48px);
+        border-radius: vw-p(4px);
+      }
+    }
+    .footer {
+      &-top {
+        margin-bottom: vw-p(40px);
+        &__msg {
+          margin-right: vw-p(16px);
+        }
+      }
+      &-bottom {
+        padding: vw-p(20px) vw-p(16px) vw-p(27px) vw-p(15px);
+
+        width: vw-p(329px);
+        height: vw-p(160px);
+        border-radius: vw-p(4px);
+
+        .notice-ul {
+          margin-left: vw-p(24px);
+          line-height: vw-p(16px);
+          &__li + .notice-ul__li {
+            margin-top: vw-p(20px);
+          }
+        }
+      }
+    }
+  }
+}
