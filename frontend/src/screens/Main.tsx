@@ -34,14 +34,10 @@ function Main() {
           </div>
         </div>
       </div>
-      <main className="main">
-        <p className="title notoBold">
-          현재 핫한 꿀팁들(바인딩에 맡게 바꿀껍니다)!
-        </p>
+      <main className="main flex column align-center">
+        <p className="title notoBold">현재 핫한 꿀팁들!</p>
         <CardList />
-        <p className="title notoBold">
-          현재 핫한 꿀팁들(바인딩에 맡게 바꿀껍니다)!
-        </p>
+        <p className="title notoBold">현재 핫한 꿀딜들!</p>
         <CardList />
       </main>
     </div>
