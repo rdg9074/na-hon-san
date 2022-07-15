@@ -1,17 +1,13 @@
 import React from "react";
-import "./Join.scss";
+import "./Login.scss";
 import KakaoIcon from "@images/Kakao.svg";
 import GoogleIcon from "@images/Google.svg";
 import NaverIcon from "@images/Naver.svg";
 import { Link, useNavigate } from "react-router-dom";
 
-function Join() {
-  const navigate = useNavigate();
-  const chkValidate = () => {
-    navigate("chkEmail");
-  };
+function Login() {
   return (
-    <div id="join">
+    <div id="login">
       <header className="header">
         <p className="header__title notoBold fs-24">
           환영합니다! <br />
@@ -47,29 +43,44 @@ function Join() {
         <span className="or__line" />
       </div>
       <section className="form">
-        <p className="form__title notoReg fs-16">이메일로 회원가입하기</p>
+        <p className="form__title notoReg fs-16">이메일</p>
         <input
           className="form__input notoReg fs-15"
           type="text"
-          placeholder="JinHoJJANG@gamil.com"
+          placeholder="이메일을 입력해주세요"
         />
-        <p className="form__msg notoMid fs-12">이미 존재하는 아이디입니다.</p>
+        <p className="form__title notoReg fs-16">비밀번호</p>
+        <input
+          className="form__input notoReg fs-15"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+        />
+        <p className="form__msg notoMid fs-12">
+          아이디 또는 비밀번호가 일치하지 않습니다.
+        </p>
         <button
           type="button"
           className="form__btn notoMid fs-15 flex align-center justify-center"
-          onClick={chkValidate}
         >
-          다음
+          로그인
         </button>
       </section>
-      <footer className="footer notoMid fs-12 flex align-center justify-center">
-        <p className="footer__msg">이미 계정이 있으신가요?</p>
-        <Link className="footer__link" to="/login">
-          로그인
-        </Link>
+      <footer className="footer notoMid fs-12">
+        <div className="footer__container flex align-center justify-center">
+          <p className="footer__msg">아직 계정이 없으신가요?</p>
+          <Link className="footer__link" to="/join">
+            회원가입
+          </Link>
+        </div>
+        <div className="footer__container flex align-center justify-center">
+          <p className="footer__msg">이미 계정이 있으신가요?</p>
+          <Link className="footer__link" to="/find/pw">
+            비밀번호찾기
+          </Link>
+        </div>
       </footer>
     </div>
   );
 }
 
-export default Join;
+export default Login;

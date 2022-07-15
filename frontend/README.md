@@ -14,6 +14,7 @@
     │     ├── routers                 # 라우팅
     │     ├── utils                   # 유틸함수
     │     ├── screens                 # 페이지별
+    │     ├── constants               # 변수관리
     │     └── store                   # 상태관리
     └── dist                          # 빌드 파일
           └── ...

@@ -2,10 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ChkEmail.scss";
 
-function ChkEmail() {
+type ChkEmailProps = {
+  type: "findPw" | "login";
+};
+
+function ChkEmail({ type }: ChkEmailProps) {
   const navigate = useNavigate();
   const chkCode = () => {
-    navigate("/join/detail");
+    if (type === "login") navigate("/join/detail");
+    if (type === "findPw") navigate("/reset/pw");
   };
   return (
     <div id="chk-email">

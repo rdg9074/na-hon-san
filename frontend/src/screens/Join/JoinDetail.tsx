@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./JoinDetail.scss";
+import { passwordReg } from "@constants/reg";
 
 function JoinDetail() {
   const email = "JinhoJJANG@gmail.com";
@@ -21,9 +22,7 @@ function JoinDetail() {
   const submitUserInfo = () => navigate("/join/more");
 
   const chkValidPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reg =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-    setValidPassword(reg.test(e.target.value));
+    setValidPassword(passwordReg.test(e.target.value));
   };
 
   const chkSamePassword = () => {
