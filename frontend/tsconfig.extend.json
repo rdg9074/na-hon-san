@@ -9,7 +9,8 @@
       "@images/*": ["./assets/images/*"],
       "@store/*": ["./store/*"],
       "@apis/*": ["./apis/*"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@constants/*": ["./constants/*"]
     }
   }
 }
