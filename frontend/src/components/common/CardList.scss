@@ -1,0 +1,25 @@
+#card-list {
+  flex-wrap: wrap;
+  #card {
+    margin-right: vw(30px);
+    margin-bottom: vw(40px);
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #card-list {
+    #card {
+      margin-right: vw-t(20px);
+      margin-bottom: vw-t(32px);
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #card-list {
+    #card {
+      margin-right: vw-p(20px);
+      margin-bottom: vw-p(32px);
+    }
+  }
+}

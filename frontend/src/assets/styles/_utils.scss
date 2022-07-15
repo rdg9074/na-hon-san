@@ -1,19 +1,19 @@
-$DESKTOP-VW: 1440;
-$DESKTOP-VH: 1024;
+$DESKTOP-VW: 1440px;
+$DESKTOP-VH: 1024px;
 
-$TABLET-VW: 1200px;
-$TABLET-VH: 1024px;
+$TABLET-VW: 768px;
+$TABLET-VH: 0px;
 
-$PHONE-VW: 600px;
-$PHONE-VH: 600px;
+$PHONE-VW: 375px;
+$PHONE-VH: 0px;
 
 @function vw($size) {
-  $vw-context: $DESKTOP-VW * 0.01 * 1px;
+  $vw-context: $DESKTOP-VW * 0.01;
   @return $size / $vw-context * 1vw;
 }
 
 @function vh($size) {
-  $vh-context: $DESKTOP-VW * 0.01 * 1px;
+  $vh-context: $DESKTOP-VW * 0.01;
   @return $size / $vh-context * 1vh;
 }
 
