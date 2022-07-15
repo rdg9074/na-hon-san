@@ -13,7 +13,7 @@ function CardList() {
     "tip"
   ];
   return (
-    <div id="card-list" className="flex">
+    <div id="card-list" className="flex justify-center">
       {dummy.map((value: "tip" | "deal") => (
         <Card type={value} key={v4()} />
       ))}
