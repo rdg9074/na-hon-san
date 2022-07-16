@@ -1,37 +1,37 @@
 @mixin boaderRaduisTop {
-  border-top-right-radius: vw(28px);
-  border-top-left-radius: vw(28px);
+  border-top-right-radius: (28px);
+  border-top-left-radius: (28px);
 }
 
 #card {
   position: relative;
-  width: vw(370px);
+  width: (370px);
   .card-header {
-    margin-bottom: vw(8px);
+    margin-bottom: (8px);
 
     &__user-img {
-      margin-left: vw(12px);
-      margin-right: vw(16px);
+      margin-left: (12px);
+      margin-right: (16px);
 
-      width: vw(40px);
-      height: vw(40px);
+      width: (40px);
+      height: (40px);
     }
   }
 
   .card-main {
-    margin-bottom: vw(24px);
+    margin-bottom: (24px);
     box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.25);
     @include boaderRaduisTop();
     .img-container {
       overflow: hidden;
       @include boaderRaduisTop();
-      max-width: vw(370px);
-      max-height: vw(232px);
+      max-width: (370px);
+      max-height: (232px);
     }
 
     &__thumnail {
-      width: vw(370px);
-      height: vw(232px);
+      width: (370px);
+      height: (232px);
       @include boaderRaduisTop();
 
       transform: scale(1);
@@ -45,12 +45,12 @@
 
     .card-label {
       position: absolute;
-      top: vw(24px);
-      left: vw(280px);
+      top: (24px);
+      left: (280px);
       &__top {
         @mixin top {
-          width: vw(60px);
-          height: vw(24px);
+          width: (60px);
+          height: (24px);
         }
 
         &--tip {
@@ -63,16 +63,16 @@
         }
       }
       &__bottom {
-        width: vw(60px);
-        height: vw(16px);
+        width: (60px);
+        height: (16px);
         background-color: rgba(240, 236, 236, 0.25);
       }
 
       &__img {
-        margin-right: vw(5px);
+        margin-right: (5px);
 
-        width: vw(12.5px);
-        min-height: vw(14px);
+        width: (12.5px);
+        min-height: (14px);
       }
       &__title {
         color: $WHITE;
@@ -80,25 +80,133 @@
     }
 
     &__title {
-      height: vw(64px);
+      height: (64px);
       background-color: #f1f1f1;
-      padding: vw(22px) vw(20px);
+      padding: (22px) (20px);
     }
   }
   .card-footer {
     .icon-container {
       &__icon {
-        margin-right: vw(14px);
-        width: vw(27px);
-        height: vw(27px);
+        margin-right: (14px);
+        width: (27px);
+        height: (27px);
       }
 
       & + .icon-container {
-        margin-left: vw(40px);
+        margin-left: (40px);
       }
 
       &__cnt {
         color: $MAIN_GRAY;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin boaderRaduisTop {
+    border-top-right-radius: vw(28px);
+    border-top-left-radius: vw(28px);
+  }
+
+  #card {
+    position: relative;
+    width: vw(370px);
+    .card-header {
+      margin-bottom: vw(8px);
+
+      &__user-img {
+        margin-left: vw(12px);
+        margin-right: vw(16px);
+
+        width: vw(40px);
+        height: vw(40px);
+      }
+    }
+
+    .card-main {
+      margin-bottom: vw(24px);
+      box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.25);
+      @include boaderRaduisTop();
+      .img-container {
+        overflow: hidden;
+        @include boaderRaduisTop();
+        max-width: vw(370px);
+        max-height: vw(232px);
+      }
+
+      &__thumnail {
+        width: vw(370px);
+        height: vw(232px);
+        @include boaderRaduisTop();
+
+        transform: scale(1);
+        transition: transform 0.3s;
+
+        &:hover {
+          transform: scale(1.15);
+          transition: transform 0.3s;
+        }
+      }
+
+      .card-label {
+        position: absolute;
+        top: vw(24px);
+        left: vw(280px);
+        &__top {
+          @mixin top {
+            width: vw(60px);
+            height: vw(24px);
+          }
+
+          &--tip {
+            @include top();
+            background-color: #d18063;
+          }
+          &--deal {
+            @include top();
+            background-color: #a3b6cd;
+          }
+        }
+        &__bottom {
+          width: vw(60px);
+          height: vw(16px);
+          background-color: rgba(240, 236, 236, 0.25);
+        }
+
+        &__img {
+          margin-right: vw(5px);
+
+          width: vw(12.5px);
+          min-height: vw(14px);
+        }
+        &__title {
+          color: $WHITE;
+        }
+      }
+
+      &__title {
+        height: vw(64px);
+        background-color: #f1f1f1;
+        padding: vw(22px) vw(20px);
+      }
+    }
+    .card-footer {
+      .icon-container {
+        &__icon {
+          margin-right: vw(14px);
+          width: vw(27px);
+          height: vw(27px);
+        }
+
+        & + .icon-container {
+          margin-left: vw(40px);
+        }
+
+        &__cnt {
+          color: $MAIN_GRAY;
+        }
       }
     }
   }

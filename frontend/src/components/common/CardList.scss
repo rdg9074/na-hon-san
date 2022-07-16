@@ -2,11 +2,26 @@
   flex-wrap: wrap;
   #card {
     &:nth-child(n) {
-      margin-right: vw(30px);
-      margin-bottom: vw(40px);
+      margin-right: (30px);
+      margin-bottom: (40px);
     }
     &:nth-child(3n) {
       margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #card-list {
+    flex-wrap: wrap;
+    #card {
+      &:nth-child(n) {
+        margin-right: vw(30px);
+        margin-bottom: vw(40px);
+      }
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
     }
   }
 }

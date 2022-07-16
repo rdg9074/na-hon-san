@@ -1,20 +1,29 @@
-#MainNavBar {
+//add
+.nav-wrapper {
   position: relative;
-
-  width: 100%;
-  height: vw(100px);
-
-  padding: 0 vw(135px) 0 vw(66px);
+  display: flex;
+  justify-content: center;
   box-shadow: 0px 3px 4px rgba(229, 229, 229, 0.65);
+}
+
+#main-nav-bar {
+  // position: relative;
+
+  // width: 100%;
+  width: 1440px; //add
+  height: (100px);
+
+  padding: 0 (135px) 0 (66px);
+  // box-shadow: 0px 3px 4px rgba(229, 229, 229, 0.65);
 
   .logo {
-    margin-right: vw(16px);
+    margin-right: (16px);
 
-    width: vw(50px);
-    height: vw(50px);
+    width: (50px);
+    height: (50px);
   }
   .title {
-    margin-right: vw(76px);
+    margin-right: (76px);
     white-space: nowrap;
   }
 
@@ -23,7 +32,7 @@
 
     .left-nav {
       &__link + .left-nav__link {
-        margin-left: vw(40px);
+        margin-left: (40px);
       }
 
       .btn--active {
@@ -41,7 +50,7 @@
       color: #9c9c9c;
 
       &__link + .right-nav__link {
-        margin-left: vw(28px);
+        margin-left: (28px);
       }
 
       .alarm,
@@ -50,28 +59,28 @@
         position: relative;
 
         &__icon {
-          width: vw(30px);
-          height: vw(30px);
+          width: (30px);
+          height: (30px);
         }
 
         &__cnt {
           position: absolute;
-          top: vw(-6px);
-          right: vw(-8px);
+          top: (-6px);
+          right: (-8px);
 
-          padding: vw(2px) vw(4px);
+          padding: (2px) (4px);
 
-          height: vw(16px);
+          height: (16px);
 
           background-color: $RED;
           color: $WHITE;
 
-          border-radius: vw(8px);
+          border-radius: (8px);
         }
       }
       .user {
-        width: vw(40px);
-        height: vw(40px);
+        width: (40px);
+        height: (40px);
       }
     }
   }
@@ -79,18 +88,111 @@
 
 #alarm-tool-tip {
   position: absolute;
-  top: vw(50px);
-  left: vw(-160px);
+  top: (50px);
+  left: (-160px);
 }
 
 #profile-tool-tip {
   position: absolute;
-  top: vw(30px);
-  left: vw(-95px);
+  top: (30px);
+  left: (-95px);
+}
+
+@media screen and(max-width :$DESKTOP-VW) {
+  #main-nav-bar {
+    position: relative;
+
+    width: 100%;
+    height: vw(100px);
+
+    padding: 0 vw(135px) 0 vw(66px);
+    box-shadow: 0px 3px 4px rgba(229, 229, 229, 0.65);
+
+    .logo {
+      margin-right: vw(16px);
+
+      width: vw(50px);
+      height: vw(50px);
+    }
+    .title {
+      margin-right: vw(76px);
+      white-space: nowrap;
+    }
+
+    .nav-container {
+      width: 100%;
+
+      .left-nav {
+        &__link + .left-nav__link {
+          margin-left: vw(40px);
+        }
+
+        .btn--active {
+          color: $MAIN_YELLOW;
+          // color: #ffcc09;
+          // color: #ffd639;
+        }
+
+        .btn--unactive {
+          color: $MAIN_GRAY;
+        }
+      }
+
+      .right-nav {
+        color: #9c9c9c;
+
+        &__link + .right-nav__link {
+          margin-left: vw(28px);
+        }
+
+        .alarm,
+        .msg,
+        .profile {
+          position: relative;
+
+          &__icon {
+            width: vw(30px);
+            height: vw(30px);
+          }
+
+          &__cnt {
+            position: absolute;
+            top: vw(-6px);
+            right: vw(-8px);
+
+            padding: vw(2px) vw(4px);
+
+            height: vw(16px);
+
+            background-color: $RED;
+            color: $WHITE;
+
+            border-radius: vw(8px);
+          }
+        }
+        .user {
+          width: vw(40px);
+          height: vw(40px);
+        }
+      }
+    }
+  }
+
+  #alarm-tool-tip {
+    position: absolute;
+    top: vw(50px);
+    left: vw(-160px);
+  }
+
+  #profile-tool-tip {
+    position: absolute;
+    top: vw(30px);
+    left: vw(-95px);
+  }
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #MainNavBar {
+  #main-nav-bar {
     height: vw-t(100px);
     padding: 0 vw-t(40px);
 
@@ -153,7 +255,7 @@
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #MainNavBar {
+  #main-nav-bar {
     height: vw-p(100px);
     padding: 0 vw-p(16px) 0 vw-p(24px);
 

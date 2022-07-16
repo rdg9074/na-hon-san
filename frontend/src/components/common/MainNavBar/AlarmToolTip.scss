@@ -1,26 +1,54 @@
 #alarm-tool-tip {
   color: $BLACK;
-  border-radius: vw(4px);
+  border-radius: (4px);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 
   &::before {
     content: "";
     position: absolute;
-    border-bottom: vw(20px) solid $HEADER_TOOLTIP;
-    border-right: vw(10px) solid transparent;
-    border-left: vw(10px) solid transparent;
-    top: vw(-20px);
+    border-bottom: (20px) solid $HEADER_TOOLTIP;
+    border-right: (10px) solid transparent;
+    border-left: (10px) solid transparent;
+    top: (-20px);
   }
 
   .alarm-list {
-    width: vw(329px);
-    max-height: vw(384px);
+    width: (329px);
+    max-height: (384px);
     overflow: scroll;
   }
 
   .no-content {
-    height: vw(64px);
+    height: (64px);
     background-color: $HEADER_TOOLTIP;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #alarm-tool-tip {
+    color: $BLACK;
+    border-radius: vw(4px);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-bottom: vw(20px) solid $HEADER_TOOLTIP;
+      border-right: vw(10px) solid transparent;
+      border-left: vw(10px) solid transparent;
+      top: vw(-20px);
+    }
+
+    .alarm-list {
+      width: vw(329px);
+      max-height: vw(384px);
+      overflow: scroll;
+    }
+
+    .no-content {
+      height: vw(64px);
+      background-color: $HEADER_TOOLTIP;
+    }
   }
 }
 
