@@ -1,24 +1,50 @@
 #profile-tool-tip {
   color: $BLACK;
-  border-radius: vw(4px);
+  border-radius: (4px);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 
   &::before {
     content: "";
     position: absolute;
-    border-bottom: vw(20px) solid $HEADER_TOOLTIP;
-    border-right: vw(10px) solid transparent;
-    border-left: vw(10px) solid transparent;
-    top: vw(-19px);
-    left: vw(65px);
+    border-bottom: (20px) solid $HEADER_TOOLTIP;
+    border-right: (10px) solid transparent;
+    border-left: (10px) solid transparent;
+    top: (-19px);
+    left: (65px);
   }
   .content {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: vw(150px);
-    height: vw(54px);
+    width: (150px);
+    height: (54px);
     background-color: $HEADER_TOOLTIP;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #profile-tool-tip {
+    color: $BLACK;
+    border-radius: vw(4px);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-bottom: vw(20px) solid $HEADER_TOOLTIP;
+      border-right: vw(10px) solid transparent;
+      border-left: vw(10px) solid transparent;
+      top: vw(-19px);
+      left: vw(65px);
+    }
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: vw(150px);
+      height: vw(54px);
+      background-color: $HEADER_TOOLTIP;
+    }
   }
 }
 

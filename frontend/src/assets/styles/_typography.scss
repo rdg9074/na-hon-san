@@ -1,59 +1,59 @@
 .fs-8 {
-  font-size: vw(8px);
+  font-size: (8px);
 }
 .fs-10 {
-  font-size: vw(10px);
+  font-size: (10px);
 }
 .fs-11 {
-  font-size: vw(11px);
+  font-size: (11px);
 }
 .fs-12 {
-  font-size: vw(12px);
+  font-size: (12px);
 }
 .fs-13 {
-  font-size: vw(13px);
+  font-size: (13px);
 }
 .fs-14 {
-  font-size: vw(14px);
+  font-size: (14px);
 }
 .fs-15 {
-  font-size: vw(15px);
+  font-size: (15px);
 }
 .fs-16 {
-  font-size: vw(16px);
+  font-size: (16px);
 }
 .fs-17 {
-  font-size: vw(17px);
+  font-size: (17px);
 }
 .fs-18 {
-  font-size: vw(18px);
+  font-size: (18px);
 }
 .fs-20 {
-  font-size: vw(20px);
+  font-size: (20px);
 }
 .fs-22 {
-  font-size: vw(22px);
+  font-size: (22px);
 }
 .fs-24 {
-  font-size: vw(24px);
+  font-size: (24px);
 }
 .fs-28 {
-  font-size: vw(28px);
+  font-size: (28px);
 }
 .fs-32 {
-  font-size: vw(32px);
+  font-size: (32px);
 }
 .fs-36 {
-  font-size: vw(36px);
+  font-size: (36px);
 }
 .fs-40 {
-  font-size: vw(40px);
+  font-size: (40px);
 }
 .fs-48 {
-  font-size: vw(48px);
+  font-size: (48px);
 }
 .fs-60 {
-  font-size: vw(60px);
+  font-size: (60px);
 }
 /* 폰트 타이포 */
 .notoMid {
@@ -82,6 +82,66 @@
 
 .phoneOnly {
   display: none;
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  .fs-8 {
+    font-size: vw(8px);
+  }
+  .fs-10 {
+    font-size: vw(10px);
+  }
+  .fs-11 {
+    font-size: vw(11px);
+  }
+  .fs-12 {
+    font-size: vw(12px);
+  }
+  .fs-13 {
+    font-size: vw(13px);
+  }
+  .fs-14 {
+    font-size: vw(14px);
+  }
+  .fs-15 {
+    font-size: vw(15px);
+  }
+  .fs-16 {
+    font-size: vw(16px);
+  }
+  .fs-17 {
+    font-size: vw(17px);
+  }
+  .fs-18 {
+    font-size: vw(18px);
+  }
+  .fs-20 {
+    font-size: vw(20px);
+  }
+  .fs-22 {
+    font-size: vw(22px);
+  }
+  .fs-24 {
+    font-size: vw(24px);
+  }
+  .fs-28 {
+    font-size: vw(28px);
+  }
+  .fs-32 {
+    font-size: vw(32px);
+  }
+  .fs-36 {
+    font-size: vw(36px);
+  }
+  .fs-40 {
+    font-size: vw(40px);
+  }
+  .fs-48 {
+    font-size: vw(48px);
+  }
+  .fs-60 {
+    font-size: vw(60px);
+  }
 }
 
 @media screen and (max-width: $TABLET-VW) {

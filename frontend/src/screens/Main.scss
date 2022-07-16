@@ -1,26 +1,30 @@
 #main {
   .banner {
-    padding: vw(95px) vw(141px) vw(94px) vw(129px);
+    // padding: (95px) (141px) (94px) (129px);
 
-    width: vw(1440px);
-    height: vw(428px);
+    // width: vw(1440px);
+    width: 100vw;
+    height: (428px);
     background-color: #323232;
 
-    justify-content: space-between;
+    // justify-content: space-between;
+    align-items: center;
+    justify-content: center;
 
     &-info {
+      margin-right: 685px; //add
       color: $WHITE;
       &__desc {
-        margin-bottom: vw(44px);
-        line-height: vw(58px);
+        margin-bottom: (44px);
+        line-height: (58px);
       }
       &__btn--move-list {
-        width: vw(232px);
-        height: vw(64px);
+        width: (232px);
+        height: (64px);
 
         color: $BLACK;
         background-color: $MAIN_YELLOW;
-        border-radius: vw(16px);
+        border-radius: (16px);
       }
     }
     &-chat {
@@ -28,27 +32,86 @@
         align-items: flex-end;
         &__item {
           padding: 0 (32px);
-          height: vw(69px);
+          height: (69px);
 
-          border-radius: vw(8px);
+          border-radius: (8px);
           background-color: $KAKAO-YELLOW;
           & + .banner-chats__item {
-            margin-top: vw(16px);
+            margin-top: (16px);
           }
         }
       }
     }
   }
   .main {
-    margin-top: vw(64px);
+    width: 1440px; //add
+    margin-top: (64px);
 
     .title {
-      font-size: vw(48px);
-      margin-bottom: vw(64px);
+      font-size: (48px);
+      margin-bottom: (64px);
     }
 
     #card-list + .title {
-      margin-top: vw(108px);
+      margin-top: (108px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #main {
+    .banner {
+      padding: vw(95px) vw(141px) vw(94px) vw(129px);
+      // width: vw(1440px);
+      height: vw(428px);
+      background-color: #323232;
+
+      justify-content: space-between;
+
+      &-info {
+        margin-right: 0;
+        color: $WHITE;
+        &__desc {
+          margin-bottom: vw(44px);
+          line-height: vw(58px);
+        }
+        &__btn--move-list {
+          width: vw(232px);
+          height: vw(64px);
+
+          color: $BLACK;
+          background-color: $MAIN_YELLOW;
+          border-radius: vw(16px);
+        }
+      }
+      &-chat {
+        .banner-chats {
+          align-items: flex-end;
+          &__item {
+            padding: 0 (32px);
+            height: vw(69px);
+
+            border-radius: vw(8px);
+            background-color: $KAKAO-YELLOW;
+            & + .banner-chats__item {
+              margin-top: vw(16px);
+            }
+          }
+        }
+      }
+    }
+    .main {
+      width: 100vw;
+      margin-top: vw(64px);
+
+      .title {
+        font-size: vw(48px);
+        margin-bottom: vw(64px);
+      }
+
+      #card-list + .title {
+        margin-top: vw(108px);
+      }
     }
   }
 }
