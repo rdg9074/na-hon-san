@@ -1,45 +1,93 @@
 @mixin box {
-  width: vw(329px);
-  height: vw(48px);
-  border-radius: vw(4px);
+  width: (329px);
+  height: (48px);
+  border-radius: (4px);
 }
 
 #find-pw {
-  margin: vw(44px) vw(484px) vw(400px) vw(483px);
-  padding: vw(64px) vw(72px);
+  margin: (44px) (484px) (400px) (483px);
+  padding: (64px) (72px);
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
 
   .header {
     &__title {
-      margin-bottom: vw(16px);
+      margin-bottom: (16px);
     }
     &__sub-title + .header__sub-title {
-      margin-top: vw(12px);
+      margin-top: (12px);
     }
   }
   .form {
     &__title {
-      margin-top: vw(32px);
-      margin-bottom: vw(16px);
+      margin-top: (32px);
+      margin-bottom: (16px);
     }
     &__input {
       @include box();
-      margin-bottom: vw(12px);
-      padding: vw(12px);
+      margin-bottom: (12px);
+      padding: (12px);
       border: 1px solid $GRAY_DB;
     }
     &__msg {
-      margin-bottom: vw(28px);
+      margin-bottom: (28px);
       color: $RED;
     }
     &__dummy {
-      height: vw(12px);
-      margin-bottom: vw(28px);
+      height: (12px);
+      margin-bottom: (28px);
     }
     &__btn {
       @include box();
       background-color: $MAIN_YELLOW;
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin box {
+    width: vw(329px);
+    height: vw(48px);
+    border-radius: vw(4px);
+  }
+
+  #find-pw {
+    margin: vw(44px) vw(484px) vw(400px) vw(483px);
+    padding: vw(64px) vw(72px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+
+    .header {
+      &__title {
+        margin-bottom: vw(16px);
+      }
+      &__sub-title + .header__sub-title {
+        margin-top: vw(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-top: vw(32px);
+        margin-bottom: vw(16px);
+      }
+      &__input {
+        @include box();
+        margin-bottom: vw(12px);
+        padding: vw(12px);
+        border: 1px solid $GRAY_DB;
+      }
+      &__msg {
+        margin-bottom: vw(28px);
+        color: $RED;
+      }
+      &__dummy {
+        height: vw(12px);
+        margin-bottom: vw(28px);
+      }
+      &__btn {
+        @include box();
+        background-color: $MAIN_YELLOW;
+      }
     }
   }
 }

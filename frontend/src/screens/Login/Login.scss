@@ -1,32 +1,32 @@
 @mixin box {
-  width: vw(329px);
-  height: vw(48px);
-  border-radius: vw(4px);
+  width: (329px);
+  height: (48px);
+  border-radius: (4px);
 }
 
 #login {
-  margin: vw(44px) vw(483px) vw(41px) vw(484px);
-  padding: vw(64px) vw(72px) vw(48px) vw(72px);
+  margin: (44px) (483px) (41px) (484px);
+  padding: (64px) (72px) (48px) (72px);
 
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
   .header {
     &__title {
-      margin-bottom: vw(40px);
-      line-height: vw(35px);
+      margin-bottom: (40px);
+      line-height: (35px);
     }
   }
   .social {
     &__btn {
       @include box();
       & + .social__btn {
-        margin-top: vw(12px);
+        margin-top: (12px);
       }
     }
     &__img {
-      width: vw(16px);
-      height: vw(16px);
-      margin-right: vw(8px);
+      width: (16px);
+      height: (16px);
+      margin-right: (8px);
     }
     .kakao {
       background-color: $KAKAO_YELLOW;
@@ -40,48 +40,138 @@
     }
   }
   .or {
-    margin: vw(32px) 0;
-    height: vw(20px);
+    margin: (32px) 0;
+    height: (20px);
     &__line {
-      width: vw(138px);
-      height: vw(1px);
+      width: (138px);
+      height: (1px);
       background-color: $GRAY_CB;
     }
     &__title {
       color: $GRAY-CB;
-      margin: 0 vw(12px);
+      margin: 0 (12px);
     }
   }
   .form {
     &__title {
-      margin-bottom: vw(12px);
+      margin-bottom: (12px);
     }
 
     &__input {
       @include box();
-      margin-bottom: vw(20px);
-      padding: vw(12px);
+      margin-bottom: (20px);
+      padding: (12px);
       border: 1px solid $GRAY_DB;
     }
 
     &__msg {
-      margin-bottom: vw(28px);
+      margin-bottom: (28px);
       color: $RED;
     }
 
     &__btn {
       @include box();
-      margin-bottom: vw(24px);
+      margin-bottom: (24px);
       background-color: $MAIN_YELLOW;
     }
   }
   .footer {
     color: $GRAY_76;
     &__container + .footer__container {
-      margin-top: vw(8px);
+      margin-top: (8px);
     }
     &__msg {
-      margin-right: vw(8px);
+      margin-right: (8px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin box {
+    width: vw(329px);
+    height: vw(48px);
+    border-radius: vw(4px);
+  }
+
+  #login {
+    margin: vw(44px) vw(483px) vw(41px) vw(484px);
+    padding: vw(64px) vw(72px) vw(48px) vw(72px);
+
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+    .header {
+      &__title {
+        margin-bottom: vw(40px);
+        line-height: vw(35px);
+      }
+    }
+    .social {
+      &__btn {
+        @include box();
+        & + .social__btn {
+          margin-top: vw(12px);
+        }
+      }
+      &__img {
+        width: vw(16px);
+        height: vw(16px);
+        margin-right: vw(8px);
+      }
+      .kakao {
+        background-color: $KAKAO_YELLOW;
+      }
+      .naver {
+        background-color: $NAVER;
+        color: $WHITE;
+      }
+      .google {
+        border: 1px solid $GRAY_CB;
+      }
+    }
+    .or {
+      margin: vw(32px) 0;
+      height: vw(20px);
+      &__line {
+        width: vw(138px);
+        height: vw(1px);
+        background-color: $GRAY_CB;
+      }
+      &__title {
+        color: $GRAY-CB;
+        margin: 0 vw(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw(12px);
+      }
+
+      &__input {
+        @include box();
+        margin-bottom: vw(20px);
+        padding: vw(12px);
+        border: 1px solid $GRAY_DB;
+      }
+
+      &__msg {
+        margin-bottom: vw(28px);
+        color: $RED;
+      }
+
+      &__btn {
+        @include box();
+        margin-bottom: vw(24px);
+        background-color: $MAIN_YELLOW;
+      }
+    }
+    .footer {
+      color: $GRAY_76;
+      &__container + .footer__container {
+        margin-top: vw(8px);
+      }
+      &__msg {
+        margin-right: vw(8px);
+      }
     }
   }
 }
