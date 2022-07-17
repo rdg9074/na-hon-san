@@ -1,42 +1,87 @@
 #reset-pw {
-  margin: vw(44px) vw(484px) vw(280px) vw(483px);
-  padding: vw(64px) vw(71px);
+  margin: (44px) (484px) (280px) (483px);
+  padding: (64px) (71px);
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
 
   .header {
-    margin-bottom: vw(40px);
+    margin-bottom: (40px);
   }
   .form {
     &__type {
-      margin-bottom: vw(8px);
+      margin-bottom: (8px);
     }
     &__input {
-      padding: vw(12px);
-      width: vw(329px);
-      height: vw(48px);
+      padding: (12px);
+      width: (329px);
+      height: (48px);
       border: 1px solid $GRAY_DB;
-      border-radius: vw(4px);
+      border-radius: (4px);
     }
     .password,
     .password-chk {
-      margin-bottom: vw(8px);
+      margin-bottom: (8px);
 
       &-msg {
-        margin-bottom: vw(16px);
+        margin-bottom: (16px);
         color: $RED;
       }
     }
     .dummy {
-      height: vw(12px);
-      margin-bottom: vw(16px);
+      height: (12px);
+      margin-bottom: (16px);
     }
     &__btn {
-      margin-top: vw(48px);
-      width: vw(329px);
-      height: vw(48px);
+      margin-top: (48px);
+      width: (329px);
+      height: (48px);
       background-color: $MAIN_YELLOW;
-      border-radius: vw(4px);
+      border-radius: (4px);
+    }
+  }
+}
+
+@media screen and(max-width :$DESKTOP-VW) {
+  #reset-pw {
+    margin: vw(44px) vw(484px) vw(280px) vw(483px);
+    padding: vw(64px) vw(71px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+
+    .header {
+      margin-bottom: vw(40px);
+    }
+    .form {
+      &__type {
+        margin-bottom: vw(8px);
+      }
+      &__input {
+        padding: vw(12px);
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+      }
+      .password,
+      .password-chk {
+        margin-bottom: vw(8px);
+
+        &-msg {
+          margin-bottom: vw(16px);
+          color: $RED;
+        }
+      }
+      .dummy {
+        height: vw(12px);
+        margin-bottom: vw(16px);
+      }
+      &__btn {
+        margin-top: vw(48px);
+        width: vw(329px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
     }
   }
 }
