@@ -1,24 +1,51 @@
 #welcome {
-  margin: vw(88px) vw(517px) vw(418px) vw(517px);
+  margin: (88px) (517px) (418px) (517px);
   .header {
-    margin-bottom: vw(40px);
+    margin-bottom: (40px);
     &__img {
-      width: vw(128px);
-      height: vw(128px);
+      width: (128px);
+      height: (128px);
     }
   }
   .main {
     &__title {
-      margin-bottom: vw(8px);
+      margin-bottom: (8px);
     }
   }
   .footer {
     &__btn {
-      margin-top: vw(120px);
-      width: vw(240px);
-      height: vw(48px);
+      margin-top: (120px);
+      width: (240px);
+      height: (48px);
       background-color: $MAIN_YELLOW;
-      border-radius: vw(4px);
+      border-radius: (4px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #welcome {
+    margin: vw(88px) vw(517px) vw(418px) vw(517px);
+    .header {
+      margin-bottom: vw(40px);
+      &__img {
+        width: vw(128px);
+        height: vw(128px);
+      }
+    }
+    .main {
+      &__title {
+        margin-bottom: vw(8px);
+      }
+    }
+    .footer {
+      &__btn {
+        margin-top: vw(120px);
+        width: vw(240px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
     }
   }
 }

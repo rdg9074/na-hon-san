@@ -1,49 +1,51 @@
 #join-more {
-  margin: vw(44px) vw(484px) vw(180px) vw(483px);
-  padding: vw(56px) vw(72px);
+  margin: (44px) (484px) (180px) (483px);
+  padding: (56px) (72px);
+
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
   .header {
     &__title,
     &__sub-title {
-      margin-bottom: vw(16px);
-      line-height: vw(23px);
+      margin-bottom: (16px);
+      line-height: (23px);
     }
   }
   .form {
     &__title {
-      margin-bottom: vw(16px);
+      margin-bottom: (16px);
     }
     &__input {
-      margin-bottom: vw(16px);
+      display: block; //add
+      margin-bottom: (16px);
 
-      width: vw(329px);
-      height: vw(48px);
+      width: (329px);
+      height: (48px);
       border: 1px solid $GRAY_DB;
-      border-radius: vw(4px);
+      border-radius: (4px);
     }
     &__btn {
-      margin-bottom: vw(32px);
-      width: vw(329px);
-      height: vw(32px);
+      margin-bottom: (32px);
+      width: (329px);
+      height: (32px);
 
       color: $WHITE;
       background-color: $MAIN_BROWN;
-      border-radius: vw(4px);
+      border-radius: (4px);
     }
 
     .categorys-ul {
-      margin-bottom: vw(80px);
-      width: vw(329px);
-      height: vw(72px);
+      margin-bottom: (80px);
+      width: (329px);
+      height: (72px);
       flex-wrap: wrap;
       &__li {
-        margin-right: vw(19px);
-        margin-bottom: vw(12px);
-        width: vw(68px);
-        height: vw(40px);
+        margin-right: (19px);
+        margin-bottom: (12px);
+        width: (68px);
+        height: (40px);
         border: 1px solid $MAIN_BROWN;
-        border-radius: vw(16px);
+        border-radius: (16px);
         &:nth-child(4n) {
           margin-right: 0;
         }
@@ -51,12 +53,77 @@
     }
 
     &__btn--submit {
-      margin-bottom: vw(32px);
-      width: vw(329px);
-      height: vw(48px);
+      margin-bottom: (32px);
+      width: (329px);
+      height: (48px);
 
       background-color: $MAIN_YELLOW;
-      border-radius: vw(4px);
+      border-radius: (4px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #join-more {
+    margin: vw(44px) vw(484px) vw(180px) vw(483px);
+    padding: vw(56px) vw(72px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+    .header {
+      &__title,
+      &__sub-title {
+        margin-bottom: vw(16px);
+        line-height: vw(23px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw(16px);
+      }
+      &__input {
+        margin-bottom: vw(16px);
+
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+      }
+      &__btn {
+        margin-bottom: vw(32px);
+        width: vw(329px);
+        height: vw(32px);
+
+        color: $WHITE;
+        background-color: $MAIN_BROWN;
+        border-radius: vw(4px);
+      }
+
+      .categorys-ul {
+        margin-bottom: vw(80px);
+        width: vw(329px);
+        height: vw(72px);
+        flex-wrap: wrap;
+        &__li {
+          margin-right: vw(19px);
+          margin-bottom: vw(12px);
+          width: vw(68px);
+          height: vw(40px);
+          border: 1px solid $MAIN_BROWN;
+          border-radius: vw(16px);
+          &:nth-child(4n) {
+            margin-right: 0;
+          }
+        }
+      }
+
+      &__btn--submit {
+        margin-bottom: vw(32px);
+        width: vw(329px);
+        height: vw(48px);
+
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
     }
   }
 }

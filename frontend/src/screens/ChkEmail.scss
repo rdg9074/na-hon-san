@@ -1,66 +1,138 @@
 #chk-email {
-  margin: vw(44px) vw(483px) vw(200px) vw(484px);
-  padding: vw(64px) vw(72px) vw(61px) vw(72px);
+  margin: (44px) (483px) (200px) (484px);
+  padding: (64px) (72px) (61px) (72px);
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
   .header {
     &__title {
-      margin-bottom: vw(16px);
+      margin-bottom: (16px);
     }
     &__sub-title {
-      margin-bottom: vw(36px);
-      line-height: vw(24px);
+      margin-bottom: (36px);
+      width: 329px; //add
+      line-height: (24px);
     }
   }
   .form {
     &__title {
-      margin-bottom: vw(20px);
+      margin-bottom: (20px);
     }
     &__input {
-      margin-bottom: vw(8px);
-      padding: vw(12px);
+      margin-bottom: (8px);
+      padding: (12px);
 
-      width: vw(329px);
-      height: vw(48px);
+      width: (329px);
+      height: (48px);
       border: 1px solid $GRAY_DB;
-      border-radius: vw(4px);
+      border-radius: (4px);
     }
     &__msg {
-      margin-bottom: vw(16px);
+      margin-bottom: (16px);
       color: $RED;
     }
     &__btn {
-      margin-bottom: vw(24px);
+      margin-bottom: (24px);
 
-      width: vw(329px);
-      height: vw(48px);
+      width: (329px);
+      height: (48px);
       background-color: $MAIN_YELLOW;
-      border-radius: vw(4px);
+      border-radius: (4px);
     }
   }
   .footer {
     &-top {
-      margin-bottom: vw(40px);
+      margin-bottom: (40px);
       color: $GRAY_76;
       &__msg {
-        margin-right: vw(16px);
+        margin-right: (16px);
       }
     }
     &-bottom {
-      padding: vw(20px) vw(16px) vw(27px) vw(15px);
+      padding: (20px) (16px) (27px) (15px);
 
-      width: vw(329px);
-      height: vw(160px);
+      width: (329px);
+      height: (160px);
       background-color: $GRAY_F3;
-      border-radius: vw(4px);
+      border-radius: (4px);
 
       .notice-ul {
-        margin-left: vw(24px);
+        margin-left: (24px);
         list-style-type: disc;
         color: $GRAY_61;
-        line-height: vw(16px);
+        line-height: (16px);
         &__li + .notice-ul__li {
-          margin-top: vw(20px);
+          margin-top: (20px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width:$DESKTOP-VW) {
+  #chk-email {
+    margin: vw(44px) vw(483px) vw(200px) vw(484px);
+    padding: vw(64px) vw(72px) vw(61px) vw(72px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+    .header {
+      &__title {
+        margin-bottom: vw(16px);
+      }
+      &__sub-title {
+        margin-bottom: vw(36px);
+        line-height: vw(24px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw(20px);
+      }
+      &__input {
+        margin-bottom: vw(8px);
+        padding: vw(12px);
+
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+      }
+      &__msg {
+        margin-bottom: vw(16px);
+        color: $RED;
+      }
+      &__btn {
+        margin-bottom: vw(24px);
+
+        width: vw(329px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
+    }
+    .footer {
+      &-top {
+        margin-bottom: vw(40px);
+        color: $GRAY_76;
+        &__msg {
+          margin-right: vw(16px);
+        }
+      }
+      &-bottom {
+        padding: vw(20px) vw(16px) vw(27px) vw(15px);
+
+        width: vw(329px);
+        height: vw(160px);
+        background-color: $GRAY_F3;
+        border-radius: vw(4px);
+
+        .notice-ul {
+          margin-left: vw(24px);
+          list-style-type: disc;
+          color: $GRAY_61;
+          line-height: vw(16px);
+          &__li + .notice-ul__li {
+            margin-top: vw(20px);
+          }
         }
       }
     }
