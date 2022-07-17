@@ -1,46 +1,46 @@
 #join-detail {
-  margin: vw(44px) vw(483px) vw(169px) vw(484px);
-  padding: vw(64px) vw(72px);
+  margin: (44px) (483px) (169px) (484px);
+  padding: (64px) (72px);
   border: 1px solid $GRAY_DB;
-  border-radius: vw(20px);
+  border-radius: (20px);
 
   .header {
     &__title {
-      margin-bottom: vw(32px);
+      margin-bottom: (32px);
     }
   }
   .form {
     &__type {
-      margin-bottom: vw(8px);
+      margin-bottom: (8px);
     }
     &__input {
-      margin-bottom: vw(16px);
-      padding: vw(12px);
-      width: vw(329px);
-      height: vw(48px);
+      margin-bottom: (16px);
+      padding: (12px);
+      width: (329px);
+      height: (48px);
       border: 1px solid $GRAY_DB;
-      border-radius: vw(4px);
+      border-radius: (4px);
 
       &:disabled {
         background-color: $GRAY_DB;
       }
     }
     .input-nickName {
-      width: vw(218px);
-      margin-right: vw(20px);
+      width: (218px);
+      margin-right: (20px);
     }
     &__btn--dupli {
-      width: vw(88px);
-      height: vw(48px);
+      width: (88px);
+      height: (48px);
       background-color: $MAIN_YELLOW;
-      border-radius: vw(16px);
+      border-radius: (16px);
     }
     .password,
     .password-chk {
-      margin-bottom: vw(8px);
+      margin-bottom: (8px);
 
       &-msg {
-        margin-bottom: vw(16px);
+        margin-bottom: (16px);
         color: $RED;
       }
     }
@@ -48,15 +48,80 @@
       color: $NAVER;
     }
     .dummy {
-      height: vw(12px);
-      margin-bottom: vw(16px);
+      height: (12px);
+      margin-bottom: (16px);
     }
     &__btn {
-      margin-top: vw(40px);
-      width: vw(329px);
-      height: vw(48px);
+      margin-top: (40px);
+      width: (329px);
+      height: (48px);
       background-color: $MAIN_YELLOW;
-      border-radius: vw(4px);
+      border-radius: (4px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #join-detail {
+    margin: vw(44px) vw(483px) vw(169px) vw(484px);
+    padding: vw(64px) vw(72px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+
+    .header {
+      &__title {
+        margin-bottom: vw(32px);
+      }
+    }
+    .form {
+      &__type {
+        margin-bottom: vw(8px);
+      }
+      &__input {
+        margin-bottom: vw(16px);
+        padding: vw(12px);
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+
+        &:disabled {
+          background-color: $GRAY_DB;
+        }
+      }
+      .input-nickName {
+        width: vw(218px);
+        margin-right: vw(20px);
+      }
+      &__btn--dupli {
+        width: vw(88px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(16px);
+      }
+      .password,
+      .password-chk {
+        margin-bottom: vw(8px);
+
+        &-msg {
+          margin-bottom: vw(16px);
+          color: $RED;
+        }
+      }
+      .success {
+        color: $NAVER;
+      }
+      .dummy {
+        height: vw(12px);
+        margin-bottom: vw(16px);
+      }
+      &__btn {
+        margin-top: vw(40px);
+        width: vw(329px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
     }
   }
 }
