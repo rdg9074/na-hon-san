@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Card.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
 import ThumDummy from "@images/ThumnailDummy.jpg";
@@ -8,12 +8,23 @@ import CommentIcon from "@images/CommentSkelton.svg";
 import getCounts from "@utils/getCounts";
 import TipIcon from "@images/Tip.svg";
 import DealIcon from "@images/Deal.svg";
+import { getDummyImg } from "@apis/dummy";
 
 type CardProps = {
   type: "tip" | "deal";
+  data: any;
 };
 
-function Card({ type }: CardProps) {
+function Card({ type, data }: CardProps) {
+  // const [imgSrc, setImgSrc] = useState("");
+  // useEffect(() => {
+  //   let url: string;
+  //   (async () => {
+  //     url = await getDummyImg(data.download_url);
+  //     setImgSrc(url);
+  //   })();
+  //   return () => window.URL.revokeObjectURL(url);
+  // }, []);
   return (
     <div id="card">
       <header className="card-header flex align-center">
@@ -29,7 +40,7 @@ function Card({ type }: CardProps) {
         <div className="img-container">
           <img
             className="card-main__thumnail"
-            src={ThumDummy}
+            src={data.imgSrc}
             alt="썸네일더미"
           />
         </div>
