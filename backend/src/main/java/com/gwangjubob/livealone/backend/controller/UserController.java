@@ -1,5 +1,6 @@
 package com.gwangjubob.livealone.backend.controller;
 
+import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,22 @@ import java.util.Map;
 @RestController
 public class UserController {
     private static final String okay = "SUCCESS";
+    private static final String fail = "FAIL";
     private UserService userService;
     @Autowired
     UserController(UserService userService){
         this.userService = userService;
+    }
+    @PostMapping("/user")
+    public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
+        boolean result = userService.registUser(userRegistDto);
+        if(result){
+            HttpStatus status = HttpStatus.ACCEPTED;
+            return new ResponseEntity<>(okay, status);
+        }else {
+            HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+            return new ResponseEntity<>(fail, status);
+        }
     }
     @PostMapping("/user/login")
     public ResponseEntity<?> refreshToken(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) throws Exception{
