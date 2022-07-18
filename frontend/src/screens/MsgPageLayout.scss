@@ -1,57 +1,31 @@
-#welcome {
-  margin: (88px) (517px) (418px) (517px);
+#msg-page-layout {
+  margin: vw(88px) vw(517px) vw(418px) vw(517px);
   .header {
-    margin-bottom: (40px);
+    margin-bottom: vw(40px);
     &__img {
-      width: (128px);
-      height: (128px);
+      width: vw(128px);
+      height: vw(128px);
     }
   }
   .main {
-    &__title {
-      margin-bottom: (8px);
+    &__title,
+    &__sub-title {
+      margin-bottom: vw(8px);
     }
   }
   .footer {
     &__btn {
-      margin-top: (120px);
-      width: (240px);
-      height: (48px);
+      margin-top: vw(120px);
+      width: vw(240px);
+      height: vw(48px);
       background-color: $MAIN_YELLOW;
-      border-radius: (4px);
-    }
-  }
-}
-
-@media screen and (max-width: $DESKTOP-VW) {
-  #welcome {
-    margin: vw(88px) vw(517px) vw(418px) vw(517px);
-    .header {
-      margin-bottom: vw(40px);
-      &__img {
-        width: vw(128px);
-        height: vw(128px);
-      }
-    }
-    .main {
-      &__title {
-        margin-bottom: vw(8px);
-      }
-    }
-    .footer {
-      &__btn {
-        margin-top: vw(120px);
-        width: vw(240px);
-        height: vw(48px);
-        background-color: $MAIN_YELLOW;
-        border-radius: vw(4px);
-      }
+      border-radius: vw(4px);
     }
   }
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #welcome {
+  #msg-page-layout {
     margin: vw-t(128px) vw-t(221px);
     .header {
       margin-bottom: vw-t(40px);
@@ -61,7 +35,8 @@
       }
     }
     .main {
-      &__title {
+      &__title,
+      &__sub-title {
         margin-bottom: vw-t(8px);
       }
     }
@@ -78,7 +53,7 @@
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #welcome {
+  #msg-page-layout {
     margin: vw-p(65px) vw-p(24px) vw(254px) vw(25px);
     .header {
       margin-bottom: vw-p(40px);
@@ -88,7 +63,8 @@
       }
     }
     .main {
-      &__title {
+      &__title,
+      &__sub-title {
         margin-bottom: vw-p(8px);
       }
     }
