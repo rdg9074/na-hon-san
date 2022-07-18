@@ -1,6 +1,7 @@
 #card-list {
   flex-wrap: wrap;
-  #card {
+  #card,
+  #card-skeleton {
     &:nth-child(n) {
       margin-right: (30px);
       margin-bottom: (40px);
@@ -14,7 +15,8 @@
 @media screen and (max-width: $DESKTOP-VW) {
   #card-list {
     flex-wrap: wrap;
-    #card {
+    #card,
+    #card-skeleton {
       &:nth-child(n) {
         margin-right: vw(30px);
         margin-bottom: vw(40px);
@@ -28,7 +30,8 @@
 
 @media screen and (max-width: $TABLET-VW) {
   #card-list {
-    #card {
+    #card,
+    #card-skeleton {
       &:nth-child(n) {
         margin-right: vw-t(20px);
         margin-bottom: vw-t(32px);
@@ -42,7 +45,8 @@
 
 @media screen and (max-width: $PHONE-VW) {
   #card-list {
-    #card {
+    #card,
+    #card-skeleton {
       &:nth-child(n) {
         margin-right: 0;
         margin-bottom: vw-p(32px);
