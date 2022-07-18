@@ -1,4 +1,7 @@
 package com.gwangjubob.livealone.backend.service;
 
-public class UserService {
+import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
+
+public interface UserService {
+    boolean loginUser(UserLoginDto userLoginDto);
 }
