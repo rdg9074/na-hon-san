@@ -14,6 +14,7 @@ import Login from "@screens/Login/Login";
 import ResetPw from "@screens/Login/ResetPw";
 import FindPw from "@screens/Login/FindPw";
 import "./RootLayout.scss";
+import PageNotFound from "@screens/PageNotFound";
 
 function RootRouter() {
   return (
@@ -31,13 +32,16 @@ function RootRouter() {
             <Route path="detail" element={<JoinDetail />} />
             <Route path="more" element={<JoinMore />} />
             <Route path="welcome" element={<Welcome />} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/find/pw">
             <Route index element={<FindPw />} />
             <Route path="chkEmail" element={<ChkEmail type="findPw" />} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/reset/pw" element={<ResetPw />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </>
