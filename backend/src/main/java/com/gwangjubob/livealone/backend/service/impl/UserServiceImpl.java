@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void userDelete(String id) {
+        userRepository.deleteById(id);
+    }
+
+    
     public boolean registUser(UserRegistDto userRegistDto) {
         UserEntity user = UserEntity.builder()
                 .id(userRegistDto.getId())
@@ -36,5 +41,6 @@ public class UserServiceImpl implements UserService {
     public boolean checkNickName(String nickname) {
         return userRepository.findByNickname(nickname).isPresent();
     }
+
 
 }
