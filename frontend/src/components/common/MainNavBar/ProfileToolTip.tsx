@@ -6,7 +6,7 @@ function ProfileToolTip() {
   return (
     <div id="profile-tool-tip" className="">
       {/* 차후 나의피드 id로 라우팅 */}
-      <Link className="content notoBold fs-16" to="/">
+      <Link className="content notoBold fs-16" to="/userfeed/123">
         마이페이지
       </Link>
       <button type="button" className="content notoBold fs-16">
