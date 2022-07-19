@@ -23,6 +23,7 @@ import java.util.Map;
 public class UserController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
+    private static final String timeOut = "access-token timeout";
     private final UserService userService;
     private final JwtService jwtService;
     private final MailService mailService;
@@ -116,6 +117,7 @@ public class UserController {
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
+        System.out.println("test");
         try {
             if (mailService.sendMail(mailSendDto) == true) {
                 resultMap.put("message", okay);
@@ -169,12 +171,17 @@ public class UserController {
         String decodeId = jwtService.decodeToken(accessToken);
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            userService.userDelete(decodeId);
-            resultMap.put("message", okay);
-            status = HttpStatus.OK;
-        } catch (Exception e){
-            resultMap.put("message", fail);
+        if(!decodeId.equals("timeout")){
+            try {
+                userService.userDelete(decodeId);
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);

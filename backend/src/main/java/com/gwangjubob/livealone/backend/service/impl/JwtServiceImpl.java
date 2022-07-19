@@ -98,7 +98,7 @@ public class JwtServiceImpl implements JwtService {
 			return claims.getBody().get("id").toString();
 		} catch (Exception e) {
 				logger.error(e.getMessage());
-			return "access token timeout";
+			return "timeout";
 		}
 	}
 
