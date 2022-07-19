@@ -1,13 +1,13 @@
 package com.gwangjubob.livealone.backend.domain.entity;
 
 import lombok.*;
+import org.apache.catalina.User;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +36,9 @@ public class UserEntity {
     private String notice;
     @Column(name="background_img")
     private String backgroundImg;
+
+    @OneToMany(mappedBy = "user")
+    private List<NoticeEntity> notices = new ArrayList<>();
 
     @Builder
     public UserEntity(String id, String password, String nickname){ //회원 가입 빌더
