@@ -17,8 +17,11 @@ public class UserUpdateDto {
     private String area;
     private Boolean followOpen;
     private Boolean followerOpen;
+    private Boolean likeNotice;
+    private Boolean followNotice;
+    private Boolean commentNotice;
+    private Boolean replyNotice;
     private String profileMsg;
     private String profileImg;
-    private String notice;
     private String backgroundImg;
 }
