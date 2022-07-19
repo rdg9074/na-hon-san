@@ -1,13 +1,18 @@
 package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
+import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,10 +20,12 @@ import java.util.Map;
 public class UserController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
-    private UserService userService;
+    private final UserService userService;
+    private final JwtService jwtService;
     @Autowired
-    UserController(UserService userService){
+    UserController(UserService userService ,JwtService jwtService){
         this.userService = userService;
+        this.jwtService = jwtService;
     }
     @PostMapping("/user")
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
@@ -49,17 +56,29 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PostMapping("/user/login")
-    public ResponseEntity<?> refreshToken(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) throws Exception{
+    public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
             if(userService.loginUser(userLoginDto) == true){
-                resultMap.put("result","로그인 성공");
+                String accessToken = jwtService.createAccessToken("user_id", userLoginDto.getId());// key, data
+                String refreshToken = jwtService.createRefreshToken("user_id", userLoginDto.getId());
+                resultMap.put("access-token", accessToken);
+//                resultMap.put("refresh-token", refreshToken);
+                resultMap.put("message", "로그인 성공");
+                // create a cookie
+                ResponseCookie cookie = ResponseCookie.from("refresh-token",refreshToken)
+                        .maxAge(7 * 24 * 60 * 60)
+                        .path("/")
+                        .secure(true)
+                        .sameSite("None")
+                        .httpOnly(true)
+                        .build();
+                response.setHeader("Set-Cookie",cookie.toString());
             }else {
-                resultMap.put("userId","비밀번호 틀림");
+                resultMap.put("message","로그인 실패");
             }
             resultMap.put("message",okay);
-
             status = HttpStatus.ACCEPTED;
         }catch (Exception e){
             status = HttpStatus.UNAUTHORIZED;
