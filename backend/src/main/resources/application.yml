@@ -12,10 +12,25 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
   devtools:
     livereload:
       enabled: true
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: gwangjubob@gmail.com
+    debug: 'true'
+    password: lnmavxicqizyxxdo
+    default:
+      encoding: UTF-8
+    port: '587'
+    transport:
+      protocol: smtp
     restart:
       enabled: true
 
