@@ -15,4 +15,6 @@ public interface UserService {
     boolean checkNickName(String nickname);
 
     UserUpdateDto updateUser(UserUpdateDto userUpdateDto);
+
+    boolean updatePassword(UserLoginDto userLoginDto);
 }
