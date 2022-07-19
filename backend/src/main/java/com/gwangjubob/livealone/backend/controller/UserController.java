@@ -163,12 +163,14 @@ public class UserController {
         }
 
     }
-    @DeleteMapping("user/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) throws Exception{
+    @DeleteMapping("/user")
+    public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            userService.userDelete(id);
+            userService.userDelete(decodeId);
             resultMap.put("message", okay);
             status = HttpStatus.OK;
         } catch (Exception e){

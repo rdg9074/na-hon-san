@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean loginUser(UserLoginDto userLoginDto){
-        Optional<UserEntity> user = userRepository.findByIdAndPassword(userLoginDto.getId(),userLoginDto.getPassword());
+        Optional<UserEntity> user = userRepository.findById(userLoginDto.getId());
         Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.get().getPassword());
         if(passwordCheck == true){
             return true;
