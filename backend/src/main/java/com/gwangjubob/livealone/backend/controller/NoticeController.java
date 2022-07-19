@@ -8,11 +8,5 @@ public class NoticeController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
 
-    private final NoticeService noticeService;
-
-    @Autowired
-    NoticeController(NoticeService noticeService){
-        this.noticeService = noticeService;
-    }
 
 }

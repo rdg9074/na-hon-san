@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,6 +23,7 @@ public class MailEntity {
     String id;
     String type;
     String number;
+    LocalDateTime time;
 
     @Builder
     public MailEntity(String id, String type, String number){ //인증번호 발송 빌더

@@ -2,6 +2,7 @@ package com.gwangjubob.livealone.backend.service.impl;
 
 import com.gwangjubob.livealone.backend.domain.entity.MailEntity;
 import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
+import com.gwangjubob.livealone.backend.dto.mail.MailCheckDto;
 import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -47,6 +49,13 @@ public class MailService {
         }catch (Exception e){
             return false;
         }
+    }
+    public boolean checkAuthNumber(MailCheckDto mailCheckDto){
+        if(mailRepository.findById(mailCheckDto.getId(),mailCheckDto.getNumber(), mailCheckDto.getType()) == 1){
+            return true;
+        }
+        return false;
+
     }
     public String makeAuthNumber(){
         Random random = new Random();
