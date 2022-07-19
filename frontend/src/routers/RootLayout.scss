@@ -1,0 +1,11 @@
+#root-layout > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #root-layout > div {
+    // display: block;
+  }
+}
