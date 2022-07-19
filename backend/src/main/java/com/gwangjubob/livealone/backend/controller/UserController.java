@@ -1,5 +1,6 @@
 package com.gwangjubob.livealone.backend.controller;
 
+import com.gwangjubob.livealone.backend.dto.mail.MailCheckDto;
 import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
@@ -112,22 +113,40 @@ public class UserController {
 
 
     @PostMapping("/user/auth")
-    public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception{
+    public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status;
         try {
-            if(mailService.sendMail(mailSendDto)==true){
-                resultMap.put("message",okay);
-            }else{
-                resultMap.put("message",fail);
+            if (mailService.sendMail(mailSendDto) == true) {
+                resultMap.put("message", okay);
+            } else {
+                resultMap.put("message", fail);
             }
             status = HttpStatus.OK;
-        }catch (Exception e){
+        } catch (Exception e) {
+            status = HttpStatus.UNAUTHORIZED;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+    @GetMapping("/user/auth")
+    public ResponseEntity<?> checkMail(@ModelAttribute("MailCheckDto") MailCheckDto mailCheckDto) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            if (mailService.checkAuthNumber(mailCheckDto) == true) {
+                resultMap.put("message", okay);
+            } else {
+                resultMap.put("message", fail);
+            }
+            status = HttpStatus.OK;
+        } catch (Exception e) {
             status = HttpStatus.UNAUTHORIZED;
         }
 
 
         return new ResponseEntity<>(resultMap, status);
+    }
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto userUpdateDto) throws Exception{
         HttpStatus status;
@@ -161,4 +180,3 @@ public class UserController {
 
 }
 
-}
