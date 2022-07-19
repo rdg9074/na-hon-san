@@ -67,4 +67,19 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @DeleteMapping("user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable String id) throws Exception{
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            userService.userDelete(id);
+            resultMap.put("message", okay);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
 }
