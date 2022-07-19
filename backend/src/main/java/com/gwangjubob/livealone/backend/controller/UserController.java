@@ -1,8 +1,10 @@
 package com.gwangjubob.livealone.backend.controller;
 
+import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
+import com.gwangjubob.livealone.backend.service.impl.MailService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,16 +24,18 @@ public class UserController {
     private static final String fail = "FAIL";
     private final UserService userService;
     private final JwtService jwtService;
+    private final MailService mailService;
     @Autowired
-    UserController(UserService userService ,JwtService jwtService){
+    UserController(UserService userService ,JwtService jwtService,MailService mailService){
         this.userService = userService;
         this.jwtService = jwtService;
+        this.mailService = mailService;
     }
     @PostMapping("/user")
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
         boolean result = userService.registUser(userRegistDto);
         if(result){
-            HttpStatus status = HttpStatus.ACCEPTED;
+            HttpStatus status = HttpStatus.OK;
             return new ResponseEntity<>(okay, status);
         }else {
             HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -49,7 +53,7 @@ public class UserController {
             } else{
                 resultMap.put("message", okay);
             }
-            status = HttpStatus.ACCEPTED;
+            status = HttpStatus.OK;
         }catch (Exception e){
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -61,11 +65,10 @@ public class UserController {
         HttpStatus status;
         try {
             if(userService.loginUser(userLoginDto) == true){
-                String accessToken = jwtService.createAccessToken("user_id", userLoginDto.getId());// key, data
-                String refreshToken = jwtService.createRefreshToken("user_id", userLoginDto.getId());
+                String accessToken = jwtService.createAccessToken("id", userLoginDto.getId());// key, data
+                String refreshToken = jwtService.createRefreshToken("id", userLoginDto.getId());
                 resultMap.put("access-token", accessToken);
-//                resultMap.put("refresh-token", refreshToken);
-                resultMap.put("message", "로그인 성공");
+                resultMap.put("message", okay);
                 // create a cookie
                 ResponseCookie cookie = ResponseCookie.from("refresh-token",refreshToken)
                         .maxAge(7 * 24 * 60 * 60)
@@ -76,17 +79,31 @@ public class UserController {
                         .build();
                 response.setHeader("Set-Cookie",cookie.toString());
             }else {
-                resultMap.put("message","로그인 실패");
+                resultMap.put("message",fail);
             }
-            resultMap.put("message",okay);
-            status = HttpStatus.ACCEPTED;
+            status = HttpStatus.OK;
         }catch (Exception e){
             status = HttpStatus.UNAUTHORIZED;
         }
 
         return new ResponseEntity<>(resultMap, status);
     }
+    @PostMapping("/user/auth")
+    public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception{
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status;
+        try {
+            if(mailService.sendMail(mailSendDto)==true){
+                resultMap.put("message",okay);
+            }else{
+                resultMap.put("message",fail);
+            }
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            status = HttpStatus.UNAUTHORIZED;
+        }
 
+        return new ResponseEntity<>(resultMap, status);
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto userUpdateDto) throws Exception{
         HttpStatus status;
@@ -101,6 +118,7 @@ public class UserController {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             return new ResponseEntity<>(resultMap, status);
         }
+
     }
     @DeleteMapping("user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable String id) throws Exception{
@@ -109,12 +127,14 @@ public class UserController {
         try {
             userService.userDelete(id);
             resultMap.put("message", okay);
-            status = HttpStatus.ACCEPTED;
+            status = HttpStatus.OK;
         } catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
+
+}
 
 }
