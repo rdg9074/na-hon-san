@@ -1,0 +1,123 @@
+#msg-page-layout {
+  margin: (88px) (517px) (418px) (517px);
+  .header {
+    margin-bottom: (40px);
+    &__img {
+      width: (128px);
+      height: (128px);
+    }
+  }
+  .main {
+    &__title,
+    &__sub-title {
+      margin-bottom: (8px);
+    }
+  }
+  .footer {
+    &__btn {
+      margin-top: (120px);
+      width: (240px);
+      height: (48px);
+      background-color: $MAIN_YELLOW;
+      border-radius: (4px);
+      & + .footer__btn {
+        margin-top: (20px);
+        background-color: $GRAY_DB;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #msg-page-layout {
+    margin: vw(88px) vw(517px) vw(418px) vw(517px);
+    .header {
+      margin-bottom: vw(40px);
+      &__img {
+        width: vw(128px);
+        height: vw(128px);
+      }
+    }
+    .main {
+      &__title,
+      &__sub-title {
+        margin-bottom: vw(8px);
+      }
+    }
+    .footer {
+      &__btn {
+        margin-top: vw(120px);
+        width: vw(240px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+        & + .footer__btn {
+          margin-top: vw(20px);
+          background-color: $GRAY_DB;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #msg-page-layout {
+    margin: vw-t(128px) vw-t(221px);
+    .header {
+      margin-bottom: vw-t(40px);
+      &__img {
+        width: vw-t(128px);
+        height: vw-t(128px);
+      }
+    }
+    .main {
+      &__title,
+      &__sub-title {
+        margin-bottom: vw-t(8px);
+      }
+    }
+    .footer {
+      &__btn {
+        margin-top: vw-t(120px);
+        width: vw-t(240px);
+        height: vw-t(48px);
+
+        border-radius: vw-t(4px);
+        & + .footer__btn {
+          margin-top: vw-t(20px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #msg-page-layout {
+    margin: vw-p(65px) vw-p(24px) vw(254px) vw(25px);
+    .header {
+      margin-bottom: vw-p(40px);
+      &__img {
+        width: vw-p(128px);
+        height: vw-p(128px);
+      }
+    }
+    .main {
+      &__title,
+      &__sub-title {
+        margin-bottom: vw-p(8px);
+      }
+    }
+    .footer {
+      &__btn {
+        margin-top: vw-p(120px);
+        width: vw-p(240px);
+        height: vw-p(48px);
+
+        border-radius: vw-p(4px);
+        & + .footer__btn {
+          margin-top: vw-ps(20px);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+#follow-item {
+  border-bottom: solid 1px #d9d9d9;
+  .item-box {
+    height: 100%;
+    .container {
+      align-items: center;
+      justify-content: center;
+      width: 20%;
+      & > img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    & > p{
+      width: 60%;
+      align-items: center;
+      padding: 12px;
+    }
+    .button-box{
+      align-items: center;
+      justify-content: center;
+      width: 20%;
+      & > button {
+        background-color: #d9d9d9;
+        height: 30px;
+        width: 44px;
+        border-radius: (12px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #follow-item {
+    .item-box {
+      height: 100%;
+      .container {
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        & > img {
+          width: vw-p(40px);
+          height: vw-p(40px);
+        }
+      }
+      & > p{
+        width: 60%;
+        align-items: center;
+        padding: vw-p(12px);
+        font-size: vw-p(16px);
+      }
+      .button-box{
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        & > button {
+          background-color: #d9d9d9;
+          height: vw-p(30px);
+          width: vw-p(44px);
+          border-radius: vw-p(12px);
+          font-size: vw-p(12px);
+        }
+      }
+    }
+  }
+}
