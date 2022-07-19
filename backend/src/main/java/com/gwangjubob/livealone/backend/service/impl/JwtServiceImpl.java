@@ -95,7 +95,7 @@ public class JwtServiceImpl implements JwtService {
 			//parseClaimsJws : 파싱하여 원본 jws 만들기
 			Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
 			logger.debug("claim : ", claims);
-			return claims.getBody().get("user_id").toString();
+			return claims.getBody().get("id").toString();
 		} catch (Exception e) {
 				logger.error(e.getMessage());
 			return "access token timeout";
@@ -120,9 +120,6 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public String getUserId() {
-		return (String) this.get("user").get("userid");
+		return (String) this.get("user").get("id");
 	}
-
-	
-
 }
