@@ -1,9 +1,8 @@
 package com.gwangjubob.livealone.backend.domain.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +12,11 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@Data
 @ToString
 @Table(name="users")
+@NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class UserEntity {
 
     @Id
@@ -24,9 +25,9 @@ public class UserEntity {
     private String nickname;
     private String area;
     @Column(name="follow_open")
-    private boolean followOpen;
+    private Boolean followOpen;
     @Column(name="follower_open")
-    private boolean followerOpen;
+    private Boolean followerOpen;
     @Column(name="profile_msg")
     private String profileMsg;
     @Column(name="profile_img")
@@ -36,5 +37,11 @@ public class UserEntity {
     @Column(name="background_img")
     private String backgroundImg;
 
+    @Builder
+    public UserEntity(String id, String password, String nickname){ //회원 가입 빌더
+        this.id = id;
+        this.password = password;
+        this.nickname = nickname;
+    }
 
 }
