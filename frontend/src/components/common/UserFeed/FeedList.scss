@@ -1,0 +1,57 @@
+#feedlist{
+  flex-flow: row wrap;
+  #feed-item{
+    &:nth-child(n) {
+      margin-right: (30px);
+      margin-bottom: (40px);
+    }
+    &:nth-child(4n) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #feedlist{
+    flex-flow: row wrap;
+    #feed-item{
+      &:nth-child(n) {
+        margin-right: vw(30px);
+        margin-bottom: vw(40px);
+      }
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #feedlist{
+    flex-flow: row wrap;
+    #feed-item{
+      &:nth-child(n) {
+        margin-right: vw-t(15px);
+        margin-bottom: vw-t(20px);
+      }
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #feedlist{
+    flex-flow: row wrap;
+    #feed-item{
+      &:nth-child(n) {
+        margin-right: vw-p(15px);
+        margin-bottom: vw-p(20px);
+      }
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
