@@ -16,6 +16,8 @@ import FindPw from "@screens/Login/FindPw";
 import UserFeedPage from "@screens/UserFeedPage";
 import "./RootLayout.scss";
 import PageNotFound from "@screens/PageNotFound";
+import Letters from "@screens/Letters";
+import ChatRoom from "@screens/ChatRoom";
 
 function RootRouter() {
   return (
@@ -43,6 +45,11 @@ function RootRouter() {
             <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/reset/pw" element={<ResetPw />} />
+          <Route path="letters">
+            <Route index element={<Letters />} />
+            <Route path="detail" element={<ChatRoom />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
