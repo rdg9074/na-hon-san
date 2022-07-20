@@ -14,5 +14,6 @@ public interface NoticeService {
 
     void deleteNotice(String id, int idx);
 
-    NoticeReadDto readNotice(String decodeId, int idx);
+
+    boolean readNotice(String decodeId, int idx);
 }

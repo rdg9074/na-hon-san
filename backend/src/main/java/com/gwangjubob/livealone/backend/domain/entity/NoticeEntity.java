@@ -34,16 +34,18 @@ public class NoticeEntity {
     @Column(name="post_idx")
     private Integer postIdx; // 게시글 번호
 
+    @Column(name="isread")
     private Boolean read; // 읽음 여부
 
     @Column(name = "from_user_id")
     private String fromUserId;
 
+    @Column(name = "time")
     LocalDateTime time;
 
     // 알림 조회 빌더
     @Builder
-    public NoticeEntity(UserEntity user, String noticeType, String postType, Integer postIdx, Boolean read, String fromUserId, LocalDateTime time) {
+    public NoticeEntity(UserEntity user, String noticeType, String postType, Integer postIdx, boolean read, String fromUserId, LocalDateTime time) {
         this.user = user;
         this.noticeType = noticeType;
         this.postType = postType;
