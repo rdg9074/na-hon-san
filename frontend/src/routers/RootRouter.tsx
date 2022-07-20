@@ -18,6 +18,8 @@ import "./RootLayout.scss";
 import PageNotFound from "@screens/PageNotFound";
 import KakaoOauthHandler from "@screens/KakaoOauthHandler";
 import NaverOauthHandler from "@screens/NaverOauthHandler";
+import Letters from "@screens/Letters";
+import ChatRoom from "@screens/ChatRoom";
 
 function RootRouter() {
   return (
@@ -47,6 +49,11 @@ function RootRouter() {
           <Route path="/reset/pw" element={<ResetPw />} />
           <Route path="/oauth/kakao" element={<KakaoOauthHandler />} />
           <Route path="/oauth/naver" element={<NaverOauthHandler />} />
+          <Route path="letters">
+            <Route index element={<Letters />} />
+            <Route path="detail" element={<ChatRoom />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
