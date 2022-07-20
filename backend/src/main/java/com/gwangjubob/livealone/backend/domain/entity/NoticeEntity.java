@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,17 +36,20 @@ public class NoticeEntity {
 
     private Boolean read; // 읽음 여부
 
-    @Column(name = "from_user_nickname")
-    private String fromUserNickname;
+    @Column(name = "from_user_id")
+    private String fromUserId;
 
+    LocalDateTime time;
+
+    // 알림 조회 빌더
     @Builder
-    public NoticeEntity(Integer idx, UserEntity user, String noticeType, String postType, Integer postIdx, Boolean read, String fromUserNickname) {
-        this.idx = idx;
+    public NoticeEntity(UserEntity user, String noticeType, String postType, Integer postIdx, Boolean read, String fromUserId, LocalDateTime time) {
         this.user = user;
         this.noticeType = noticeType;
         this.postType = postType;
         this.postIdx = postIdx;
         this.read = read;
-        this.fromUserNickname = fromUserNickname;
+        this.fromUserId = fromUserId;
+        this.time = time;
     }
 }
