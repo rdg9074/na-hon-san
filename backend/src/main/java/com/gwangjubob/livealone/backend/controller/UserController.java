@@ -2,6 +2,7 @@ package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.mail.MailCheckDto;
 import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
+import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
@@ -161,6 +162,28 @@ public class UserController {
                 UserInfoDto user = userService.updateUser(userInfoDto);
                 status = HttpStatus.ACCEPTED;
                 return new ResponseEntity<>(user, status);
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else{
+            resultMap.put("message", timeOut);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+    @PutMapping("/user/more")
+    public ResponseEntity<?> moreUpdateUser(@RequestBody UserMoreDTO userMoreDTO, HttpServletRequest request){
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        if (!decodeId.equals("timeout")){
+            try {
+                userMoreDTO.setUserId(decodeId);
+                userService.moreUpdate(userMoreDTO);
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;

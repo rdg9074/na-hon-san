@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name="users")
 @NoArgsConstructor
 @DynamicInsert
