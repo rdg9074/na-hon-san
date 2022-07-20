@@ -8,7 +8,7 @@ public interface UserService {
     boolean loginUser(UserLoginDto userLoginDto);
 
     void userDelete(String id);
-
+    boolean passwordCheckUser(String id, String password);
 
     boolean registUser(UserRegistDto userRegistDto);
 
