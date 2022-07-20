@@ -97,8 +97,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updatePassword(UserLoginDto userLoginDto) {
         Optional<UserEntity> user =  userRepository.findById(userLoginDto.getId());
+        String password = passwordEncoder.encode(userLoginDto.getPassword());
         if(user.isPresent()){
-            user.get().setPassword(userLoginDto.getPassword());
+            user.get().setPassword(password);
             userRepository.save(user.get());
             return true;
         } else{
@@ -113,17 +114,18 @@ public class UserServiceImpl implements UserService {
         userGet.setArea(userMoreDTO.getArea());
         userRepository.save(userGet);
         List<UserCategoryEntity> delCategorys = userCategoryRepository.findByUser(userGet);
-        for (UserCategoryEntity uc : delCategorys){
+        for (UserCategoryEntity uc : delCategorys) {
             userCategoryRepository.delete(uc);
         }
         List<String> categorys = userMoreDTO.getCategorys();
-        for(String c : categorys){
+        for (String c : categorys) {
             UserCategoryEntity usercategory = UserCategoryEntity.builder()
                     .category(c)
                     .user(userGet)
                     .build();
             userCategoryRepository.save(usercategory);
         }
+    }
     public UserInfoDto infoUser(String id) {
         Optional<UserEntity> user = userRepository.findById(id);
         UserEntity userGet = user.get();
