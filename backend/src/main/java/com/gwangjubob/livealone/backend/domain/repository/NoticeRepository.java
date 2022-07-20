@@ -12,6 +12,7 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
     // 사용자 아이디로 알림 전체 조회
     // select n from Notices n where n.userid = ?
     // userId user_id
+   List<NoticeEntity> findByUserIdAndNoticeType(String id, String type);
    List<NoticeEntity> findByUserId(String id);
 
     Optional<NoticeEntity> findByIdx(int idx);
