@@ -92,24 +92,31 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PutMapping("/user/password")
-    public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto) throws Exception{
+    public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) throws Exception{
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            boolean res = userService.updatePassword(userLoginDto);
-            if(res){
-                status = HttpStatus.OK;
-                resultMap.put("message", okay);
-            } else{
-                status = HttpStatus.NO_CONTENT;
+        if(!decodeId.equals("timeout")){
+            try {
+                userLoginDto.setId(decodeId);
+                boolean res = userService.updatePassword(userLoginDto);
+                if(res){
+                    status = HttpStatus.OK;
+                    resultMap.put("message", okay);
+                } else{
+                    status = HttpStatus.NO_CONTENT;
+                    resultMap.put("message", fail);
+                }
+            } catch(Exception e){
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
                 resultMap.put("message", fail);
             }
-
-            return new ResponseEntity<>(resultMap, status);
-        } catch(Exception e){
+        } else{
             status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(resultMap, status);
+            resultMap.put("message", timeOut);
         }
+        return new ResponseEntity<>(resultMap, status);
     }
 
 
