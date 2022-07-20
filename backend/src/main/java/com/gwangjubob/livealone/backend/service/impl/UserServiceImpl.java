@@ -37,7 +37,17 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    
+    @Override
+    public boolean passwordCheckUser(String id, String password) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        System.out.println(password);
+        System.out.println(user.get().getPassword());
+        Boolean passwordCheck = passwordEncoder.matches(password,user.get().getPassword());
+        System.out.println(passwordCheck);
+        return passwordCheck;
+    }
+
+
     public boolean registUser(UserRegistDto userRegistDto) {
         String password = passwordEncoder.encode(userRegistDto.getPassword());
         UserEntity user = UserEntity.builder()

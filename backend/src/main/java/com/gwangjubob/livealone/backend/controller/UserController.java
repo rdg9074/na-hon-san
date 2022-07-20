@@ -186,6 +186,31 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-
+    @PostMapping("/user/password")
+    public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) throws Exception{
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        if(!decodeId.equals("timeout")){
+            try {
+                if(userService.passwordCheckUser(decodeId, userLoginDto.getPassword())){
+                    resultMap.put("message", okay);
+                }else{
+                    resultMap.put("message", fail);
+                }
+                    status = HttpStatus.OK;
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{
+            resultMap.put("message", timeOut);
+=======
+>>>>>>> backend/src/main/java/com/gwangjubob/livealone/backend/controller/UserController.java
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
 }
 
