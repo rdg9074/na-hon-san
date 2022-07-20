@@ -4,7 +4,7 @@ import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
-import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
+import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,22 +66,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserUpdateDto updateUser(UserUpdateDto userUpdateDto) {
-        Optional<UserEntity> user =  userRepository.findById(userUpdateDto.getId());
+    public UserInfoDto updateUser(UserInfoDto userInfoDto) {
+        Optional<UserEntity> user =  userRepository.findById(userInfoDto.getId());
+        UserEntity userGet = user.get();
         if(user != null){
-            user.get().setNickname(userUpdateDto.getNickname());
-            user.get().setArea(userUpdateDto.getArea());
-            user.get().setFollowOpen(userUpdateDto.getFollowOpen());
-            user.get().setFollowerOpen(userUpdateDto.getFollowerOpen());
-            user.get().setProfileImg(userUpdateDto.getProfileImg());
-            user.get().setProfileMsg(userUpdateDto.getProfileMsg());
-            user.get().setLikeNotice(userUpdateDto.getLikeNotice());
-            user.get().setFollowNotice(userUpdateDto.getFollowNotice());
-            user.get().setCommentNotice(userUpdateDto.getCommentNotice());
-            user.get().setReplyNotice(userUpdateDto.getReplyNotice());
-            user.get().setBackgroundImg(userUpdateDto.getBackgroundImg());
-            userRepository.save(user.get());
-            return userUpdateDto;
+            userGet.setNickname(userInfoDto.getNickname());
+            userGet.setArea(userInfoDto.getArea());
+            userGet.setFollowOpen(userInfoDto.getFollowOpen());
+            userGet.setFollowerOpen(userInfoDto.getFollowerOpen());
+            userGet.setProfileImg(userInfoDto.getProfileImg());
+            userGet.setProfileMsg(userInfoDto.getProfileMsg());
+            userGet.setLikeNotice(userInfoDto.getLikeNotice());
+            userGet.setFollowNotice(userInfoDto.getFollowNotice());
+            userGet.setCommentNotice(userInfoDto.getCommentNotice());
+            userGet.setReplyNotice(userInfoDto.getReplyNotice());
+            userGet.setBackgroundImg(userInfoDto.getBackgroundImg());
+            userRepository.save(userGet);
+            return userInfoDto;
         }
         return null;
     }
@@ -96,5 +97,25 @@ public class UserServiceImpl implements UserService {
         } else{
             return false;
         }
+    }
+
+    @Override
+    public UserInfoDto infoUser(String id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        UserEntity userGet = user.get();
+        UserInfoDto userInfo = new UserInfoDto();
+        userInfo.setId(userGet.getId());
+        userInfo.setNickname(userGet.getNickname());
+        userInfo.setArea(userGet.getArea());
+        userInfo.setFollowOpen(userGet.getFollowOpen());
+        userInfo.setFollowerOpen(userGet.getFollowerOpen());
+        userInfo.setLikeNotice(userGet.getLikeNotice());
+        userInfo.setFollowNotice(userGet.getFollowNotice());
+        userInfo.setCommentNotice(userGet.getCommentNotice());
+        userInfo.setReplyNotice(userGet.getReplyNotice());
+        userInfo.setProfileMsg(userGet.getProfileMsg());
+        userInfo.setProfileImg(userGet.getProfileImg());
+        userInfo.setBackgroundImg(userGet.getBackgroundImg());
+        return userInfo;
     }
 }
