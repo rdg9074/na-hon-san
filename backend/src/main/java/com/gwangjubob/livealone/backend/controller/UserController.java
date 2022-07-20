@@ -3,7 +3,7 @@ package com.gwangjubob.livealone.backend.controller;
 import com.gwangjubob.livealone.backend.dto.mail.MailCheckDto;
 import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
-import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
+import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.impl.MailService;
 import com.gwangjubob.livealone.backend.service.UserService;
@@ -150,20 +150,26 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PutMapping("/user")
-    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto userUpdateDto) throws Exception{
+    public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            UserUpdateDto user = userService.updateUser(userUpdateDto);
-            status = HttpStatus.ACCEPTED;
-            return new ResponseEntity<>(user, status);
-
-        } catch (Exception e){
-            resultMap.put("message", fail);
+        if (!decodeId.equals("timeout")){
+            try {
+                userInfoDto.setId(decodeId);
+                UserInfoDto user = userService.updateUser(userInfoDto);
+                status = HttpStatus.ACCEPTED;
+                return new ResponseEntity<>(user, status);
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(resultMap, status);
         }
-
+        return new ResponseEntity<>(resultMap, status);
     }
     @DeleteMapping("/user")
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
@@ -206,8 +212,33 @@ public class UserController {
             }
         }else{
             resultMap.put("message", timeOut);
-=======
->>>>>>> backend/src/main/java/com/gwangjubob/livealone/backend/controller/UserController.java
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("user")
+    public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
+        String accessToken = request.getHeader("access-token");
+        String decodeId = jwtService.decodeToken(accessToken);
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        if (!decodeId.equals("timeout")){
+            try {
+                UserInfoDto user = userService.infoUser(decodeId);
+                if(user != null){
+                    status = HttpStatus.OK;
+                    return new ResponseEntity<>(user, status);
+                } else{
+                    resultMap.put("message", fail);
+                    status = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
