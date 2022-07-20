@@ -14,5 +14,5 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
     // userId user_id
    List<NoticeEntity> findByUserId(String id);
 
-    NoticeEntity findByIdx(int idx);
+    Optional<NoticeEntity> findByIdx(int idx);
 }

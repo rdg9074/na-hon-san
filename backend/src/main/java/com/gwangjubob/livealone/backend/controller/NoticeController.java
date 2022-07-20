@@ -23,6 +23,7 @@ public class NoticeController {
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
+    private static final String timeOut = "access-token timeout";
 
     private UserEntity userEntity;
     private NoticeService noticeService;
@@ -36,7 +37,7 @@ public class NoticeController {
 
     // 알림 전체 조회
 
-    @GetMapping("/user/notice") // accessToken 에서 가져올 것인지
+    @GetMapping("/user/notice")
     public ResponseEntity<?> viewNotice(HttpServletRequest request) throws Exception {
         String accessToken = request.getHeader("access-token");
         String decodeId = jwtService.decodeToken(accessToken);
@@ -44,34 +45,52 @@ public class NoticeController {
         HttpStatus status;
         Map<String,Object> resultMap = new HashMap<>();
 
-        try{
-            List<NoticeViewDto> list = noticeService.viewNotice(decodeId);
-            resultMap.put("noticeList", list);
-            resultMap.put("message", SUCCESS);
-            status = HttpStatus.OK;
+        if(!decodeId.equals("timeout")){
+            try{
+                List<NoticeViewDto> list = noticeService.viewNotice(decodeId);
+                resultMap.put("noticeList", list);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.OK;
 
-        }catch(Exception e){
-            resultMap.put("message", FAIL);
+            }catch(Exception e){
+                resultMap.put("message", FAIL);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+
         return new ResponseEntity<>(resultMap, status);
     }
 
     // 알림 읽음
     @PutMapping("/user/notice/{idx}")
-    public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) throws Exception{
+    public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx
+   ) throws Exception{
         String accessToken = request.getHeader("access-token");
         String decodeId = jwtService.decodeToken(accessToken);
 
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
 
-        try{
-            NoticeReadDto read = noticeService.readNotice(decodeId, idx);
-            resultMap.put("message", SUCCESS);
-            status = HttpStatus.OK;
-        } catch (Exception e){
-            resultMap.put("message", FAIL);
+        if(!decodeId.equals("timeout")){
+            try{
+                boolean result = noticeService.readNotice(decodeId, idx);
+                // 수정 성공
+                if(result){
+                    resultMap.put("message", SUCCESS);
+                    status = HttpStatus.OK;
+                }else{
+                    resultMap.put("message", FAIL);
+                    status = HttpStatus.NO_CONTENT;
+                }
+            } catch (Exception e){
+                resultMap.put("message", FAIL);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
@@ -87,12 +106,17 @@ public class NoticeController {
         HttpStatus status;
         Map<String, Object> resultMap = new HashMap<>();
 
-        try{
-            noticeService.deleteNotice(decodeId, idx);
-            resultMap.put("message", SUCCESS);
-            status = HttpStatus.OK;
-        }catch(Exception e){
-            resultMap.put("message", FAIL);
+        if(!decodeId.equals("timeout")){
+            try{
+                noticeService.deleteNotice(decodeId, idx);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.OK;
+            }catch(Exception e){
+                resultMap.put("message", FAIL);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{
+            resultMap.put("message", timeOut);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
