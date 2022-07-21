@@ -1,8 +1,5 @@
 package com.gwangjubob.livealone.backend.controller;
 
-import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
-import com.gwangjubob.livealone.backend.dto.notice.NoticeReadDto;
 import com.gwangjubob.livealone.backend.dto.notice.NoticeViewDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.NoticeService;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +17,15 @@ import java.util.Map;
 @RestController
 public class NoticeController {
 
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
+    private static final String okay = "SUCCESS";
+    private static final String fail = "FAIL";
     private static final String timeOut = "access-token timeout";
 
-    private UserEntity userEntity;
     private NoticeService noticeService;
     private JwtService jwtService;
+
+    private HttpStatus status = HttpStatus.NOT_FOUND;
+    private Map<String, Object> resultMap;
 
     @Autowired
     NoticeController(NoticeService noticeService, JwtService jwtService){
@@ -35,91 +33,75 @@ public class NoticeController {
         this.jwtService = jwtService;
     }
 
-    // 알림 전체 조회
-
     @GetMapping("/user/notice")
-    public ResponseEntity<?> viewNotice(HttpServletRequest request) throws Exception {
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
-
-        HttpStatus status;
-        Map<String,Object> resultMap = new HashMap<>();
+    public ResponseEntity<?> viewNotice(HttpServletRequest request) {
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
 
         if(!decodeId.equals("timeout")){
             try{
-                List<NoticeViewDto> list = noticeService.viewNotice(decodeId);
+                List<NoticeViewDto> list = noticeService.viewNotice(decodeId); // 알림 목록 조회 서비스 호출
                 resultMap.put("noticeList", list);
-                resultMap.put("message", SUCCESS);
+                resultMap.put("message", okay);
                 status = HttpStatus.OK;
-
             }catch(Exception e){
-                resultMap.put("message", FAIL);
+                resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
 
-    // 알림 읽음
     @PutMapping("/user/notice/{idx}")
-    public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx
-   ) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
+    public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) {
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
 
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
-
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
-                boolean result = noticeService.readNotice(decodeId, idx);
-                // 수정 성공
+                boolean result = noticeService.readNotice(decodeId, idx); // 알림 읽음 처리 서비스 호출
                 if(result){
-                    resultMap.put("message", SUCCESS);
+                    resultMap.put("message", okay);
                     status = HttpStatus.OK;
                 }else{
-                    resultMap.put("message", FAIL);
+                    resultMap.put("message", fail);
                     status = HttpStatus.NO_CONTENT;
                 }
             } catch (Exception e){
-                resultMap.put("message", FAIL);
+                resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
 
-    // 알림 삭제
     @DeleteMapping("/user/notice/{idx}")
-    public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable int idx) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
+    public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable int idx) {
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
 
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
-
-        if(!decodeId.equals("timeout")){
-            try{
-                noticeService.deleteNotice(decodeId, idx);
-                resultMap.put("message", SUCCESS);
+        if(decodeId != null) {
+            try {
+                noticeService.deleteNotice(decodeId, idx); // 알림 삭제 서비스 호출
+                resultMap.put("message", okay);
                 status = HttpStatus.OK;
-            }catch(Exception e){
-                resultMap.put("message", FAIL);
+            } catch (Exception e) {
+                resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
+
+        public String checkToken(HttpServletRequest request){
+            String accessToken = request.getHeader("access-token");
+            String decodeId = jwtService.decodeToken(accessToken);
+            if(!decodeId.equals("timeout")){
+                return decodeId;
+            }else{
+                resultMap.put("message", timeOut);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+                return null;
+            }
+        }
 }

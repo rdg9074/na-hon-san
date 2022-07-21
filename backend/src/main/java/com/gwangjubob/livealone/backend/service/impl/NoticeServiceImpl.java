@@ -30,10 +30,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<NoticeViewDto> viewNotice(String id) {
-        // 1. id로 내정보 조회한다음에
         UserInfoDto user = userService.infoUser(id);
-
-        // 2. 조회한 UserEntity에서 get으로 알림정보 얻어오기
 
         Map<String, Object> infos = new HashMap<>();
         infos.put("like",user.getLikeNotice());
@@ -41,13 +38,10 @@ public class NoticeServiceImpl implements NoticeService {
         infos.put("comment", user.getCommentNotice());
         infos.put("reply", user.getReplyNotice());
 
-
         List<NoticeViewDto> result = new ArrayList<>();
 
         for(Map.Entry<String, Object> info : infos.entrySet()){
-            // 3. 얻어와서 true인 것만
             if((boolean)info.getValue()){
-                // 유저아이디 기준 알림 리스트 전체 조회
                 List<NoticeEntity> notices = noticeRepository.findByUserIdAndNoticeType(id, info.getKey());
 
                 for(NoticeEntity n : notices){
@@ -65,37 +59,29 @@ public class NoticeServiceImpl implements NoticeService {
                 }
             }
         }
-
-
        return result;
     }
 
     @Override
     public void deleteNotice(String id, int idx) {
-        // 삭제하려는 알림글 번호로 알림Entity 조회
-        Optional<NoticeEntity> noticeEntity = noticeRepository.findByIdx(idx);
-        String tmpId = noticeEntity.get().getUser().getId();
+        NoticeEntity notice = noticeRepository.findByIdx(idx).get();
+        String tmpId = notice.getUser().getId();
 
-        // 받아온 아이디랑 디코드 아이디 같은지 비교
         if(tmpId.equals(id)) {
-            // 같으면 알림 삭제
-            noticeRepository.delete(noticeEntity.get());
+            noticeRepository.delete(notice);
         }
-
     }
 
     @Override
     public boolean readNotice(String decodeId, int idx) {
-        Optional<NoticeEntity> noticeEntity = noticeRepository.findByIdx(idx);
-        String id = noticeEntity.get().getUser().getId();
+        NoticeEntity notice = noticeRepository.findByIdx(idx).get();
+        String id = notice.getUser().getId();
 
-        if(id.equals(decodeId) && noticeEntity.isPresent()){
-            noticeEntity.get().setRead(true);
-
-            noticeRepository.saveAndFlush(noticeEntity.get());
+        if(id.equals(decodeId) && notice != null){
+            notice.setRead(true);
+            noticeRepository.saveAndFlush(notice);
             return true;
         }
         return false;
     }
-
 }
