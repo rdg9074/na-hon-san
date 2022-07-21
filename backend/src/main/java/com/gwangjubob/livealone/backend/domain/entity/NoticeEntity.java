@@ -42,16 +42,4 @@ public class NoticeEntity {
 
     @Column(name = "time")
     LocalDateTime time;
-
-    // 알림 조회 빌더
-    @Builder
-    public NoticeEntity(UserEntity user, String noticeType, String postType, Integer postIdx, boolean read, String fromUserId, LocalDateTime time) {
-        this.user = user;
-        this.noticeType = noticeType;
-        this.postType = postType;
-        this.postIdx = postIdx;
-        this.read = read;
-        this.fromUserId = fromUserId;
-        this.time = time;
-    }
 }
