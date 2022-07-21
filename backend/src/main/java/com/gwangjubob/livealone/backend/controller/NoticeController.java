@@ -41,7 +41,7 @@ public class NoticeController {
         if(!decodeId.equals("timeout")){
             try{
                 List<NoticeViewDto> list = noticeService.viewNotice(decodeId); // 알림 목록 조회 서비스 호출
-                resultMap.put("noticeList", list);
+                resultMap.put("data", list);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch(Exception e){
@@ -60,7 +60,7 @@ public class NoticeController {
         if (decodeId != null) {
             try {
                 long count = noticeService.countNotice(decodeId); // 읽지 않은 알림 개수 조회 서비스 호출
-                resultMap.put("count", count);
+                resultMap.put("data", count);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e) {

@@ -1,6 +1,5 @@
 package com.gwangjubob.livealone.backend.dto.notice;
 
-import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +15,7 @@ public class NoticeViewDto {
     private Integer postIdx;
     private String userId;
     private String fromUserId;
+    private String fromUserNickname;
     private String postType;
     private Boolean read;
     private LocalDateTime time;
