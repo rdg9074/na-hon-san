@@ -6,6 +6,7 @@ import SetIcon from "@images/SetIcon.svg";
 import FeedList from "@components/common/UserFeed/FeedList";
 import FollowList from "@components/common/UserFeed/FollowList";
 import getCounts from "@utils/getCounts";
+import { Link } from "react-router-dom";
 
 function UserFeedPage() {
   const [tagSwitch, setTagSwitch] = useState(true);
@@ -40,7 +41,9 @@ function UserFeedPage() {
       <div className="info">
         <div className="info__nickname notoBold">
           <p>UserName</p>
-          <img src={SetIcon} alt="set" />
+          <Link to="/account">
+            <img src={SetIcon} alt="set" />
+          </Link>
         </div>
         <div className="info__follow flex">
           <button
@@ -68,7 +71,7 @@ function UserFeedPage() {
           <button type="button">팔로우</button>
           <button type="button">DM</button>
         </div>
-        <div className="info__state">
+        <div className="info__state notoReg">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente
             eos mollitia qui dolores sed facilis quidem voluptate
