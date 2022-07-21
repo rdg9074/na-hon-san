@@ -84,4 +84,9 @@ public class NoticeServiceImpl implements NoticeService {
         }
         return false;
     }
+
+    @Override
+    public long countNotice(String decodeId) {
+        return noticeRepository.findCountNotice(decodeId);
+    }
 }
