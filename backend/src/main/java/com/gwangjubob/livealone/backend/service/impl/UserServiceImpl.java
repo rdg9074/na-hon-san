@@ -8,7 +8,12 @@ import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
+<<<<<<< backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/UserServiceImpl.java
+import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
+import com.gwangjubob.livealone.backend.service.JwtService;
+=======
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
+>>>>>>> backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/UserServiceImpl.java
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +27,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     @Autowired
+
     UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -32,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public boolean loginUser(UserLoginDto userLoginDto){
         Optional<UserEntity> user = userRepository.findById(userLoginDto.getId());
         Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.get().getPassword());
-        if(passwordCheck == true){
+        if(passwordCheck){
             return true;
         }else{
             return false;
@@ -40,17 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void userDelete(String id) {
+    public void userDelete(String id){
         userRepository.deleteById(id);
     }
 
     @Override
     public boolean passwordCheckUser(String id, String password) {
         Optional<UserEntity> user = userRepository.findById(id);
-        System.out.println(password);
-        System.out.println(user.get().getPassword());
         Boolean passwordCheck = passwordEncoder.matches(password,user.get().getPassword());
-        System.out.println(passwordCheck);
         return passwordCheck;
     }
 
@@ -63,7 +67,6 @@ public class UserServiceImpl implements UserService {
                 .nickname(userRegistDto.getNickname())
                 .build();
         userRepository.save(user);
-        System.out.println(userRepository.save(user));
         return true;
     }
 
@@ -77,6 +80,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user =  userRepository.findById(userInfoDto.getId());
         UserEntity userGet = user.get();
         if(user != null){
+
             userGet.setNickname(userInfoDto.getNickname());
             userGet.setArea(userInfoDto.getArea());
             userGet.setFollowOpen(userInfoDto.getFollowOpen());
@@ -91,11 +95,11 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userGet);
             return userInfoDto;
         }
-        return null;
     }
 
     @Override
     public boolean updatePassword(UserLoginDto userLoginDto) {
+
         Optional<UserEntity> user =  userRepository.findById(userLoginDto.getId());
         String password = passwordEncoder.encode(userLoginDto.getPassword());
         if(user.isPresent()){
