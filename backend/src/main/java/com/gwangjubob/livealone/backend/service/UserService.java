@@ -11,7 +11,7 @@ public interface UserService {
     void userDelete(String id);
     boolean passwordCheckUser(String id, String password);
 
-    boolean registUser(UserRegistDto userRegistDto);
+    void registUser(UserRegistDto userRegistDto);
 
     boolean checkNickName(String nickname);
 

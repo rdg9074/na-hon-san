@@ -31,7 +31,7 @@ public class UserController {
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
-            @Autowired
+    @Autowired
     UserController(UserService userService ,JwtService jwtService,MailService mailService){
         this.userService = userService;
         this.jwtService = jwtService;
@@ -39,13 +39,16 @@ public class UserController {
     }
     @PostMapping("/user")
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
-        if(userService.registUser(userRegistDto)){ // 회원 등록 서비스 호출
-            HttpStatus status = HttpStatus.OK;
-            return new ResponseEntity<>(okay, status);
-        }else {
-            HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(fail, status);
+        resultMap = new HashMap<>();
+        try {
+            userService.registUser(userRegistDto); // 회원 등록 서비스 호출
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @GetMapping("/user/check/{nickname}")
@@ -59,6 +62,7 @@ public class UserController {
             }
             status = HttpStatus.OK;
         }catch (Exception e){
+            resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
@@ -107,7 +111,6 @@ public class UserController {
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
                 resultMap.put("message", fail);
             }
-
         return new ResponseEntity<>(resultMap, status);
     }
 
@@ -124,7 +127,6 @@ public class UserController {
         } catch (Exception e) {
             status = HttpStatus.UNAUTHORIZED;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/user/auth")
@@ -140,71 +142,61 @@ public class UserController {
         } catch (Exception e) {
             status = HttpStatus.UNAUTHORIZED;
         }
-
-
         return new ResponseEntity<>(resultMap, status);
     }
     @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
-        if (!decodeId.equals("timeout")){
+        String decodeId = checkToken(request);
+        resultMap = new HashMap<>();
+        if (decodeId != null){
             try {
                 userInfoDto.setId(decodeId);
-                UserInfoDto user = userService.updateUser(userInfoDto);
-                status = HttpStatus.ACCEPTED;
-                return new ResponseEntity<>(user, status);
+                UserInfoDto user = userService.updateUser(userInfoDto); //회원 수정 서비스 호출
+                if (user !=null){
+
+                    resultMap.put("user", user);
+                    resultMap.put("message", okay);
+                } else{
+                    resultMap.put("message", fail);
+                }
+                status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        } else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
     @PutMapping("/user/more")
     public ResponseEntity<?> moreUpdateUser(@RequestBody UserMoreDTO userMoreDTO, HttpServletRequest request){
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
-        if (!decodeId.equals("timeout")){
+        String decodeId = checkToken(request);
+        resultMap = new HashMap<>();
+        if (decodeId != null){
             try {
                 userMoreDTO.setUserId(decodeId);
-                userService.moreUpdate(userMoreDTO);
+                userService.moreUpdate(userMoreDTO); //추가 정보 수정 서비스 호출
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        } else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
     @DeleteMapping("/user")
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
+        String decodeId = checkToken(request);
         resultMap = new HashMap<>();
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try {
                 userService.userDelete(decodeId); // 회원 탈퇴 서비스 호출
-                        resultMap.put("message", okay);
+                resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
@@ -229,12 +221,11 @@ public class UserController {
     }
     @GetMapping("user")
     public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
         resultMap = new HashMap<>();
-        if (!decodeId.equals("timeout")){
+        String decodeId = checkToken(request);
+        if (decodeId != null){
             try {
-                UserInfoDto user = userService.infoUser(decodeId);
+                UserInfoDto user = userService.infoUser(decodeId); //회원 조회 서비스 호출
                 if(user != null){
                     status = HttpStatus.OK;
                     return new ResponseEntity<>(user, status);
