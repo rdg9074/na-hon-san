@@ -101,12 +101,11 @@ public class UserController {
         try {
                 boolean res = userService.updatePassword(userLoginDto); // 회원 수정 서비스 호출
                 if(res){
-                    status = HttpStatus.OK;
                     resultMap.put("message", okay);
                 } else{
-                    status = HttpStatus.NO_CONTENT;
                     resultMap.put("message", fail);
                 }
+                status = HttpStatus.OK;
             } catch(Exception e){
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
                 resultMap.put("message", fail);
@@ -153,8 +152,7 @@ public class UserController {
                 userInfoDto.setId(decodeId);
                 UserInfoDto user = userService.updateUser(userInfoDto); //회원 수정 서비스 호출
                 if (user !=null){
-
-                    resultMap.put("user", user);
+                    resultMap.put("data", user);
                     resultMap.put("message", okay);
                 } else{
                     resultMap.put("message", fail);
@@ -227,12 +225,12 @@ public class UserController {
             try {
                 UserInfoDto user = userService.infoUser(decodeId); //회원 조회 서비스 호출
                 if(user != null){
-                    status = HttpStatus.OK;
-                    return new ResponseEntity<>(user, status);
+                    resultMap.put("message", okay);
+                    resultMap.put("data", user);
                 } else{
                     resultMap.put("message", fail);
-                    status = HttpStatus.INTERNAL_SERVER_ERROR;
                 }
+                status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
