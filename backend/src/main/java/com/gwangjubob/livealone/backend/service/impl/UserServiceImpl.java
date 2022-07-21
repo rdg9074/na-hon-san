@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
 
+    @Autowired
     UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -32,13 +32,16 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean loginUser(UserLoginDto userLoginDto){
-        Optional<UserEntity> user = userRepository.findById(userLoginDto.getId());
-        Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.get().getPassword());
-        if(passwordCheck){
-            return true;
-        }else{
-            return false;
+        UserEntity user = userRepository.findById(userLoginDto.getId()).get();
+        if (user !=null){
+            Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.getPassword());
+            if(passwordCheck){
+                return true;
+            }else{
+                return false;
+            }
         }
+        return false;
     }
 
     @Override
@@ -48,13 +51,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean passwordCheckUser(String id, String password) {
-        Optional<UserEntity> user = userRepository.findById(id);
-        Boolean passwordCheck = passwordEncoder.matches(password,user.get().getPassword());
-        return passwordCheck;
+        UserEntity user = userRepository.findById(id).get();
+        if (user !=null){
+            Boolean passwordCheck = passwordEncoder.matches(password,user.getPassword());
+            return passwordCheck;
+        }
+        return false;
     }
 
 
-    public boolean registUser(UserRegistDto userRegistDto) {
+    public void registUser(UserRegistDto userRegistDto) {
         String password = passwordEncoder.encode(userRegistDto.getPassword());
         UserEntity user = UserEntity.builder()
                 .id(userRegistDto.getId())
@@ -62,7 +68,6 @@ public class UserServiceImpl implements UserService {
                 .nickname(userRegistDto.getNickname())
                 .build();
         userRepository.save(user);
-        return true;
     }
 
     @Override
@@ -72,22 +77,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoDto updateUser(UserInfoDto userInfoDto) {
-        Optional<UserEntity> user =  userRepository.findById(userInfoDto.getId());
-        UserEntity userGet = user.get();
+        UserEntity user =  userRepository.findById(userInfoDto.getId()).get();
         if(user != null){
-
-            userGet.setNickname(userInfoDto.getNickname());
-            userGet.setArea(userInfoDto.getArea());
-            userGet.setFollowOpen(userInfoDto.getFollowOpen());
-            userGet.setFollowerOpen(userInfoDto.getFollowerOpen());
-            userGet.setProfileImg(userInfoDto.getProfileImg());
-            userGet.setProfileMsg(userInfoDto.getProfileMsg());
-            userGet.setLikeNotice(userInfoDto.getLikeNotice());
-            userGet.setFollowNotice(userInfoDto.getFollowNotice());
-            userGet.setCommentNotice(userInfoDto.getCommentNotice());
-            userGet.setReplyNotice(userInfoDto.getReplyNotice());
-            userGet.setBackgroundImg(userInfoDto.getBackgroundImg());
-            userRepository.save(userGet);
+            user.setNickname(userInfoDto.getNickname());
+            user.setArea(userInfoDto.getArea());
+            user.setFollowOpen(userInfoDto.getFollowOpen());
+            user.setFollowerOpen(userInfoDto.getFollowerOpen());
+            user.setProfileImg(userInfoDto.getProfileImg());
+            user.setProfileMsg(userInfoDto.getProfileMsg());
+            user.setLikeNotice(userInfoDto.getLikeNotice());
+            user.setFollowNotice(userInfoDto.getFollowNotice());
+            user.setCommentNotice(userInfoDto.getCommentNotice());
+            user.setReplyNotice(userInfoDto.getReplyNotice());
+            user.setBackgroundImg(userInfoDto.getBackgroundImg());
+            userRepository.save(user);
             return userInfoDto;
         }
         return null;
@@ -95,12 +98,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updatePassword(UserLoginDto userLoginDto) {
-
-        Optional<UserEntity> user =  userRepository.findById(userLoginDto.getId());
+        UserEntity user =  userRepository.findById(userLoginDto.getId()).get();
         String password = passwordEncoder.encode(userLoginDto.getPassword());
-        if(user.isPresent()){
-            user.get().setPassword(password);
-            userRepository.save(user.get());
+        if(user != null){
+            user.setPassword(password);
+            userRepository.save(user);
             return true;
         } else{
             return false;
@@ -109,39 +111,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void moreUpdate(UserMoreDTO userMoreDTO) {
-        Optional<UserEntity> user = userRepository.findById(userMoreDTO.getUserId());
-        UserEntity userGet = user.get();
-        userGet.setArea(userMoreDTO.getArea());
-        userRepository.save(userGet);
-        List<UserCategoryEntity> delCategorys = userCategoryRepository.findByUser(userGet);
-        for (UserCategoryEntity uc : delCategorys) {
-            userCategoryRepository.delete(uc);
-        }
-        List<String> categorys = userMoreDTO.getCategorys();
-        for (String c : categorys) {
-            UserCategoryEntity usercategory = UserCategoryEntity.builder()
-                    .category(c)
-                    .user(userGet)
-                    .build();
-            userCategoryRepository.save(usercategory);
+        UserEntity user = userRepository.findById(userMoreDTO.getUserId()).get();
+        if(user != null){
+            user.setArea(userMoreDTO.getArea());
+            userRepository.save(user);
+            List<UserCategoryEntity> delCategorys = userCategoryRepository.findByUser(user);
+            for (UserCategoryEntity uc : delCategorys) {
+                userCategoryRepository.delete(uc);
+            }
+            List<String> categorys = userMoreDTO.getCategorys();
+            for (String c : categorys) {
+                UserCategoryEntity usercategory = UserCategoryEntity.builder()
+                        .category(c)
+                        .user(user)
+                        .build();
+                userCategoryRepository.save(usercategory);
+            }
         }
     }
     public UserInfoDto infoUser(String id) {
-        Optional<UserEntity> user = userRepository.findById(id);
-        UserEntity userGet = user.get();
+        UserEntity user = userRepository.findById(id).get();
         UserInfoDto userInfo = new UserInfoDto();
-        userInfo.setId(userGet.getId());
-        userInfo.setNickname(userGet.getNickname());
-        userInfo.setArea(userGet.getArea());
-        userInfo.setFollowOpen(userGet.getFollowOpen());
-        userInfo.setFollowerOpen(userGet.getFollowerOpen());
-        userInfo.setLikeNotice(userGet.getLikeNotice());
-        userInfo.setFollowNotice(userGet.getFollowNotice());
-        userInfo.setCommentNotice(userGet.getCommentNotice());
-        userInfo.setReplyNotice(userGet.getReplyNotice());
-        userInfo.setProfileMsg(userGet.getProfileMsg());
-        userInfo.setProfileImg(userGet.getProfileImg());
-        userInfo.setBackgroundImg(userGet.getBackgroundImg());
+        userInfo.setId(user.getId());
+        userInfo.setNickname(user.getNickname());
+        userInfo.setArea(user.getArea());
+        userInfo.setFollowOpen(user.getFollowOpen());
+        userInfo.setFollowerOpen(user.getFollowerOpen());
+        userInfo.setLikeNotice(user.getLikeNotice());
+        userInfo.setFollowNotice(user.getFollowNotice());
+        userInfo.setCommentNotice(user.getCommentNotice());
+        userInfo.setReplyNotice(user.getReplyNotice());
+        userInfo.setProfileMsg(user.getProfileMsg());
+        userInfo.setProfileImg(user.getProfileImg());
+        userInfo.setBackgroundImg(user.getBackgroundImg());
         return userInfo;
     }
 }
