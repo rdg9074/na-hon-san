@@ -107,7 +107,7 @@ public class UserController {
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
                 resultMap.put("message", fail);
             }
-       
+
         return new ResponseEntity<>(resultMap, status);
     }
 
@@ -209,48 +209,29 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PostMapping("/user/password")
-    public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) throws Exception{
-        String accessToken = request.getHeader("access-token");
-        String decodeId = jwtService.decodeToken(accessToken);
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
-        if(!decodeId.equals("timeout")){
+    public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) {
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        if (decodeId != null) {
             try {
-                if(userService.passwordCheckUser(decodeId, userLoginDto.getPassword())){
+                if (userService.passwordCheckUser(decodeId, userLoginDto.getPassword())) { //비밀번호 확인 서비스 호출
                     resultMap.put("message", okay);
-                }else{
+                } else {
                     resultMap.put("message", fail);
                 }
-                    status = HttpStatus.OK;
-            } catch (Exception e){
+                status = HttpStatus.OK;
+            }catch (Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }else{
-            resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        return new ResponseEntity<>(resultMap, status);
+        return new ResponseEntity<>(resultMap,status);
     }
-    @PostMapping("/user/password")
-    public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) throws Exception{
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
-        if(decodeId!=null){
-            try {
-                if(userService.passwordCheckUser(decodeId, userLoginDto.getPassword())){ //비밀번호 확인 서비스 호출
-                    resultMap.put("message", okay);
-                }else{
-                    resultMap.put("message", fail);
-                }
-                    status = HttpStatus.OK;
-
     @GetMapping("user")
     public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
         String accessToken = request.getHeader("access-token");
         String decodeId = jwtService.decodeToken(accessToken);
-        HttpStatus status;
-        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = new HashMap<>();
         if (!decodeId.equals("timeout")){
             try {
                 UserInfoDto user = userService.infoUser(decodeId);

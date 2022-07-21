@@ -10,7 +10,7 @@ import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/NoticeServiceImpl.java
+
 import java.util.*;
 
 
@@ -34,7 +34,7 @@ public class NoticeServiceImpl implements NoticeService {
         UserInfoDto user = userService.infoUser(id);
 
         // 2. 조회한 UserEntity에서 get으로 알림정보 얻어오기
-<<<<<<< backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/NoticeServiceImpl.java
+
         Map<String, Object> infos = new HashMap<>();
         infos.put("like",user.getLikeNotice());
         infos.put("follow", user.getFollowNotice());
@@ -88,12 +88,7 @@ public class NoticeServiceImpl implements NoticeService {
     public boolean readNotice(String decodeId, int idx) {
         Optional<NoticeEntity> noticeEntity = noticeRepository.findByIdx(idx);
         String id = noticeEntity.get().getUser().getId();
-//        System.out.println("==========================");
-//        System.out.println(decodeId);
-//        System.out.println(id);
-//        System.out.println(noticeEntity.get().getRead());
-//        System.out.println(noticeEntity.get().getIdx());
-//        System.out.println("==========================");
+
         if(id.equals(decodeId) && noticeEntity.isPresent()){
             noticeEntity.get().setRead(true);
 
