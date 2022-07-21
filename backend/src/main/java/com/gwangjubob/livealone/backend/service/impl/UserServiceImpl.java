@@ -8,12 +8,8 @@ import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
-<<<<<<< backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/UserServiceImpl.java
-import com.gwangjubob.livealone.backend.dto.user.UserUpdateDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
-=======
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
->>>>>>> backend/src/main/java/com/gwangjubob/livealone/backend/service/impl/UserServiceImpl.java
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +23,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
     @Autowired
 
     UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository){
@@ -95,6 +90,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userGet);
             return userInfoDto;
         }
+        return null;
     }
 
     @Override
