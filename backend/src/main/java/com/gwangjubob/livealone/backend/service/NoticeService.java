@@ -8,4 +8,5 @@ public interface NoticeService {
     List<NoticeViewDto> viewNotice(String id);
     void deleteNotice(String id, int idx);
     boolean readNotice(String decodeId, int idx);
+    long countNotice(String decodeId);
 }

@@ -52,6 +52,25 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/user/notice/count")
+    public ResponseEntity<?> countNotice(HttpServletRequest request) {
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+
+        if (decodeId != null) {
+            try {
+                long count = noticeService.countNotice(decodeId); // 읽지 않은 알림 개수 조회 서비스 호출
+                resultMap.put("count", count);
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     @PutMapping("/user/notice/{idx}")
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) {
         resultMap = new HashMap<>();
