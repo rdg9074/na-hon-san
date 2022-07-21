@@ -8,6 +8,8 @@ import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
+import com.gwangjubob.livealone.backend.mapper.GenericMapper;
+import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.UserService;
@@ -23,12 +25,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private UserInfoMapper userInfoMapper;
     @Autowired
-    UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository){
+    UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userCategoryRepository = userCategoryRepository;
+        this.userInfoMapper = userInfoMapper;
     }
     @Override
     public boolean loginUser(UserLoginDto userLoginDto){
@@ -79,19 +82,10 @@ public class UserServiceImpl implements UserService {
     public UserInfoDto updateUser(UserInfoDto userInfoDto) {
         UserEntity user =  userRepository.findById(userInfoDto.getId()).get();
         if(user != null){
-            user.setNickname(userInfoDto.getNickname());
-            user.setArea(userInfoDto.getArea());
-            user.setFollowOpen(userInfoDto.getFollowOpen());
-            user.setFollowerOpen(userInfoDto.getFollowerOpen());
-            user.setProfileImg(userInfoDto.getProfileImg());
-            user.setProfileMsg(userInfoDto.getProfileMsg());
-            user.setLikeNotice(userInfoDto.getLikeNotice());
-            user.setFollowNotice(userInfoDto.getFollowNotice());
-            user.setCommentNotice(userInfoDto.getCommentNotice());
-            user.setReplyNotice(userInfoDto.getReplyNotice());
-            user.setBackgroundImg(userInfoDto.getBackgroundImg());
+            userInfoMapper.updateFromDto(userInfoDto, user);
             userRepository.save(user);
-            return userInfoDto;
+            UserInfoDto userInfo =  userInfoMapper.toDto(user);
+            return userInfo;
         }
         return null;
     }
@@ -131,19 +125,7 @@ public class UserServiceImpl implements UserService {
     }
     public UserInfoDto infoUser(String id) {
         UserEntity user = userRepository.findById(id).get();
-        UserInfoDto userInfo = new UserInfoDto();
-        userInfo.setId(user.getId());
-        userInfo.setNickname(user.getNickname());
-        userInfo.setArea(user.getArea());
-        userInfo.setFollowOpen(user.getFollowOpen());
-        userInfo.setFollowerOpen(user.getFollowerOpen());
-        userInfo.setLikeNotice(user.getLikeNotice());
-        userInfo.setFollowNotice(user.getFollowNotice());
-        userInfo.setCommentNotice(user.getCommentNotice());
-        userInfo.setReplyNotice(user.getReplyNotice());
-        userInfo.setProfileMsg(user.getProfileMsg());
-        userInfo.setProfileImg(user.getProfileImg());
-        userInfo.setBackgroundImg(user.getBackgroundImg());
+        UserInfoDto userInfo = userInfoMapper.toDto(user);
         return userInfo;
     }
 }
