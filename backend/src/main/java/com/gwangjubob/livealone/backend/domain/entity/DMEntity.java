@@ -4,9 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,16 +17,23 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class DMEntity {
     @Id
-    String idx;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer idx;
+    @Column(name="from_user_id")
     String fromUserId;
+    @Column(name="to_user_id")
     String toUserId;
     String content;
     String image;
-    boolean read;
+    @Column(name="is_read")
+    Boolean read;
     LocalDateTime time;
 
     @Builder
     public DMEntity(String fromUserId, String toUserId, String content, String image){ //DM 전송 빌더
-
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.content = content;
+        this.image = image;
     }
 }
