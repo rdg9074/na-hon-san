@@ -96,9 +96,12 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PutMapping("/user/password")
-    public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto) throws Exception{
+    public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
-        try {
+        String decodeId = checkToken(request);
+        if (decodeId != null){
+            try {
+                userLoginDto.setId(decodeId);
                 boolean res = userService.updatePassword(userLoginDto); // 회원 수정 서비스 호출
                 if(res){
                     resultMap.put("message", okay);
@@ -110,6 +113,7 @@ public class UserController {
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
                 resultMap.put("message", fail);
             }
+        }
         return new ResponseEntity<>(resultMap, status);
     }
 
