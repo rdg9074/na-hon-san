@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin("*")
 public class DMController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";

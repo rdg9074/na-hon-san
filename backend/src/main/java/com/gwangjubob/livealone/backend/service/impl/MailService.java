@@ -36,14 +36,21 @@ public class MailService {
         message.setFrom(MailService.FROM_ADDRESS);
         message.setSubject("[인증번호] 나 혼자 잘 산다");
         message.setText(subText);
+
         try{
+            MailEntity dummyMail = MailEntity.builder()
+                    .id(mailSendDto.getId())
+                    .type(mailSendDto.getType())
+                    .number(authKey)
+                    .build();
+            mailRepository.saveAndFlush(dummyMail);
+            mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
             javaMailSender.send(message); //메일 전송
             MailEntity mail = MailEntity.builder()
                     .id(mailSendDto.getId())
                     .type(mailSendDto.getType())
                     .number(authKey)
                     .build();
-            mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
             mailRepository.saveAndFlush(mail);
             return true;
         }catch (Exception e){
