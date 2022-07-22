@@ -3,6 +3,7 @@ import "./DealPage.scss";
 import DealImg from "@images/DealImg.svg";
 import CardList from "@components/common/CardList";
 import { v4 } from "uuid";
+import searchIcon from "@images/Search.svg";
 
 function DealPage() {
   const [dealState, setDealState] = useState(true);
@@ -22,7 +23,7 @@ function DealPage() {
       <div className="intro flex">
         <div className="intro-info">
           <div className="intro-info__title flex">
-            <p className="fs-48 notoBold">
+            <p className="fs-48 notoReg">
               <span>꿀</span>딜
             </p>
             <button className="notoReg" type="button">
@@ -56,7 +57,7 @@ function DealPage() {
         <div className="deal-header flex">
           <p className="fs-36 notoBold">광주 지역 꿀딜</p>
           <div>
-            <img src={DealImg} alt="deal" />
+            <img src={searchIcon} alt="deal" />
             <input type="text" placeholder="검색어를 입력해 주십쇼..." />
           </div>
         </div>
