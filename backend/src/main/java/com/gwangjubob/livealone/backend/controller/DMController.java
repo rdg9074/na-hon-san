@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000,http://localhost:3001")
 public class DMController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
