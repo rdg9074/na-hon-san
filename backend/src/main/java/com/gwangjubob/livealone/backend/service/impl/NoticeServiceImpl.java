@@ -88,6 +88,14 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public long countNotice(String decodeId) {
-        return noticeRepository.findCountNotice(decodeId);
+        List<NoticeViewDto> list = viewNotice(decodeId);
+
+        long count = 0;
+        for(NoticeViewDto n : list){
+            if(n.getRead() == false){
+                count = count + 1;
+            }
+        }
+        return count;
     }
 }

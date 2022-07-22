@@ -24,11 +24,13 @@ import java.util.Map;
 public class NoticeServiceTest {
     private NoticeRepository noticeRepository;
     private UserService userService;
+    private NoticeService noticeService;
 
     @Autowired
-    NoticeServiceTest(NoticeRepository noticeRepository, UserService userService){
+    NoticeServiceTest(NoticeRepository noticeRepository, UserService userService, NoticeService noticeService){
         this.noticeRepository = noticeRepository;
         this.userService = userService;
+        this.noticeService = noticeService;
     }
 
     @Test
@@ -54,14 +56,13 @@ public class NoticeServiceTest {
     @Test
     public void 읽지_않은_알림개수_조회(){
         // given
-        long test = 4;
-        String testId = "ssafy";
+        String decodeId = "ssafy";
 
         // when
-        long count = noticeRepository.findCountNotice(testId);
+        long count = noticeService.countNotice(decodeId);
 
         // then
-        Assertions.assertThat(count).isEqualTo(test);
+        System.out.println(count);
     }
 
     @Test
@@ -69,8 +70,8 @@ public class NoticeServiceTest {
         // given
         String testId = "ssafy";
         Map<String, Object> types = new HashMap<>();
-        types.put("like", true);
-        types.put("follow",false);
+        types.put("like", false);
+        types.put("follow",true);
         types.put("comment", true);
         types.put("reply", true);
 
