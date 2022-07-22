@@ -112,27 +112,21 @@
     margin-top: (48px);
   }
   select {
+    background-color: #fff;
     height: 36px;
     width: 150px;
-    text-align: center;
     border-radius: (6px);
     border: none;
     appearance : none;
     -webkit-appearance : none;
     -moz-appearance : none;
+    background: url('../assets/images/SelectArrow.svg') no-repeat 95% 50%/12px;
     &:hover{
       cursor: pointer;
     }
   }
   select::-ms-expand{
     display:none;
-  }
-  .select-arrow{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 8px;
-    right: 26px;
   }
 }
 
@@ -252,25 +246,14 @@
     select {
       height: 36px;
       width: 150px;
-      text-align: center;
       border-radius: (6px);
       border: none;
-      appearance : none;
-      -webkit-appearance : none;
-      -moz-appearance : none;
       &:hover{
         cursor: pointer;
       }
     }
     select::-ms-expand{
       display:none;
-    }
-    .select-arrow{
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      top: 8px;
-      right: 26px;
     }
   }
 
@@ -405,25 +388,14 @@
   select {
     height: 36px;
     width: 150px;
-    text-align: center;
     border-radius: (6px);
     border: none;
-    appearance : none;
-    -webkit-appearance : none;
-    -moz-appearance : none;
     &:hover{
       cursor: pointer;
     }
   }
   select::-ms-expand{
     display:none;
-  }
-  .select-arrow{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 8px;
-    right: 26px;
   }
 }
 
@@ -558,25 +530,13 @@
     select {
       height: 36px;
       width: 100px;
-      padding-left: 20px;
-      text-align: start;
       border-radius: (6px);
-      appearance : none;
-      -webkit-appearance : none;
-      -moz-appearance : none;
       &:hover{
         cursor: pointer;
       }
     }
     select::-ms-expand{
       display:none;
-    }
-    .select-arrow{
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      top: 8px;
-      right: 12px;
     }
   }
   .p-none {
@@ -590,4 +550,14 @@
 .active {
   color: $MAIN_YELLOW;
   border-bottom: solid 2px $MAIN_YELLOW;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none; 
+  appearance: none;
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
 }

@@ -21,6 +21,7 @@ import ChatRoom from "@screens/ChatRoom";
 import ChkPw from "@screens/AccountSetting/ChkPw";
 import AccountSettingPage from "@screens/AccountSetting/AccountSettingPage";
 import Withdrawal from "@screens/AccountSetting/Withdrawal";
+import DealDetailPage from "@screens/DealDetailPage";
 
 function RootRouter() {
   return (
@@ -32,6 +33,7 @@ function RootRouter() {
           <Route path="/tip" element={<TipPage />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/deal" element={<DealPage />} />
+          <Route path="/deal/detail/:id" element={<DealDetailPage />} />
           <Route path="/userfeed/:id" element={<UserFeedPage />} />
           <Route path="/account/*">
             <Route index element={<ChkPw />} />

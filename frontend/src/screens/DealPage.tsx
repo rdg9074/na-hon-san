@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import "./DealPage.scss";
 import DealImg from "@images/DealImg.svg";
 import CardList from "@components/common/CardList";
-import SelectArrow from "@images/SelectArrow.svg";
 import { v4 } from "uuid";
 
 function DealPage() {
   const [dealState, setDealState] = useState(true);
-  const changeStateTrue = () => {
-    setDealState(true);
-  };
-  const changeStateFalse = () => {
-    setDealState(false);
-  };
   const cate = [
     "전체",
     "생활",
@@ -32,9 +25,11 @@ function DealPage() {
             <p className="fs-48 notoBold">
               <span>꿀</span>딜
             </p>
-            <button type="button">꿀딜쓰기</button>
+            <button className="notoReg" type="button">
+              꿀딜쓰기
+            </button>
           </div>
-          <p className="intro-info__desc p-none">
+          <p className="intro-info__desc p-none notoReg">
             뭔가 좋은 문구가 있으면 좋을 것 같다는 생각이 조금 씩 들긴 하는데
             이걸 조금 더 길게 만들어서 이쁘게 만들어두면
           </p>
@@ -44,6 +39,7 @@ function DealPage() {
             className="intro-container__img p-nonee"
             src={DealImg}
             alt="deal"
+            title="deal"
           />
           <p className="intro-container__count">
             광주 지역에서 진행중인 꿀딜
@@ -67,7 +63,7 @@ function DealPage() {
         <div className="deal-tag">
           {cate.map(value => {
             return (
-              <button key={v4()} type="button">
+              <button className="notoReg" key={v4()} type="button">
                 {value}
               </button>
             );
@@ -75,14 +71,18 @@ function DealPage() {
         </div>
         <div className="deal-state notoBold flex">
           <button
-            onClick={changeStateTrue}
+            onClick={() => {
+              setDealState(true);
+            }}
             className={dealState ? `${"active"}` : ""}
             type="button"
           >
             거래 대기
           </button>
           <button
-            onClick={changeStateFalse}
+            onClick={() => {
+              setDealState(false);
+            }}
             className={dealState ? "" : `${"active"}`}
             type="button"
           >
@@ -95,7 +95,6 @@ function DealPage() {
             <option value="2">조회순</option>
             <option value="3">인기순</option>
           </select>
-          <img className="select-arrow" src={SelectArrow} alt="arrow" />
         </div>
         <CardList type="deal" />
       </div>
