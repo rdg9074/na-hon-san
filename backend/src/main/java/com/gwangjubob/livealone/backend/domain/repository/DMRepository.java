@@ -12,4 +12,6 @@ public interface DMRepository extends JpaRepository<DMEntity, String> {
     List<DMEntity> findListViews(String toUserId);
     @Query(value = "select count(d.idx) from DMEntity d where d.toUserId=:toUserId and d.read=false and d.fromUserId = :fromUserId")
     int findCount(String toUserId,String fromUserId);
+
+    List<DMEntity> findByToUserIdAndFromUserId(String toUserId, String fromUserId);
 }
