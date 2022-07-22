@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "./Join.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { emailReg } from "@constants/reg";
-import { chkEmailExist, sendAuthCode } from "@apis/join";
+import { sendAuthCode } from "@apis/join";
 import { useDispatch } from "react-redux";
 import { setUserId } from "@store/ducks/auth/authSlice";
 import SocialSection from "@components/common/SocialSection";
@@ -14,23 +14,23 @@ function Join() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const chkValidate = async () => {
-    if (errMsg !== "") {
-      inputRef.current?.focus();
-      return;
-    }
     if (inputRef.current) {
       if (inputRef.current?.value === "") {
         inputRef.current?.focus();
         setErrMsg("이메일을 입력해주세요.");
         return;
       }
+      if (errMsg === "이메일 형식을 확인해주세요.") {
+        inputRef.current?.focus();
+        return;
+      }
       const userId = inputRef.current?.value;
-      const res = await chkEmailExist(userId);
-      if (res === "JOINED") {
+      const res = await sendAuthCode(userId, 0);
+      if (res === "FAIL") {
         setErrMsg("이미 존재하는 아이디입니다.");
+        inputRef.current?.focus();
       } else if (res === "SUCCESS") {
         dispatch(setUserId({ userId }));
-        sendAuthCode(userId);
         navigate("chkEmail");
       }
     }

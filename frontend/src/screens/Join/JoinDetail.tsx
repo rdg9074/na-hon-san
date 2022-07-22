@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./JoinDetail.scss";
 import { passwordReg } from "@constants/reg";
 import { useAppSelector } from "@store/hooks";
-import { join } from "@apis/join";
+import { chkNickNameExist, join } from "@apis/join";
 
 type nickNameDupliType = "" | "err" | "success";
 
@@ -20,12 +20,11 @@ function JoinDetail() {
   const chkPasswordRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
-    userId,
     nickName: "",
     password: ""
   });
 
-  const submitUserInfo = () => {
+  const submitUserInfo = async () => {
     if (nickNameDupli !== "success" || form.nickName === "") {
       nickNameRef.current?.focus();
       return;
@@ -35,13 +34,14 @@ function JoinDetail() {
       return;
     }
     if (!samePassword) {
-      console.log(form);
       chkPasswordRef.current?.focus();
       return;
     }
 
-    join();
-    navigate("/join/welcome");
+    const res = await join(userId, form.password, form.nickName);
+    if (res === "SUCCESS") {
+      navigate("/join/welcome");
+    }
   };
 
   const chkValidPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,14 +58,18 @@ function JoinDetail() {
     setForm({ ...form, [type]: value });
   };
 
-  const chkNickNameDupli = () => {
-    if (nickNameDupli === "") {
-      setNickNameDupli("err");
-    } else if (nickNameDupli === "err") {
+  const chkNickNameDupli = async () => {
+    if (nickNameRef.current?.value === "") {
+      nickNameRef.current.focus();
+      return;
+    }
+    const res = await chkNickNameExist(nickNameRef.current?.value as string);
+
+    if (res === "SUCCESS") {
       setNickNameDupli("success");
-      changeForm("nickName", "dummy");
+      changeForm("nickName", nickNameRef.current?.value as string);
     } else {
-      setNickNameDupli("");
+      setNickNameDupli("err");
     }
   };
 
