@@ -1,0 +1,525 @@
+#deal-detail-page {
+  .article {
+    margin-top: (48px);
+    width: (770px);
+    height: (1600px);
+    .title {
+      font-size: (36px);
+    }
+    .header {
+      margin-top: (48px);
+      height: (120px);
+      border-bottom: solid 2px #d9d9d9;
+      &-info {
+        align-items: center;
+        justify-content: space-around;
+        height: 100%;
+        width: 50%;
+        &__img-container {
+          align-items: center;
+          & > img {
+            width: (56px);
+            height: (56px);
+            border-radius: 100%;
+          }
+        }
+        &__text {
+          justify-content: center;
+          align-items: flex-start;
+          height: 100%;
+          .user-name {
+            font-size: (24px);
+          }
+          .created {
+            font-size: (16px);
+            color: #666;
+            margin-top: (12px);
+          }
+        }
+        &__btn {
+          background-color: $MAIN_YELLOW;
+          padding: (8px);
+          font-size: (16px);
+          width: (80px);
+          height: (36px);
+          border-radius: (12px);
+          line-height: (4px);
+        }
+      }
+      &-func {
+        width: 50%;
+        justify-content: flex-end;
+        & img {
+          width: (48px);
+          height: (48px);
+        }
+        &-btn {
+          width: 50%;
+          justify-content: space-evenly;
+          align-items: center;
+        }
+        &-box {
+          position: relative;
+          width: 70%;
+          justify-content: center;
+          align-items: center;
+          &__select {
+            font-size: (16px);
+            width: (140px);
+            margin-right: (36px);
+            height: (48px);
+            border: none;
+            border-radius: (12px);
+            &:focus {
+              outline: none;
+            }
+            &:hover {
+              cursor: pointer;
+            }
+            & > option {
+              background-color: white;
+            }
+          }
+        }
+      }
+    }
+    .body {
+      margin-top: (48px);
+      height: (500px);
+      background-color: #333;
+    }
+    .comment {
+      margin-top: (60px);
+      border-top: solid 2px #d9d9d9;
+      &-head {
+        & > p {
+          margin-top: (24px);
+          font-size: (30px);
+        }
+        & span {
+          margin-left: (12px);
+          color: $MAIN_YELLOW;
+        }
+      }
+      &-input {
+        align-items: center;
+        justify-content: space-between;
+        margin-top: (36px);
+        & > input {
+          width: 80%;
+          height: (48px);
+          border: solid 2px #d9d9d9;
+          border-radius: (12px);
+          padding-left: (24px);
+          &:focus {
+            box-shadow: none;
+          }
+        }
+        .input-img-container {
+          width: 20%;
+          justify-content: center;
+          align-items: center;
+          & > img {
+            width: (48px);
+            height: (48px);
+          }
+        }
+      }
+      &-component {
+        margin-top: (48px);
+        background-color: #666;
+        width: 100%;
+        height: (400px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #deal-detail-page {
+    .article {
+      margin-top: vw(48px);
+      width: vw(770px);
+      height: vw(1600px);
+      .title {
+        font-size: vw(36px);
+      }
+      .header {
+        margin-top: vw(48px);
+        height: vw(120px);
+        &-info {
+          height: 100%;
+          width: 50%;
+          &__img-container {
+            & > img {
+              width: vw(56px);
+              height: vw(56px);
+              border-radius: 100%;
+            }
+          }
+          &__text {
+            height: 100%;
+            .user-name {
+              font-size: vw(24px);
+            }
+            .created {
+              font-size: vw(16px);
+              margin-top: vw(12px);
+            }
+          }
+          &__btn {
+            background-color: $MAIN_YELLOW;
+            padding: vw(8px);
+            font-size: vw(16px);
+            width: vw(80px);
+            height: vw(36px);
+            border-radius: vw(12px);
+            line-height: vw(4px);
+          }
+        }
+        &-func {
+          width: 50%;
+          & img {
+            width: vw(48px);
+            height: vw(48px);
+          }
+          &-btn {
+            width: 50%;
+          }
+          &-box {
+            width: 70%;
+            &__select {
+              font-size: vw(16px);
+              width: vw(140px);
+              margin-right: vw(36px);
+              height: vw(48px);
+              border-radius: vw(12px);
+              padding-left: vW(24px);
+              &:focus {
+                outline: none;
+              }
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+      .body {
+        margin-top: vw(48px);
+        height: vw(500px);
+        background-color: #333;
+      }
+      .comment {
+        margin-top: vw(60px);
+        border-top: solid 2px #d9d9d9;
+        &-head {
+          & > p {
+            margin-top: vw(24px);
+            font-size: vw(30px);
+          }
+          & span {
+            margin-left: vw(12px);
+            color: $MAIN_YELLOW;
+          }
+        }
+        &-input {
+          align-items: center;
+          justify-content: space-between;
+          margin-top: vw(36px);
+          & > input {
+            width: 80%;
+            height: vw(48px);
+            border: solid 2px #d9d9d9;
+            border-radius: vw(12px);
+            padding-left: vw(24px);
+            &:focus {
+              box-shadow: none;
+            }
+          }
+          .input-img-container {
+            width: 20%;
+            justify-content: center;
+            align-items: center;
+            & > img {
+              width: vw(48px);
+              height: vw(48px);
+            }
+          }
+        }
+        &-component {
+          margin-top: vw(48px);
+          background-color: #666;
+          width: 100%;
+          height: vw(400px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #deal-detail-page {
+    .article {
+      margin-top: vw-t(48px);
+      width: vw-t(568px);
+      height: vw-t(1600px);
+      .title {
+        font-size: vw-t(36px);
+      }
+      .header {
+        margin-top: vw-t(36px);
+        height: vw-t(120px);
+        &-info {
+          height: 100%;
+          width: 50%;
+          &__img-container {
+            & > img {
+              width: vw-t(56px);
+              height: vw-t(56px);
+              border-radius: 100%;
+            }
+          }
+          &__text {
+            height: 100%;
+            .user-name {
+              font-size: vw-t(24px);
+            }
+            .created {
+              font-size: vw-t(16px);
+              color: #666;
+              margin-top: vw-t(12px);
+            }
+          }
+          &__btn {
+            background-color: $MAIN_YELLOW;
+            padding: vw-t(8px);
+            font-size: vw-t(16px);
+            width: vw-t(80px);
+            height: vw-t(48px);
+            border-radius: vw-t(12px);
+            line-height: vw-t(4px);
+          }
+        }
+        &-func {
+          width: 50%;
+          & img {
+            width: vw-t(48px);
+            height: vw-t(48px);
+          }
+          &-btn {
+            width: 50%;
+          }
+          &-box {
+            width: 70%;
+            &__select {
+              font-size: vw-t(16px);
+              width: vw-t(140px);
+              margin-right: vw-t(36px);
+              height: vw-t(48px);
+              border: none;
+              border-radius: vw-t(12px);
+            }
+          }
+        }
+      }
+      .body {
+        margin-top: vw-t(48px);
+        height: vw-t(500px);
+      }
+      .comment {
+        margin-top: vw-t(60px);
+        &-head {
+          & > p {
+            margin-top: vw-t(24px);
+            font-size: vw-t(30px);
+          }
+          & span {
+            margin-left: vw-t(12px);
+            color: $MAIN_YELLOW;
+          }
+        }
+        &-input {
+          align-items: center;
+          justify-content: space-between;
+          margin-top: vw-t(36px);
+          & > input {
+            width: 80%;
+            height: vw-t(48px);
+            border-radius: vw-t(12px);
+            padding-left: vw-t(24px);
+            &:focus {
+              box-shadow: none;
+            }
+          }
+          .input-img-container {
+            width: 20%;
+            & > img {
+              width: vw-t(48px);
+              height: vw-t(48px);
+            }
+          }
+        }
+        &-component {
+          margin-top: vw-t(48px);
+          width: 100%;
+          height: vw-t(400px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #deal-detail-page {
+    .article {
+      margin-top: vw-p(48px);
+      width: 100%;
+      height: vw-p(1600px);
+      .title {
+        padding-left: vw-p(12px);
+        padding-right: vw-p(12px);
+        font-size: vw-p(24px);
+      }
+      .header {
+        padding-left: vw-p(12px);
+        padding-right: vw-p(12px);
+        margin-top: vw-p(12px);
+        height: vw-p(80px);
+        &-info {
+          height: 100%;
+          width: 50%;
+          &__img-container {
+            & > img {
+              width: vw-p(36px);
+              height: vw-p(36px);
+              border-radius: 100%;
+            }
+          }
+          &__text {
+            height: 100%;
+            .user-name {
+              font-size: vw-p(12px);
+            }
+            .created {
+              font-size: vw-p(8px);
+              color: #666;
+              margin-top: vw-p(12px);
+            }
+          }
+          &__btn {
+            background-color: $MAIN_YELLOW;
+            margin-left: vw-p(12px);
+            padding: vw-p(8px);
+            font-size: vw-p(12px);
+            width: vw-p(60px);
+            height: vw-p(36px);
+            border-radius: vw-p(8px);
+            line-height: vw-p(4px);
+          }
+        }
+        &-func {
+          width: 50%;
+          justify-content: flex-end;
+          & img {
+            width: vw-p(24px);
+            height: vw-p(24px);
+          }
+          &-btn {
+            width: 50%;
+            justify-content: space-evenly;
+            align-items: center;
+          }
+          &-box {
+            position: relative;
+            width: 65%;
+            justify-content: center;
+            align-items: center;
+            &__select {
+              font-size: vw-p(12px);
+              width: vw-p(100px);
+              margin-right: vw-p(12px);
+              height: vw-p(36px);
+              border: none;
+              border-radius: vw-p(8px);
+            }
+          }
+        }
+      }
+      .body {
+        margin-top: vw-p(24px);
+        height: vw-p(300px);
+        background-color: #333;
+      }
+      .comment {
+        margin-top: vw-p(60px);
+        &-head {
+          margin-left: (12px);
+          margin-right: (12px);
+          & > p {
+            margin-top: vw-p(24px);
+            font-size: vw-p(24px);
+          }
+          & span {
+            margin-left: vw-p(12px);
+            color: $MAIN_YELLOW;
+          }
+        }
+        &-input {
+          margin-left: (12px);
+          margin-right: (12px);
+          align-items: center;
+          justify-content: space-between;
+          margin-top: vw-p(36px);
+          & > input {
+            font-size: (12px);
+            width: 80%;
+            height: vw-p(36px);
+            border-radius: vw-p(12px);
+            padding-left: vw-p(8px);
+            &:focus {
+              box-shadow: none;
+            }
+          }
+          .input-img-container {
+            width: 20%;
+            justify-content: center;
+            align-items: center;
+            & > img {
+              width: vw-p(36px);
+              height: vw-p(36px);
+            }
+          }
+        }
+        &-component {
+          margin-top: vw-p(48px);
+          background-color: #666;
+          width: 100%;
+          height: vw-p(400px);
+        }
+      }
+    }
+  }
+}
+
+.green {
+  background-color: #63e260;
+}
+
+.yellow {
+  background-color: $MAIN_YELLOW;
+}
+
+.brown {
+  background-color: #d9d9d9;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none; 
+  appearance: none;
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
