@@ -2,6 +2,7 @@ package com.gwangjubob.livealone.backend.service.impl;
 
 import com.gwangjubob.livealone.backend.domain.entity.MailEntity;
 import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.mail.MailCheckDto;
 import com.gwangjubob.livealone.backend.dto.mail.MailSendDto;
 import lombok.AllArgsConstructor;
@@ -21,44 +22,46 @@ public class MailService {
 
     private final JavaMailSender javaMailSender;
     private final MailRepository mailRepository;
+    private final UserRepository userRepository;
     @Autowired
-    public MailService(MailRepository mailRepository,JavaMailSender javaMailSender){
+    public MailService(MailRepository mailRepository,JavaMailSender javaMailSender,UserRepository userRepository){
         this.mailRepository = mailRepository;
+        this.userRepository = userRepository;
         this.javaMailSender = javaMailSender;
     }
     private static final String FROM_ADDRESS = "gwangjubob@gmail.com";
 
     public boolean sendMail(MailSendDto mailSendDto) {
-        String authKey = makeAuthNumber();
-        SimpleMailMessage message = new SimpleMailMessage();
-        String subText = "회원 가입을 위한 인증번호 입니다. \n 인증번호 : " + authKey;
-        message.setTo(mailSendDto.getId());
-        message.setFrom(MailService.FROM_ADDRESS);
-        message.setSubject("[인증번호] 나 혼자 잘 산다");
-        message.setText(subText);
-
-        try{
-            MailEntity dummyMail = MailEntity.builder()
-                    .id(mailSendDto.getId())
-                    .type(mailSendDto.getType())
-                    .number(authKey)
-                    .build();
-            mailRepository.saveAndFlush(dummyMail);
-            mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
-            javaMailSender.send(message); //메일 전송
-            MailEntity mail = MailEntity.builder()
-                    .id(mailSendDto.getId())
-                    .type(mailSendDto.getType())
-                    .number(authKey)
-                    .build();
-            mailRepository.saveAndFlush(mail);
-            return true;
-        }catch (Exception e){
+        if(!userRepository.findById(mailSendDto.getId()).isPresent()){
+            String authKey = makeAuthNumber();
+            SimpleMailMessage message = new SimpleMailMessage();
+            String subText = "회원 가입을 위한 인증번호 입니다. \n 인증번호 : " + authKey;
+            message.setTo(mailSendDto.getId());
+            message.setFrom(MailService.FROM_ADDRESS);
+            message.setSubject("[인증번호] 나 혼자 잘 산다");
+            message.setText(subText);
+                MailEntity dummyMail = MailEntity.builder()
+                        .id(mailSendDto.getId())
+                        .type(mailSendDto.getType())
+                        .number(authKey)
+                        .build();
+                mailRepository.saveAndFlush(dummyMail);
+                mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
+                javaMailSender.send(message); //메일 전송
+                MailEntity mail = MailEntity.builder()
+                        .id(mailSendDto.getId())
+                        .type(mailSendDto.getType())
+                        .number(authKey)
+                        .build();
+                mailRepository.saveAndFlush(mail);
+                return true;
+        }else{
             return false;
         }
     }
     public boolean checkAuthNumber(MailCheckDto mailCheckDto){
         if(mailRepository.findById(mailCheckDto.getId(),mailCheckDto.getNumber(), mailCheckDto.getType()) == 1){
+            mailRepository.deleteById(mailCheckDto.getId());
             return true;
         }
         return false;
