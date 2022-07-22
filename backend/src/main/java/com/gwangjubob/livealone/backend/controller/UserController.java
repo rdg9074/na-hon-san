@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000,http://localhost:3001")
 public class UserController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
