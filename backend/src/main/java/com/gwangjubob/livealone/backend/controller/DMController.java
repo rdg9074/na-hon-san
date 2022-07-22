@@ -2,6 +2,7 @@ package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.dm.DMSendDto;
 import com.gwangjubob.livealone.backend.dto.dm.DMViewDto;
+import com.gwangjubob.livealone.backend.dto.dm.DMViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.service.DMService;
 import com.gwangjubob.livealone.backend.service.JwtService;
@@ -10,10 +11,7 @@ import com.gwangjubob.livealone.backend.service.impl.MailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,36 +38,54 @@ public class DMController {
     }
     @PostMapping("/dm")
     public ResponseEntity<?> sendDM(@RequestBody DMSendDto dmSendDto, HttpServletRequest request){
-        String decodeId = checkToken(request);
         resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
         try {
-            if(decodeId != null&& dmService.sendDM(dmSendDto)){
+            if(decodeId != null){
                 dmSendDto.setFromId(decodeId);
-                resultMap.put("message",okay);
-            }else {
-                resultMap.put("message",fail);
+                if(dmService.sendDM(dmSendDto)) {
+                    resultMap.put("message", okay);
+                }else {
+                    resultMap.put("message",fail);
+                }
             }
             status = HttpStatus.OK;
         }catch (Exception e){
-            status = HttpStatus.UNAUTHORIZED;
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/dm")
     public ResponseEntity<?> listDM(HttpServletRequest request){
-        String decodeId = checkToken(request);
         resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
         try {
             if(decodeId != null){
-                System.out.println(decodeId);
                 List<DMViewDto> dmViewDtoList =dmService.listDM(decodeId);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
             }
             status = HttpStatus.OK;
         }catch (Exception e){
-            status = HttpStatus.UNAUTHORIZED;
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+    @GetMapping("/dm/{fromId}")
+    public ResponseEntity<?> listDetailDM(@PathVariable("fromId")String fromId, HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        try {
+            if(decodeId != null){
+                List<DMViewDto> dmViewDtoList =dmService.listDetailDM(decodeId,fromId);
+                resultMap.put("message",okay);
+                resultMap.put("data",dmViewDtoList);
+            }
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
@@ -81,7 +97,7 @@ public class DMController {
             return decodeId;
         }else{
             resultMap.put("message", timeOut);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            status = HttpStatus.UNAUTHORIZED;
             return null;
         }
     }

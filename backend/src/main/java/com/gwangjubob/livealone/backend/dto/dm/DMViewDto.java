@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DMViewDto  {
     Integer idx;
+    String type;
     String fromId;
+    String Nickname;
     String toId;
     String content;
     String image;
