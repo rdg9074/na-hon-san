@@ -59,7 +59,20 @@ function ChkEmail({ type }: ChkEmailProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const chkCode = async () => {
-    const res = await chkAuthCode(userId, inputRef.current?.value);
+    if (!inputRef.current?.value) {
+      setErrMsg("인증코드를 입력해주세요");
+      inputRef.current?.focus();
+      return;
+    }
+
+    let typeNumber = -1;
+    if (type === "login") typeNumber = 0;
+    if (type === "findPw") typeNumber = 1;
+    const res = await chkAuthCode(
+      userId,
+      inputRef.current?.value as string,
+      typeNumber
+    );
     if (res === "SUCCESS") {
       if (type === "login") navigate("/join/detail");
       if (type === "findPw") navigate("/reset/pw");
@@ -74,7 +87,10 @@ function ChkEmail({ type }: ChkEmailProps) {
       clearTimeout(debounceTimer);
     }
     const timeoutId = setTimeout(() => {
-      sendAuthCode(userId);
+      let typeNumber = -1;
+      if (type === "login") typeNumber = 0;
+      if (type === "findPw") typeNumber = 1;
+      sendAuthCode(userId, typeNumber);
       setErrMsg(" ");
       setTimerKey(v4());
     }, 500);

@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./Login.scss";
-
+import { login } from "@apis/login";
 import { Link, useNavigate } from "react-router-dom";
 import SocialSection from "@components/common/SocialSection";
 
 function Login() {
+  const [errMsg, setErrMsg] = useState<string>("");
+
+  const idInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+  const startLogin = async () => {
+    if (!idInputRef.current?.value) {
+      setErrMsg("아이디를 입력해주세요.");
+      idInputRef.current?.focus();
+    } else if (!passwordInputRef.current?.value) {
+      setErrMsg("비밀번호를 입력해주세요.");
+      passwordInputRef.current?.focus();
+    } else {
+      const res = await login(
+        idInputRef.current.value,
+        passwordInputRef.current.value
+      );
+      if (res === "SUCCESS") {
+        navigate("/");
+      } else {
+        setErrMsg("아이디 또는 비밀번호가 일치하지 않습니다.");
+      }
+    }
+  };
   return (
     <div className="wrapper">
       <div id="login" className="wrapper">
@@ -26,19 +51,20 @@ function Login() {
             className="form__input notoReg fs-15"
             type="text"
             placeholder="이메일을 입력해주세요"
+            ref={idInputRef}
           />
           <p className="form__title notoReg fs-16">비밀번호</p>
           <input
             className="form__input notoReg fs-15"
             type="password"
             placeholder="비밀번호를 입력해주세요"
+            ref={passwordInputRef}
           />
-          <p className="form__msg notoMid fs-12">
-            아이디 또는 비밀번호가 일치하지 않습니다.
-          </p>
+          <p className="form__msg notoMid fs-12">{errMsg}</p>
           <button
             type="button"
             className="form__btn notoMid fs-15 flex align-center justify-center"
+            onClick={startLogin}
           >
             로그인
           </button>

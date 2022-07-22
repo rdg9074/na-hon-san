@@ -20,7 +20,6 @@ function SocialSection() {
   const startGoogle = (res: any) => {
     console.log(res);
   };
-  console.log(googleClientId);
   return (
     <section className="social">
       <button

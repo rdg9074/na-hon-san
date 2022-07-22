@@ -1,11 +1,24 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  PreloadedState
+} from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import authSlice from "./ducks/auth/authSlice";
-// import logger from ""
-export const store = configureStore({
-  reducer: { auth: authSlice },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
+
+const rootReducer = combineReducers({
+  auth: authSlice
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+// eslint-disable-next-line no-use-before-define
+export const setUpStore = (preloadedState?: PreloadedState<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
+  });
+};
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setUpStore>;
+export type AppDispatch = AppStore["dispatch"];

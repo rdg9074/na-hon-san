@@ -5,13 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "@utils/ScrollToTop.ts";
 import { Provider } from "react-redux";
 import App from "./App";
-import { store } from "./store";
+import { setUpStore } from "./store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
+  <Provider store={setUpStore()}>
     <BrowserRouter>
       <ScrollToTop />
       <App />

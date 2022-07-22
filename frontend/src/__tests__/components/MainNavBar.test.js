@@ -1,16 +1,15 @@
 import React from "react";
-import MainNavBar from "@components/common/MainNavBar";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import App from "../../App.tsx";
-import { store } from "../../store";
+import { setUpStore } from "../../store";
 
 describe("MainNavBar 테스트", () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
+      <Provider store={setUpStore()}>
         <MemoryRouter>
           <App />
         </MemoryRouter>

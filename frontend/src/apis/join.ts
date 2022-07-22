@@ -1,26 +1,25 @@
+import axios from "axios";
 import API from "./index";
 
-export const chkEmailExist = async (userId: string) => {
-  const res = await API.get(`/emailCheck?userId=${userId}`);
+export const sendAuthCode = async (id: string, type: number) => {
+  const res = await API.post(`/user/auth`, { id, type });
   return res.data.message;
 };
 
-export const sendAuthCode = (userId: string) => {
-  API.post(`/email`, { userId });
-};
-
-export const chkAuthCode = async (
-  userId: string,
-  authCode: string | undefined
-) => {
-  const res = await API.get(`/email?userId=${userId}&authKey=${authCode}`);
+export const chkAuthCode = async (id: string, number: string, type: number) => {
+  const res = await API.get(
+    `/user/auth?id=${id}&number=${number}&type=${type}`
+  );
   return res.data.message;
 };
 
 export const chkNickNameExist = async (nickName: string) => {
-  return true;
+  const res = await API.get(`/user/check/${nickName}`);
+
+  return res.data.message;
 };
 
-export const join = async () => {
-  return true;
+export const join = async (id: string, password: string, nickname: string) => {
+  const res = await API.post("/user", { id, password, nickname });
+  return res.data.message;
 };
