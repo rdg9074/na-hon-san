@@ -1,4 +1,4 @@
-#deal-detail-page {
+#tip-detail-page {
   .article {
     margin-top: (48px);
     width: (770px);
@@ -56,31 +56,9 @@
         }
         &-btn {
           width: 50%;
-          justify-content: space-evenly;
+          justify-content: flex-end;
           align-items: center;
-        }
-        &-box {
-          position: relative;
-          width: 70%;
-          justify-content: center;
-          align-items: center;
-          &__select {
-            font-size: (16px);
-            width: (140px);
-            margin-right: (36px);
-            height: (48px);
-            border: none;
-            border-radius: (12px);
-            &:focus {
-              outline: none;
-            }
-            &:hover {
-              cursor: pointer;
-            }
-            & > option {
-              background-color: white;
-            }
-          }
+          margin-right: (24px);
         }
       }
     }
@@ -137,7 +115,7 @@
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
-  #deal-detail-page {
+  #tip-detail-page {
     .article {
       margin-top: vw(48px);
       width: vw(770px);
@@ -187,34 +165,16 @@
           }
           &-btn {
             width: 50%;
-          }
-          &-box {
-            width: 70%;
-            &__select {
-              font-size: vw(16px);
-              width: vw(140px);
-              margin-right: vw(36px);
-              height: vw(48px);
-              border-radius: vw(12px);
-              padding-left: vW(24px);
-              &:focus {
-                outline: none;
-              }
-              &:hover {
-                cursor: pointer;
-              }
-            }
+            margin-right: vw(24px);
           }
         }
       }
       .body {
         margin-top: vw(48px);
         height: vw(500px);
-        background-color: #333;
       }
       .comment {
         margin-top: vw(60px);
-        border-top: solid 2px #d9d9d9;
         &-head {
           & > p {
             margin-top: vw(24px);
@@ -226,23 +186,15 @@
           }
         }
         &-input {
-          align-items: center;
-          justify-content: space-between;
           margin-top: vw(36px);
           & > input {
             width: 80%;
             height: vw(48px);
-            border: solid 2px #d9d9d9;
             border-radius: vw(12px);
             padding-left: vw(24px);
-            &:focus {
-              box-shadow: none;
-            }
           }
           .input-img-container {
             width: 20%;
-            justify-content: center;
-            align-items: center;
             & > img {
               width: vw(48px);
               height: vw(48px);
@@ -261,7 +213,7 @@
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #deal-detail-page {
+  #tip-detail-page {
     .article {
       margin-top: vw-t(48px);
       width: vw-t(568px);
@@ -295,7 +247,6 @@
             }
           }
           &__btn {
-            background-color: $MAIN_YELLOW;
             padding: vw-t(8px);
             font-size: vw-t(16px);
             width: vw-t(80px);
@@ -312,17 +263,7 @@
           }
           &-btn {
             width: 50%;
-          }
-          &-box {
-            width: 70%;
-            &__select {
-              font-size: vw-t(16px);
-              width: vw-t(140px);
-              margin-right: vw-t(36px);
-              height: vw-t(48px);
-              border: none;
-              border-radius: vw-t(12px);
-            }
+            margin-right: vw-t(24px);
           }
         }
       }
@@ -339,21 +280,15 @@
           }
           & span {
             margin-left: vw-t(12px);
-            color: $MAIN_YELLOW;
           }
         }
         &-input {
-          align-items: center;
-          justify-content: space-between;
           margin-top: vw-t(36px);
           & > input {
             width: 80%;
             height: vw-t(48px);
             border-radius: vw-t(12px);
             padding-left: vw-t(24px);
-            &:focus {
-              box-shadow: none;
-            }
           }
           .input-img-container {
             width: 20%;
@@ -374,7 +309,7 @@
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #deal-detail-page {
+  #tip-detail-page {
     .article {
       margin-top: vw-p(36px);
       width: 100%;
@@ -426,27 +361,12 @@
           width: 50%;
           justify-content: flex-end;
           & img {
-            width: vw-p(24px);
-            height: vw-p(24px);
+            width: vw-p(36px);
+            height: vw-p(36px);
           }
           &-btn {
             width: 50%;
-            justify-content: space-evenly;
-            align-items: center;
-          }
-          &-box {
-            position: relative;
-            width: 65%;
-            justify-content: center;
-            align-items: center;
-            &__select {
-              font-size: vw-p(12px);
-              width: vw-p(100px);
-              margin-right: vw-p(12px);
-              height: vw-p(36px);
-              border: none;
-              border-radius: vw-p(8px);
-            }
+            margin-right: vw-p(24px);
           }
         }
       }
@@ -504,26 +424,4 @@
       }
     }
   }
-}
-
-.green {
-  background-color: #63e260;
-}
-
-.yellow {
-  background-color: $MAIN_YELLOW;
-}
-
-.brown {
-  background-color: #d9d9d9;
-}
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  text-align-last: center;
-  text-align: center;
-  -ms-text-align-last: center;
-  -moz-text-align-last: center;
 }

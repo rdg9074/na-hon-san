@@ -22,6 +22,7 @@ import ChkPw from "@screens/AccountSetting/ChkPw";
 import AccountSettingPage from "@screens/AccountSetting/AccountSettingPage";
 import Withdrawal from "@screens/AccountSetting/Withdrawal";
 import DealDetailPage from "@screens/DealDetailPage";
+import TipDetail from "@screens/TipDetail";
 
 function RootRouter() {
   return (
@@ -30,10 +31,15 @@ function RootRouter() {
       <div id="root-layout">
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/tip" element={<TipPage />} />
+          <Route path="/tip">
+            <Route index element={<TipPage />} />
+            <Route path="detail/:id" element={<TipDetail />} />
+          </Route>
           <Route path="/feed" element={<FeedPage />} />
-          <Route path="/deal" element={<DealPage />} />
-          <Route path="/deal/detail/:id" element={<DealDetailPage />} />
+          <Route path="/deal">
+            <Route index element={<DealPage />} />
+            <Route path="detail/:id" element={<DealDetailPage />} />
+          </Route>
           <Route path="/userfeed/:id" element={<UserFeedPage />} />
           <Route path="/account/*">
             <Route index element={<ChkPw />} />
