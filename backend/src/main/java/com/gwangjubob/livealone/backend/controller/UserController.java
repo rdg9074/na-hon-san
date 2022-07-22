@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -77,14 +78,13 @@ public class UserController {
                 resultMap.put("access-token", accessToken);
                 resultMap.put("message", okay);
                 // create a cookie
-                ResponseCookie cookie = ResponseCookie.from("refresh-token",refreshToken)
-                        .maxAge(7 * 24 * 60 * 60)
-                        .path("/")
-                        .secure(true)
-                        .sameSite("None")
-                        .httpOnly(true)
-                        .build();
-                response.setHeader("Set-Cookie",cookie.toString());
+
+                Cookie refreshCookie = new Cookie("refresh-token",refreshToken);
+                refreshCookie.setMaxAge(1*60*60);
+                refreshCookie.setPath("/");
+                refreshCookie.setHttpOnly(true);
+
+                response.addCookie(refreshCookie);
             }else {
                 resultMap.put("message",fail);
             }
