@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./JoinDetail.scss";
 import { passwordReg } from "@constants/reg";
 import { useAppSelector } from "@store/hooks";
-import { chkNickNameExist, join } from "@apis/join";
+import { chkNickNameExist, join } from "@apis/auth";
 
 type nickNameDupliType = "" | "err" | "success";
 

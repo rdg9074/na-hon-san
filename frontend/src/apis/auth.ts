@@ -23,3 +23,19 @@ export const join = async (id: string, password: string, nickname: string) => {
   const res = await API.post("/user", { id, password, nickname });
   return res.data.message;
 };
+
+export const login = async (id: string, password: string) => {
+  const res = await axios.post("/user/login", { id, password });
+
+  return res.data;
+};
+
+export const logout = async () => {
+  console.log("로그아웃");
+};
+
+export const resetPassword = async (newpassword: string) => {
+  const res = await axios.post("/user/password", { password: newpassword });
+
+  return res.data;
+};

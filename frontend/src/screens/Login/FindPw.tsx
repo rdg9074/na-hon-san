@@ -1,4 +1,4 @@
-import { emailValidate } from "@apis/login";
+import { sendAuthCode } from "@apis/auth";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FindPw.scss";
@@ -8,12 +8,12 @@ function FindPw() {
   const navigate = useNavigate();
   const idInputRef = useRef<HTMLInputElement>(null);
 
-  const sendAuthCode = async () => {
+  const submitAuthCode = async () => {
     if (!idInputRef.current?.value) {
       idInputRef.current?.focus();
       setErrMsg("이메일을 입력해주세요.");
     } else {
-      const res = await emailValidate(idInputRef.current.value);
+      const res = await sendAuthCode(idInputRef.current.value, 1);
       if (res === "SUCCESS") {
         navigate("chkEmail");
       } else {
@@ -52,7 +52,7 @@ function FindPw() {
           <button
             type="button"
             className="form__btn notoMid fs-16"
-            onClick={sendAuthCode}
+            onClick={submitAuthCode}
           >
             인증번호 전송하기
           </button>

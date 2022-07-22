@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./Login.scss";
-import { login } from "@apis/login";
+import { login } from "@apis/auth";
 import { Link, useNavigate } from "react-router-dom";
 import SocialSection from "@components/common/SocialSection";
 

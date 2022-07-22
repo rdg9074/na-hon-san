@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "./Join.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { emailReg } from "@constants/reg";
-import { sendAuthCode } from "@apis/join";
+import { sendAuthCode } from "@apis/auth";
 import { useDispatch } from "react-redux";
 import { setUserId } from "@store/ducks/auth/authSlice";
 import SocialSection from "@components/common/SocialSection";
