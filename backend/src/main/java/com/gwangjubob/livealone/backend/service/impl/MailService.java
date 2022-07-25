@@ -32,7 +32,7 @@ public class MailService {
     private static final String FROM_ADDRESS = "gwangjubob@gmail.com";
 
     public boolean sendMail(MailSendDto mailSendDto) {
-        if(!userRepository.findById(mailSendDto.getId()).isPresent()){
+        if((mailSendDto.getType().equals("0") && !userRepository.findById(mailSendDto.getId()).isPresent()) || (mailSendDto.getType().equals("1") && userRepository.findById(mailSendDto.getId()).isPresent())){
             String authKey = makeAuthNumber();
             SimpleMailMessage message = new SimpleMailMessage();
             String subText = "회원 가입을 위한 인증번호 입니다. \n 인증번호 : " + authKey;
