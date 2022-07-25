@@ -113,7 +113,7 @@ public class NoticeController {
     }
 
         public String checkToken(HttpServletRequest request){
-            String accessToken = request.getHeader("access-token");
+            String accessToken = request.getHeader("Authorization");
             String decodeId = jwtService.decodeToken(accessToken);
             if(!decodeId.equals("timeout")){
                 return decodeId;
