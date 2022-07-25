@@ -1,15 +1,15 @@
 #tip-detail-page {
   .article {
     margin-top: (48px);
-    width: (770px);
+    width: (570px);
     height: (1600px);
     .title {
-      font-size: (36px);
-      line-height: (48px);
+      font-size: (24px);
+      line-height: (32px);
     }
     .header {
-      margin-top: (48px);
-      height: (120px);
+      margin-top: (12px);
+      height: (80px);
       border-bottom: solid 2px #d9d9d9;
       &-info {
         align-items: center;
@@ -19,8 +19,8 @@
         &__img-container {
           align-items: center;
           & > img {
-            width: (56px);
-            height: (56px);
+            width: (40px);
+            height: (40px);
             border-radius: 100%;
           }
         }
@@ -29,10 +29,10 @@
           align-items: flex-start;
           height: 100%;
           .user-name {
-            font-size: (24px);
+            font-size: (16px);
           }
           .created {
-            font-size: (16px);
+            font-size: (8px);
             color: #666;
             margin-top: (12px);
           }
@@ -40,7 +40,7 @@
         &__btn {
           background-color: $MAIN_YELLOW;
           padding: (8px);
-          font-size: (16px);
+          font-size: (12px);
           width: (80px);
           height: (36px);
           border-radius: (12px);
@@ -51,8 +51,8 @@
         width: 50%;
         justify-content: flex-end;
         & img {
-          width: (48px);
-          height: (48px);
+          width: (36px);
+          height: (36px);
         }
         &-btn {
           width: 50%;
@@ -63,17 +63,17 @@
       }
     }
     .body {
-      margin-top: (48px);
-      height: (500px);
+      margin-top: (24px);
+      height: (300px);
       background-color: #333;
     }
     .comment {
-      margin-top: (60px);
+      margin-top: (24px);
       border-top: solid 2px #d9d9d9;
       &-head {
         & > p {
-          margin-top: (24px);
-          font-size: (30px);
+          margin-top: (12px);
+          font-size: (20px);
         }
         & span {
           margin-left: (12px);
@@ -83,15 +83,19 @@
       &-input {
         align-items: center;
         justify-content: space-between;
-        margin-top: (36px);
+        margin-top: (24px);
         & > input {
           width: 80%;
-          height: (48px);
+          height: (36px);
           border: solid 2px #d9d9d9;
           border-radius: (12px);
-          padding-left: (24px);
+          padding-left: (12px);
+          font-size: (12px);
           &:focus {
             box-shadow: none;
+          }
+          &::placeholder {
+            font-size: (12px);
           }
         }
         .input-img-container {
@@ -99,16 +103,16 @@
           justify-content: center;
           align-items: center;
           & > img {
-            width: (48px);
-            height: (48px);
+            width: (40px);
+            height: (40px);
           }
         }
       }
       &-component {
-        margin-top: (48px);
+        margin-top: (24px);
         background-color: #666;
         width: 100%;
-        height: (400px);
+        height: (200px);
       }
     }
   }
@@ -118,39 +122,39 @@
   #tip-detail-page {
     .article {
       margin-top: vw(48px);
-      width: vw(770px);
+      width: vw(570px);
       height: vw(1600px);
       .title {
-        font-size: vw(36px);
-        line-height: vw(48px);
+        font-size: vw(24px);
+        line-height: vw(32px);
       }
       .header {
-        margin-top: vw(48px);
-        height: vw(120px);
+        margin-top: vw(12px);
+        height: vw(80px);
         &-info {
           height: 100%;
           width: 50%;
           &__img-container {
             & > img {
-              width: vw(56px);
-              height: vw(56px);
+              width: vw(40px);
+              height: vw(40px);
               border-radius: 100%;
             }
           }
           &__text {
             height: 100%;
             .user-name {
-              font-size: vw(24px);
+              font-size: vw(16px);
             }
             .created {
-              font-size: vw(16px);
+              font-size: vw(8px);
               margin-top: vw(12px);
             }
           }
           &__btn {
             background-color: $MAIN_YELLOW;
             padding: vw(8px);
-            font-size: vw(16px);
+            font-size: vw(12px);
             width: vw(80px);
             height: vw(36px);
             border-radius: vw(12px);
@@ -160,8 +164,8 @@
         &-func {
           width: 50%;
           & img {
-            width: vw(48px);
-            height: vw(48px);
+            width: vw(36px);
+            height: vw(36px);
           }
           &-btn {
             width: 50%;
@@ -170,15 +174,15 @@
         }
       }
       .body {
-        margin-top: vw(48px);
-        height: vw(500px);
+        margin-top: vw(24px);
+        height: vw(300px);
       }
       .comment {
-        margin-top: vw(60px);
+        margin-top: vw(24px);
         &-head {
           & > p {
-            margin-top: vw(24px);
-            font-size: vw(30px);
+            margin-top: vw(12px);
+            font-size: vw(20px);
           }
           & span {
             margin-left: vw(12px);
@@ -186,26 +190,30 @@
           }
         }
         &-input {
-          margin-top: vw(36px);
+          margin-top: vw(24px);
           & > input {
             width: 80%;
-            height: vw(48px);
+            height: vw(36px);
             border-radius: vw(12px);
-            padding-left: vw(24px);
+            padding-left: vw(12px);
+            font-size: vw(12px);
+          }
+          &::placeholder {
+            font-size: vw(12px);
           }
           .input-img-container {
             width: 20%;
             & > img {
-              width: vw(48px);
-              height: vw(48px);
+              width: vw(40px);
+              height: vw(40px);
             }
           }
         }
         &-component {
-          margin-top: vw(48px);
+          margin-top: vw(24px);
           background-color: #666;
           width: 100%;
-          height: vw(400px);
+          height: vw(200px);
         }
       }
     }
@@ -215,42 +223,42 @@
 @media screen and (max-width: $TABLET-VW) {
   #tip-detail-page {
     .article {
-      margin-top: vw-t(48px);
-      width: vw-t(568px);
+      margin-top: vw-t(36px);
+      width: vw-t(468px);
       height: vw-t(1600px);
       .title {
-        font-size: vw-t(36px);
-        line-height: vw-t(48px);
+        font-size: vw-t(24px);
+        line-height: vw-t(36px);
       }
       .header {
-        margin-top: vw-t(36px);
-        height: vw-t(120px);
+        margin-top: vw-t(0px);
+        height: vw-t(100px);
         &-info {
           height: 100%;
           width: 50%;
           &__img-container {
             & > img {
-              width: vw-t(56px);
-              height: vw-t(56px);
+              width: vw-t(40px);
+              height: vw-t(40px);
               border-radius: 100%;
             }
           }
           &__text {
             height: 100%;
             .user-name {
-              font-size: vw-t(24px);
+              font-size: vw-t(16px);
             }
             .created {
-              font-size: vw-t(16px);
+              font-size: vw-t(8px);
               color: #666;
               margin-top: vw-t(12px);
             }
           }
           &__btn {
             padding: vw-t(8px);
-            font-size: vw-t(16px);
+            font-size: vw-t(12px);
             width: vw-t(80px);
-            height: vw-t(48px);
+            height: vw-t(36px);
             border-radius: vw-t(12px);
             line-height: vw-t(4px);
           }
@@ -258,8 +266,8 @@
         &-func {
           width: 50%;
           & img {
-            width: vw-t(48px);
-            height: vw-t(48px);
+            width: vw-t(36px);
+            height: vw-t(36px);
           }
           &-btn {
             width: 50%;
@@ -268,38 +276,42 @@
         }
       }
       .body {
-        margin-top: vw-t(48px);
-        height: vw-t(500px);
+        margin-top: vw-t(24px);
+        height: vw-t(300px);
       }
       .comment {
-        margin-top: vw-t(60px);
+        margin-top: vw-t(20px);
         &-head {
           & > p {
-            margin-top: vw-t(24px);
-            font-size: vw-t(30px);
+            margin-top: vw-t(12px);
+            font-size: vw-t(24px);
           }
           & span {
             margin-left: vw-t(12px);
           }
         }
         &-input {
-          margin-top: vw-t(36px);
+          margin-top: vw-t(24px);
           & > input {
             width: 80%;
-            height: vw-t(48px);
+            height: vw-t(36px);
             border-radius: vw-t(12px);
-            padding-left: vw-t(24px);
+            padding-left: vw-t(12px);
+            font-size: vw-t(12px);
+            &::placeholder {
+              font-size: vw-t(12px);
+            }
           }
           .input-img-container {
             width: 20%;
             & > img {
-              width: vw-t(48px);
-              height: vw-t(48px);
+              width: vw-t(40px);
+              height: vw-t(40px);
             }
           }
         }
         &-component {
-          margin-top: vw-t(48px);
+          margin-top: vw-t(24px);
           width: 100%;
           height: vw-t(400px);
         }
@@ -311,19 +323,19 @@
 @media screen and (max-width: $PHONE-VW) {
   #tip-detail-page {
     .article {
-      margin-top: vw-p(36px);
+      margin-top: vw-p(24px);
       width: 100%;
       height: vw-p(1600px);
       .title {
         padding-left: vw-p(12px);
         padding-right: vw-p(12px);
-        font-size: vw-p(24px);
+        font-size: vw-p(20px);
         line-height: vw-p(36px);
       }
       .header {
         padding-left: vw-p(12px);
         padding-right: vw-p(12px);
-        margin-top: vw-p(12px);
+        margin-top: vw-p(0px);
         height: vw-p(80px);
         &-info {
           height: 100%;
@@ -352,7 +364,7 @@
             padding: vw-p(8px);
             font-size: vw-p(12px);
             width: vw-p(60px);
-            height: vw-p(36px);
+            height: vw-p(24px);
             border-radius: vw-p(8px);
             line-height: vw-p(4px);
           }
@@ -372,17 +384,17 @@
       }
       .body {
         margin-top: vw-p(24px);
-        height: vw-p(300px);
+        height: vw-p(200px);
         background-color: #333;
       }
       .comment {
-        margin-top: vw-p(60px);
+        margin-top: vw-p(24px);
         &-head {
           margin-left: (12px);
           margin-right: (12px);
           & > p {
             margin-top: vw-p(24px);
-            font-size: vw-p(24px);
+            font-size: vw-p(16px);
           }
           & span {
             margin-left: vw-p(12px);
@@ -394,7 +406,7 @@
           margin-right: (12px);
           align-items: center;
           justify-content: space-between;
-          margin-top: vw-p(36px);
+          margin-top: vw-p(24px);
           & > input {
             font-size: (12px);
             width: 80%;
@@ -416,7 +428,7 @@
           }
         }
         &-component {
-          margin-top: vw-p(48px);
+          margin-top: vw-p(24px);
           background-color: #666;
           width: 100%;
           height: vw-p(400px);
