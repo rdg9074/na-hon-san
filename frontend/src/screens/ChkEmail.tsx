@@ -50,7 +50,7 @@ function Timer({ setErrMsg, initTime, timerKey }: TimerProps) {
 function ChkEmail({ type }: ChkEmailProps) {
   const navigate = useNavigate();
 
-  const userId = useAppSelector(state => state.auth.userId);
+  const userId = useAppSelector(state => state.auth.tmpId);
   const [timerKey, setTimerKey] = useState(v4());
   const [errMsg, setErrMsg] = useState<string>(" ");
   const [debounceTimer, setDebounceTimer] =

@@ -3,6 +3,8 @@ import "./Login.scss";
 import { login } from "@apis/auth";
 import { Link, useNavigate } from "react-router-dom";
 import SocialSection from "@components/common/SocialSection";
+import { getUserInfo } from "@store/ducks/auth/authThunk";
+import { useAppDispatch } from "@store/hooks";
 
 function Login() {
   const [errMsg, setErrMsg] = useState<string>("");
@@ -11,6 +13,7 @@ function Login() {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const startLogin = async () => {
     if (!idInputRef.current?.value) {
       setErrMsg("아이디를 입력해주세요.");
@@ -24,6 +27,7 @@ function Login() {
         passwordInputRef.current.value
       );
       if (res === "SUCCESS") {
+        dispatch(getUserInfo());
         navigate("/");
       } else {
         setErrMsg("아이디 또는 비밀번호가 일치하지 않습니다.");

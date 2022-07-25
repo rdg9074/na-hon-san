@@ -31,10 +31,12 @@ module.exports = {
     "import/extensions": 0,
     "@typescript-eslint/no-var-requires": 0,
     "prettier/prettier": ["error", { endOfLine: "auto" }],
-    "no-param-reassign": [
-      "error",
-      { props: true, ignorePropertyModificationsFor: ["state"] }
-    ]
+    // "no-param-reassign": [
+    //   "error",
+    //   { props: true, ignorePropertyModificationsFor: ["state"] }
+    // ]
+    "no-param-reassign": 0,
+    "@typescript-eslint/no-empty-interface": 0
   },
   settings: {
     "import/resolver": {

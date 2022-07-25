@@ -1,4 +1,6 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_URL } from "../../../apis/index";
 
 const kakaoClientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
 const naverClientId = process.env.REACT_APP_NAVER_CLIENT_ID;
@@ -26,3 +28,11 @@ export const loginNaver = async (code: string) => {
   console.log(code);
   // 여기서 백엔드 전달
 };
+
+export const getUserInfo = createAsyncThunk("auth/getUserInfo", async () => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await axios.get(`${BASE_URL}/user`, {
+    headers: { Authorization: `${accessToken}` }
+  });
+  return res.data.data;
+});

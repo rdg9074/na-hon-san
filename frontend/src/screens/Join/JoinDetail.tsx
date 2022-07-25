@@ -9,7 +9,7 @@ import { chkNickNameExist, join } from "@apis/auth";
 type nickNameDupliType = "" | "err" | "success";
 
 function JoinDetail() {
-  const userId = useAppSelector(state => state.auth.userId);
+  const userId = useAppSelector(state => state.auth.tmpId);
   const navigate = useNavigate();
   const [validPassword, setValidPassword] = useState(true);
   const [samePassword, setSamePassword] = useState(true);
