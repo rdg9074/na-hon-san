@@ -34,7 +34,7 @@ function TipPage() {
             title="Tip"
           />
           <p className="intro-container__count">
-            광주 지역 꿀팁러들의 꿀팁
+            나혼자 잘 살러들의 꿀팁
             <br />
             <span>366</span>개
           </p>
