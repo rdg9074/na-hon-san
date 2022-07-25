@@ -5,6 +5,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import TipPage from "@screens/TipPage";
 import DealPage from "@screens/DealPage";
+import NewsPage from "@screens/NewsPage";
 import Join from "@screens/Join/Join";
 import ChkEmail from "@screens/ChkEmail";
 import JoinDetail from "@screens/Join/JoinDetail";
@@ -40,6 +41,7 @@ function RootRouter() {
             <Route index element={<DealPage />} />
             <Route path="detail/:id" element={<DealDetailPage />} />
           </Route>
+          <Route path="/news/" element={<NewsPage />} />
           <Route path="/userfeed/:id" element={<UserFeedPage />} />
           <Route path="/account/*">
             <Route index element={<ChkPw />} />
