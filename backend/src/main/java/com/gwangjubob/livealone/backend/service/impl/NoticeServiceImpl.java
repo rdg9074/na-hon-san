@@ -18,13 +18,11 @@ import java.util.*;
 public class NoticeServiceImpl implements NoticeService {
 
     private NoticeRepository noticeRepository;
-    private UserRepository userRepository;
     private UserService userService;
 
     @Autowired
-    NoticeServiceImpl(NoticeRepository noticeRepository, UserRepository userRepository, UserService userService){
+    NoticeServiceImpl(NoticeRepository noticeRepository, UserService userService){
         this.noticeRepository = noticeRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 

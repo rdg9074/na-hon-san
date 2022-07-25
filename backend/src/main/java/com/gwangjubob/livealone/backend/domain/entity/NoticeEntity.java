@@ -21,7 +21,7 @@ public class NoticeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx; // 알림글 번호
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private UserEntity user; // 로그인 한 사용자 아이디
 
@@ -42,4 +42,9 @@ public class NoticeEntity {
 
     @Column(name = "time")
     LocalDateTime time;
+
+//    public void setUser(UserEntity user) {
+//        this.user = user;
+//        user.getNotices().add(this); // 양방향 매핑
+//    }
 }

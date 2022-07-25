@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Transactional
 //@DataJpaTest
 public class NoticeServiceTest {
     private NoticeRepository noticeRepository;
@@ -49,20 +51,19 @@ public class NoticeServiceTest {
         Assertions.assertThat(notice.getRead()).isEqualTo(read);
         Assertions.assertThat(notice.getPostType()).isEqualTo(postType);
         Assertions.assertThat(notice.getNoticeType()).isEqualTo(noticeType);
-
-        // System.out.println(notice.toString());
     }
 
     @Test
     public void 읽지_않은_알림개수_조회(){
         // given
         String decodeId = "ssafy";
-
+        long test = 3;
         // when
         long count = noticeService.countNotice(decodeId);
 
         // then
         System.out.println(count);
+//        Assertions.assertThat(count).isEqualTo(test);
     }
 
     @Test
@@ -102,6 +103,35 @@ public class NoticeServiceTest {
         }
 
         // then
+        for(NoticeViewDto notice : result){
+            System.out.println(notice.toString());
+        }
+    }
+
+    @Test
+    public void 알림_읽음_테스트() {
+        // given
+        String testId = "ssafy";
+        int testIdx = 4;
+
+        // when
+        Boolean result = noticeService.readNotice(testId, testIdx);
+
+        // then
+        Assertions.assertThat(result).isEqualTo(true);
+    }
+
+    @Test
+    public void 알림_삭제_테스트() {
+        // given
+        String testId = "ssafy";
+        int testIdx = 1;
+
+        // when
+        noticeService.deleteNotice(testId, testIdx);
+
+        // then
+        List<NoticeViewDto> result = noticeService.viewNotice(testId);
         for(NoticeViewDto notice : result){
             System.out.println(notice.toString());
         }
