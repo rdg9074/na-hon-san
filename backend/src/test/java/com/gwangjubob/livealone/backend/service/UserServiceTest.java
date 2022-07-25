@@ -1,7 +1,9 @@
 package com.gwangjubob.livealone.backend.service;
 
+import com.gwangjubob.livealone.backend.domain.entity.MailEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserCategoryEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
+import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserCategoryRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
@@ -11,6 +13,8 @@ import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +28,21 @@ public class UserServiceTest {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private UserInfoMapper userInfoMapper;
+    private JavaMailSender javaMailSender;
+    private MailRepository mailRepository;
+
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserServiceTest(UserRepository userRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserServiceTest(UserRepository userRepository,JavaMailSender javaMailSender, MailRepository mailRepository,PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.userCategoryRepository = userCategoryRepository;
         this.userInfoMapper = userInfoMapper;
         this.passwordEncoder = passwordEncoder;
+        this.javaMailSender = javaMailSender;
+        this.mailRepository = mailRepository;
     }
 
     @Test
@@ -174,6 +183,87 @@ public class UserServiceTest {
         } else{
             System.out.println(fail);
         }
+    }
+    @Test
+    public void 비밀번호_인증_테스트(){
+        //given
+        final String id = "test";
+        final String password = "test";
+
+        //when
+        Optional<UserEntity> user = userRepository.findById(id);
+        boolean res = passwordEncoder.matches(password,user.get().getPassword());
+
+        //thens
+        if(res){
+            System.out.println("OK");
+        }else {
+            System.out.println("FAIL");
+        }
+    }
+    @Test
+    public void 로그인_테스트(){
+        //given
+        final String id = "test";
+        final String password = "test";
+
+        //when
+        Optional<UserEntity> user = userRepository.findById(id);
+        boolean res = passwordEncoder.matches(password,user.get().getPassword());
+
+        //thens
+        if(res){
+            System.out.println("OK");
+        }else {
+            System.out.println("FAIL");
+        }
+    }
+    @Test
+    public void 이메일_전송_테스트(){
+        //given
+        SimpleMailMessage message = new SimpleMailMessage();
+        String authKey = "231456";
+        String toId = "1552419@gmail.com";
+        String fromId = "gwangjubob@gmail.com";
+        String subject = ("[인증테스트] 나 혼자 잘 산다.");
+        //when
+        message.setTo(toId);
+        message.setFrom(fromId);
+        message.setSubject(subject);
+        message.setText("인증번호 : "+ authKey);
+        MailEntity dummyMail = MailEntity.builder()
+                .id(toId)
+                .type(fromId)
+                .number(authKey)
+                .build();
+        mailRepository.saveAndFlush(dummyMail);
+        javaMailSender.send(message); //메일 전송
+        MailEntity mail = MailEntity.builder()
+                .id(toId)
+                .type("0")
+                .number(authKey)
+                .build();
+        mailRepository.saveAndFlush(mail);
+        //thens
+        System.out.println("OK");
+    }
+    @Test
+    public void 이메일_인증_테스트(){
+        //given
+        String authKey = "917699";
+        String id = "1552419@gmail.com";
+        String type = "0";
+        //when
+        int res = mailRepository.findById(id,authKey, type);
+        //thens
+        if(res == 1){
+        System.out.println("OK");
+
+        }else{
+        System.out.println("FAIL");
+
+        }
+
     }
 }
 
