@@ -139,7 +139,7 @@ public class UserController {
         try {
             if (mailService.sendMail(mailSendDto)) { // 메일 전송 서비스 호출
                 resultMap.put("message", okay);
-            } else {
+            }else {
                 resultMap.put("message", fail);
             }
             status = HttpStatus.OK;
