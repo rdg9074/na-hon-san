@@ -48,6 +48,12 @@ function MainNavBar() {
             >
               꿀딜보기
             </NavLink>
+            <NavLink
+              className={({ isActive }) => activeTabClassName(isActive)}
+              to="/news"
+            >
+              뉴스페이지
+            </NavLink>
           </nav>
           <nav className="right-nav notoReg flex align-center">
             {isLogin ? (
