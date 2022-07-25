@@ -6,13 +6,39 @@ import renderWithProviders from "@utils/test-utils";
 import userEvent from "@testing-library/user-event";
 import Login from "@screens/Login/Login";
 import { MemoryRouter } from "react-router-dom";
+import { BASE_URL } from "@apis/";
+import reducer, { getUserInfo } from "@store/ducks/auth/authThunk";
+import { setUserId } from "@store/ducks/auth/authSlice";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const handlers = [
-  rest.post("/user/login", (req, res, ctx) => {
+  rest.post(`${BASE_URL}/user/login`, (req, res, ctx) => {
     if (req.body.id === "ssafy" && req.body.password === "ssafy") {
-      return res(ctx.json("SUCCESS"), ctx.delay(10));
+      return res(ctx.json({ message: "SUCCESS" }), ctx.delay(10));
     }
-    return res(ctx.json("JOINED"), ctx.delay(10));
+    return res(ctx.json({ message: "JOINED" }), ctx.delay(10));
+  }),
+  rest.get(`${BASE_URL}/user`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: {
+          id: "test",
+          nickname: "test아이디입니디아!",
+          area: null,
+          followOpen: true,
+          followerOpen: true,
+          likeNotice: true,
+          followNotice: true,
+          commentNotice: true,
+          replyNotice: true,
+          profileMsg: null,
+          profileImg: null,
+          backgroundImg: null
+        },
+        message: "SUCCESS"
+      }),
+      ctx.delay(10)
+    );
   })
 ];
 const server = setupServer(...handlers);
@@ -72,7 +98,7 @@ describe("로그인페이지", () => {
     userEvent.type(idInput, "ssafy");
     userEvent.type(passwordInput, "ssafy");
     userEvent.click(loginBtn);
-
+    wait();
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/"));
   });

@@ -25,9 +25,11 @@ export const join = async (id: string, password: string, nickname: string) => {
 };
 
 export const login = async (id: string, password: string) => {
-  const res = await axios.post("/user/login", { id, password });
-
-  return res.data;
+  const res = await API.post("/user/login", { id, password });
+  if (res.data.message === "SUCCESS") {
+    sessionStorage.setItem("access-token", res.data["access-token"]);
+  }
+  return res.data.message;
 };
 
 export const logout = async () => {

@@ -1,11 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserInfo } from "./authThunk";
 
+export interface UserInfoType {
+  id: string;
+  nickname: string;
+  area: string | null;
+  followOpen: boolean;
+  followerOpen: boolean;
+  likeNotice: boolean;
+  followNotice: boolean;
+  commentNotice: boolean;
+  replyNotice: boolean;
+  profileMsg: string | null;
+  profileImg: string | null;
+  backgroundImg: string | null;
+}
 interface InitialStateType {
-  userId: string;
+  tmpId: string;
+  userInfo: UserInfoType | null;
 }
 
 const initialState: InitialStateType = {
-  userId: ""
+  tmpId: "",
+  userInfo: null
 };
 
 export const authSlice = createSlice({
@@ -13,11 +30,20 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUserId: (state, action) => {
-      state.userId = action.payload.userId;
+      state.tmpId = action.payload.tmpId;
+    },
+    resetUserInfo: state => {
+      state.userInfo = null;
+      sessionStorage.removeItem("access-token");
     }
+  },
+  extraReducers: builder => {
+    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
+      state.userInfo = payload;
+    });
   }
 });
 
-export const { setUserId } = authSlice.actions;
+export const { setUserId, resetUserInfo } = authSlice.actions;
 
 export default authSlice.reducer;

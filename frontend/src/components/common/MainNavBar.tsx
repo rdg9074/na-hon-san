@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import HeaderLogoImg from "@images/HeaderLogo.svg";
 import "./MainNavBar.scss";
@@ -6,17 +6,19 @@ import AlarmIcon from "@images/Alarm.svg";
 import MsgIcon from "@images/Msg.svg";
 import UserDummyIcon from "@images/UserDummy.svg";
 import MenuIcon from "@images/Menu.svg";
+import { useAppSelector } from "@store/hooks";
 import AlarmToolTip from "./MainNavBar/AlarmToolTip";
 import ProfileToolTip from "./MainNavBar/ProfileToolTip";
 
 function MainNavBar() {
-  const [isLogin, setIsLogin] = useState(false);
   const [alarmVisible, setAlarmVisible] = useState(false);
   const [profileTooltipVisible, setProfileTooltipVisible] = useState(false);
   const activeTabClassName = (active: boolean) => {
     const prefix = "left-nav__link fs-20 btn--";
     return active ? `${prefix}active` : `${prefix}unactive`;
   };
+  const userInfo = useAppSelector(state => state.auth.userInfo);
+
   return (
     <div className="nav-wrapper">
       <nav id="main-nav-bar" className="flex align-center">
@@ -50,7 +52,7 @@ function MainNavBar() {
             </NavLink>
           </nav>
           <nav className="right-nav notoReg flex align-center">
-            {isLogin ? (
+            {userInfo ? (
               <>
                 <button
                   type="button"
@@ -79,7 +81,7 @@ function MainNavBar() {
                   <img className="user" src={UserDummyIcon} alt="더미유저" />
                 </button>
                 <div className="profile">
-                  {profileTooltipVisible && <ProfileToolTip />}
+                  {profileTooltipVisible && <ProfileToolTip userId="123" />}
                 </div>
               </>
             ) : (
