@@ -95,6 +95,22 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, status);
     }
+    @GetMapping("/user/login")
+    public  ResponseEntity<?> updateAccessToken(HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String refreshToken = request.getHeader("Set-Cookie").split(";")[0].replace("refresh-token=","");
+        String decodeId = jwtService.decodeToken(refreshToken);
+        if(decodeId != null){
+            String accessToken = jwtService.createAccessToken("id", decodeId);
+            resultMap.put("access-token", accessToken);
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        }else{
+            status = HttpStatus.UNAUTHORIZED;
+            resultMap.put("message", fail);
+        }
+        return new ResponseEntity<>(resultMap,status);
+    }
     @PutMapping("/user/password")
     public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
@@ -243,7 +259,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     public String checkToken(HttpServletRequest request){
-        String accessToken = request.getHeader("access-token");
+        String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){
             return decodeId;
