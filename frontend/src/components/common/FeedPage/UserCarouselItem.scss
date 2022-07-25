@@ -1,0 +1,124 @@
+#user-carousel-item {
+  .item {
+    width: (200px);
+    height: (240px);
+    background-color: #fbf1f1;
+    border: solid 1px #d9d9d9;
+    border-radius: (12px);
+    justify-content: center;
+    align-items: center;
+    &-img {
+      height: 45%;
+      align-items: center;
+      & > img {
+        width: (60px);
+        height: (60px);
+      }
+    }
+    &-content {
+      height: 55%;
+      align-items: center;
+      & > button {
+        width: (80px);
+        height: (32px);
+        background-color: $MAIN_YELLOW;
+        border-radius: (12px);
+      }
+      & :nth-child(2) {
+        margin-top: (12px);
+        margin-bottom: (24px);
+      }
+    }
+  }
+}
+
+@media screen and(max-width :$DESKTOP-VW) {
+  #user-carousel-item {
+    .item {
+      width: vw(200px);
+      height: vw(240px);
+      border-radius: vw(12px);
+      &-img {
+        height: 45%;
+        & > img {
+          width: vw(60px);
+          height: vw(60px);
+        }
+      }
+      &-content {
+        height: 55%;
+        & > button {
+          width: vw(80px);
+          height: vw(32px);
+          border-radius: vw(12px);
+        }
+        & :nth-child(2) {
+          margin-top: vw(12px);
+          margin-bottom: vw(24px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width :$TABLET-VW) {
+  #user-carousel-item {
+    .item {
+      width: vw-t(200px);
+      height: vw-t(240px);
+      border-radius: vw-t(12px);
+      &-img {
+        height: 45%;
+        & > img {
+          width: vw-t(60px);
+          height: vw-t(60px);
+        }
+      }
+      &-content {
+        height: 55%;
+        & > button {
+          width: vw-t(80px);
+          height: vw-t(32px);
+          border-radius: vw-t(12px);
+        }
+        & :nth-child(2) {
+          margin-top: vw-t(12px);
+          margin-bottom: vw-t(24px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width :$PHONE-VW) {
+  #user-carousel-item {
+    .item {
+      width: vw-p(140px);
+      height: vw-p(180px);
+      border-radius: vw-p(12px);
+      &-img {
+        height: 45%;
+        & > img {
+          width: vw-p(40px);
+          height: vw-p(40px);
+        }
+      }
+      &-content {
+        height: 55%;
+        & > button {
+          width: vw-p(60px);
+          height: vw-p(24px);
+          border-radius: vw-p(12px);
+          font-size: (12px);
+        }
+        & :nth-child(1) {
+          font-size: vw-p(20px);
+        }
+        & :nth-child(2) {
+          margin-top: vw-p(12px);
+          margin-bottom: vw-p(12px);
+        }
+      }
+    }
+  }
+}
