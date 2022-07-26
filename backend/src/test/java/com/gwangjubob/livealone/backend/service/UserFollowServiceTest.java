@@ -44,7 +44,7 @@ public class UserFollowServiceTest {
     }
 
     @Test
-    public void 유저_팔로우_테스트() {
+    public void 팔로우_등록_테스트() {
         // given
         final UserFollowEntity userFollowEntity = UserFollowEntity.builder()
                 .userId("test")
@@ -59,5 +59,45 @@ public class UserFollowServiceTest {
         Assertions.assertThat(res.getUserId()).isEqualTo(userFollowEntity.getUserId());
         Assertions.assertThat(res.getFollowId()).isEqualTo(userFollowEntity.getFollowId());
 
+    }
+    @Test
+    public void 팔로우_취소_테스트() {
+        // given
+        final String toId ="test";
+        final String fromId = "ssafy";
+
+        // when
+        userFollowRepository.deleteByUserIdAndFollowId(toId,fromId);
+
+        // then
+        System.out.println("ok");
+
+    }
+    @Test
+    public void 팔로우_리스트조회_테스트() {
+        // given
+        String id = "test";
+
+        // when
+        List<UserFollowEntity> res = userFollowRepository.findByUserId(id);
+
+        // then
+        for (UserFollowEntity r : res) {
+            System.out.println(r.getIdx() + " : " + r.getFollowId());
+        }
+
+    }
+    @Test
+    public void 팔로워_리스트조회_테스트() {
+        // given
+        String id = "test";
+
+        // when
+        List<UserFollowEntity> res = userFollowRepository.findByFollowId(id);
+
+        // then
+        for (UserFollowEntity r : res) {
+            System.out.println(r.getIdx() + " : " + r.getUserId());
+        }
     }
 }

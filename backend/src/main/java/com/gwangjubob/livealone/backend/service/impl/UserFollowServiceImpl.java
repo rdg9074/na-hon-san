@@ -52,7 +52,6 @@ public class UserFollowServiceImpl implements UserFollowService {
     @Transactional
     public boolean deleteFollow(String toId, String fromId) {
         if(userFollowRepository.findByUserIdAndFollowId(toId,fromId).isPresent()){
-            System.out.println(toId + " : " + fromId);
             userFollowRepository.deleteByUserIdAndFollowId(toId,fromId);
             return true;
         }
