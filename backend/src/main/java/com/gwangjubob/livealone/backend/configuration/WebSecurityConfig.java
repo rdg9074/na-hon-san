@@ -1,4 +1,4 @@
-package com.gwangjubob.livealone.backend;
+package com.gwangjubob.livealone.backend.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

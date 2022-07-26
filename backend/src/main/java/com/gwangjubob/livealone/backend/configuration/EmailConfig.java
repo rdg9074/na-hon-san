@@ -1,4 +1,4 @@
-package com.gwangjubob.livealone.backend;
+package com.gwangjubob.livealone.backend.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
