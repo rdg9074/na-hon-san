@@ -36,7 +36,7 @@ jest.mock("react-router-dom", () => ({
 }));
 const initialState = { userId: "ssafy@naver.com" };
 
-describe("로그인페이지", () => {
+describe("회원가입 디테일페이지", () => {
   let nickNameInput;
   let passwordInput;
   let chkPasswordInput;

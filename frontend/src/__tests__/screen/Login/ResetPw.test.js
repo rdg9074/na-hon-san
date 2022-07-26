@@ -6,11 +6,19 @@ import renderWithProviders from "@utils/test-utils";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import ResetPw from "@screens/Login/ResetPw";
+import { BASE_URL } from "@apis/";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const handlers = [
-  rest.patch("/user/password", (req, res, ctx) =>
-    res(ctx.json("SUCCESS"), ctx.delay(10))
-  )
+  rest.put(`${BASE_URL}/user/password`, (req, res, ctx) => {
+    if (
+      req.body.id === "ssafy@naver.com" &&
+      req.body.password === "123456!abc"
+    ) {
+      return res(ctx.json({ message: "SUCCESS" }), ctx.delay(10));
+    }
+    return res(ctx.json({ message: "FAIL" }), ctx.delay(10));
+  })
 ];
 const server = setupServer(...handlers);
 const mockNavigate = jest.fn();
@@ -19,8 +27,8 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate
 }));
-
-describe("로그인페이지", () => {
+const initialState = { tmpId: "ssafy@naver.com" };
+describe("비밀번호 수정 페이지", () => {
   let passwordInput;
   let chkPasswordInput;
   let resetBtn;
@@ -31,7 +39,8 @@ describe("로그인페이지", () => {
     renderWithProviders(
       <MemoryRouter>
         <ResetPw />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { preloadedState: { auth: initialState } }
     );
     passwordInput = screen.getByPlaceholderText("비밀번호를 입력해주세요.");
     chkPasswordInput = screen.getByPlaceholderText(
@@ -68,7 +77,6 @@ describe("로그인페이지", () => {
     userEvent.type(passwordInput, "123456!abc");
     userEvent.type(chkPasswordInput, "123456!abc");
     userEvent.click(resetBtn);
-
     await waitFor(() => expect(mockNavigate).toBeCalledTimes(1));
     await waitFor(() => expect(mockNavigate).toBeCalledWith("/login"));
   });

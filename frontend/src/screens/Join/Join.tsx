@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { emailReg } from "@constants/reg";
 import { sendAuthCode } from "@apis/auth";
 import { useDispatch } from "react-redux";
-import { setUserId } from "@store/ducks/auth/authSlice";
+import { setTmpId } from "@store/ducks/auth/authSlice";
 import SocialSection from "@components/common/SocialSection";
 
 function Join() {
@@ -30,7 +30,7 @@ function Join() {
         setErrMsg("이미 존재하는 아이디입니다.");
         inputRef.current?.focus();
       } else if (res === "SUCCESS") {
-        dispatch(setUserId({ userId }));
+        dispatch(setTmpId({ tmpId: userId }));
         navigate("chkEmail");
       }
     }
