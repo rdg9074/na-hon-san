@@ -62,7 +62,9 @@ describe("비밀번호 수정 페이지", () => {
   });
   test("비밀번호 형식 틀림", () => {
     userEvent.type(passwordInput, "1234567");
-    screen.getByText("대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요.");
+    screen.getByText(
+      "숫자,대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요."
+    );
     expect(passwordInput).toHaveFocus();
   });
 

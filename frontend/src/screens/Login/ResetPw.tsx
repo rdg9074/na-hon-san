@@ -60,7 +60,7 @@ function ResetPw() {
             <div className="dummy" />
           ) : (
             <p className="password-msg fs-12 notoMid">
-              대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요.
+              숫자,대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요.
             </p>
           )}
 

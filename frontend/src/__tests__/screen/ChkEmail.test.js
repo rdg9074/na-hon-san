@@ -27,7 +27,7 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate
 }));
-const initialState = { userId: "ssafy@naver.com" };
+const initialState = { tmpId: "ssafy@naver.com" };
 
 describe("인증코드페이지(공통)", () => {
   let codeInput;

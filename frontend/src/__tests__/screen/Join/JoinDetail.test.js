@@ -8,6 +8,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import JoinDetail from "@screens/Join/JoinDetail";
 import { BASE_URL } from "@apis/index";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const handlers = [
   rest.get(`${BASE_URL}/user/check/notdupli`, (req, res, ctx) =>
@@ -25,6 +26,37 @@ const handlers = [
       return res(ctx.json({ message: "SUCCESS" }), ctx.delay(10));
     }
     return res(ctx.json({ message: "FAIL" }), ctx.delay(10));
+  }),
+  rest.post(`${BASE_URL}/user/login`, (req, res, ctx) => {
+    if (
+      req.body.id === "ssafy@naver.com" &&
+      req.body.password === "123456!abc"
+    ) {
+      return res(ctx.json({ message: "SUCCESS" }), ctx.delay(10));
+    }
+    return res(ctx.json({ message: "JOINED" }), ctx.delay(10));
+  }),
+  rest.get(`${BASE_URL}/user`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: {
+          id: "ssafy@naver.com",
+          nickname: "notdupli",
+          area: null,
+          followOpen: true,
+          followerOpen: true,
+          likeNotice: true,
+          followNotice: true,
+          commentNotice: true,
+          replyNotice: true,
+          profileMsg: null,
+          profileImg: null,
+          backgroundImg: null
+        },
+        message: "SUCCESS"
+      }),
+      ctx.delay(10)
+    );
   })
 ];
 const server = setupServer(...handlers);
@@ -34,7 +66,7 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate
 }));
-const initialState = { userId: "ssafy@naver.com" };
+const initialState = { tmpId: "ssafy@naver.com" };
 
 describe("회원가입 디테일페이지", () => {
   let nickNameInput;
@@ -95,7 +127,9 @@ describe("회원가입 디테일페이지", () => {
   });
   test("비밀번호 형식 틀림", () => {
     userEvent.type(passwordInput, "1234567");
-    screen.getByText("대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요.");
+    screen.getByText(
+      "숫자,대소문자,특수문자를 혼합하여 8~16자리로 입력해주세요."
+    );
     expect(passwordInput).toHaveFocus();
   });
 
@@ -114,7 +148,6 @@ describe("회원가입 디테일페이지", () => {
     userEvent.type(passwordInput, "123456!abc");
     userEvent.type(chkPasswordInput, "123456!abc");
     userEvent.click(joinBtn);
-
     await waitFor(() => expect(mockNavigate).toBeCalledTimes(1));
     await waitFor(() => expect(mockNavigate).toBeCalledWith("/join/welcome"));
   });
