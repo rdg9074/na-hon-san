@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.Random;
 
 @Service
 @AllArgsConstructor
+@EnableAsync
 public class MailService {
 
     private final JavaMailSender javaMailSender;
@@ -30,34 +33,37 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
     private static final String FROM_ADDRESS = "gwangjubob@gmail.com";
+    @Async
+    public void mailSend(MailSendDto mailSendDto){
+        String authKey = makeAuthNumber();
+        SimpleMailMessage message = new SimpleMailMessage();
+        String subText = "[나 혼자 잘 산다] 인증번호 입니다. \n 인증번호 : " + authKey;
+        message.setTo(mailSendDto.getId());
+        message.setFrom(MailService.FROM_ADDRESS);
+        message.setSubject("[인증번호] 나 혼자 잘 산다");
+        message.setText(subText);
+        MailEntity dummyMail = MailEntity.builder()
+                .id(mailSendDto.getId())
+                .type(mailSendDto.getType())
+                .number(authKey)
+                .build();
+        mailRepository.saveAndFlush(dummyMail);
+        mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
+        javaMailSender.send(message); //메일 전송
+        MailEntity mail = MailEntity.builder()
+                .id(mailSendDto.getId())
+                .type(mailSendDto.getType())
+                .number(authKey)
+                .build();
+        mailRepository.saveAndFlush(mail);
 
-    public boolean sendMail(MailSendDto mailSendDto) {
-        if((mailSendDto.getType().equals("0") && !userRepository.findById(mailSendDto.getId()).isPresent()) || (mailSendDto.getType().equals("1") && userRepository.findById(mailSendDto.getId()).isPresent())){
-            String authKey = makeAuthNumber();
-            SimpleMailMessage message = new SimpleMailMessage();
-            String subText = "회원 가입을 위한 인증번호 입니다. \n 인증번호 : " + authKey;
-            message.setTo(mailSendDto.getId());
-            message.setFrom(MailService.FROM_ADDRESS);
-            message.setSubject("[인증번호] 나 혼자 잘 산다");
-            message.setText(subText);
-                MailEntity dummyMail = MailEntity.builder()
-                        .id(mailSendDto.getId())
-                        .type(mailSendDto.getType())
-                        .number(authKey)
-                        .build();
-                mailRepository.saveAndFlush(dummyMail);
-                mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
-                javaMailSender.send(message); //메일 전송
-                MailEntity mail = MailEntity.builder()
-                        .id(mailSendDto.getId())
-                        .type(mailSendDto.getType())
-                        .number(authKey)
-                        .build();
-                mailRepository.saveAndFlush(mail);
-                return true;
-        }else{
-            return false;
+    }
+
+    public boolean emailCheck(MailSendDto mailSendDto){
+        if((mailSendDto.getType().equals("0") && !userRepository.findById(mailSendDto.getId()).isPresent()) || (mailSendDto.getType().equals("1") && userRepository.findById(mailSendDto.getId()).isPresent())) {
+           return true;
         }
+        return false;
     }
     public boolean checkAuthNumber(MailCheckDto mailCheckDto){
         if(mailRepository.findById(mailCheckDto.getId(),mailCheckDto.getNumber(), mailCheckDto.getType()) == 1){
