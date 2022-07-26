@@ -37,11 +37,11 @@
     .categorys-ul {
       margin-bottom: (80px);
       width: (329px);
-      height: (72px);
+      height: (92px);
       flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
       &__li {
-        margin-right: (19px);
-        margin-bottom: (12px);
         width: (68px);
         height: (40px);
         border: 1px solid $MAIN_BROWN;
@@ -101,11 +101,9 @@
       .categorys-ul {
         margin-bottom: vw(80px);
         width: vw(329px);
-        height: vw(72px);
+        height: vw(92px);
         flex-wrap: wrap;
         &__li {
-          margin-right: vw(19px);
-          margin-bottom: vw(12px);
           width: vw(68px);
           height: vw(40px);
           border: 1px solid $MAIN_BROWN;
@@ -162,11 +160,9 @@
       .categorys-ul {
         margin-bottom: vw-t(80px);
         width: vw-t(329px);
-        height: vw-t(72px);
+        height: vw-t(92px);
 
         &__li {
-          margin-right: vw-t(19px);
-          margin-bottom: vw-t(12px);
           width: vw-t(68px);
           height: vw-t(40px);
           border-radius: vw-t(16px);
@@ -221,11 +217,9 @@
       .categorys-ul {
         margin-bottom: vw-p(80px);
         width: vw-p(329px);
-        height: vw-p(72px);
+        height: vw-p(92px);
 
         &__li {
-          margin-right: vw-p(19px);
-          margin-bottom: vw-p(12px);
           width: vw-p(68px);
           height: vw-p(40px);
           border-radius: vw-p(16px);

@@ -12,7 +12,7 @@ function Alarm() {
       </p>
       <div className="right flex column">
         <img src={CloseIcon} alt="삭제아이콘" className="right__close-icon" />
-        <p className="right__time fs-8">00분전</p>
+        <p className="right__time fs-10">00분전</p>
       </div>
     </div>
   );
