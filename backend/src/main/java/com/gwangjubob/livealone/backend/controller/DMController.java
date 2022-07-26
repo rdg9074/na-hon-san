@@ -48,8 +48,8 @@ public class DMController {
                 }else {
                     resultMap.put("message",fail);
                 }
+                status = HttpStatus.OK;
             }
-            status = HttpStatus.OK;
         }catch (Exception e){
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -62,11 +62,12 @@ public class DMController {
         String decodeId = checkToken(request);
         try {
             if(decodeId != null){
+                System.out.println(decodeId);
                 List<DMViewDto> dmViewDtoList =dmService.listDM(decodeId);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
+                status = HttpStatus.OK;
             }
-            status = HttpStatus.OK;
         }catch (Exception e){
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -82,8 +83,8 @@ public class DMController {
                 List<DMViewDto> dmViewDtoList =dmService.listDetailDM(decodeId,fromId);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
+                status = HttpStatus.OK;
             }
-            status = HttpStatus.OK;
         }catch (Exception e){
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
