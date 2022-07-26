@@ -7,6 +7,7 @@ import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserFollowRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.dm.DMSendDto;
+import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -110,6 +112,35 @@ public class UserFollowServiceTest {
         // then
         for (UserFollowEntity r : res) {
             System.out.println(r.getIdx() + " : " + r.getUserId());
+        }
+    }
+    @Test
+    public void 팔로우_리스트검색_테스트() {
+        // given
+        String id = "test";
+        String keyword = "비밀";
+
+        // when
+        List<UserFollowEntity> ress = userFollowRepository.findByUserIdAndFollowNicknameContaining(id,keyword).stream()
+                .collect(Collectors.toList());
+
+        // then
+        for (UserFollowEntity r : ress) {
+            System.out.println(r.getFollowNickname());
+        }
+    }
+    @Test
+    public void 팔로워_리스트검색_테스트() {
+        // given
+        String id = "ssafy";
+        String keyword = "z";
+
+        // when
+        List<UserFollowEntity> ress = userFollowRepository.findByFollowIdAndUserNicknameContaining(id,keyword);
+
+        // then
+        for (UserFollowEntity r : ress) {
+            System.out.println(r.getUserNickname());
         }
     }
 }

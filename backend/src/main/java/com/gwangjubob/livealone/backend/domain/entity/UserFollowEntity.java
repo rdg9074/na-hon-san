@@ -26,10 +26,16 @@ public class UserFollowEntity {
     private String userId;
     @Column(name="follow_id")
     private String followId;
+    @Column(name="follow_nickname")
+    private String followNickname;
+    @Column(name="user_nickname")
+    private String userNickname;
     @Builder
-    public UserFollowEntity(String userId, String followId){ //팔로우 등록 빌더
+    public UserFollowEntity(String userId, String followId, String followNickname,String userNickname){ //팔로우 등록 빌더
         this.userId = userId;
         this.followId = followId;
+        this.followNickname = followNickname;
+        this.userNickname = userNickname;
     }
 
 
