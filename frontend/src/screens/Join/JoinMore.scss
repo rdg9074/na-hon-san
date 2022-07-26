@@ -50,6 +50,10 @@
           margin-right: 0;
         }
       }
+      .selected {
+        background-color: $MAIN_BROWN;
+        color: $WHITE;
+      }
     }
 
     &__btn--submit {

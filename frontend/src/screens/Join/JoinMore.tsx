@@ -3,9 +3,10 @@ import "./JoinMore.scss";
 import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { setUserMoreInfo } from "@apis/auth";
 
 function JoinMore() {
-  const categorys = [
+  const categorysData = [
     "의류",
     "식품",
     "주방용품",
@@ -16,7 +17,8 @@ function JoinMore() {
     "기타"
   ];
   const navigate = useNavigate();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<string>("");
+  const [categorys, setCategorys] = useState<Array<string>>([]);
   const scriptUrl =
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
   const open = useDaumPostcodePopup(scriptUrl);
@@ -42,6 +44,30 @@ function JoinMore() {
 
   const handleClick = () => {
     open({ onComplete: handleComplete });
+  };
+
+  const sendMoreInfo = async () => {
+    const res = await setUserMoreInfo(address, categorys);
+    if (res === "SUCCESS") {
+      navigate("/");
+    }
+  };
+  const toggleCategorys = (value: string) => {
+    const index = categorys.indexOf(value);
+    if (index === -1) {
+      setCategorys([...categorys, value]);
+    } else {
+      setCategorys(categorys.filter(category => category !== value));
+    }
+  };
+
+  const categoryClass = (value: string) => {
+    const prefix =
+      "categorys-ul__li flex align-center justify-center notoReg fs-11 ellipsis";
+    if (categorys.indexOf(value) === -1) {
+      return prefix;
+    }
+    return `${prefix} selected`;
   };
   return (
     <div className="wrapper">
@@ -71,19 +97,18 @@ function JoinMore() {
           </button>
           <p className="form__title notoBold fs-16">관심 카테고리</p>
           <ul className="categorys-ul flex">
-            {categorys.map(category => (
-              <li
-                className="categorys-ul__li flex align-center justify-center notoReg fs-11 ellipsis"
-                key={v4()}
-              >
-                {category}
+            {categorysData.map(category => (
+              <li className={categoryClass(category)} key={v4()}>
+                <button type="button" onClick={() => toggleCategorys(category)}>
+                  {category}
+                </button>
               </li>
             ))}
           </ul>
           <button
             type="button"
             className="form__btn--submit notoMid fs-16 flex align-center justify-center"
-            onClick={() => navigate("/join/welcome")}
+            onClick={sendMoreInfo}
           >
             다음
           </button>

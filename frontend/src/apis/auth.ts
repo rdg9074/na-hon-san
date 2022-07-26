@@ -31,11 +31,22 @@ export const login = async (id: string, password: string) => {
   return res.data.message;
 };
 
-export const logout = async () => {
-  console.log("로그아웃");
-};
-
 export const resetPassword = async (id: string, newpassword: string) => {
   const res = await API.put("/user/password", { id, password: newpassword });
+  return res.data.message;
+};
+
+export const setUserMoreInfo = async (
+  area: string,
+  categorys: Array<string>
+) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.put(
+    "/user/more",
+    { area, categorys },
+    {
+      headers: { Authorization: `${accessToken}` }
+    }
+  );
   return res.data.message;
 };
