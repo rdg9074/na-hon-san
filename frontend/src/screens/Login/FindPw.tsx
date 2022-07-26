@@ -1,4 +1,6 @@
 import { sendAuthCode } from "@apis/auth";
+import { setTmpId } from "@store/ducks/auth/authSlice";
+import { useAppDispatch } from "@store/hooks";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FindPw.scss";
@@ -6,6 +8,7 @@ import "./FindPw.scss";
 function FindPw() {
   const [errMsg, setErrMsg] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const idInputRef = useRef<HTMLInputElement>(null);
 
   const submitAuthCode = async () => {
@@ -13,8 +16,10 @@ function FindPw() {
       idInputRef.current?.focus();
       setErrMsg("이메일을 입력해주세요.");
     } else {
-      const res = await sendAuthCode(idInputRef.current.value, 1);
+      const tmpId = idInputRef.current.value;
+      const res = await sendAuthCode(tmpId, 1);
       if (res === "SUCCESS") {
+        dispatch(setTmpId({ tmpId }));
         navigate("chkEmail");
       } else {
         setErrMsg("가입된 이메일이 아닙니다.");

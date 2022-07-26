@@ -1,4 +1,3 @@
-import axios from "axios";
 import API from "./index";
 
 export const sendAuthCode = async (id: string, type: number) => {
@@ -36,8 +35,7 @@ export const logout = async () => {
   console.log("로그아웃");
 };
 
-export const resetPassword = async (newpassword: string) => {
-  const res = await axios.post("/user/password", { password: newpassword });
-
-  return res.data;
+export const resetPassword = async (id: string, newpassword: string) => {
+  const res = await API.put("/user/password", { id, password: newpassword });
+  return res.data.message;
 };

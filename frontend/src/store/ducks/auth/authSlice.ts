@@ -29,7 +29,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUserId: (state, action) => {
+    setTmpId: (state, action) => {
       state.tmpId = action.payload.tmpId;
     },
     resetUserInfo: state => {
@@ -44,6 +44,6 @@ export const authSlice = createSlice({
   }
 });
 
-export const { setUserId, resetUserInfo } = authSlice.actions;
+export const { setTmpId, resetUserInfo } = authSlice.actions;
 
 export default authSlice.reducer;

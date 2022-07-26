@@ -6,13 +6,14 @@ import { setupServer } from "msw/lib/node";
 import { MemoryRouter } from "react-router-dom";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { BASE_URL } from "@apis/";
 
 const handler = [
-  rest.post("/user/auth", (req, res, ctx) => {
+  rest.post(`${BASE_URL}/user/auth`, (req, res, ctx) => {
     if (req.body.id === "ssafy" && req.body.type === 1) {
-      return res(ctx.json("SUCCESS"), ctx.delay(10));
+      return res(ctx.json({ message: "SUCCESS" }), ctx.delay(10));
     }
-    return res(ctx.json("FAIL"), ctx.delay(10));
+    return res(ctx.json({ message: "FAIL" }), ctx.delay(10));
   })
 ];
 
