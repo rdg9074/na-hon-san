@@ -7,6 +7,7 @@ import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserFollowRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.dm.DMSendDto;
+import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -31,9 +33,10 @@ public class UserFollowServiceTest {
     private JavaMailSender javaMailSender;
     private MailRepository mailRepository;
     private UserFollowRepository userFollowRepository;
+    private UserService userService;
 
     @Autowired
-    UserFollowServiceTest(DMRepository dmRepository, UserFollowRepository userFollowRepository,DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserFollowServiceTest(DMRepository dmRepository,UserService userService, UserFollowRepository userFollowRepository,DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.dmRepository = dmRepository;
         this.dmService = dmService;
         this.userRepository = userRepository;
@@ -41,6 +44,7 @@ public class UserFollowServiceTest {
         this.javaMailSender = javaMailSender;
         this.mailRepository = mailRepository;
         this.userFollowRepository = userFollowRepository;
+        this.userService = userService;
     }
 
     @Test
@@ -77,9 +81,13 @@ public class UserFollowServiceTest {
     public void 팔로우_리스트조회_테스트() {
         // given
         String id = "test";
+        List<UserFollowEntity> res = new ArrayList<>();
 
         // when
-        List<UserFollowEntity> res = userFollowRepository.findByUserId(id);
+        UserInfoDto userInfoDto = userService.infoUser(id); // 대상 id가 팔로우 설정이 되있다면?
+        if(userInfoDto.getFollowOpen() == true){
+            res = userFollowRepository.findByUserId(id);
+        }
 
         // then
         for (UserFollowEntity r : res) {
@@ -91,9 +99,13 @@ public class UserFollowServiceTest {
     public void 팔로워_리스트조회_테스트() {
         // given
         String id = "test";
+        List<UserFollowEntity> res = new ArrayList<>();
 
         // when
-        List<UserFollowEntity> res = userFollowRepository.findByFollowId(id);
+        UserInfoDto userInfoDto = userService.infoUser(id); // 대상 id가 팔로워 설정이 되있다면?
+        if(userInfoDto.getFollowerOpen() == true){
+            res = userFollowRepository.findByFollowId(id);
+        }
 
         // then
         for (UserFollowEntity r : res) {
