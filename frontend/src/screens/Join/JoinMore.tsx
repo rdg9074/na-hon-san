@@ -74,7 +74,7 @@ function JoinMore() {
           <ul className="categorys-ul flex">
             {categorys.map(category => (
               <li
-                className="categorys-ul__li flex align-center justify-center notoReg fs-11"
+                className="categorys-ul__li flex align-center justify-center notoReg fs-11 ellipsis"
                 key={v4()}
               >
                 {category}

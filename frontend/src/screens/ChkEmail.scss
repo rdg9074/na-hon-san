@@ -41,17 +41,21 @@
   }
   .footer {
     &-top {
+      justify-content: space-around;
       margin-bottom: (40px);
       color: $GRAY_76;
       &__msg {
-        margin-right: (16px);
+        // width: 100%;
+        // margin-right: (16px);
+      }
+      &__btn {
+        white-space: nowrap;
       }
     }
     &-bottom {
-      padding: (20px) (16px) (27px) (15px);
-
+      padding: 0 (16px);
       width: (329px);
-      height: (160px);
+      height: (200px);
       background-color: $GRAY_F3;
       border-radius: (4px);
 
@@ -81,6 +85,7 @@
       &__sub-title {
         margin-bottom: vw(36px);
         line-height: vw(24px);
+        width: vw(329px); //add
       }
     }
     .form {
@@ -114,14 +119,13 @@
         margin-bottom: vw(40px);
         color: $GRAY_76;
         &__msg {
-          margin-right: vw(16px);
+          max-width: vw(200px);
         }
       }
       &-bottom {
-        padding: vw(20px) vw(16px) vw(27px) vw(15px);
-
+        padding: 0 vw(16px);
         width: vw(329px);
-        height: vw(160px);
+        height: vw(200px);
         background-color: $GRAY_F3;
         border-radius: vw(4px);
 
@@ -152,6 +156,7 @@
       &__sub-title {
         margin-bottom: vw-t(36px);
         line-height: vw-t(24px);
+        width: vw-t(329px); //add
       }
     }
     .form {
@@ -181,14 +186,13 @@
       &-top {
         margin-bottom: vw-t(40px);
         &__msg {
-          margin-right: vw-t(16px);
+          max-width: vw-t(200px);
         }
       }
       &-bottom {
-        padding: vw-t(20px) vw-t(16px) vw-t(27px) vw-t(15px);
-
+        padding: 0 vw-t(16px);
         width: vw-t(329px);
-        height: vw-t(160px);
+        height: vw-t(200px);
         border-radius: vw-t(4px);
 
         .notice-ul {
@@ -216,6 +220,7 @@
       &__sub-title {
         margin-bottom: vw-p(36px);
         line-height: vw-p(24px);
+        width: vw-p(329px); //add
       }
     }
     .form {
@@ -245,14 +250,14 @@
       &-top {
         margin-bottom: vw-p(40px);
         &__msg {
-          margin-right: vw-p(16px);
+          max-width: vw-p(200px);
         }
       }
       &-bottom {
-        padding: vw-p(20px) vw-p(16px) vw-p(27px) vw-p(15px);
+        padding: 0 vw-p(16px);
 
         width: vw-p(329px);
-        height: vw-p(160px);
+        height: vw-p(200px);
         border-radius: vw-p(4px);
 
         .notice-ul {
