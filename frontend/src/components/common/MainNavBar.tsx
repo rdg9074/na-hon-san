@@ -36,19 +36,25 @@ function MainNavBar() {
               className={({ isActive }) => activeTabClassName(isActive)}
               to="/tip"
             >
-              꿀팁보기
+              꿀팁
             </NavLink>
             <NavLink
               className={({ isActive }) => activeTabClassName(isActive)}
               to="/feed"
             >
-              피드보기
+              피드
             </NavLink>
             <NavLink
               className={({ isActive }) => activeTabClassName(isActive)}
               to="/deal"
             >
-              꿀딜보기
+              꿀딜
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => activeTabClassName(isActive)}
+              to="/news"
+            >
+              뉴스
             </NavLink>
           </nav>
           <nav className="right-nav notoReg flex align-center">

@@ -1,0 +1,162 @@
+#feeduser-item {
+  .item {
+    width: 460px;
+    &-title {
+      height: 40%;
+      &__img {
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+        & > img {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      &__info {
+        justify-content: space-between;
+        align-items: center;
+        & > p {
+          font-size: (20px);
+        }
+        & > button {
+          margin-top: (12px);
+          background-color: $MAIN_YELLOW;
+          width: (80px);
+          height: (32px);
+          border-radius: (12px);
+        }
+      }
+    }
+    &-body {
+      padding: (12px);
+      margin-top: (24px);
+      justify-content: space-between;
+      & > img {
+        width: 32%;
+        height: (100px);
+        border-radius: (12px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #feeduser-item {
+    .item {
+      width: vw(460px);
+      &-title {
+        height: 40%;
+        &__img {
+          width: 20%;
+          & > img {
+            width: vw(60px);
+            height: vw(60px);
+          }
+        }
+        &__info {
+          & > p {
+            font-size: vw(20px);
+          }
+          & > button {
+            background-color: $MAIN_YELLOW;
+            width: vw(80px);
+            height: vw(32px);
+            border-radius: vw(12px);
+            font-size: vw(16px);
+            margin-top: vw(12px);
+          }
+        }
+      }
+      &-body {
+        padding: vw(12px);
+        margin-top: vw(24px);
+        & > img {
+          width: 32%;
+          height: vw(100px);
+          border-radius: vw(12px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #feeduser-item {
+    .item {
+      width: vw-t(460px);
+      &-title {
+        padding: vw-t(12px);
+        height: 40%;
+        &__img {
+          width: 20%;
+          & > img {
+            width: vw-t(60px);
+            height: vw-t(60px);
+          }
+        }
+        &__info {
+          & > p {
+            font-size: vw-t(20px);
+          }
+          & > button {
+            background-color: $MAIN_YELLOW;
+            width: vw-t(80px);
+            height: vw-t(32px);
+            border-radius: vw-t(12px);
+            font-size: vw-t(16px);
+            margin-top: vw-t(12px);
+          }
+        }
+      }
+      &-body {
+        margin-top: vw-t(12px);
+        & > img {
+          width: 32%;
+          height: vw-t(100px);
+          border-radius: vw-t(12px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #feeduser-item {
+    .item {
+      width: vw-p(365px);
+      padding: vw-p(16px);
+      &-title {
+        padding: vw-p(16px);
+        height: 40%;
+        &__img {
+          width: 20%;
+          & > img {
+            width: vw-p(40px);
+            height: vw-p(40px);
+          }
+        }
+        &__info {
+          & > p {
+            font-size: vw-p(20px);
+          }
+          & > button {
+            background-color: $MAIN_YELLOW;
+            width: vw-p(80px);
+            margin-top: (8px);
+            height: vw-p(32px);
+            border-radius: vw-p(12px);
+            font-size: vw-p(16px);
+          }
+        }
+      }
+      &-body {
+        margin-top: vw-p(12px);
+        & > img {
+          width: 32%;
+          height: vw-p(100px);
+          border-radius: vw-p(12px);
+        }
+      }
+    }
+  }
+}

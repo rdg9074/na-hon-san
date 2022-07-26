@@ -25,7 +25,7 @@ function FollowList({ signal, followModal }: FollowListProps) {
         </div>
       </div>
       <div className="list-body">
-        {dum.map(item => (
+        {dum.map(() => (
           <FollowItem key={v4()} />
         ))}
       </div>

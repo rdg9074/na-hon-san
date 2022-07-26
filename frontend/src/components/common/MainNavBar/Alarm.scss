@@ -19,10 +19,11 @@
       width: (24px);
       height: (24px);
 
-      margin-bottom: (13px);
+      margin-bottom: (8px);
     }
 
     &__time {
+      white-space: nowrap;
       color: $MAIN_GRAY;
     }
   }
@@ -50,7 +51,7 @@
         width: vw(24px);
         height: vw(24px);
 
-        margin-bottom: vw(13px);
+        margin-bottom: vw(8px);
       }
 
       &__time {
@@ -77,7 +78,7 @@
         width: vw-t(24px);
         height: vw-t(24px);
 
-        margin-bottom: vw-t(13px);
+        margin-bottom: vw-t(8px);
       }
     }
   }
@@ -101,7 +102,7 @@
         width: vw-p(24px);
         height: vw-p(24px);
 
-        margin-bottom: vw-p(13px);
+        margin-bottom: vw-p(8px);
       }
     }
   }

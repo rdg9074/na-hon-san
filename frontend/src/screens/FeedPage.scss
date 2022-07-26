@@ -1,0 +1,30 @@
+#feed-page {
+  .card-list {
+    width: (1280px);
+    margin-top: (128px);
+  }
+}
+@media screen and (max-width: $DESKTOP-VW) {
+  #feed-page {
+    .card-list {
+      width: vw(1280px);
+      margin-top: vw(128px);
+    }
+  }
+}
+@media screen and (max-width: $TABLET-VW) {
+  #feed-page {
+    .card-list {
+      width: vw-t(768px);
+      margin-top: vw-t(60px);
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #feed-page {
+    .card-list {
+      width: vw-p(320px);
+      margin-top: vw-p(28px);
+    }
+  }
+}

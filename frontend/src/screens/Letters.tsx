@@ -9,7 +9,7 @@ function Letters() {
     <div className="wrapper">
       <div id="letters">
         <header className="header">
-          <p className="letters__title notoBold">쪽지함</p>
+          <p className="letters__title notoBold fs-28">쪽지함</p>
         </header>
         <div className="letters-list">
           {dummy.map(() => (

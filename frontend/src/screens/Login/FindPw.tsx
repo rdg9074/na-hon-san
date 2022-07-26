@@ -28,10 +28,10 @@ function FindPw() {
           <p className="header__title notoBold fs-24">
             비밀번호를 까먹으셨나요?
           </p>
-          <p className="header__sub-title notoRef fs-16">
+          <p className="header__sub-title notoReg fs-16">
             가입에 사용하였떤 이메일을 입력해주세요
           </p>
-          <p className="header__sub-title notoRef fs-16">
+          <p className="header__sub-title notoReg fs-16">
             해당 이메일로 인증코드를 보내드릴게요.
           </p>
         </header>
