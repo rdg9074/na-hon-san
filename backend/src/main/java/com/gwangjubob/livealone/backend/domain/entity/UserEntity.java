@@ -43,8 +43,8 @@ public class UserEntity {
     @Column(name="background_img")
     private String backgroundImg;
 
-    @OneToMany(mappedBy = "user")
-    private List<NoticeEntity> notices = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<NoticeEntity> notices = new ArrayList<>();
 
     @Builder
     public UserEntity(String id, String password, String nickname){ //회원 가입 빌더
