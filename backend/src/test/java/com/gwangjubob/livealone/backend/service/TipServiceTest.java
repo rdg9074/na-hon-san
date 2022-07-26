@@ -1,10 +1,14 @@
 package com.gwangjubob.livealone.backend.service;
 
+import com.gwangjubob.livealone.backend.domain.entity.TipCommentEntity;
 import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
+import com.gwangjubob.livealone.backend.domain.repository.TipCommentRepository;
 import com.gwangjubob.livealone.backend.domain.repository.TipRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
+import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
+import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import org.junit.jupiter.api.Test;
@@ -26,13 +30,20 @@ public class TipServiceTest {
     private TipService tipService;
     private UserService userService;
     private UserInfoMapper userInfoMapper;
+    private TipCommentService tipCommentService;
+    private UserRepository userRepository;
+    private TipCommentRepository tipCommentRepository;
 
     @Autowired
-    public TipServiceTest(TipRepository tipRepository, TipService tipService, UserInfoMapper userInfoMapper, UserService userService){
+    public TipServiceTest(TipCommentService tipCommentService, TipRepository tipRepository, TipService tipService, UserInfoMapper userInfoMapper, UserService userService
+    , UserRepository userRepository, TipCommentRepository tipCommentRepository){
         this.tipRepository = tipRepository;
         this.tipService = tipService;
         this.userService = userService;
         this.userInfoMapper = userInfoMapper;
+        this.tipCommentService = tipCommentService;
+        this.userRepository = userRepository;
+        this.tipCommentRepository = tipCommentRepository;
     }
 
     @Test
@@ -48,16 +59,11 @@ public class TipServiceTest {
         String content = "게시글테스트1 텍스트";
         String bannerImg = "src/img/img1.jpg";
 
-        TipEntity test = TipEntity.builder()
-                .user(user)
-                .category(category)
-                .title(title)
-                .content(content)
-                .bannerImg(bannerImg)
-                .build();
+        TipCreateDto testDto = new TipCreateDto(user, category, title, content, bannerImg);
+        TipEntity testEntity = testDto.toEntity();
 
         // when
-        tipRepository.save(test);
+        tipRepository.save(testEntity);
 
         // then
 //        Optional<TipEntity> result = tipRepository.findByIdx(test.getIdx());
@@ -75,6 +81,32 @@ public class TipServiceTest {
 
         for(TipViewDto dto : result){
             System.out.println(dto.toString());
+        }
+    }
+
+    @Test
+    public void 댓글_대댓글_등록_테스트(){
+        // given
+        String nickname = "비밀번호는 test 입니다.";
+        UserEntity user = userRepository.findByNickname(nickname).get();
+
+        TipEntity tip = tipRepository.findByIdx(12).get(); // 게시글
+        Integer upIdx = 3; // 댓글 번호
+        String content = "별말씀을";
+
+        // when
+        TipCommentCreateDto dto = new TipCommentCreateDto();
+        dto.setPostIdx(tip.getIdx());
+        dto.setContent(content);
+        dto.setUpIdx(upIdx);
+
+        tipCommentService.createTipComment("ssafy", dto);
+
+        // then
+        List<TipCommentEntity> result = tipCommentRepository.findAll();
+
+        for(TipCommentEntity t : result){
+            System.out.println(t.toString());
         }
     }
 }
