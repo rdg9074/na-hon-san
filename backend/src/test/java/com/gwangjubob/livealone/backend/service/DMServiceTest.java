@@ -70,7 +70,7 @@ public class DMServiceTest {
     @Test
     public void 메시지_리스트_조회_테스트(){
         // given
-        final String id = "ssafy";
+        final String id = "test";
 
 
         // when
@@ -85,8 +85,9 @@ public class DMServiceTest {
     @Test
     public void 메시지_세부_조회_테스트(){
         // given
-        final String toId = "ssafy";
-        final String fromId = "test";
+        UserEntity toId = userRepository.findById("ssafy").get();
+        UserEntity fromId = userRepository.findById("ssafy").get();
+
 
 
         // when

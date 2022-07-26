@@ -16,24 +16,26 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 public class DMEntity {
+    @ManyToOne
+    @JoinColumn(name="from_user_id")
+    private UserEntity fromUserId;
+    @ManyToOne
+    @JoinColumn(name="to_user_id")
+    private UserEntity toUserId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer idx;
-    @Column(name="from_user_id")
-    String fromUserId;
-    @Column(name="to_user_id")
-    String toUserId;
     String content;
     String image;
     @Column(name="is_read")
     Boolean read;
     LocalDateTime time;
-
     @Builder
-    public DMEntity(String fromUserId, String toUserId, String content, String image){ //DM 전송 빌더
-        this.fromUserId = fromUserId;
-        this.toUserId = toUserId;
+    public DMEntity(UserEntity fromUserId, UserEntity toUserId, String content, String image){ //DM 전송 빌더
         this.content = content;
         this.image = image;
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
     }
 }

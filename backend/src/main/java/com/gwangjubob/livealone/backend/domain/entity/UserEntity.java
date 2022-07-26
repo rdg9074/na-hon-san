@@ -12,7 +12,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="users")
+@Table(name="users", uniqueConstraints = {@UniqueConstraint( //추가 name = "NAME_AGE_UNIQUE",
+        columnNames = {"nickname"} )})
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
