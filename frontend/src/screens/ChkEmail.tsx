@@ -136,7 +136,11 @@ function ChkEmail({ type }: ChkEmailProps) {
           <p className="footer-top__msg notoMid fs-12 ellipsis">
             인증 이메일을 받지 못하셨나요?
           </p>
-          <button className="footer-top__btn notoBold fs-12" type="button">
+          <button
+            className="footer-top__btn notoBold fs-12"
+            type="button"
+            onClick={reSendAuthCode}
+          >
             이메일 재전송
           </button>
         </div>
