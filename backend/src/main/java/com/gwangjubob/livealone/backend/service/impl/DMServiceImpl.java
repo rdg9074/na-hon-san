@@ -93,4 +93,10 @@ public class DMServiceImpl implements DMService {
 
 		return dmViewDtoList;
 	}
+
+	@Override
+	public long countDM(String id) {
+		return dmRepository.findByCountDM(id);
+	}
+
 }
