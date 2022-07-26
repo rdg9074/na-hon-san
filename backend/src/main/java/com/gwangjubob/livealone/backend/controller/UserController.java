@@ -133,7 +133,8 @@ public class UserController {
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         resultMap = new HashMap<>();
         try {
-            if (mailService.sendMail(mailSendDto)) { // 메일 전송 서비스 호출
+            if (mailService.emailCheck(mailSendDto)) { // 이메일 체크 함수 호출
+                mailService.mailSend(mailSendDto); // 이메일 전송 - 비동기
                 resultMap.put("message", okay);
             }else {
                 resultMap.put("message", fail);
