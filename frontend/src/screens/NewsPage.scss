@@ -10,7 +10,6 @@
     }
   }
   .newspagelist {
-    width: 50%;
   }
 }
 @media screen and (max-width: $DESKTOP-VW) {
@@ -26,7 +25,6 @@
       }
     }
     .newspagelist {
-      width: 50%;
     }
   }
 }
@@ -36,7 +34,7 @@
     .headline {
       width: vw-t(668px);
       margin-top: vw-t(80px);
-      margin-bottom: vw-t(80px);
+      margin-bottom: vw-t(60px);
       & > p {
         font-size: vw-t(36px);
         & > span {
@@ -45,7 +43,6 @@
       }
     }
     .newspagelist {
-      width: 80%;
     }
   }
 }
@@ -53,9 +50,8 @@
   #newspage {
     .headline {
       width: vw-p(375px);
-      padding: vw-p(12px);
-      margin-top: vw-p(40px);
-      margin-bottom: vw-p(40px);
+      margin-top: vw-p(60px);
+      margin-bottom: vw-p(30px);
       & > p {
         font-size: vw-p(16px);
         & > span {
@@ -64,7 +60,6 @@
       }
     }
     .newspagelist {
-      width: 80%;
     }
   }
 }
