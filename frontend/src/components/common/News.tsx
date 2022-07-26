@@ -6,7 +6,7 @@ function News() {
   return (
     <div id="news">
       <div className="item flex">
-        <div className="item__img">
+        <div className="item__img flex">
           <img src={ImgIcon} alt="thumnail" />
         </div>
         <div className="item__content">
@@ -25,7 +25,6 @@ function News() {
           </p>
         </div>
       </div>
-      <hr className="p-none" />
     </div>
   );
 }

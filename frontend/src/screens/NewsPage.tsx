@@ -12,7 +12,7 @@ function NewsPage() {
           <span>1인가구</span>와 관련된 최신뉴스들을 읽어보세요.
         </p>
       </div>
-      <div className="newspagelist">
+      <div className="newspagelist justify-center">
         {dummylist.map(() => (
           <News key={v4()} />
         ))}
