@@ -14,4 +14,5 @@ public interface DMService {
     boolean sendDM(DMSendDto dmSendDto);
     List<DMViewDto> listDM(String id);
     List<DMViewDto> listDetailDM(String id, String fromId);
+    long countDM(String id);
 }

@@ -1,6 +1,7 @@
 package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.notice.NoticeViewDto;
+import com.gwangjubob.livealone.backend.service.DMService;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.NoticeService;
 
@@ -23,14 +24,16 @@ public class NoticeController {
 
     private NoticeService noticeService;
     private JwtService jwtService;
+    private DMService dmService;
 
     private HttpStatus status = HttpStatus.NOT_FOUND;
     private Map<String, Object> resultMap;
 
     @Autowired
-    NoticeController(NoticeService noticeService, JwtService jwtService){
+    NoticeController(NoticeService noticeService, DMService dmService,JwtService jwtService){
         this.noticeService = noticeService;
         this.jwtService = jwtService;
+        this.dmService = dmService;
     }
 
     @GetMapping("/user/notice")
@@ -59,8 +62,10 @@ public class NoticeController {
 
         if (decodeId != null) {
             try {
-                long count = noticeService.countNotice(decodeId); // 읽지 않은 알림 개수 조회 서비스 호출
-                resultMap.put("data", count);
+                long countNotice = noticeService.countNotice(decodeId); // 읽지 않은 알림 개수 조회 서비스 호출
+                long countDM = dmService.countDM(decodeId); // 읽지 않은 DM 개수 조회 서비스 호출
+                resultMap.put("countNotice", countNotice);
+                resultMap.put("countDM", countDM);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e) {

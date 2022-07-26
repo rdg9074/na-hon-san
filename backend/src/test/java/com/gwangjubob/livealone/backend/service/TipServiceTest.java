@@ -11,6 +11,7 @@ import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class TipServiceTest {
     }
 
     @Test
+    @Disabled
     public void 카테고리별_리스트_조회_테스트(){
         // given
         String category = "tip";
@@ -85,6 +87,7 @@ public class TipServiceTest {
     }
 
     @Test
+    @Disabled
     public void 댓글_대댓글_등록_테스트(){
         // given
         String nickname = "비밀번호는 test 입니다.";
