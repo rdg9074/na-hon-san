@@ -132,8 +132,8 @@ function ChkEmail({ type }: ChkEmailProps) {
         </button>
       </main>
       <footer className="footer">
-        <div className="footer-top flex align-center justify-center">
-          <p className="footer-top__msg notoMid fs-12">
+        <div className="footer-top flex align-center">
+          <p className="footer-top__msg notoMid fs-12 ellipsis">
             인증 이메일을 받지 못하셨나요?
           </p>
           <button
@@ -144,8 +144,8 @@ function ChkEmail({ type }: ChkEmailProps) {
             이메일 재전송
           </button>
         </div>
-        <div className="footer-bottom">
-          <ul className="notice-ul notoMid fs-12">
+        <div className="footer-bottom flex align-center justify-center">
+          <ul className="notice-ul notoMid fs-12 flex column">
             <li className="notice-ul__li">
               인증 이메일은 발송 시점으로 부터 3분간 유효합니다.
             </li>
