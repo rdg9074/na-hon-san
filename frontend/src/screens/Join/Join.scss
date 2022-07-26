@@ -17,6 +17,9 @@
     }
   }
   .or {
+    width: 329px;
+    overflow: hidden;
+    white-space: nowrap;
     margin: (32px) 0 (20px) 0;
     height: (20px);
     &__line {
@@ -83,6 +86,7 @@
       }
     }
     .or {
+      width: vw(329px);
       margin: vw(32px) 0 vw(20px) 0;
       height: vw(20px);
       &__line {
@@ -111,6 +115,11 @@
         margin-bottom: vw(40px);
         color: $RED;
       }
+      .dummy {
+        margin-bottom: vw(40px);
+        height: vw(12px);
+      }
+
       &__btn {
         margin-bottom: vw(24px);
         @include btn();
@@ -145,6 +154,7 @@
       }
     }
     .or {
+      width: vw-t(329px);
       margin: vw-t(32px) 0 vw-t(20px) 0;
       height: vw-t(20px);
       &__line {
@@ -205,6 +215,7 @@
       }
     }
     .or {
+      width: vw-p(329px);
       margin: vw-p(32px) 0 vw-p(20px) 0;
       height: vw-p(20px);
       &__line {

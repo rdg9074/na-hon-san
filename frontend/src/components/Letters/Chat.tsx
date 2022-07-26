@@ -8,7 +8,7 @@ type ChatProps = {
 function Chat({ type, content }: ChatProps) {
   return (
     <div id="chat" className={type === "recv" ? "left" : "right"}>
-      <p className="chat-content fs-32 notoReg">{content}</p>
+      <p className="chat-content fs-16 notoReg">{content}</p>
     </div>
   );
 }

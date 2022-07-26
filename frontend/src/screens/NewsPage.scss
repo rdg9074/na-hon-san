@@ -1,0 +1,65 @@
+#newspage {
+  .headline {
+    width: (1070px);
+    margin-top: (80px);
+    margin-bottom: (80px);
+    & > p {
+      & > span {
+        color: $MAIN_YELLOW;
+      }
+    }
+  }
+  .newspagelist {
+  }
+}
+@media screen and (max-width: $DESKTOP-VW) {
+  #newspage {
+    .headline {
+      width: vw(1070px);
+      margin-top: vw(80px);
+      margin-bottom: vw(80px);
+      & > p {
+        & > span {
+          color: $MAIN_YELLOW;
+        }
+      }
+    }
+    .newspagelist {
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #newspage {
+    .headline {
+      width: vw-t(668px);
+      margin-top: vw-t(80px);
+      margin-bottom: vw-t(60px);
+      & > p {
+        font-size: vw-t(36px);
+        & > span {
+          color: $MAIN_YELLOW;
+        }
+      }
+    }
+    .newspagelist {
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #newspage {
+    .headline {
+      width: vw-p(375px);
+      margin-top: vw-p(60px);
+      margin-bottom: vw-p(30px);
+      & > p {
+        font-size: vw-p(16px);
+        & > span {
+          color: $MAIN_YELLOW;
+        }
+      }
+    }
+    .newspagelist {
+    }
+  }
+}

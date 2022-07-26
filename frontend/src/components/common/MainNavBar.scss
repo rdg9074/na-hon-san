@@ -90,12 +90,14 @@
   position: absolute;
   top: (50px);
   left: (-160px);
+  z-index: 1;
 }
 
 #profile-tool-tip {
   position: absolute;
   top: (30px);
   left: (-95px);
+  z-index: 2;
 }
 
 @media screen and(max-width :$DESKTOP-VW) {

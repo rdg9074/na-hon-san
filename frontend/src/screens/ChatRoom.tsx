@@ -69,7 +69,9 @@ function ChatRoom() {
             src={UserDummyIcon}
             alt="유저더미"
           />
-          <p className="chat-room__user-nick-name notoBold">{chatInfo.recv}</p>
+          <p className="chat-room__user-nick-name notoBold fs-24">
+            {chatInfo.recv}
+          </p>
         </header>
         <div className="chat-list">
           {dummy.map(item => (
@@ -79,7 +81,7 @@ function ChatRoom() {
         <input
           type="text"
           placeholder="채팅을 입력해주세요."
-          className="chat-input notoReg"
+          className="chat-input notoReg fs-15"
         />
         <footer className="chat-footer">
           <button type="button" className="chat-btn">

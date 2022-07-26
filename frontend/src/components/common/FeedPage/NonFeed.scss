@@ -1,0 +1,136 @@
+#nonfeed-page {
+  margin-top: (120px);
+  height: (360px);
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  .title {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    &-title {
+      height: 40%;
+      font-size: (36px);
+    }
+    &-body {
+      align-items: center;
+      justify-content: space-evenly;
+      height: 60%;
+      &-main {
+        font-size: (48px);
+      }
+      &-sub {
+        font-size: (24px);
+      }
+    }
+  }
+  .wrapper {
+    margin-top: (100px);
+    width: 100%;
+    justify-content: center;
+    .user-list {
+      width: (970px);
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      margin-bottom: (60px);
+      #feeduser-item {
+        margin-top: (40px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #nonfeed-page {
+    margin-top: vw(120px);
+    height: vw(360px);
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    .title {
+      &-title {
+        font-size: vw(36px);
+      }
+      &-body {
+        &-main {
+          font-size: vw(48px);
+        }
+        &-sub {
+          font-size: vw(24px);
+        }
+      }
+    }
+    .wrapper {
+      margin-top: vw(100px);
+      width: 100%;
+      .user-list {
+        width: vw(970px);
+        margin-bottom: vw(60px);
+        #feeduser-item {
+          margin-top: vw(40px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #nonfeed-page {
+    margin-top: vw-t(60px);
+    height: vw-t(360px);
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    .title {
+      &-title {
+        font-size: vw-t(36px);
+      }
+      &-body {
+        &-main {
+          font-size: vw-t(40px);
+        }
+        &-sub {
+          font-size: vw-t(24px);
+        }
+      }
+    }
+    .wrapper {
+      margin-top: vw-t(40px);
+      width: 100%;
+      .user-list {
+        width: vw-t(568px);
+        margin-bottom: vw-t(60px);
+        #feeduser-item {
+          margin-top: vw-t(40px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #nonfeed-page {
+    margin-top: vw-p(60px);
+    height: vw-p(220px);
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    .title {
+      height: 100%;
+      &-title {
+        height: 40%;
+        font-size: vw-p(16px);
+      }
+      &-body {
+        height: 60%;
+      }
+    }
+    .wrapper {
+      margin-top: vw-p(40px);
+      width: 100%;
+      .user-list {
+        width: 100%;
+        margin-bottom: vw-p(60px);
+        #feeduser-item {
+          margin-top: vw-p(12px);
+        }
+      }
+    }
+  }
+}

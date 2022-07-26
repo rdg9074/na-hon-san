@@ -1,70 +1,135 @@
+// #letters {
+//   margin-top: 72px;
+//   padding: 88px 120px;
+
+//   border: 1px solid $GRAY_DB;
+//   border-radius: 20px;
+
+//   #letter:hover {
+//     background-color: $GRAY_F3;
+//   }
+//   .letters__title {
+//     font-size: 40px;
+//     padding-bottom: 44px;
+//     border-bottom: 1px solid $GRAY_9E;
+//   }
+//   .letters-list {
+//     height: vh(548px);
+//     overflow: scroll;
+//   }
+// }
+
+// @media screen and(max-width:$DESKTOP-VW) {
+//   #letters {
+//     margin-top: vw(72px);
+//     padding: vw(88px) vw(120px);
+//     border-radius: vw(20px);
+//     .letters__title {
+//       font-size: vw(40px);
+//       padding-bottom: vw(44px);
+//     }
+//     .letters-list {
+//       height: vh(548px);
+//       overflow: scroll;
+//     }
+//   }
+// }
+
+// @media screen and(max-width:$TABLET-VW) {
+//   #letters {
+//     margin: 0;
+//     margin-top: vw-t(64px);
+//     padding: 0;
+//     border: none;
+//     .letters__title {
+//       font-size: vw-t(40px);
+//       padding-bottom: vw-t(44px);
+//     }
+//     .letters-list {
+//       height: vh-t(750px);
+//       overflow: scroll;
+//     }
+//   }
+// }
+
+// @media screen and(max-width:$PHONE-VW) {
+//   #letters {
+//     margin: 0;
+//     margin-top: vw-p(32px);
+//     padding: 0;
+//     border: none;
+//     .letters__title {
+//       font-size: vw-p(24px);
+//       padding-bottom: vw-t(16px);
+//     }
+//     .letters-list {
+//       height: vh-p(600px);
+//       overflow: scroll;
+//     }
+//   }
+// }
 #letters {
-  margin-top: 72px;
-  padding: 88px 120px;
+  margin-top: (44px);
+  padding: (48px) (74px);
 
   border: 1px solid $GRAY_DB;
-  border-radius: 20px;
-
+  border-radius: (20px);
   #letter:hover {
     background-color: $GRAY_F3;
   }
   .letters__title {
-    font-size: 40px;
-    padding-bottom: 44px;
+    padding-bottom: (12px);
     border-bottom: 1px solid $GRAY_9E;
   }
   .letters-list {
-    height: vh(548px);
-    overflow: scroll;
+    height: vw(661px);
+    overflow-y: scroll;
   }
 }
 
-@media screen and(max-width:$DESKTOP-VW) {
+@media screen and (max-width: $DESKTOP-VW) {
   #letters {
-    margin-top: vw(72px);
-    padding: vw(88px) vw(120px);
+    margin-top: vw(44px);
+    padding: vw(48px) vw(74px);
+
     border-radius: vw(20px);
+
     .letters__title {
-      font-size: vw(40px);
-      padding-bottom: vw(44px);
+      padding-bottom: vw(12px);
     }
     .letters-list {
-      height: vh(548px);
-      overflow: scroll;
+      height: vw(661px);
     }
   }
 }
 
-@media screen and(max-width:$TABLET-VW) {
+@media screen and (max-width: $TABLET-VW) {
   #letters {
-    margin: 0;
-    margin-top: vw-t(64px);
-    padding: 0;
-    border: none;
+    margin-top: vw-t(44px);
+    padding: vw-t(48px) vw-t(74px);
+
+    border-radius: vw-t(20px);
+
     .letters__title {
-      font-size: vw-t(40px);
-      padding-bottom: vw-t(44px);
+      padding-bottom: vw-t(12px);
     }
     .letters-list {
-      height: vh-t(750px);
-      overflow: scroll;
+      height: vw-t(661px);
     }
   }
 }
 
-@media screen and(max-width:$PHONE-VW) {
+@media screen and (max-width: $PHONE-VW) {
   #letters {
-    margin: 0;
-    margin-top: vw-p(32px);
+    margin-top: vw-p(44px);
     padding: 0;
     border: none;
+
     .letters__title {
-      font-size: vw-p(24px);
-      padding-bottom: vw-t(16px);
+      padding-bottom: vw-p(12px);
     }
     .letters-list {
-      height: vh-p(600px);
-      overflow: scroll;
+      height: vw-p(661px);
     }
   }
 }

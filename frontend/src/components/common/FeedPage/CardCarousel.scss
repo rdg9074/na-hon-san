@@ -1,0 +1,114 @@
+#usercarousel {
+  width: (970px);
+  margin-top: (100px);
+  position: relative;
+  .container {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .slider {
+    position: relative;
+  }
+  #card,
+  #card-skeleton {
+    margin-left: (24px);
+    margin-right: (24px);
+  }
+  .prevbtn {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    left: (-36px);
+
+    & > img {
+      height: (48px);
+      width: (48px);
+    }
+  }
+  .nextbtn {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    right: (-36px);
+    & > img {
+      height: (48px);
+      width: (48px);
+    }
+  }
+}
+
+@media screen and(max-width :$DESKTOP-VW) {
+  #usercarousel {
+    width: vw(970px);
+    margin-top: vw(100px);
+    #card {
+      margin-left: vw(24px);
+      margin-right: vw(24px);
+    }
+    .prevbtn {
+      left: vw(-36px);
+      & > img {
+        height: vw(48px);
+        width: vw(48px);
+      }
+    }
+    .nextbtn {
+      right: vw(-36px);
+      & > img {
+        height: vw(48px);
+        width: vw(48px);
+      }
+    }
+  }
+}
+
+@media screen and(max-width :$TABLET-VW) {
+  #usercarousel {
+    width: vw-t(568px);
+    margin-top: vw-t(100px);
+    #card {
+      margin-left: vw-t(24px);
+      margin-right: vw-t(24px);
+    }
+    .prevbtn {
+      left: vw-t(-36px);
+      & > img {
+        height: vw-t(48px);
+        width: vw-t(48px);
+      }
+    }
+    .nextbtn {
+      right: vw-t(-36px);
+      & > img {
+        height: vw-t(48px);
+        width: vw-t(48px);
+      }
+    }
+  }
+}
+
+@media screen and(max-width :$PHONE-VW) {
+  #usercarousel {
+    width: vw-p(340px);
+    margin-top: vw-p(100px);
+    #user-carousel-item {
+      margin-left: vw-p(16px);
+      margin-right: vw-p(16px);
+    }
+    .prevbtn {
+      left: vw-p(-18px);
+      & > img {
+        height: vw-p(48px);
+        width: vw-p(48px);
+      }
+    }
+    .nextbtn {
+      right: vw-p(-18px);
+      & > img {
+        height: vw-p(48px);
+        width: vw-p(48px);
+      }
+    }
+  }
+}
