@@ -14,6 +14,6 @@ public class TipCommentUpdateDto {
     private Integer postIdx;
     private Integer upIdx;
     private String content;
-    private String bannerImg;
+    private byte[] bannerImg;
     private LocalDate time;
 }

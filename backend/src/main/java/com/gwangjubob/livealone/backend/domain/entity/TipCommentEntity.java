@@ -27,18 +27,25 @@ public class TipCommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_idx")
-    private TipEntity tip; // 게시글 번호
+    private TipEntity tip;
 
     @Column(name = "up_idx")
     @ColumnDefault("0") // default 0
-    private Integer upIdx; // 상위 댓글(댓글이면 0, 대댓글이면 댓글의 idx)
+    private Integer upIdx;
 
     @Column(length = 200, nullable = false)
     private String content;
 
     @Column(name = "banner_img")
-    private String bannerImg;
+    @Lob
+    private byte[] bannerImg;
+    private Integer like;
+    private Integer comment;
 
-    private LocalDateTime time; // 댓글 작성 시간
+    private LocalDateTime time;
+
+    @Column(name = "update_time")
+    private LocalDateTime updatetime;
+
 
 }
