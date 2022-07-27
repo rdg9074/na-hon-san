@@ -37,7 +37,8 @@ public class DealCommentEntity {
     LocalDateTime updateTime;
     private String content;
     @Column(name = "banner_img")
-    private String bannerImg;
+    @Lob
+    private byte[] bannerImg;
     @Column(name = "up_idx")
     Integer upIdx;
     @Column(name = "position_x")
