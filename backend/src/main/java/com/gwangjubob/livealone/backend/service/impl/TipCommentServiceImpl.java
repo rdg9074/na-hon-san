@@ -34,15 +34,15 @@ public class TipCommentServiceImpl implements TipCommentService {
         UserEntity user = userRepository.findById(decodeId).get();
         TipEntity tip = tipRepository.findByIdx(requestDto.getPostIdx()).get(); // 게시글 정보
 
-        TipCommentEntity entity = TipCommentEntity.builder()
-                .user(user)
-                .tip(tip)
-                .upIdx(requestDto.getUpIdx())
-                .content(requestDto.getContent())
-                .bannerImg(requestDto.getBannerImg())
-                .build();
-
-        tipCommentRepository.save(entity);
+//        TipCommentEntity entity = TipCommentEntity.builder()
+//                .user(user)
+//                .tip(tip)
+//                .upIdx(requestDto.getUpIdx())
+//                .content(requestDto.getContent())
+//                .bannerImg(requestDto.getBannerImg())
+//                .build();
+//
+//        tipCommentRepository.save(entity);
     }
 
     @Override
@@ -52,20 +52,20 @@ public class TipCommentServiceImpl implements TipCommentService {
 
         TipCommentEntity tipComment = tipCommentRepository.findByIdx(idx);
 
-        // 댓글 작성자와 로그인 아이디가 일치하면 수정
-        if(user.getNickname().equals(tipComment.getUser().getNickname())){
-            requestDto.setTime(LocalDate.now());
-            tipComment = TipCommentEntity.builder()
-                    .idx(idx)
-                    .user(user)
-                    .tip(tip)
-                    .content(requestDto.getContent())
-                    .bannerImg(requestDto.getBannerImg())
-                    .time(requestDto.getTime())
-                    .upIdx(tipComment.getUpIdx())
-                    .build();
-
-            tipCommentRepository.saveAndFlush(tipComment);
-        }
+//        // 댓글 작성자와 로그인 아이디가 일치하면 수정
+//        if(user.getNickname().equals(tipComment.getUser().getNickname())){
+//            requestDto.setTime(LocalDate.now());
+//            tipComment = TipCommentEntity.builder()
+//                    .idx(idx)
+//                    .user(user)
+//                    .tip(tip)
+//                    .content(requestDto.getContent())
+//                    .bannerImg(requestDto.getBannerImg())
+//                    .time(requestDto.getTime())
+//                    .upIdx(tipComment.getUpIdx())
+//                    .build();
+//
+//            tipCommentRepository.saveAndFlush(tipComment);
+//        }
     }
 }

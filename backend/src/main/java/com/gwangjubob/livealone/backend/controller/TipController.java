@@ -1,6 +1,7 @@
 package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
+import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
@@ -46,6 +47,44 @@ public class TipController {
                 status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @PutMapping("/honeyTip/{idx}")
+    public ResponseEntity<?> updateTip(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipUpdateDto tipUpdateDto){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+
+        if(!decodeId.equals("timeout")){
+            try{
+                tipService.updateTip(decodeId, tipUpdateDto, idx); // 게시글 정보 수정 서비스 호출
+                resultMap.put("message",okay);
+                status = HttpStatus.OK;
+            }catch(Exception e){
+                resultMap.put("messaeg",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+         return new ResponseEntity<>(resultMap, status);
+    }
+
+    @DeleteMapping("/honeyTip/{idx}")
+    public ResponseEntity<?> daleteTip(HttpServletRequest request, @PathVariable Integer idx){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+
+        if(!decodeId.equals("timeout")){
+            try{
+                tipService.deleteTip(decodeId, idx); // 게시글 삭제 서비스 호출
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message",fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }

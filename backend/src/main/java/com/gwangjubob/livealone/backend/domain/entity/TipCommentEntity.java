@@ -1,17 +1,15 @@
 package com.gwangjubob.livealone.backend.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Getter
+@Data
 @ToString
 @NoArgsConstructor
 @DynamicInsert
@@ -41,22 +39,6 @@ public class TipCommentEntity {
     @Column(name = "banner_img")
     private String bannerImg;
 
-    private LocalDate time; // 댓글 작성 시간
+    private LocalDateTime time; // 댓글 작성 시간
 
-    @Builder
-    public TipCommentEntity(Integer idx, UserEntity user, TipEntity tip, Integer upIdx, String content, String bannerImg, LocalDate time) {
-        this.idx = idx;
-        this.user = user;
-        this.tip = tip;
-        this.upIdx = upIdx;
-        this.content = content;
-        this.bannerImg = bannerImg;
-        this.time = time;
-    }
-
-    /* 댓글 수정을 위한 setter */
-    public void updateTipComment(String content, String bannerImg){
-        this.content = content;
-        this.bannerImg = bannerImg;
-    }
 }
