@@ -16,7 +16,7 @@ public class DMViewDto  {
     String Nickname;
     String toId;
     String content;
-    String image;
+    byte[] image;
     Boolean read;
     Integer count;
     LocalDateTime time;

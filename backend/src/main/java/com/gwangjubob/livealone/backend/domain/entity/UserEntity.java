@@ -45,7 +45,6 @@ public class UserEntity implements Serializable {
 
     @Lob
     @Column(name="profile_img")
-    @Lob
     private byte[] profileImg;
     private String social;
 
