@@ -11,9 +11,9 @@ public class TipViewDto {
     private String userNickname;
     private byte[] userProfileImg;
     private String title;
-    private String bannerImg;
+    private byte[] bannerImg;
 
-    private Integer likeCnt;
-    private Integer commentCnt;
-    private Integer viewCnt;
+    private Integer like;
+    private Integer comment;
+    private Integer view;
 }

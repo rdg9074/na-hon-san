@@ -11,6 +11,6 @@ public class TipCreateDto {
     private String category;
     private String title;
     private String content;
-    private String bannerImg;
+    private byte[] bannerImg;
     private Integer view;
 }

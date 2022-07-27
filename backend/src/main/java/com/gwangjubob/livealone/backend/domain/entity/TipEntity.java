@@ -34,10 +34,18 @@ public class TipEntity{
     private String category;
     private String title;
     private String content;
-    @Column(name = "banner_img", nullable = false)
-    private String bannerImg;
+    @Column(name = "banner_img")
+    @Lob
+    private byte[] bannerImg;
+
     private Integer view;
+    private Integer like;
+    private Integer comment;
+
     private LocalDateTime time;
+
+    @Column(name = "update_time")
+    private LocalDateTime updateTime;
 
     @OneToMany(mappedBy = "tip", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("time desc") // 댓글 정렬

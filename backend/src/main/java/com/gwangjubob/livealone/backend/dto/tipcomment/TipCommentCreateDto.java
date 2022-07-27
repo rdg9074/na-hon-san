@@ -20,7 +20,7 @@ public class TipCommentCreateDto {
     private Integer postIdx;
     private Integer upIdx;
     private String content; // 댓글 내용
-    private String bannerImg; // 댓글 배너 이미지
+    private byte[] bannerImg; // 댓글 배너 이미지
     private LocalDate time;
 
 }
