@@ -1,10 +1,8 @@
 package com.gwangjubob.livealone.backend.service;
 
-import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
-import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
+import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
+import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -187,8 +185,26 @@ public class UserFeedServiceTest {
                 System.out.println(dealEntity.toString());
             }
         }
-
-
-
     }
+    @Test
+    public void 인기있는_팔로워_추천() {
+        //given
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList();//조회
+        List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
+        //when
+        for (PopularFollowEntity userFollowEntity : userFollowEntities){
+            UserEntity userEntity = userRepository.findById(userFollowEntity.getFollowId()).get();
+            PopularFollowDto popularFollowDto = new PopularFollowDto();
+            popularFollowDto.setFollow_id(userEntity.getId());
+            popularFollowDto.setFollow_nickname(userEntity.getNickname());
+            popularFollowDto.setCnt(userFollowEntity.getCnt());
+            popularFollowDto.setProfileImg(userEntity.getProfileImg());
+            popularFollowDtoList.add(popularFollowDto);
+        }
+        //then
+        for (PopularFollowDto popularFollowDto : popularFollowDtoList){
+            System.out.println(popularFollowDto.toString());
+        }
+    }
+
 }

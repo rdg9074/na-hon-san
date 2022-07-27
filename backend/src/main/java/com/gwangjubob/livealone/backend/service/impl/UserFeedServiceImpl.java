@@ -1,11 +1,9 @@
 package com.gwangjubob.livealone.backend.service.impl;
 
-import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
-import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
+import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
+import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
@@ -183,5 +181,27 @@ public class UserFeedServiceImpl implements UserFeedService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<PopularFollowDto> popularFollower() {
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList();//조회
+        List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
+        int maxCnt = 0;
+        //when
+        for (PopularFollowEntity userFollowEntity : userFollowEntities){
+            if(maxCnt++ == 20){
+                break;
+            }
+            UserEntity userEntity = userRepository.findById(userFollowEntity.getFollowId()).get();
+            PopularFollowDto popularFollowDto = new PopularFollowDto();
+            popularFollowDto.setFollow_id(userEntity.getId());
+            popularFollowDto.setFollow_nickname(userEntity.getNickname());
+            popularFollowDto.setCnt(userFollowEntity.getCnt());
+            popularFollowDto.setProfileImg(userEntity.getProfileImg());
+            popularFollowDtoList.add(popularFollowDto);
+
+        }
+        return popularFollowDtoList;
     }
 }
