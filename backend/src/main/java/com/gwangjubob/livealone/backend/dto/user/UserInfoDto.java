@@ -21,6 +21,5 @@ public class UserInfoDto {
     private Boolean commentNotice;
     private Boolean replyNotice;
     private String profileMsg;
-    private String profileImg;
-    private String backgroundImg;
+    private byte[] profileImg;
 }

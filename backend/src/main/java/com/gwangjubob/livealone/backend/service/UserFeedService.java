@@ -1,6 +1,7 @@
 package com.gwangjubob.livealone.backend.service;
 
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
+import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 
 import java.util.List;
@@ -12,5 +13,6 @@ public interface UserFeedService {
     List<FollowViewDto> searchFollow(String id,String keyword);
     List<FollowViewDto> searchFollower(String id,String keyword);
     ProfileViewDto feedProfile(String id);
+    List<PostViewDto> feedPosts(String id, int category);
     boolean deleteFollow(String toId, String fromId);
 }

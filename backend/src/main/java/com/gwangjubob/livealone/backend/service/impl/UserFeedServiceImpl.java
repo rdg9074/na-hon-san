@@ -1,11 +1,12 @@
 package com.gwangjubob.livealone.backend.service.impl;
 
+import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
+import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
-import com.gwangjubob.livealone.backend.domain.repository.UserCategoryRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserFeedRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
+import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
+import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
@@ -24,14 +25,19 @@ public class UserFeedServiceImpl implements UserFeedService {
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
     private UserInfoMapper userInfoMapper;
+    private TipRepository tipRepository;
+    private DealRepository dealRepository;
     private UserFeedRepository userFeedRepository;
     @Autowired
-    UserFeedServiceImpl(UserRepository userRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserFeedServiceImpl(UserRepository userRepository,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userCategoryRepository = userCategoryRepository;
         this.userInfoMapper = userInfoMapper;
         this.userFeedRepository = userFeedRepository;
+        this.tipRepository = tipRepository;
+        this.dealRepository = dealRepository;
+
     }
 
     @Override
@@ -132,6 +138,41 @@ public class UserFeedServiceImpl implements UserFeedService {
             profileViewDto.setFollowerCount(followerCnt);
         }
         return profileViewDto;
+    }
+
+    @Override
+    public List<PostViewDto> feedPosts(String id, int category) {
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        List<PostViewDto> postViewDtoList = new ArrayList<>();
+        List<TipEntity> tipEntities = null;
+        List<DealEntity> dealEntities = null;
+        if (category == 0) { //사용자가 작성한 꿀팁 게시글 조회
+            tipEntities = tipRepository.findByUser(userEntity.get());
+            for(TipEntity tipEntity : tipEntities){
+                PostViewDto postViewDto = new PostViewDto();
+                postViewDto.setIdx(tipEntity.getIdx());
+                postViewDto.setTitle(tipEntity.getTitle());
+                postViewDto.setBannerImg(tipEntity.getBannerImg());
+                postViewDto.setViewCnt(tipEntity.getView());
+                postViewDto.setLikeCnt(0); // 미구현
+                postViewDto.setCommentCnt(0); //미구현
+                postViewDtoList.add(postViewDto);
+            }
+
+        } else if (category == 1) {//사용자가 작성한 꿀팁 게시글 조회
+            dealEntities = dealRepository.findByUser(userEntity.get());
+            for(DealEntity dealEntity : dealEntities){
+                PostViewDto postViewDto = new PostViewDto();
+                postViewDto.setIdx(dealEntity.getIdx());
+                postViewDto.setTitle(dealEntity.getTitle());
+                postViewDto.setBannerImg(dealEntity.getBannerImg());
+                postViewDto.setViewCnt(dealEntity.getView());
+                postViewDto.setLikeCnt(0); // 미구현
+                postViewDto.setCommentCnt(0); //미구현
+                postViewDtoList.add(postViewDto);
+            }
+        }
+        return postViewDtoList;
     }
 
     @Override

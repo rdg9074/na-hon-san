@@ -13,7 +13,7 @@ public class ProfileViewDto {
     private String id;
     private String nickname;
     private String profileMsg;
-    private String profileImg;
+    private byte[] profileImg;
     private int followCount;
     private int followerCount;
 
