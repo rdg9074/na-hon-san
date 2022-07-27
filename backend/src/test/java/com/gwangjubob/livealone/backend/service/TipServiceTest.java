@@ -33,6 +33,7 @@ import java.util.Optional;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 //@Transactional
+@Disabled
 public class TipServiceTest {
     private TipRepository tipRepository;
     private TipService tipService;

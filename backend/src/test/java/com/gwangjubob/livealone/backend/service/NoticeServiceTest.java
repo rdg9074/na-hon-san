@@ -6,6 +6,7 @@ import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
 import com.gwangjubob.livealone.backend.dto.notice.NoticeViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Map;
 @SpringBootTest
 @Transactional
 //@DataJpaTest
+@Disabled
 public class NoticeServiceTest {
     private NoticeRepository noticeRepository;
     private UserService userService;
