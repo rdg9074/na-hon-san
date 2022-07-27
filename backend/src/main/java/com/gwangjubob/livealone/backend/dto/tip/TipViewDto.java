@@ -11,6 +11,7 @@ public class TipViewDto {
     private Integer idx;
     private String userNickname;
     private String userProfileImg;
+//    private UserEntity user;
     private String title;
     private String bannerImg;
 

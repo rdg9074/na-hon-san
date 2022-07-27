@@ -53,4 +53,10 @@ public class TipCommentEntity {
         this.bannerImg = bannerImg;
         this.time = time;
     }
+
+    /* 댓글 수정을 위한 setter */
+    public void updateTipComment(String content, String bannerImg){
+        this.content = content;
+        this.bannerImg = bannerImg;
+    }
 }

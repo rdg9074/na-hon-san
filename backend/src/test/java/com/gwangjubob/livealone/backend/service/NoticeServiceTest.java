@@ -76,8 +76,6 @@ public class NoticeServiceTest {
         types.put("comment", true);
         types.put("reply", true);
 
-        UserInfoDto user = userService.infoUser(testId);
-
         // when
         List<NoticeViewDto> result = new ArrayList<>();
 
@@ -91,7 +89,7 @@ public class NoticeServiceTest {
                     tmp.setNoticeType(n.getNoticeType());
                     tmp.setUserId(n.getUser().getId());
                     tmp.setFromUserId(n.getFromUserId());
-                    tmp.setFromUserNickname(user.getNickname());
+                    tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
                     tmp.setPostIdx(n.getPostIdx());
                     tmp.setRead(n.getRead());
                     tmp.setTime(n.getTime());

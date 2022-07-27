@@ -9,6 +9,7 @@ import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.TipService;
 import com.gwangjubob.livealone.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class TipServiceImpl implements TipService {
     private UserService userService;
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
     public TipServiceImpl(TipRepository tipRepository, UserService userService, UserInfoMapper userInfoMapper){
         this.tipRepository = tipRepository;
         this.userService = userService;
@@ -27,17 +29,10 @@ public class TipServiceImpl implements TipService {
     }
     @Override
     public void createTip(String decodeId, TipCreateDto tipCreateDto) {
+        UserEntity user = userInfoMapper.toEntity(userService.infoUser(decodeId));
 
-        UserInfoDto userInfo = userService.infoUser(decodeId);
-        UserEntity user = userInfoMapper.toEntity(userInfo);
-
-        TipEntity tip = TipEntity.builder()
-                .user(user)
-                .category(tipCreateDto.getCategory())
-                .title(tipCreateDto.getTitle())
-                .content(tipCreateDto.getContent())
-                .bannerImg(tipCreateDto.getBannerImg())
-                .build();
+        tipCreateDto.setUser(user);
+        TipEntity tip = tipCreateDto.toEntity();
 
         tipRepository.save(tip);
     }
@@ -52,14 +47,17 @@ public class TipServiceImpl implements TipService {
             tmp.setIdx(t.getIdx());
             tmp.setUserNickname(t.getUser().getNickname());
             tmp.setUserProfileImg(t.getUser().getProfileImg());
+//            tmp.setUser(t.getUser());
             tmp.setTitle(t.getTitle());
             tmp.setBannerImg(t.getBannerImg());
 
             tmp.setLikeCnt(0); // 좋아요 수 카운트 서비스 또 호출
             tmp.setCommentCnt(0); // 댓글,대댓글 수 카운트
             tmp.setViewCnt(0); // 조회 수 카운트
+
             result.add(tmp);
         }
         return result;
+
     }
 }
