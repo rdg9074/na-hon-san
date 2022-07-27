@@ -2,7 +2,9 @@ package com.gwangjubob.livealone.backend.service;
 
 import com.gwangjubob.livealone.backend.controller.NoticeController;
 import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
+import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.notice.NoticeViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
@@ -15,26 +17,25 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 //@DataJpaTest
-@Disabled
 public class NoticeServiceTest {
     private NoticeRepository noticeRepository;
     private UserService userService;
     private NoticeService noticeService;
+    private UserRepository userRepository;
 
     @Autowired
-    NoticeServiceTest(NoticeRepository noticeRepository, UserService userService, NoticeService noticeService){
+    NoticeServiceTest(NoticeRepository noticeRepository, UserService userService, NoticeService noticeService,
+                      UserRepository userRepository){
         this.noticeRepository = noticeRepository;
         this.userService = userService;
         this.noticeService = noticeService;
+        this.userRepository = userRepository;
     }
 
     @Test
@@ -45,14 +46,19 @@ public class NoticeServiceTest {
         String postType = "deal";
         String noticeType = "comment";
 
+        Integer idx = 1;
+        Optional<NoticeEntity> testNotice = noticeRepository.findByIdx(idx);
         // when
-        NoticeEntity notice = noticeRepository.findByIdx(1).get();
 
-        // then
-        Assertions.assertThat(notice.getUser().getId()).isEqualTo(userId);
-        Assertions.assertThat(notice.getRead()).isEqualTo(read);
-        Assertions.assertThat(notice.getPostType()).isEqualTo(postType);
-        Assertions.assertThat(notice.getNoticeType()).isEqualTo(noticeType);
+        if(testNotice.isPresent()){
+            NoticeEntity notice = testNotice.get();
+
+            // then
+            Assertions.assertThat(notice.getUser().getId()).isEqualTo(userId);
+            Assertions.assertThat(notice.getRead()).isEqualTo(read);
+            Assertions.assertThat(notice.getPostType()).isEqualTo(postType);
+            Assertions.assertThat(notice.getNoticeType()).isEqualTo(noticeType);
+        }
     }
 
     @Test
@@ -79,32 +85,36 @@ public class NoticeServiceTest {
         types.put("reply", true);
 
         // when
-        List<NoticeViewDto> result = new ArrayList<>();
+        Optional<UserEntity> testUser = userRepository.findById(testId);
 
-        for(Map.Entry<String, Object> info : types.entrySet()){
-            if((boolean)info.getValue()){
-                List<NoticeEntity> notices = noticeRepository.findByUserIdAndNoticeType(testId, info.getKey());
+        if(testUser.isPresent()){
+            List<NoticeViewDto> result = new ArrayList<>();
 
-                for(NoticeEntity n : notices){
-                    NoticeViewDto tmp = new NoticeViewDto();
-                    tmp.setIdx(n.getIdx());
-                    tmp.setNoticeType(n.getNoticeType());
-                    tmp.setUserId(n.getUser().getId());
-                    tmp.setFromUserId(n.getFromUserId());
-                    tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
-                    tmp.setPostIdx(n.getPostIdx());
-                    tmp.setRead(n.getRead());
-                    tmp.setTime(n.getTime());
-                    tmp.setPostType(n.getPostType());
+            for(Map.Entry<String, Object> info : types.entrySet()){
+                if((boolean)info.getValue()){
+                    List<NoticeEntity> notices = noticeRepository.findByUserIdAndNoticeType(testId, info.getKey());
 
-                    result.add(tmp);
+                    for(NoticeEntity n : notices){
+                        NoticeViewDto tmp = new NoticeViewDto();
+                        tmp.setIdx(n.getIdx());
+                        tmp.setNoticeType(n.getNoticeType());
+                        tmp.setUserId(n.getUser().getId());
+                        tmp.setFromUserId(n.getFromUserId());
+                        tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
+                        tmp.setPostIdx(n.getPostIdx());
+                        tmp.setRead(n.getRead());
+                        tmp.setTime(n.getTime());
+                        tmp.setPostType(n.getPostType());
+
+                        result.add(tmp);
+                    }
                 }
             }
-        }
 
-        // then
-        for(NoticeViewDto notice : result){
-            System.out.println(notice.toString());
+            // then
+            for(NoticeViewDto notice : result){
+                System.out.println(notice.toString());
+            }
         }
     }
 
@@ -114,11 +124,15 @@ public class NoticeServiceTest {
         String testId = "ssafy";
         int testIdx = 4;
 
-        // when
-        Boolean result = noticeService.readNotice(testId, testIdx);
+        Optional<NoticeEntity> testNotice = noticeRepository.findByIdx(testIdx);
 
-        // then
-        Assertions.assertThat(result).isEqualTo(true);
+        if(testNotice.isPresent()){
+            // when
+            Boolean result = noticeService.readNotice(testId, testIdx);
+
+            // then
+            Assertions.assertThat(result).isEqualTo(true);
+        }
     }
 
     @Test
@@ -127,13 +141,17 @@ public class NoticeServiceTest {
         String testId = "ssafy";
         int testIdx = 1;
 
-        // when
-        noticeService.deleteNotice(testId, testIdx);
+        Optional<NoticeEntity> testNotice = noticeRepository.findByIdx(testIdx);
 
-        // then
-        List<NoticeViewDto> result = noticeService.viewNotice(testId);
-        for(NoticeViewDto notice : result){
-            System.out.println(notice.toString());
+        if(testNotice.isPresent()) {
+            // when
+            noticeService.deleteNotice(testId, testIdx);
+
+            // then
+            List<NoticeViewDto> result = noticeService.viewNotice(testId);
+            for (NoticeViewDto notice : result) {
+                System.out.println(notice.toString());
+            }
         }
     }
 }

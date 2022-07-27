@@ -39,6 +39,7 @@ public class TipEntity{
     private byte[] bannerImg;
 
     private Integer view;
+    @Column(name = "likes")
     private Integer like;
     private Integer comment;
 

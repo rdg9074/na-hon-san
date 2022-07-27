@@ -1,15 +1,18 @@
 package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
+import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
+import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.TipCommentService;
 import com.gwangjubob.livealone.backend.service.TipService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +52,42 @@ public class TipController {
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/honeyTip/{category}")
+    public ResponseEntity<?> viewTip(@PathVariable String category){
+        resultMap = new HashMap<>();
+
+        try{
+            List<TipViewDto> list = tipService.viewTip(category); // 카테고리별 게시글 목록 조회
+            resultMap.put("data", list);
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/honeyTip/detail/{idx}")
+    public ResponseEntity<?> detailViewTip(@PathVariable Integer idx){
+        resultMap = new HashMap<>();
+
+        try{
+            TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
+            resultMap.put("tip",dto);
+            List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
+            resultMap.put("tipComments", list);
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
@@ -125,23 +164,6 @@ public class TipController {
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-        }
-
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-    @GetMapping("/honeyTip/{category}")
-    public ResponseEntity<?> viewTip(@PathVariable String category){
-        resultMap = new HashMap<>();
-
-        try{
-            List<TipViewDto> list = tipService.viewTip(category); // 카테고리별 게시글 목록 조회
-            resultMap.put("data", list);
-            resultMap.put("message", okay);
-            status = HttpStatus.OK;
-        }catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);

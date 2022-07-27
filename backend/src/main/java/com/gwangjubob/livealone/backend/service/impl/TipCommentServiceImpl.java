@@ -8,17 +8,19 @@ import com.gwangjubob.livealone.backend.domain.repository.TipRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
+import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
 import com.gwangjubob.livealone.backend.service.TipCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TipCommentServiceImpl implements TipCommentService {
 
     private UserRepository userRepository;
-
     private TipCommentRepository tipCommentRepository;
     private TipRepository tipRepository;
 
@@ -34,15 +36,15 @@ public class TipCommentServiceImpl implements TipCommentService {
         UserEntity user = userRepository.findById(decodeId).get();
         TipEntity tip = tipRepository.findByIdx(requestDto.getPostIdx()).get(); // 게시글 정보
 
-//        TipCommentEntity entity = TipCommentEntity.builder()
-//                .user(user)
-//                .tip(tip)
-//                .upIdx(requestDto.getUpIdx())
-//                .content(requestDto.getContent())
-//                .bannerImg(requestDto.getBannerImg())
-//                .build();
-//
-//        tipCommentRepository.save(entity);
+        TipCommentEntity entity = TipCommentEntity.builder()
+                .user(user)
+                .tip(tip)
+                .upIdx(requestDto.getUpIdx())
+                .content(requestDto.getContent())
+                .bannerImg(requestDto.getBannerImg())
+                .build();
+
+        tipCommentRepository.save(entity);
     }
 
     @Override
@@ -67,5 +69,27 @@ public class TipCommentServiceImpl implements TipCommentService {
 //
 //            tipCommentRepository.saveAndFlush(tipComment);
 //        }
+    }
+
+    @Override
+    public List<TipCommentViewDto> viewTipComment(Integer idx) {
+        TipEntity tipEntity = tipRepository.findByIdx(idx).get();
+        List<TipCommentEntity> tipCommentEntity = tipCommentRepository.findByTip(tipEntity);
+        List<TipCommentViewDto> result = new ArrayList<>();
+
+        for(TipCommentEntity t : tipCommentEntity){
+            TipCommentViewDto dto = TipCommentViewDto.builder()
+                    .idx(t.getIdx())
+                    .userProfileImg(t.getUser().getProfileImg())
+                    .userNickname(t.getUser().getNickname())
+                    .content(t.getContent())
+                    .bannerImg(t.getBannerImg())
+                    .time(t.getTime())
+                    .build();
+
+            result.add(dto);
+        }
+
+        return result;
     }
 }
