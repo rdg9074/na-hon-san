@@ -65,7 +65,7 @@ public class TipServiceTest {
         String category = "item";
         String title = "꿀템테스트333";
         String content = "게시글테스트1 텍스트";
-        String bannerImg = "src/img/img1.jpg";
+        byte[] bannerImg = null;
 
         // when
         if(optionalUser.isPresent()){ // 회원 정보가 있다면
@@ -134,7 +134,7 @@ public class TipServiceTest {
         String category = null;
         String title = "꿀템수정제목만";
         String content = null;
-        String bannerImg = null;
+        byte[] bannerImg = null;
 
         TipEntity tip = tipRepository.findByIdx(testIdx).get(); // idx에 해당하는 게시글 가져오기
         UserEntity user = userRepository.findByNickname(testNickname).get();
@@ -208,7 +208,7 @@ public class TipServiceTest {
         // given
         String nickname = "비밀번호는 ssafy 입니다.";
         String content = "대댓글 테스트";
-        String bannerImg = "이미지형식";
+        byte[] bannerImg = null;
 //        String bannerImg = null;
         Integer idx = 19;
         Integer postIdx = 22;

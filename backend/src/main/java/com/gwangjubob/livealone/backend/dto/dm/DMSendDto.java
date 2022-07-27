@@ -11,5 +11,5 @@ public class DMSendDto  {
     String fromId;
     String toId;
     String content;
-    String image;
+    byte[] image;
 }

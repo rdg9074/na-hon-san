@@ -12,7 +12,7 @@ import lombok.Setter;
 public class PostViewDto {
     private Integer idx;
     private String title;
-    private String bannerImg;
+    private byte[] bannerImg;
 
     private Integer likeCnt;
     private Integer commentCnt;

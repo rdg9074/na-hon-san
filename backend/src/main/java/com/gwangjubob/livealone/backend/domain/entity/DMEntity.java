@@ -27,12 +27,13 @@ public class DMEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer idx;
     String content;
-    String image;
+    @Lob
+    byte[] image;
     @Column(name="is_read")
     Boolean read;
     LocalDateTime time;
     @Builder
-    public DMEntity(UserEntity fromUserId, UserEntity toUserId, String content, String image){ //DM 전송 빌더
+    public DMEntity(UserEntity fromUserId, UserEntity toUserId, String content, byte[] image){ //DM 전송 빌더
         this.content = content;
         this.image = image;
         this.fromUserId = fromUserId;
