@@ -33,11 +33,14 @@ public class DealEntity {
     private UserEntity user;
 
     LocalDateTime time;
+    @Column(name = "update_time")
+    LocalDateTime updateTime;
     private String title;
     private String content;
     private String category;
+    @Lob
     @Column(name = "banner_img")
-    private String bannerImg;
+    private byte[] bannerImg;
     private String state;
     private String area;
     private Integer view;

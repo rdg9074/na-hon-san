@@ -33,6 +33,8 @@ public class DealCommentEntity {
     private DealEntity deal;
 
     LocalDateTime time;
+    @Column(name = "update_time")
+    LocalDateTime updateTime;
     private String content;
     @Column(name = "banner_img")
     private String bannerImg;

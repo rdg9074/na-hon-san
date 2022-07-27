@@ -51,7 +51,7 @@ public class DealServiceTest {
         String title = "제목이다.";
         String content = "내용입니다.";
         String category = "주방용품";
-        String bannerImg = "test.jpg";
+        byte[] bannerImg = null;
         String state = "거래중";
         String area = "광주";
         Integer view = 3;
@@ -104,7 +104,7 @@ public class DealServiceTest {
         String title = "update";
         String content = "update";
         String category = "update";
-        String bannerImg = "update";
+        byte[] bannerImg = null;
         String state = "거래중";
         DealDto dealDto = new DealDto()
                 .builder()
@@ -150,7 +150,7 @@ public class DealServiceTest {
         Integer upidx = 0;
         String userNickname = "비밀번호는 test 입니다.";
         String content = "댓글 내용입니다.";
-        String bannerImg = "test.jpg";
+        byte[] bannerImg = null;
         Optional<UserEntity> optionalUser = userRepository.findByNickname(userNickname);
         Optional<DealEntity> optionalDeal = dealRepository.findById(postIdx);
         if (optionalUser.isPresent() && optionalDeal.isPresent()){
@@ -180,7 +180,7 @@ public class DealServiceTest {
         Map<String, Object> resultMap = new HashMap<>();
         Integer idx = 11;
         String content = "update";
-        String bannerImg = "update";
+        byte[] bannerImg = null;
         DealCommentDto dealCommentDto = DealCommentDto
                 .builder()
                 .content(content)
