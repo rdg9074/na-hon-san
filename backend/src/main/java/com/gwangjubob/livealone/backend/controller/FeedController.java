@@ -2,9 +2,10 @@ package com.gwangjubob.livealone.backend.controller;
 
 
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
+import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
-import com.gwangjubob.livealone.backend.service.UserFollowService;
+import com.gwangjubob.livealone.backend.service.UserFeedService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import com.gwangjubob.livealone.backend.service.impl.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ public class FeedController {
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
-    private final UserFollowService userFollowService;
+    private final UserFeedService userFeedService;
     @Autowired
-    FeedController(UserService userService ,UserFollowService userFollowService,JwtService jwtService,MailService mailService){
+    FeedController(UserService userService , UserFeedService userFeedService, JwtService jwtService, MailService mailService){
         this.userService = userService;
         this.jwtService = jwtService;
         this.mailService = mailService;
-        this.userFollowService = userFollowService;
+        this.userFeedService = userFeedService;
     }
 
     @PostMapping("/userFeed/follow/{id}")
@@ -42,7 +43,7 @@ public class FeedController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
-            userFollowService.registFollow(decodeId,fromId);
+            userFeedService.registFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
         }else {
@@ -58,7 +59,7 @@ public class FeedController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
-            userFollowService.deleteFollow(decodeId,fromId);
+            userFeedService.deleteFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
         }else {
@@ -75,7 +76,7 @@ public class FeedController {
         try{
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowOpen()) {// 대상 id가 팔로우 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFollowService.listFollow(fromId);
+                List<FollowViewDto> result = userFeedService.listFollow(fromId);
                 resultMap.put("data",result);
             }else{
                 resultMap.put("data",notAllowed);
@@ -94,7 +95,7 @@ public class FeedController {
         try{
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFollowService.listFollower(fromId);
+                List<FollowViewDto> result = userFeedService.listFollower(fromId);
                 resultMap.put("data",result);
             }else{
                 resultMap.put("data",notAllowed);
@@ -114,7 +115,7 @@ public class FeedController {
         try{
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFollowService.searchFollow(fromId,keyword);
+                List<FollowViewDto> result = userFeedService.searchFollow(fromId,keyword);
                 resultMap.put("data",result);
             }else{
                 resultMap.put("data",notAllowed);
@@ -129,18 +130,31 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follower/search/{id}")
     public ResponseEntity<?> searchFollower(@PathVariable("id")String fromId, @RequestParam("keyword") String keyword){
-        System.out.println(keyword);
         resultMap = new HashMap<>();
         try{
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFollowService.searchFollower(fromId,keyword);
+                List<FollowViewDto> result = userFeedService.searchFollower(fromId,keyword);
                 resultMap.put("data",result);
             }else{
                 resultMap.put("data",notAllowed);
             }
             resultMap.put("result",okay);
             status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("result",fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap,status);
+    }
+    @GetMapping("/userFeed/profile/{id}")
+    public ResponseEntity<?> feedProfile(@PathVariable("id")String fromId){
+        resultMap = new HashMap<>();
+        try{
+                ProfileViewDto result = userFeedService.feedProfile(fromId);
+                resultMap.put("data",result);
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;

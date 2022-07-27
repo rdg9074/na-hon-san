@@ -3,11 +3,12 @@ package com.gwangjubob.livealone.backend.service.impl;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
 import com.gwangjubob.livealone.backend.domain.repository.UserCategoryRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserFollowRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserFeedRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
+import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
-import com.gwangjubob.livealone.backend.service.UserFollowService;
+import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,19 +19,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserFollowServiceImpl implements UserFollowService {
+public class UserFeedServiceImpl implements UserFeedService {
     private UserRepository userRepository;
     private UserCategoryRepository userCategoryRepository;
     private final PasswordEncoder passwordEncoder;
     private UserInfoMapper userInfoMapper;
-    private UserFollowRepository userFollowRepository;
+    private UserFeedRepository userFeedRepository;
     @Autowired
-    UserFollowServiceImpl(UserRepository userRepository,UserFollowRepository userFollowRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserFeedServiceImpl(UserRepository userRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userCategoryRepository = userCategoryRepository;
         this.userInfoMapper = userInfoMapper;
-        this.userFollowRepository = userFollowRepository;
+        this.userFeedRepository = userFeedRepository;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class UserFollowServiceImpl implements UserFollowService {
                 .followId(fromId)
                 .followNickname(follow.get().getNickname())
                 .build();
-            userFollowRepository.save(userFollowEntity);
+            userFeedRepository.save(userFollowEntity);
             return true;
         }
         return false;
@@ -52,7 +53,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 
     @Override
     public List<FollowViewDto> listFollow(String id) {
-        List<UserFollowEntity> userFollowEntitys = userFollowRepository.findByUserId(id);
+        List<UserFollowEntity> userFollowEntitys = userFeedRepository.findByUserId(id);
         List<FollowViewDto> res = new ArrayList<>();
         for(UserFollowEntity userFollowEntity : userFollowEntitys){
             Optional<UserEntity> userEntity = userRepository.findById(userFollowEntity.getFollowId()); //아이디로 회원정보 조회하기
@@ -69,7 +70,7 @@ public class UserFollowServiceImpl implements UserFollowService {
 
     @Override
     public List<FollowViewDto> listFollower(String id) {
-        List<UserFollowEntity> userFollowEntitys = userFollowRepository.findByFollowId(id);
+        List<UserFollowEntity> userFollowEntitys = userFeedRepository.findByFollowId(id);
         List<FollowViewDto> res = new ArrayList<>();
         for(UserFollowEntity userFollowEntity : userFollowEntitys){
             Optional<UserEntity> userEntity = userRepository.findById(userFollowEntity.getUserId()); //아이디로 회원정보 조회하기
@@ -85,7 +86,7 @@ public class UserFollowServiceImpl implements UserFollowService {
     }
     @Override
     public List<FollowViewDto> searchFollow(String id, String keyword) {
-        List<UserFollowEntity> userFollowEntitys = userFollowRepository.findByUserIdAndFollowNicknameContaining(id,keyword);
+        List<UserFollowEntity> userFollowEntitys = userFeedRepository.findByUserIdAndFollowNicknameContaining(id,keyword);
         List<FollowViewDto> res = new ArrayList<>();
         for(UserFollowEntity userFollowEntity : userFollowEntitys){
             Optional<UserEntity> userEntity = userRepository.findById(userFollowEntity.getFollowId()); //아이디로 회원정보 조회하기
@@ -101,7 +102,7 @@ public class UserFollowServiceImpl implements UserFollowService {
     }
     @Override
     public List<FollowViewDto> searchFollower(String id, String keyword) {
-        List<UserFollowEntity> userFollowEntitys = userFollowRepository.findByFollowIdAndUserNicknameContaining(id,keyword);
+        List<UserFollowEntity> userFollowEntitys = userFeedRepository.findByFollowIdAndUserNicknameContaining(id,keyword);
         List<FollowViewDto> res = new ArrayList<>();
         for(UserFollowEntity userFollowEntity : userFollowEntitys){
             Optional<UserEntity> userEntity = userRepository.findById(userFollowEntity.getUserId()); //아이디로 회원정보 조회하기
@@ -117,10 +118,27 @@ public class UserFollowServiceImpl implements UserFollowService {
     }
 
     @Override
+    public ProfileViewDto feedProfile(String id) {
+        ProfileViewDto profileViewDto = new ProfileViewDto();
+        Optional<UserEntity> userInfo = userRepository.findById(id);
+        int followerCnt = userFeedRepository.countByFollowId(id);
+        int followCnt = userFeedRepository.countByUserId(id);
+        if(userInfo.isPresent()){
+            profileViewDto.setId(userInfo.get().getId());
+            profileViewDto.setNickname(userInfo.get().getNickname());
+            profileViewDto.setProfileImg(userInfo.get().getProfileImg());
+            profileViewDto.setProfileMsg(userInfo.get().getProfileMsg());
+            profileViewDto.setFollowCount(followCnt);
+            profileViewDto.setFollowerCount(followerCnt);
+        }
+        return profileViewDto;
+    }
+
+    @Override
     @Transactional
     public boolean deleteFollow(String toId, String fromId) {
-        if(userFollowRepository.findByUserIdAndFollowId(toId,fromId).isPresent()){
-            userFollowRepository.deleteByUserIdAndFollowId(toId,fromId);
+        if(userFeedRepository.findByUserIdAndFollowId(toId,fromId).isPresent()){
+            userFeedRepository.deleteByUserIdAndFollowId(toId,fromId);
             return true;
         }
         return false;
