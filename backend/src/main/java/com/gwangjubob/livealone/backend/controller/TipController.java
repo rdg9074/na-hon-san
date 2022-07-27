@@ -3,6 +3,7 @@ package com.gwangjubob.livealone.backend.controller;
 import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
+import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.TipCommentService;
 import com.gwangjubob.livealone.backend.service.TipService;
@@ -60,6 +61,25 @@ public class TipController {
         if(!decodeId.equals("timeout")){
             try{
                 tipCommentService.createTipComment(decodeId, tipCommentCreateDto); // 꿀팁 댓글 작성 서비스 호출
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @PutMapping("/honeyTip/comment/{idx}")
+    public ResponseEntity<?> updateTipComment(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipCommentUpdateDto tipCommentUpdateDto){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+
+        if(!decodeId.equals("timeout")){
+            try{
+                tipCommentService.updateTipComment(decodeId, idx, tipCommentUpdateDto); // 댓글 수정 서비스 호출
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch (Exception e){

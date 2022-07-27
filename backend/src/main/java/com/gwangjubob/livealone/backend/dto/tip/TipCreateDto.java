@@ -8,8 +8,8 @@ import lombok.*;
 @Getter
 @Setter
 public class TipCreateDto {
+    private UserEntity user;
 
-    private UserEntity user; // 글 작성자 정보
     private String category; // 해당 글 카테고리
     private String title; // 글 제목
     private String content; // 글 내용

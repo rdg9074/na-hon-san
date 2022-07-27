@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,14 @@ import java.util.List;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class UserEntity {
+public class UserEntity implements Serializable {
 
     @Id
     private String id;
     private String password;
     @Column(unique = true)
     private String nickname;
+
     private String area;
     @Column(name="follow_open")
     private Boolean followOpen;
