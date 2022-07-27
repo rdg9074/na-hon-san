@@ -8,7 +8,9 @@ import com.gwangjubob.livealone.backend.domain.repository.UserCategoryRepository
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
+import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
+import jdk.jfr.Category;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SpringBootTest
 @Transactional
@@ -261,7 +262,32 @@ public class UserServiceTest {
         System.out.println("FAIL");
 
         }
+    }
 
+    @Test
+    public void 회원_추가_정보_조회(){
+        Map<String , Object> resultMap = new HashMap<>();
+        String id = "ssafy";
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()){
+            UserEntity user = optionalUser.get();
+            List<UserCategoryEntity> userCategoryEntities = userCategoryRepository.findByUser(user);
+            List<String> categorys = new ArrayList<>();
+            for (UserCategoryEntity c : userCategoryEntities){
+                categorys.add(c.getCategory());
+            }
+            UserMoreDTO data = UserMoreDTO
+                    .builder()
+                    .userId(user.getId())
+                    .area(user.getArea())
+                    .categorys(categorys)
+                    .build();
+            resultMap.put("data", data);
+            resultMap.put("message", okay);
+        } else{
+            resultMap.put("message", fail);
+        }
+        System.out.println(resultMap);
     }
 }
 

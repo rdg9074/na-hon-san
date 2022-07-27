@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,5 +128,27 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findById(id).get();
         UserInfoDto userInfo = userInfoMapper.toDto(user);
         return userInfo;
+    }
+
+    @Override
+    public UserMoreDTO infoMore(String id) {
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()){
+            UserEntity user = userRepository.findById(id).get();
+            List<UserCategoryEntity> userCategoryEntities = userCategoryRepository.findByUser(user);
+            List<String> categorys = new ArrayList<>();
+            for (UserCategoryEntity c : userCategoryEntities){
+                categorys.add(c.getCategory());
+            }
+            UserMoreDTO data = UserMoreDTO
+                    .builder()
+                    .userId(user.getId())
+                    .area(user.getArea())
+                    .categorys(categorys)
+                    .build();
+            return data;
+        } else{
+            return null;
+        }
     }
 }

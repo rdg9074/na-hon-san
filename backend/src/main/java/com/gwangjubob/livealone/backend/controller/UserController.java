@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
@@ -254,6 +255,28 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @GetMapping("/user/more")
+    public ResponseEntity<?> infoMore(HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        if(decodeId != null) {
+            try {
+                UserMoreDTO user = userService.infoMore(decodeId);
+                if(user != null){
+                    resultMap.put("message", okay);
+                    resultMap.put("data", user);
+                } else{
+                    resultMap.put("message", fail);
+                }
+                status = HttpStatus.OK;
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
@@ -265,5 +288,7 @@ public class UserController {
             return null;
         }
     }
+
+
 }
 

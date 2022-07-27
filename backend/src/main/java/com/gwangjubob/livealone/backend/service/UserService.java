@@ -21,4 +21,6 @@ public interface UserService {
 
     void moreUpdate(UserMoreDTO userMoreDTO);
     UserInfoDto infoUser(String id);
+
+    UserMoreDTO infoMore(String id);
 }
