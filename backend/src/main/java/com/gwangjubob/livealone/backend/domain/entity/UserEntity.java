@@ -41,6 +41,8 @@ public class UserEntity implements Serializable {
     private Boolean replyNotice;
     @Column(name="profile_msg")
     private String profileMsg;
+
+    @Lob
     @Column(name="profile_img")
     @Lob
     private byte[] profileImg;
