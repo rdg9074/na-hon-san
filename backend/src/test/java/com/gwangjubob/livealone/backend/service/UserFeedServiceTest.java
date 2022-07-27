@@ -1,10 +1,10 @@
 package com.gwangjubob.livealone.backend.service;
 
+import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
+import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
+import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
-import com.gwangjubob.livealone.backend.domain.repository.DMRepository;
-import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserFeedRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
+import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
@@ -32,9 +33,11 @@ public class UserFeedServiceTest {
     private MailRepository mailRepository;
     private UserFeedRepository userFeedRepository;
     private UserService userService;
+    private TipRepository tipRepository;
+    private DealRepository dealRepository;
 
     @Autowired
-    UserFeedServiceTest(DMRepository dmRepository, UserService userService, UserFeedRepository userFeedRepository, DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserFeedServiceTest(DMRepository dmRepository,TipRepository tipRepository, DealRepository dealRepository,UserService userService, UserFeedRepository userFeedRepository, DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.dmRepository = dmRepository;
         this.dmService = dmService;
         this.userRepository = userRepository;
@@ -43,6 +46,8 @@ public class UserFeedServiceTest {
         this.mailRepository = mailRepository;
         this.userFeedRepository = userFeedRepository;
         this.userService = userService;
+        this.tipRepository = tipRepository;
+        this.dealRepository = dealRepository;
     }
 
     @Test
@@ -153,6 +158,35 @@ public class UserFeedServiceTest {
         System.out.println(userInfoDto.toString());
         System.out.println("followCnt : "+ followCnt);
         System.out.println("followerCnt : "+ followerCnt);
+
+
+
+    }
+    @Test
+    public void 회원_피드_게시글_조회() {
+        //given
+        String id = "test";
+        int category = 1; //[0] = 꿀팁 [1] = 꿀딜
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        //when
+        List<TipEntity> tipEntities = null;
+        List<DealEntity> dealEntities = null;
+        if (category == 0) { //사용자가 작성한 꿀팁 게시글 조회
+            tipEntities = tipRepository.findByUser(userEntity.get());
+        } else if (category == 1) {//사용자가 작성한 꿀팁 게시글 조회
+            dealEntities = dealRepository.findByUser(userEntity.get());
+        }
+
+        //then
+        if(category == 0){
+            for (TipEntity tipEntity : tipEntities) {
+                System.out.println(tipEntity.toString());
+            }
+        }else if(category == 1){
+            for (DealEntity dealEntity : dealEntities){
+                System.out.println(dealEntity.toString());
+            }
+        }
 
 
 

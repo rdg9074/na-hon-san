@@ -116,10 +116,6 @@ public class DMServiceTest {
 
         // then
         System.out.println(res);
-//        Assertions.assertThat(res.getIdx()).isNotNull();
-//        Assertions.assertThat(res.getFromUserId()).isEqualTo(dmEntity.getFromUserId());
-//        Assertions.assertThat(res.getToUserId()).isEqualTo(dmEntity.getToUserId());
-//        Assertions.assertThat(res.getContent()).isEqualTo(dmEntity.getContent());
     }
 
 }
