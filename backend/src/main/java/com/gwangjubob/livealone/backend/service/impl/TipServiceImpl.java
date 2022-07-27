@@ -3,38 +3,57 @@ package com.gwangjubob.livealone.backend.service.impl;
 import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.repository.TipRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
+import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
+import com.gwangjubob.livealone.backend.mapper.TipCreateMapper;
+import com.gwangjubob.livealone.backend.mapper.TipUpdateMapper;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.TipService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TipServiceImpl implements TipService {
     private TipRepository tipRepository;
     private UserService userService;
-    private UserInfoMapper userInfoMapper;
+    private UserRepository userRepository;
+    private TipCreateMapper tipCreateMapper;
+    private TipUpdateMapper tipUpdateMapper;
 
     @Autowired
-    public TipServiceImpl(TipRepository tipRepository, UserService userService, UserInfoMapper userInfoMapper){
+    public TipServiceImpl(TipRepository tipRepository, UserService userService, UserRepository userRepository,
+                          TipCreateMapper tipCreateMapper, TipUpdateMapper tipUpdateMapper){
         this.tipRepository = tipRepository;
         this.userService = userService;
-        this.userInfoMapper = userInfoMapper;
+        this.userRepository = userRepository;
+        this.tipCreateMapper = tipCreateMapper;
+        this.tipUpdateMapper = tipUpdateMapper;
     }
     @Override
     public void createTip(String decodeId, TipCreateDto tipCreateDto) {
-        UserEntity user = userInfoMapper.toEntity(userService.infoUser(decodeId));
+        UserEntity user = userRepository.findById(decodeId).get();
 
-        tipCreateDto.setUser(user);
-        TipEntity tip = tipCreateDto.toEntity();
+        TipCreateDto dto = TipCreateDto.builder()
+                .userNickname(user.getNickname())
+                .category(tipCreateDto.getCategory())
+                .title(tipCreateDto.getTitle())
+                .content(tipCreateDto.getContent())
+                .bannerImg(tipCreateDto.getBannerImg())
+                .build();
 
-        tipRepository.save(tip);
+        TipEntity tipEntity = tipCreateMapper.toEntity(dto);
+        tipEntity.setUser(user);
+
+        tipRepository.save(tipEntity);
     }
 
     @Override
@@ -43,21 +62,51 @@ public class TipServiceImpl implements TipService {
         List<TipViewDto> result = new ArrayList<>();
 
         for(TipEntity t : tipEntity){
-            TipViewDto tmp = new TipViewDto();
-            tmp.setIdx(t.getIdx());
-            tmp.setUserNickname(t.getUser().getNickname());
-            tmp.setUserProfileImg(t.getUser().getProfileImg());
-//            tmp.setUser(t.getUser());
-            tmp.setTitle(t.getTitle());
-            tmp.setBannerImg(t.getBannerImg());
+            TipViewDto dto = TipViewDto.builder()
+                    .idx(t.getIdx())
+                    .userNickname(t.getUser().getNickname())
+                    .userProfileImg(t.getUser().getProfileImg())
+                    .title(t.getTitle())
+                    .bannerImg(t.getBannerImg())
+                    .viewCnt(t.getView())
+                    .likeCnt(0)
+                    .commentCnt(0)
+                    .build();
 
-            tmp.setLikeCnt(0); // 좋아요 수 카운트 서비스 또 호출
-            tmp.setCommentCnt(0); // 댓글,대댓글 수 카운트
-            tmp.setViewCnt(0); // 조회 수 카운트
-
-            result.add(tmp);
+            result.add(dto);
         }
         return result;
 
+    }
+
+    @Override
+    public void updateTip(String decodeId, TipUpdateDto tipUpdateDto, Integer idx) {
+        TipEntity tip = tipRepository.findByIdx(idx).get();
+        UserEntity user = userRepository.findById(decodeId).get();
+
+        if(user.getNickname().equals(tip.getUser().getNickname())){
+            TipUpdateDto updateDto = TipUpdateDto.builder()
+                    .idx(idx)
+                    .category(tipUpdateDto.getCategory())
+                    .title(tipUpdateDto.getTitle())
+                    .content(tipUpdateDto.getContent())
+                    .bannerImg(tipUpdateDto.getBannerImg())
+                    .build();
+
+            TipEntity updateEntity = tipUpdateMapper.toEntity(updateDto);
+            updateEntity.setUser(user);
+            updateEntity.setTime(LocalDateTime.now());
+
+            tipRepository.save(updateEntity);
+        }
+    }
+
+    @Override
+    public void deleteTip(String decodeId, Integer idx) {
+        TipEntity tip = tipRepository.findByIdx(idx).get();
+        UserEntity user = userRepository.findById(decodeId).get();
+        if(user.getNickname().equals(tip.getUser().getNickname())){
+            tipRepository.delete(tip);
+        }
     }
 }
