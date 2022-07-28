@@ -22,4 +22,6 @@ public class DealDto {
     private String state;
     private String area;
     private Integer view;
+    private Integer likes;
+    private Integer comment;
 }

@@ -2,19 +2,24 @@ package com.gwangjubob.livealone.backend.service;
 
 import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
+import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
+import com.gwangjubob.livealone.backend.mapper.DealMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +31,8 @@ public class UserFeedServiceTest {
     private DMRepository dmRepository;
     private DMService dmService;
     private UserRepository userRepository;
+    private UserCategoryRepository userCategoryRepository;
+    private DealMapper dealMapper;
     private PasswordEncoder passwordEncoder;
     private JavaMailSender javaMailSender;
     private MailRepository mailRepository;
@@ -35,7 +42,7 @@ public class UserFeedServiceTest {
     private DealRepository dealRepository;
 
     @Autowired
-    UserFeedServiceTest(DMRepository dmRepository,TipRepository tipRepository, DealRepository dealRepository,UserService userService, UserFeedRepository userFeedRepository, DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserFeedServiceTest(DMRepository dmRepository,UserCategoryRepository userCategoryRepository, DealMapper dealMapper,TipRepository tipRepository, DealRepository dealRepository,UserService userService, UserFeedRepository userFeedRepository, DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.dmRepository = dmRepository;
         this.dmService = dmService;
         this.userRepository = userRepository;
@@ -46,6 +53,8 @@ public class UserFeedServiceTest {
         this.userService = userService;
         this.tipRepository = tipRepository;
         this.dealRepository = dealRepository;
+        this.userCategoryRepository = userCategoryRepository;
+        this.dealMapper = dealMapper;
     }
 
     @Test
@@ -204,6 +213,51 @@ public class UserFeedServiceTest {
         //then
         for (PopularFollowDto popularFollowDto : popularFollowDtoList){
             System.out.println(popularFollowDto.toString());
+        }
+    }
+    @Test
+    @Transactional
+    public void 카테고리기반_꿀딜_추천() {
+        String category ="가전";
+        String state = "test";
+
+        //given
+        UserEntity user = userRepository.findById("test").get();
+        List<UserCategoryEntity> userCategoryEntityList = userCategoryRepository.findByUser(user);
+
+
+        List<DealEntity> dealEntityList = new ArrayList<>();
+        List<DealDto> result = new ArrayList<>();
+        for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
+            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"test",user.getArea());
+            for(DealEntity dealEntity : findTop6){
+                dealEntityList.add(dealEntity);
+            }
+        }
+        HashMap<Integer,Boolean> map = new HashMap<>();//
+        int cnt = 0;
+        while(cnt < 6){
+            int rand = (int)(Math.random() * dealEntityList.size());
+            if(!map.containsKey(rand)){ // 뽑은 숫자가 아니라면 result에
+                cnt++;
+                map.put(rand,true);
+                DealEntity dealEntity = dealEntityList.get(rand);
+                DealDto dealDto = new DealDto();
+                dealDto.setUserNickname(dealEntity.getUser().getNickname());
+                dealDto.setTitle(dealEntity.getTitle());
+                dealDto.setContent(dealEntity.getContent());
+                dealDto.setCategory(dealEntity.getCategory());
+                dealDto.setBannerImg(dealEntity.getBannerImg());
+                dealDto.setView(dealEntity.getView());
+                dealDto.setComment(dealEntity.getComment());
+                dealDto.setLikes(dealEntity.getLikes());
+                dealDto.setArea(dealEntity.getArea());
+                dealDto.setState(dealEntity.getState());
+                result.add(dealDto);
+            }
+        }
+        for(DealDto dealDto : result){
+            System.out.println(dealDto.toString());
         }
     }
 

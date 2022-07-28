@@ -2,18 +2,22 @@ package com.gwangjubob.livealone.backend.service.impl;
 
 import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
+import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
+import com.gwangjubob.livealone.backend.mapper.DealMapper;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +28,14 @@ public class UserFeedServiceImpl implements UserFeedService {
     private final PasswordEncoder passwordEncoder;
     private UserInfoMapper userInfoMapper;
     private TipRepository tipRepository;
+    private DealMapper dealMapper;
     private DealRepository dealRepository;
     private UserFeedRepository userFeedRepository;
     @Autowired
-    UserFeedServiceImpl(UserRepository userRepository,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserFeedServiceImpl(UserRepository userRepository,DealMapper dealMapper,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.dealMapper = dealMapper;
         this.userCategoryRepository = userCategoryRepository;
         this.userInfoMapper = userInfoMapper;
         this.userFeedRepository = userFeedRepository;
@@ -203,5 +209,44 @@ public class UserFeedServiceImpl implements UserFeedService {
 
         }
         return popularFollowDtoList;
+    }
+
+    @Override
+    public List<DealDto> popularHoneyDeal(String decodeId) {
+        Optional<UserEntity> user = userRepository.findById(decodeId);
+        List<UserCategoryEntity> userCategoryEntityList = userCategoryRepository.findByUser(user.get());;
+
+
+        List<DealEntity> dealEntityList = new ArrayList<>();
+        List<DealDto> result = new ArrayList<>();
+        for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
+            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"test",user.get().getArea());
+            for(DealEntity dealEntity : findTop6){
+                dealEntityList.add(dealEntity);
+            }
+        }
+        HashMap<Integer,Boolean> map = new HashMap<>();//
+        int cnt = 0;
+        while(cnt < 6){
+            int rand = (int)(Math.random() * dealEntityList.size());
+            if(!map.containsKey(rand)){ // 뽑은 숫자가 아니라면 result에
+                cnt++;
+                map.put(rand,true);
+                DealEntity dealEntity = dealEntityList.get(rand);
+                DealDto dealDto = new DealDto();
+                dealDto.setUserNickname(dealEntity.getUser().getNickname());
+                dealDto.setTitle(dealEntity.getTitle());
+                dealDto.setContent(dealEntity.getContent());
+                dealDto.setCategory(dealEntity.getCategory());
+                dealDto.setBannerImg(dealEntity.getBannerImg());
+                dealDto.setView(dealEntity.getView());
+                dealDto.setComment(dealEntity.getComment());
+                dealDto.setLikes(dealEntity.getLikes());
+                dealDto.setArea(dealEntity.getArea());
+                dealDto.setState(dealEntity.getState());
+                result.add(dealDto);
+            }
+        }
+        return result;
     }
 }
