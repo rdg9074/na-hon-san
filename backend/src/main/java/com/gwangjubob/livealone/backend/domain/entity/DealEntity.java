@@ -44,6 +44,8 @@ public class DealEntity {
     private String state;
     private String area;
     private Integer view;
+    private Integer likes;
+    private Integer comment;
 
     @OneToMany(mappedBy = "deal")
     List<DealCommentEntity> comments = new ArrayList<>();

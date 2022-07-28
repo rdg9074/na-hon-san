@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @AllArgsConstructor
-public class UserCategoryEntity {
+public class UserCategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;

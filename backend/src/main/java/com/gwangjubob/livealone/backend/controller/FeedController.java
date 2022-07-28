@@ -1,6 +1,7 @@
 package com.gwangjubob.livealone.backend.controller;
 
 
+import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
@@ -186,6 +187,24 @@ public class FeedController {
 
             List<PopularFollowDto> result = userFeedService.popularFollower();
             resultMap.put("data",result);
+            resultMap.put("result",okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("result",fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap,status);
+    }
+    @GetMapping("/mainFeed/honeyDeal")
+    public ResponseEntity<?> popularHoneyDeal(HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        try{
+            if(decodeId != null){
+                List<DealDto> result = userFeedService.popularHoneyDeal(decodeId);
+                resultMap.put("data",result);
+
+            }
             resultMap.put("result",okay);
             status = HttpStatus.OK;
         }catch (Exception e){

@@ -277,6 +277,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
+
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
