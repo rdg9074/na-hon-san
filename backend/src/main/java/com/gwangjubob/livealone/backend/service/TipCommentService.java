@@ -12,4 +12,6 @@ public interface TipCommentService {
     void updateTipComment(String decodeId, Integer idx, TipCommentUpdateDto requestDto);
 
     List<TipCommentViewDto> viewTipComment(Integer idx);
+
+    void deleteTipComment(String decodeId, Integer idx);
 }

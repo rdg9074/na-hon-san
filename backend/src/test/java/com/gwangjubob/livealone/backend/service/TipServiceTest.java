@@ -256,15 +256,15 @@ public class TipServiceTest {
     @Test
     public void 대댓글_등록_테스트(){
         // given
-        int upIdx = 23;
+        int upIdx = 33;
 
-        String testNickname = "비밀번호는 ssafy 입니다.";
+        String testNickname = "비밀번호는 test 입니다.";
         UserEntity user = userRepository.findByNickname(testNickname).get();
 
-        String content = "대댓글테스트";
+        String content = "대댓글테스트3333";
         byte[] bannerImg = null;
 
-        int postIdx = 33;
+        int postIdx = 41;
         Optional<TipEntity> optionalTipEntity = tipRepository.findByIdx(postIdx);
 
         if(optionalTipEntity.isPresent()){
@@ -299,7 +299,7 @@ public class TipServiceTest {
 
         UserEntity user = userRepository.findByNickname(nickname).get();
         TipEntity tip = tipRepository.findByIdx(postIdx).get();
-        TipCommentEntity tipComment = tipCommentRepository.findByIdx(idx);
+        Optional<TipCommentEntity> tipComment = tipCommentRepository.findByIdx(idx);
 
 
 //        // when
@@ -330,16 +330,25 @@ public class TipServiceTest {
     @Test
     public void 댓글_대댓글_삭제_테스트() {
         // given
-        Integer idx = 20;
-        String testId = "ssafy";
-        TipCommentEntity tipComment = tipCommentRepository.findByIdx(idx);
+        Integer idx = 33; // 게시글 번호
+        String testNickname = "비밀번호는 ssafy 입니다.";
+        Optional<TipCommentEntity> optionalTipComment = tipCommentRepository.findByIdx(idx);
 
-        // when
-        if(testId.equals(tipComment.getUser().getId())){ // 아이디랑 댓글작성자 아이디가 같으면 삭제 가능
-            if(tipComment.getUpIdx() != 0){ // 0이 아니면 대댓글이므로 그냥 삭제 가능
-                tipCommentRepository.delete(tipComment);
-            }else{ // 댓글이랑 엮인 대댓글까지 삭제해야함
-                while(true){
+        if(optionalTipComment.isPresent()){
+            TipCommentEntity tipComment = optionalTipComment.get();
+            // when
+            if(testNickname.equals(tipComment.getUser().getNickname())){ // 아이디랑 댓글작성자 아이디가 같으면 삭제 가능
+                if(tipComment.getUpIdx() != 0){ // 0이 아니면 대댓글이므로 그냥 삭제 가능
+                    tipCommentRepository.delete(tipComment);
+                }else{ // 댓글이랑 엮인 대댓글"들"까지 삭제해야함
+                    List<TipCommentEntity> replyCommentList = tipCommentRepository.findByUpIdx(idx); // 대댓글 리스트 조회
+
+                    if(!replyCommentList.isEmpty()){
+                        for(TipCommentEntity replyComment : replyCommentList){
+                            tipCommentRepository.delete(replyComment);
+                        }
+                    }
+                    tipCommentRepository.delete(tipComment); // 댓글 삭제
 
                 }
             }

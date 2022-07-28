@@ -169,6 +169,25 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @DeleteMapping("honeyTip/comment/{idx}")
+    public ResponseEntity<?> deleteTipComment(HttpServletRequest request, @PathVariable Integer idx){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+
+        if(!decodeId.equals("timeout")){
+            try{
+                tipCommentService.deleteTipComment(decodeId, idx);
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
