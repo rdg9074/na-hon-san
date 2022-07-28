@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TipUpdateDto {
-    private Integer idx;
     private String category;
     private String title;
     private String content;

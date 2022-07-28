@@ -15,6 +15,7 @@ import org.springframework.expression.spel.ast.OpAnd;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,26 +52,28 @@ public class TipCommentServiceImpl implements TipCommentService {
 
     @Override
     public void updateTipComment(String decodeId, Integer idx, TipCommentUpdateDto requestDto) {
-        UserEntity user = userRepository.findById(decodeId).get();
-        TipEntity tip = tipRepository.findByIdx(requestDto.getPostIdx()).get(); // 게시글 정보
 
-        Optional<TipCommentEntity> tipComment = tipCommentRepository.findByIdx(idx);
+        Optional<TipCommentEntity> optionalTipComment = tipCommentRepository.findByIdx(idx);
 
-//        // 댓글 작성자와 로그인 아이디가 일치하면 수정
-//        if(user.getNickname().equals(tipComment.getUser().getNickname())){
-//            requestDto.setTime(LocalDate.now());
-//            tipComment = TipCommentEntity.builder()
-//                    .idx(idx)
-//                    .user(user)
-//                    .tip(tip)
-//                    .content(requestDto.getContent())
-//                    .bannerImg(requestDto.getBannerImg())
-//                    .time(requestDto.getTime())
-//                    .upIdx(tipComment.getUpIdx())
-//                    .build();
-//
-//            tipCommentRepository.saveAndFlush(tipComment);
-//        }
+        if(optionalTipComment.isPresent()){
+            TipCommentEntity tipComment = optionalTipComment.get();
+            UserEntity user = userRepository.findById(decodeId).get();
+            TipEntity tip = tipRepository.findByIdx(tipComment.getTip().getIdx()).get(); // 게시글 정보
+
+            TipCommentEntity updateTipComment = TipCommentEntity.builder()
+                    .idx(idx)
+                    .user(user)
+                    .tip(tip)
+                    .upIdx(tipComment.getUpIdx())
+                    .content(requestDto.getContent())
+                    .bannerImg(requestDto.getBannerImg())
+                    .time(tipComment.getTime())
+                    .updateTime(LocalDateTime.now())
+                    .build();
+
+            tipCommentRepository.saveAndFlush(updateTipComment);
+        }
+
     }
 
     @Override
@@ -110,9 +113,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     List<TipCommentEntity> replyCommentList = tipCommentRepository.findByUpIdx(idx);
 
                     if(!replyCommentList.isEmpty()){
-                        for(TipCommentEntity replyComment : replyCommentList){
-                            tipCommentRepository.delete(replyComment);
-                        }
+                        tipCommentRepository.deleteAllInBatch(replyCommentList);
                     }
                     tipCommentRepository.delete(tipComment);
 
