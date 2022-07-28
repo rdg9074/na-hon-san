@@ -85,23 +85,27 @@ public class TipServiceImpl implements TipService {
 
     @Override
     public void updateTip(String decodeId, TipUpdateDto tipUpdateDto, Integer idx) {
-        TipEntity tip = tipRepository.findByIdx(idx).get();
+        Optional<TipEntity> optionalTip = tipRepository.findByIdx(idx);
         UserEntity user = userRepository.findById(decodeId).get();
 
-        if(user.getNickname().equals(tip.getUser().getNickname())){
-            TipUpdateDto updateDto = TipUpdateDto.builder()
-                    .idx(idx)
-                    .category(tipUpdateDto.getCategory())
-                    .title(tipUpdateDto.getTitle())
-                    .content(tipUpdateDto.getContent())
-                    .bannerImg(tipUpdateDto.getBannerImg())
-                    .build();
+        if(optionalTip.isPresent()){
+            TipEntity tip = optionalTip.get();
+            if(user.getNickname().equals(tip.getUser().getNickname())){
+                TipUpdateDto updateDto = TipUpdateDto.builder()
+                        .category(tipUpdateDto.getCategory())
+                        .title(tipUpdateDto.getTitle())
+                        .content(tipUpdateDto.getContent())
+                        .bannerImg(tipUpdateDto.getBannerImg())
+                        .build();
 
-            TipEntity updateEntity = tipUpdateMapper.toEntity(updateDto);
-            updateEntity.setUser(user);
-            updateEntity.setUpdateTime(LocalDateTime.now());
+                TipEntity updateEntity = tipUpdateMapper.toEntity(updateDto);
+                updateEntity.setIdx(idx);
+                updateEntity.setUser(user);
+                updateEntity.setTime(tip.getTime());
+                updateEntity.setUpdateTime(LocalDateTime.now());
 
-            tipRepository.save(updateEntity);
+                tipRepository.save(updateEntity);
+            }
         }
     }
 

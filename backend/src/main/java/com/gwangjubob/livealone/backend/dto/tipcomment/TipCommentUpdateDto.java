@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class TipCommentUpdateDto {
-    private Integer postIdx;
-    private Integer upIdx;
     private String content;
     private byte[] bannerImg;
-    private LocalDate time;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name="users", uniqueConstraints = {@UniqueConstraint( //추가 name = "NAME_AGE_UNIQUE",
         columnNames = {"nickname"} )})
 @NoArgsConstructor
@@ -58,22 +59,4 @@ public class UserEntity implements Serializable {
         this.nickname = nickname;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id='" + id + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", area='" + area + '\'' +
-                ", followOpen=" + followOpen +
-                ", followerOpen=" + followerOpen +
-                ", likeNotice=" + likeNotice +
-                ", followNotice=" + followNotice +
-                ", commentNotice=" + commentNotice +
-                ", replyNotice=" + replyNotice +
-                ", profileMsg='" + profileMsg + '\'' +
-                ", profileImg=" + Arrays.toString(profileImg) +
-                ", social='" + social + '\'' +
-                '}';
-    }
 }
