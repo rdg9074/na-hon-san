@@ -6,6 +6,7 @@ import { passwordReg } from "@constants/reg";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { chkNickNameExist, join, login } from "@apis/auth";
 import { getUserInfo } from "@store/ducks/auth/authThunk";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 type nickNameDupliType = "" | "err" | "success";
 
@@ -15,6 +16,7 @@ function JoinDetail() {
   const dispatch = useAppDispatch();
   const [validPassword, setValidPassword] = useState(true);
   const [samePassword, setSamePassword] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [nickNameDupli, setNickNameDupli] = useState<nickNameDupliType>("");
 
   const nickNameRef = useRef<HTMLInputElement>(null);
@@ -39,14 +41,17 @@ function JoinDetail() {
       chkPasswordRef.current?.focus();
       return;
     }
-
-    const res = await join(userId, form.password, form.nickName);
-    if (res === "SUCCESS") {
-      const loginRes = await login(userId, form.password);
-      if (loginRes === "SUCCESS") {
-        await dispatch(getUserInfo());
-        navigate("/join/welcome");
+    if (!isLoading) {
+      setIsLoading(true);
+      const res = await join(userId, form.password, form.nickName);
+      if (res === "SUCCESS") {
+        const loginRes = await login(userId, form.password);
+        if (loginRes === "SUCCESS") {
+          await dispatch(getUserInfo());
+          navigate("/join/welcome");
+        }
       }
+      setIsLoading(false);
     }
   };
 
@@ -102,6 +107,7 @@ function JoinDetail() {
             placeholder="닉네임을 입력해주세요."
             autoComplete="nickname"
             ref={nickNameRef}
+            maxLength={10}
           />
           <button
             type="button"
@@ -164,7 +170,15 @@ function JoinDetail() {
             className="form__btn flex align-center justify-center notoMid fs-16"
             onClick={submitUserInfo}
           >
-            다음
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "회원가입 완료"
+            )}
           </button>
         </form>
       </div>

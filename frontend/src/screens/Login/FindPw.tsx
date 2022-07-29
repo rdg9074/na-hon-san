@@ -4,9 +4,11 @@ import { useAppDispatch } from "@store/hooks";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FindPw.scss";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 function FindPw() {
   const [errMsg, setErrMsg] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const idInputRef = useRef<HTMLInputElement>(null);
@@ -15,7 +17,8 @@ function FindPw() {
     if (!idInputRef.current?.value) {
       idInputRef.current?.focus();
       setErrMsg("이메일을 입력해주세요.");
-    } else {
+    } else if (!isLoading) {
+      setIsLoading(true);
       const tmpId = idInputRef.current.value;
       const res = await sendAuthCode(tmpId, 1);
       if (res === "SUCCESS") {
@@ -24,6 +27,7 @@ function FindPw() {
       } else {
         setErrMsg("가입된 이메일이 아닙니다.");
       }
+      setIsLoading(false);
     }
   };
   return (
@@ -59,7 +63,15 @@ function FindPw() {
             className="form__btn notoMid fs-16"
             onClick={submitAuthCode}
           >
-            인증번호 전송하기
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                alt="로딩스피너"
+                className="loading-spinner"
+              />
+            ) : (
+              "인증번호 전송하기"
+            )}
           </button>
         </main>
       </div>{" "}

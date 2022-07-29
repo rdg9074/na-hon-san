@@ -36,7 +36,7 @@ describe("추가정보입력 페이지", () => {
       </MemoryRouter>
     );
     addressInput = screen.getByPlaceholderText("주소를 검색해주세요");
-    nextBtn = screen.getByText("다음");
+    nextBtn = screen.getByText("설정");
   });
 
   afterEach(() => server.resetHandlers());

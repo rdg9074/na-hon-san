@@ -4,10 +4,12 @@ import { passwordReg } from "@constants/reg";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "@apis/auth";
 import { useAppSelector } from "@store/hooks";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 function ResetPw() {
   const [validPassword, setValidPassword] = useState<boolean>(true);
   const [samePassword, setSamePassword] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const passwordRef = useRef<HTMLInputElement>(null);
   const chkPasswordRef = useRef<HTMLInputElement>(null);
@@ -32,9 +34,13 @@ function ResetPw() {
     } else if (!chkPasswordRef.current?.value) {
       chkPasswordRef.current?.focus();
     } else if (validPassword && samePassword) {
-      const res = await resetPassword(id, passwordRef.current.value);
-      if (res === "SUCCESS") {
-        navigate("/login");
+      if (!isLoading) {
+        setIsLoading(true);
+        const res = await resetPassword(id, passwordRef.current.value);
+        if (res === "SUCCESS") {
+          navigate("/login");
+        }
+        setIsLoading(false);
       }
     }
   };
@@ -84,7 +90,15 @@ function ResetPw() {
             className="form__btn notoMid fs-16"
             onClick={onResetPassword}
           >
-            비밀번호 재설정
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "비밀번호 재설정"
+            )}
           </button>
         </main>
       </div>

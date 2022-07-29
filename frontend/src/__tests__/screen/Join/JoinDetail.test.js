@@ -90,7 +90,7 @@ describe("회원가입 디테일페이지", () => {
       "비밀번호를 다시 한번 입력해주세요."
     );
     nickNameBtn = screen.getByText("중복확인");
-    joinBtn = screen.getByText("다음");
+    joinBtn = screen.getByText("회원가입 완료");
   });
 
   afterEach(() => server.resetHandlers());
