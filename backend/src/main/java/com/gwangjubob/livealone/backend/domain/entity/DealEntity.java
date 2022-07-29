@@ -24,13 +24,13 @@ public class DealEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
+
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "user_nickname", referencedColumnName = "nickname"),
             @JoinColumn(name = "user_id", referencedColumnName = "id")
     })
     private UserEntity user;
-
 
     LocalDateTime time;
     @Column(name = "update_time")
@@ -46,7 +46,6 @@ public class DealEntity {
     private Integer view;
     private Integer likes;
     private Integer comment;
-
     @OneToMany(mappedBy = "deal")
     List<DealCommentEntity> comments = new ArrayList<>();
 
