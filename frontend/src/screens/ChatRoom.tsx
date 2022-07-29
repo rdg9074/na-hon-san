@@ -1,65 +1,85 @@
-import Chat from "@components/Letters/Chat";
-import React, { useEffect, useState } from "react";
+import Chat, { ChatProps } from "@components/Letters/Chat";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { v4 } from "uuid";
 import "./ChatRoom.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
 import ImgIcon from "@images/ImgIcon.svg";
+import { getDmDetailList, sendDm } from "@apis/dm";
+import loadingSpinner from "@images/LoadingSpinner.svg";
 
 function ChatRoom() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [chatInfo, setChatInfo] = useState({ send: "", recv: "", letters: [] });
-  const dummy = [
-    { content: "어떤거부터사야지?", type: "recv" },
-    { content: "벤츠?", type: "send" },
-    { content: "아유아유ㅏ?", type: "recv" },
-    {
-      content:
-        "뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?",
-      type: "send"
-    },
-    { content: "어떤거부터사야지?", type: "recv" },
-    { content: "벤츠?", type: "send" },
-    { content: "아유아유ㅏ?", type: "recv" },
-    {
-      content:
-        "뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?",
-      type: "send"
-    },
-    { content: "어떤거부터사야지?", type: "send" },
-    {
-      content:
-        "뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?",
-      type: "send"
-    },
-    { content: "어떤거부터사야지?", type: "send" },
-    {
-      content:
-        "뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?",
-      type: "send"
-    },
-    { content: "어떤거부터사야지?", type: "send" },
-    {
-      content:
-        "뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?뭐라고?",
-      type: "send"
-    },
-    { content: "어떤거부터사야지?", type: "send" }
-  ];
+  const withId = searchParams.get("with") as string;
+  const [dmList, setDmList] = useState<Array<ChatProps>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [firstLoading, setFirstLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const observerTarget = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const getDmList = async () => {
+    setIsLoading(true);
+    const res = await getDmDetailList(withId as string);
+    if (res.message === "SUCCESS") {
+      const dummyTest = res.data.map((dm: ChatProps) => ({
+        ...dm,
+        content: dm.content + page
+      }));
+      if (!firstLoading) {
+        setFirstLoading(true);
+        setDmList([...dummyTest.reverse()]);
+      } else {
+        setDmList([...dmList, ...dummyTest.reverse()]);
+      }
+    }
+    setIsLoading(false);
+  };
+
+  const onIntersect = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry: IntersectionObserverEntry) => {
+      if (entry.isIntersecting && !isLoading) {
+        setPage(prev => prev + 1);
+      }
+    });
+  };
+
+  const submitDm = async (content: string, image?: string) => {
+    setDmList([{ type: "to", content }, ...dmList]);
+    const res = await sendDm(withId, content, image);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (e.target.value !== "" && firstLoading) {
+        submitDm(e.target.value);
+        e.target.value = "";
+      }
+    }
+  };
   useEffect(() => {
-    const send = searchParams.get("send");
-    const recv = searchParams.get("recv");
-    if (send && recv) {
-      setChatInfo({
-        ...chatInfo,
-        send,
-        recv
-      });
-    } else {
+    if (!withId) {
       navigate("/404");
     }
   }, []);
+
+  useEffect(() => {
+    getDmList();
+  }, [page]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersect, { threshold: 0.1 });
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [dmList]);
+
   return (
     <div className="wrapper">
       <div id="chat-room">
@@ -69,19 +89,43 @@ function ChatRoom() {
             src={UserDummyIcon}
             alt="유저더미"
           />
-          <p className="chat-room__user-nick-name notoBold fs-24">
-            {chatInfo.recv}
-          </p>
+          <p className="chat-room__user-nick-name notoBold fs-24">{withId}</p>
         </header>
         <div className="chat-list">
-          {dummy.map(item => (
-            <Chat type={item.type} content={item.content} key={v4()} />
-          ))}
+          {dmList.length !== 0 ? (
+            <>
+              {dmList.map((dm: ChatProps) => (
+                <Chat type={dm.type} content={dm.content} key={v4()} />
+              ))}
+              {isLoading ? (
+                <div
+                  className="spinner-wrraper
+                flex justify-center"
+                >
+                  <img
+                    src={loadingSpinner}
+                    title="로딩스피너"
+                    alt="로딩스피너"
+                    className="loading-spinner"
+                  />
+                </div>
+              ) : (
+                <div ref={observerTarget} className="observerTarget">
+                  여기!
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="no-chat flex align-center justify-center fs-24">
+              {firstLoading && "주고받은 대화가 없습니다!"}
+            </div>
+          )}
         </div>
         <input
           type="text"
           placeholder="채팅을 입력해주세요."
           className="chat-input notoReg fs-15"
+          onKeyUp={handleKeyUp}
         />
         <footer className="chat-footer">
           <button type="button" className="chat-btn">

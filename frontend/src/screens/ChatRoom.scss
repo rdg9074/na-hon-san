@@ -169,6 +169,24 @@
   border: 1px solid $GRAY_DB;
   border-radius: (20px);
 
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .spinner-wrrapper {
+    width: 100%;
+    justify-content: center;
+  }
+  .loading-spinner {
+    margin-bottom: (8px);
+    width: (28px);
+    height: (28px);
+    animation: spin 1s linear infinite;
+  }
   .chat-room {
     &__user-img {
       margin-right: (8px);
@@ -177,9 +195,11 @@
     }
   }
   .chat-list {
+    display: flex;
+    flex-direction: column-reverse;
     margin: (8px) 0;
     padding: (8px);
-    height: vw(592px);
+    height: (592px);
     overflow-y: scroll;
 
     border-top: 1px solid $BLACK;
@@ -204,6 +224,11 @@
     width: (28px);
     height: (28px);
   }
+  .no-chat {
+    width: (329px);
+    height: 100%;
+    color: $SKELETON;
+  }
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
@@ -212,6 +237,13 @@
     padding: vw(48px) vw(72px);
 
     border-radius: vw(20px);
+
+    .loading-spinner {
+      margin-bottom: vw(8px);
+      width: vw(28px);
+      height: vw(28px);
+    }
+
     .chat-room {
       &__user-img {
         margin-right: vw(8px);
@@ -237,6 +269,9 @@
       width: vw(28px);
       height: vw(28px);
     }
+    .no-chat {
+      width: vw(329px);
+    }
   }
 }
 
@@ -246,6 +281,12 @@
     padding: vw-t(48px) vw-t(72px);
 
     border-radius: vw-t(20px);
+
+    .loading-spinner {
+      width: vw-t(28px);
+      height: vw-t(28px);
+    }
+
     .chat-room {
       &__user-img {
         margin-right: vw-t(8px);
@@ -271,6 +312,9 @@
       width: vw-t(28px);
       height: vw-t(28px);
     }
+    .no-chat {
+      width: vw-t(329px);
+    }
   }
 }
 @media screen and (max-width: $PHONE-VW) {
@@ -278,6 +322,12 @@
     margin-top: vw-p(22px);
     padding: 0;
     border: none;
+
+    .loading-spinner {
+      margin-bottom: vw-p(8px);
+      width: vw-p(28px);
+      height: vw-p(28px);
+    }
 
     .chat-room {
       &__user-img {
@@ -303,6 +353,9 @@
     .chat__img-icon {
       width: vw-p(28px);
       height: vw-p(28px);
+    }
+    .no-chat {
+      width: vw-p(329px);
     }
   }
 }

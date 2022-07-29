@@ -7,9 +7,11 @@ import logger from "redux-logger";
 import { persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 import authSlice from "./ducks/auth/authSlice";
+import dmSlice from "./ducks/dm/dmSlice";
 
 const rootReducer = combineReducers({
-  auth: authSlice
+  auth: authSlice,
+  dm: dmSlice
 });
 
 const persistConfig = {

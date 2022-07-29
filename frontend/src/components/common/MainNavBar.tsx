@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import HeaderLogoImg from "@images/HeaderLogo.svg";
 import "./MainNavBar.scss";
 import AlarmIcon from "@images/Alarm.svg";
 import MsgIcon from "@images/Msg.svg";
 import UserDummyIcon from "@images/UserDummy.svg";
 import MenuIcon from "@images/Menu.svg";
-import { useAppSelector } from "@store/hooks";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { getDmNoticeCount } from "@store/ducks/dm/dmThunk";
 import AlarmToolTip from "./MainNavBar/AlarmToolTip";
 import ProfileToolTip from "./MainNavBar/ProfileToolTip";
 
@@ -17,8 +18,18 @@ function MainNavBar() {
     const prefix = "left-nav__link fs-20 btn--";
     return active ? `${prefix}active` : `${prefix}unactive`;
   };
-  const userInfo = useAppSelector(state => state.auth.userInfo);
-
+  const { userInfo, dmCount, noticeCount } = useAppSelector(state => ({
+    userInfo: state.auth.userInfo,
+    dmCount: state.dm.dmCount,
+    noticeCount: state.dm.noticeCount
+  }));
+  const params = useSearchParams();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getDmNoticeCount());
+    }
+  }, [params]);
   return (
     <div className="nav-wrapper">
       <nav id="main-nav-bar" className="flex align-center">
@@ -66,14 +77,14 @@ function MainNavBar() {
                   onClick={() => setAlarmVisible(!alarmVisible)}
                 >
                   <p className="alarm__cnt fs-8 flex align-center justify-center">
-                    123
+                    {noticeCount}
                   </p>
                   <img className="alarm__icon" src={AlarmIcon} alt="알림" />
                   {alarmVisible && <AlarmToolTip />}
                 </button>
                 <Link className="right-nav__link alarm" to="/letters">
                   <p className="alarm__cnt fs-8 flex align-center justify-center">
-                    1
+                    {dmCount}
                   </p>
                   <img className="alarm__icon" src={MsgIcon} alt="쪽지함" />
                 </Link>
