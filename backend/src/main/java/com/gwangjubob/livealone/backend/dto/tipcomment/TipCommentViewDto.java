@@ -13,10 +13,12 @@ import java.time.LocalDateTime;
 @Data
 public class TipCommentViewDto {
     private Integer idx;
+    private Integer upIdx;
     private String userNickname;
     private byte[] userProfileImg;
 
     private String content;
     private byte[] bannerImg;
     private LocalDateTime time;
+    private LocalDateTime updateTime;
 }

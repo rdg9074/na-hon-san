@@ -85,11 +85,13 @@ public class TipCommentServiceImpl implements TipCommentService {
         for(TipCommentEntity t : tipCommentEntity){
             TipCommentViewDto dto = TipCommentViewDto.builder()
                     .idx(t.getIdx())
+                    .upIdx(t.getUpIdx())
                     .userProfileImg(t.getUser().getProfileImg())
                     .userNickname(t.getUser().getNickname())
                     .content(t.getContent())
                     .bannerImg(t.getBannerImg())
                     .time(t.getTime())
+                    .updateTime(t.getUpdateTime())
                     .build();
 
             result.add(dto);

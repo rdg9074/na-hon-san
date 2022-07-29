@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 public class TipDetailViewDto {
     private String userNickname;
+    private byte[] userProfileImg;
     private String category;
     private String title;
     private String content;
     private byte[] bannerImg;
     private LocalDateTime time;
+    private LocalDateTime updateTime;
 
     private Integer view;
     private Integer like;
