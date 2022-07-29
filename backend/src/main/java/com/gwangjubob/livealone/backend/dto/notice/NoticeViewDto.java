@@ -16,6 +16,7 @@ public class NoticeViewDto {
     private String userId;
     private String fromUserId;
     private String fromUserNickname;
+    private byte[] fromUserProfileImg;
     private String postType;
     private Boolean read;
     private LocalDateTime time;
