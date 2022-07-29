@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { chkAuthCode, sendAuthCode } from "@apis/auth";
 import "./ChkEmail.scss";
 import { v4 } from "uuid";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 type ChkEmailProps = {
   type: "findPw" | "login";
@@ -53,6 +54,8 @@ function ChkEmail({ type }: ChkEmailProps) {
   const userId = useAppSelector(state => state.auth.tmpId);
   const [timerKey, setTimerKey] = useState(v4());
   const [errMsg, setErrMsg] = useState<string>(" ");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [debounceTimer, setDebounceTimer] =
     useState<ReturnType<typeof setTimeout>>();
 
@@ -64,21 +67,24 @@ function ChkEmail({ type }: ChkEmailProps) {
       inputRef.current?.focus();
       return;
     }
-
-    let typeNumber = -1;
-    if (type === "login") typeNumber = 0;
-    if (type === "findPw") typeNumber = 1;
-    const res = await chkAuthCode(
-      userId,
-      inputRef.current?.value as string,
-      typeNumber
-    );
-    if (res === "SUCCESS") {
-      if (type === "login") navigate("/join/detail");
-      if (type === "findPw") navigate("/reset/pw");
-    } else {
-      setErrMsg("인증코드가 올바르지 않습니다.");
-      inputRef.current?.focus();
+    if (!isLoading) {
+      setIsLoading(true);
+      let typeNumber = -1;
+      if (type === "login") typeNumber = 0;
+      if (type === "findPw") typeNumber = 1;
+      const res = await chkAuthCode(
+        userId,
+        inputRef.current?.value as string,
+        typeNumber
+      );
+      if (res === "SUCCESS") {
+        if (type === "login") navigate("/join/detail");
+        if (type === "findPw") navigate("/reset/pw");
+      } else {
+        setErrMsg("인증코드가 올바르지 않습니다.");
+        inputRef.current?.focus();
+      }
+      setIsLoading(false);
     }
   };
 
@@ -129,7 +135,15 @@ function ChkEmail({ type }: ChkEmailProps) {
             onClick={chkCode}
             disabled={errMsg === "인증코드를 새로 발급 받아주세요."}
           >
-            다음
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "다음"
+            )}
           </button>
         </main>
         <footer className="footer">

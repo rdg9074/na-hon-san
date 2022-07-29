@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { setUserMoreInfo } from "@apis/auth";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 function JoinMore() {
   const categorysData = [
@@ -19,6 +20,7 @@ function JoinMore() {
   const navigate = useNavigate();
   const [address, setAddress] = useState<string>("");
   const [categorys, setCategorys] = useState<Array<string>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const scriptUrl =
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
   const open = useDaumPostcodePopup(scriptUrl);
@@ -47,9 +49,13 @@ function JoinMore() {
   };
 
   const sendMoreInfo = async () => {
-    const res = await setUserMoreInfo(address, categorys);
-    if (res === "SUCCESS") {
-      navigate("/");
+    if (!isLoading) {
+      setIsLoading(true);
+      const res = await setUserMoreInfo(address, categorys);
+      if (res === "SUCCESS") {
+        navigate("/");
+      }
+      setIsLoading(false);
     }
   };
   const toggleCategorys = (value: string) => {
@@ -110,7 +116,15 @@ function JoinMore() {
             className="form__btn--submit notoMid fs-16 flex align-center justify-center"
             onClick={sendMoreInfo}
           >
-            다음
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "설정"
+            )}
           </button>
         </main>
         {/* {modalVisible && <AddressModal onClose={() => setModalVisible(false)} />}

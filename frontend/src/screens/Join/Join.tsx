@@ -6,11 +6,13 @@ import { sendAuthCode } from "@apis/auth";
 import { useDispatch } from "react-redux";
 import { setTmpId } from "@store/ducks/auth/authSlice";
 import SocialSection from "@components/common/SocialSection";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 function Join() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const chkValidate = async () => {
@@ -25,13 +27,17 @@ function Join() {
         return;
       }
       const userId = inputRef.current?.value;
-      const res = await sendAuthCode(userId, 0);
-      if (res === "FAIL") {
-        setErrMsg("이미 존재하는 아이디입니다.");
-        inputRef.current?.focus();
-      } else if (res === "SUCCESS") {
-        dispatch(setTmpId({ tmpId: userId }));
-        navigate("chkEmail");
+      if (!isLoading) {
+        setIsLoading(true);
+        const res = await sendAuthCode(userId, 0);
+        if (res === "FAIL") {
+          setErrMsg("이미 존재하는 아이디입니다.");
+          inputRef.current?.focus();
+        } else if (res === "SUCCESS") {
+          dispatch(setTmpId({ tmpId: userId }));
+          navigate("chkEmail");
+        }
+        setIsLoading(false);
       }
     }
   };
@@ -82,7 +88,15 @@ function Join() {
             className="form__btn notoMid fs-15 flex align-center justify-center"
             onClick={chkValidate}
           >
-            다음
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "다음"
+            )}
           </button>
         </section>
         <footer className="footer notoMid fs-12 flex align-center justify-center">

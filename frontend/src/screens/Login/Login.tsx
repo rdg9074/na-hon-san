@@ -5,10 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import SocialSection from "@components/common/SocialSection";
 import { getUserInfo } from "@store/ducks/auth/authThunk";
 import { useAppDispatch } from "@store/hooks";
+import LoadingSpinner from "@images/LoadingSpinner.svg";
 
 function Login() {
   const [errMsg, setErrMsg] = useState<string>("");
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const idInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,17 +22,19 @@ function Login() {
     } else if (!passwordInputRef.current?.value) {
       setErrMsg("비밀번호를 입력해주세요.");
       passwordInputRef.current?.focus();
-    } else {
+    } else if (!isLoading) {
+      setIsLoading(true);
       const res = await login(
         idInputRef.current.value,
         passwordInputRef.current.value
       );
       if (res === "SUCCESS") {
-        dispatch(getUserInfo());
+        await dispatch(getUserInfo());
         navigate("/");
       } else {
         setErrMsg("아이디 또는 비밀번호가 일치하지 않습니다.");
       }
+      setIsLoading(false);
     }
   };
   return (
@@ -70,7 +73,15 @@ function Login() {
             className="form__btn notoMid fs-15 flex align-center justify-center"
             onClick={startLogin}
           >
-            로그인
+            {isLoading ? (
+              <img
+                src={LoadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            ) : (
+              "로그인"
+            )}
           </button>
         </section>
         <footer className="footer notoMid fs-12">
