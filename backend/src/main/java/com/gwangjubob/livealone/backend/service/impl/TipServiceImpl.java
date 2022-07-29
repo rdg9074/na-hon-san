@@ -127,6 +127,7 @@ public class TipServiceImpl implements TipService {
             TipDetailViewDto tipDto = tipDetailViewMapper.toDto(tipEntity);
 
             tipDto.setUserNickname(tipEntity.getUser().getNickname());
+            tipDto.setUserProfileImg(tipEntity.getUser().getProfileImg());
 
             return tipDto;
         }
