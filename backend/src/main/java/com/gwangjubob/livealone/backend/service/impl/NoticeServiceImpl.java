@@ -1,6 +1,7 @@
 package com.gwangjubob.livealone.backend.service.impl;
 
 import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
+import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.notice.NoticeViewDto;
@@ -49,6 +50,7 @@ public class NoticeServiceImpl implements NoticeService {
                     tmp.setUserId(n.getUser().getId());
                     tmp.setFromUserId(n.getFromUserId());
                     tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
+                    tmp.setFromUserProfileImg(userService.infoUser(n.getFromUserId()).getProfileImg());
                     tmp.setPostIdx(n.getPostIdx());
                     tmp.setRead(n.getRead());
                     tmp.setTime(n.getTime());
