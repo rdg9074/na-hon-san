@@ -75,7 +75,7 @@
   display: flex;
 
   & + #chat {
-    margin-top: (8px);
+    margin-bottom: (8px);
   }
   .chat-content {
     padding: (8px);
@@ -91,7 +91,7 @@
     width: vw(313px); //329-16
 
     & + #chat {
-      margin-top: vw(8px);
+      margin-bottom: vw(8px);
     }
     .chat-content {
       padding: vw(8px);
@@ -107,7 +107,7 @@
     width: vw-t(313px); //329-16
 
     & + #chat {
-      margin-top: vw-t(8px);
+      margin-bottom: vw-t(8px);
     }
     .chat-content {
       padding: vw-t(8px);
@@ -123,7 +123,7 @@
     width: vw-p(313px); //329-16
 
     & + #chat {
-      margin-top: vw-p(8px);
+      margin-bottom: vw-p(8px);
     }
     .chat-content {
       padding: vw-p(8px);

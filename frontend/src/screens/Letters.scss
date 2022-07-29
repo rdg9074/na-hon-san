@@ -82,8 +82,13 @@
     border-bottom: 1px solid $GRAY_9E;
   }
   .letters-list {
-    height: vw(661px);
+    height: (661px);
     overflow-y: scroll;
+  }
+  .no-dm {
+    width: (329px);
+    height: 100%;
+    color: $SKELETON;
   }
 }
 
@@ -99,6 +104,9 @@
     }
     .letters-list {
       height: vw(661px);
+    }
+    .no-dm {
+      width: vw(329px);
     }
   }
 }
@@ -116,6 +124,9 @@
     .letters-list {
       height: vw-t(661px);
     }
+    .no-dm {
+      width: vw-t(329px);
+    }
   }
 }
 
@@ -130,6 +141,9 @@
     }
     .letters-list {
       height: vw-p(661px);
+    }
+    .no-dm {
+      width: vw-t(329px);
     }
   }
 }

@@ -2,19 +2,52 @@ import React from "react";
 import "./Letter.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
 import { Link } from "react-router-dom";
+import elapsedTime from "@utils/elapsedTime";
+import { useAppSelector } from "@store/hooks";
 
-function Letter() {
+export type LetterProps = {
+  toId: string;
+  fromId: string;
+  content: string;
+  read: boolean;
+  count: number;
+  time: string;
+  nickname: string;
+};
+
+function Letter({
+  fromId,
+  content,
+  toId,
+  read,
+  count,
+  time,
+  nickname
+}: LetterProps) {
+  const getCount = (value: number) => {
+    if (value > 9) {
+      return "9+";
+    }
+    return value;
+  };
+  const userId = useAppSelector(state => state.auth.userInfo?.id);
+
+  const withId = userId === fromId ? toId : fromId;
+
   return (
-    <Link to="detail?send=진호&recv=최강">
-      <div id="letter" className="flex align-center">
+    <Link to={`detail?with=${withId}`}>
+      <div id="letter" className={read ? "read" : ""}>
         <img src={UserDummyIcon} alt="유저더미" className="letter__user-img" />
         <div className="flex column main-content ellipsis">
-          <p className="letter__user-nick-name notoReg fs-12">최강</p>
-          <p className="letter__desc  notoMid ellipsis fs-14">
-            연봉 7천 갈끄니까~~~~~~~~~~~~!@#!#!@#1231312313
-          </p>
+          <p className="letter__user-nick-name notoReg fs-12">{nickname}</p>
+          <p className="letter__desc  notoMid ellipsis fs-14">{content}</p>
         </div>
-        <p className="letter__time notoReg flex fs-8">12분전</p>
+        <div className="letter__sub flex column">
+          <p className="letter__count notoReg flex align-center justify-center  fs-8">
+            {getCount(count)}
+          </p>
+          <p className="letter__time notoReg fs-8">{elapsedTime(time)}</p>
+        </div>
       </div>
     </Link>
   );

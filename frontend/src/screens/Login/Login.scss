@@ -25,6 +25,7 @@
       background-color: $GRAY_CB;
     }
     &__title {
+      white-space: nowrap;
       color: $GRAY-CB;
       margin: 0 (12px);
     }
