@@ -355,4 +355,14 @@ public class TipServiceTest {
 
         // then
     }
+
+    @Test
+    public void 게시글_좋아요_테스트(){
+        // givn
+        Integer postIdx = 44; // 게시글 번호
+        String userId = "ssafy"; // 로그인 한 사용자 아이디
+        String type = "honeyTip"; // 꿀팁인지 꿀딜인지
+
+        // when
+    }
 }
