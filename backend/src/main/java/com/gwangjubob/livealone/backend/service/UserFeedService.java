@@ -5,6 +5,7 @@ import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
+import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface UserFeedService {
     List<PopularFollowDto> popularFollower();
 
     List<DealDto> popularHoneyDeal(String decodeId);
+
+    List<TipViewDto> userFollowHoneyTip(String decodeId);
 }
