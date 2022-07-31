@@ -1,22 +1,26 @@
-#userfeed-page{
+#userfeed-page {
   padding-bottom: (40px);
-  .profile{
+  .profile {
     margin-top: (60px);
     position: relative;
     width: (570px);
-    &-background{
+    &-background {
       height: (200px);
-      &__img{
+      & .sk {
+        height: 200px;
+        border-radius: (24px);
+      }
+      &__img {
         border-radius: (24px);
         height: (200px);
       }
     }
-    &-user{
+    &-user {
       position: absolute;
       top: (140px);
       left: (225px);
       width: (120px);
-      &__img{
+      &__img {
         background-color: #fff;
         height: (120px);
         width: (120px);
@@ -24,22 +28,23 @@
       }
     }
   }
-  .info{
+  .info {
     margin-top: (80px);
     width: (320px);
     text-align: center;
+
     &__nickname {
       position: relative;
       font-size: (24px);
       & img {
         top: 0;
-        left: (230px);
+        left: (280px);
         position: absolute;
         height: (24px);
         width: (24px);
       }
     }
-    &__follow{
+    &__follow {
       justify-content: space-evenly;
       margin-top: (12px);
       font-size: (12px);
@@ -47,10 +52,10 @@
         margin-left: (8px);
       }
     }
-    &__btn{
+    &__btn {
       justify-content: space-evenly;
       margin-top: (12px);
-      & > button{
+      & > button {
         font-family: "NotoSansBold";
         background-color: $MAIN_YELLOW;
         height: (32px);
@@ -59,26 +64,31 @@
         border-radius: (12px);
       }
     }
-    &__state{
-      margin-top: (24px);
-      text-align: start;
-      font-size: (16px);
-      padding-left: (12px);
-      padding-right: (12px);
-      line-height: (24px);
+    &__state {
+      justify-content: center;
+      width: 100%;
+      & textarea {
+        margin-top: (20px);
+        padding: (12px);
+        width: (320px);
+        height: (120px);
+        resize: none;
+        border: none;
+        outline: none;
+      }
     }
   }
-  .feed{
+  .feed {
     max-width: (970px);
     margin-top: (60px);
-    &-tag{
+    &-tag {
       width: 100%;
       justify-content: space-evenly;
       margin-bottom: (40px);
-      & > button{
+      & > button {
         font-size: (24px);
         height: (48px);
-        & > span{
+        & > span {
           margin-left: (8px);
         }
       }
@@ -87,25 +97,25 @@
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
-  #userfeed-page{
+  #userfeed-page {
     padding-bottom: vw(40px);
-    .profile{
+    .profile {
       margin-top: vw(60px);
       position: relative;
       width: vw(570px);
-      &-background{
+      &-background {
         height: vw(200px);
-        &__img{
+        &__img {
           border-radius: vw(24px);
           height: vw(200px);
         }
       }
-      &-user{
+      &-user {
         position: absolute;
         top: vw(140px);
         left: vw(225px);
         width: vw(120px);
-        &__img{
+        &__img {
           background-color: #fff;
           height: vw(120px);
           width: vw(120px);
@@ -113,7 +123,7 @@
         }
       }
     }
-    .info{
+    .info {
       margin-top: vw(80px);
       width: vw(320px);
       text-align: center;
@@ -128,7 +138,7 @@
           width: vw(24px);
         }
       }
-      &__follow{
+      &__follow {
         justify-content: space-evenly;
         margin-top: vw(12px);
         font-size: vw(12px);
@@ -136,10 +146,10 @@
           margin-left: (8px);
         }
       }
-      &__btn{
+      &__btn {
         justify-content: space-evenly;
         margin-top: vw(12px);
-        & > button{
+        & > button {
           font-family: "NotoSansBold";
           background-color: $MAIN_YELLOW;
           height: vw(32px);
@@ -148,27 +158,27 @@
           border-radius: vw(12px);
         }
       }
-      &__state{
-        margin-top: vw(24px);
-        text-align: start;
-        font-size: vw(16px);
-        padding-left: vw(12px);
-        padding-right: vw(12px);
-        line-height: vw(24px);
+      &__state {
+        & textarea {
+          margin-top: (20px);
+          padding: (12px);
+          width: (320px);
+          height: (120px);
+        }
       }
     }
-    .feed{
+    .feed {
       max-width: vw(970px);
       margin-top: vw(60px);
-      &-tag{
+      &-tag {
         width: 100%;
         justify-content: space-evenly;
         margin-bottom: vw(40px);
-        & > button{
-          font-size: vw(24px);
-          height: vw(48px);
-          & > span{
-            margin-left: vw(8px);
+        & > button {
+          font-size: (24px);
+          height: (48px);
+          & > span {
+            margin-left: (8px);
           }
         }
       }
@@ -177,25 +187,25 @@
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #userfeed-page{
+  #userfeed-page {
     padding-bottom: vw-t(40px);
-    .profile{
+    .profile {
       margin-top: vw-t(60px);
       position: relative;
       width: vw-t(570px);
-      &-background{
+      &-background {
         height: vw-t(200px);
-        &__img{
+        &__img {
           border-radius: vw-t(24px);
           height: vw-t(200px);
         }
       }
-      &-user{
+      &-user {
         position: absolute;
         top: vw-t(140px);
         left: vw-t(225px);
         width: vw-t(120px);
-        &__img{
+        &__img {
           background-color: #fff;
           height: vw-t(120px);
           width: vw-t(120px);
@@ -203,7 +213,7 @@
         }
       }
     }
-    .info{
+    .info {
       margin-top: vw-t(80px);
       width: vw-t(320px);
       text-align: center;
@@ -218,7 +228,7 @@
           width: vw-t(24px);
         }
       }
-      &__follow{
+      &__follow {
         justify-content: space-evenly;
         margin-top: vw-t(12px);
         font-size: vw-t(12px);
@@ -226,10 +236,10 @@
           margin-left: (8px);
         }
       }
-      &__btn{
+      &__btn {
         justify-content: space-evenly;
         margin-top: vw-t(12px);
-        & > button{
+        & > button {
           font-family: "NotoSansBold";
           background-color: $MAIN_YELLOW;
           height: vw-t(32px);
@@ -238,8 +248,7 @@
           border-radius: vw-t(12px);
         }
       }
-      &__state{
-        margin-top: vw-t(24px);
+      &__state {
         text-align: start;
         font-size: vw-t(16px);
         padding-left: vw-t(24px);
@@ -247,17 +256,17 @@
         line-height: vw-t(24px);
       }
     }
-    .feed{
+    .feed {
       max-width: vw-t(970px);
       margin-top: vw-t(60px);
-      &-tag{
+      &-tag {
         width: 100%;
         justify-content: space-evenly;
         margin-bottom: vw-t(40px);
-        & > button{
+        & > button {
           font-size: vw-t(24px);
           height: vw-t(48px);
-          & > span{
+          & > span {
             margin-left: vw-t(8px);
           }
         }
@@ -267,25 +276,28 @@
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #userfeed-page{
+  #userfeed-page {
     padding-bottom: vw-p(40px);
-    .profile{
+    .profile {
       margin-top: vw-p(40px);
       position: relative;
       width: 100%;
-      &-background{
+      &-background {
         height: vw-p(200px);
-        &__img{
+        & .sk {
+          border-radius: 0px;
+        }
+        &__img {
           height: vw-p(200px);
           border-radius: 0px;
         }
       }
-      &-user{
+      &-user {
         position: absolute;
         top: vw-p(140px);
         left: vw-p(125px);
         width: vw-p(120px);
-        &__img{
+        &__img {
           background-color: #fff;
           height: vw-p(125px);
           width: vw-p(125px);
@@ -293,7 +305,7 @@
         }
       }
     }
-    .info{
+    .info {
       margin-top: vw-p(80px);
       width: vw-p(320px);
       text-align: center;
@@ -308,7 +320,7 @@
           width: vw-p(24px);
         }
       }
-      &__follow{
+      &__follow {
         justify-content: space-evenly;
         margin-top: vw-p(12px);
         font-size: vw-p(12px);
@@ -316,10 +328,10 @@
           margin-left: (8px);
         }
       }
-      &__btn{
+      &__btn {
         justify-content: space-evenly;
         margin-top: vw-p(12px);
-        & > button{
+        & > button {
           font-family: "NotoSansBold";
           background-color: $MAIN_YELLOW;
           height: vw-p(32px);
@@ -328,24 +340,23 @@
           border-radius: vw-p(12px);
         }
       }
-      &__state{
-        margin-top: vw-p(24px);
+      &__state {
         text-align: start;
-        font-size: vw-p(12px);
+        font-size: vw-p(10px);
         padding-left: vw-p(36px);
         padding-right: vw-p(12px);
         line-height: vw-p(20px);
       }
     }
-    .feed{
+    .feed {
       margin-top: vw-p(20px);
-      &-tag{
+      &-tag {
         width: 100%;
         justify-content: space-evenly;
-        & > button{
+        & > button {
           font-size: vw-p(16px);
           height: vw-p(48px);
-          & > span{
+          & > span {
             margin-left: vw-p(8px);
           }
         }
