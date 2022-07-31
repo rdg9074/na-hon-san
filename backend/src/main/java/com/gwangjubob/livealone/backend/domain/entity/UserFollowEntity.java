@@ -9,6 +9,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,7 +20,9 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 public class UserFollowEntity {
-
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<TipEntity> tips;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
@@ -30,6 +34,8 @@ public class UserFollowEntity {
     private String followNickname;
     @Column(name="user_nickname")
     private String userNickname;
+
+    private LocalDateTime time;
     @Builder
     public UserFollowEntity(String userId, String followId, String followNickname,String userNickname){ //팔로우 등록 빌더
         this.userId = userId;

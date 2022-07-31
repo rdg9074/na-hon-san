@@ -6,6 +6,7 @@ import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
+import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
@@ -113,7 +114,6 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follow/search/{id}")
     public ResponseEntity<?> searchFollow(@PathVariable("id")String fromId, @RequestParam("keyword") String keyword){
-        System.out.println(keyword);
         resultMap = new HashMap<>();
         try{
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
@@ -202,6 +202,24 @@ public class FeedController {
         try{
             if(decodeId != null){
                 List<DealDto> result = userFeedService.popularHoneyDeal(decodeId);
+                resultMap.put("data",result);
+
+            }
+            resultMap.put("result",okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("result",fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap,status);
+    }
+    @GetMapping("/mainFeed/honeyTip")
+    public ResponseEntity<?> userFollowHoneyTip(HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        try{
+            if(decodeId != null){
+                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId);
                 resultMap.put("data",result);
 
             }
