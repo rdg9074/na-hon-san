@@ -13,4 +13,5 @@ public interface TipService {
     void updateTip(String decodeId, TipUpdateDto tipUpdateDto, Integer idx);
     void deleteTip(String decodeId, Integer idx);
     TipDetailViewDto detailViewTip(Integer idx);
+    void likeTip(String decodeId, Integer idx);
 }
