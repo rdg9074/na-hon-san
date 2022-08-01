@@ -4,8 +4,10 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
 import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
+import com.gwangjubob.livealone.backend.domain.entity.UserLikeDealsEntity;
 import com.gwangjubob.livealone.backend.domain.repository.DealCommentRepository;
 import com.gwangjubob.livealone.backend.domain.repository.DealRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserLikeDealsRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,16 +36,18 @@ public class DealServiceTest {
     private UserRepository userRepository;
 
     private DealCommentRepository dealCommentRepository;
+    private UserLikeDealsRepository userLikeDealsRepository;
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
 
     @Autowired
-    DealServiceTest(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentMapper dealCommentMapper, DealCommentRepository dealCommentRepository){
+    DealServiceTest(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentMapper dealCommentMapper, DealCommentRepository dealCommentRepository, UserLikeDealsRepository userLikeDealsRepository){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
         this.dealCommentMapper = dealCommentMapper;
         this.dealCommentRepository = dealCommentRepository;
+        this.userLikeDealsRepository = userLikeDealsRepository;
     }
 
     @Test
@@ -216,4 +221,53 @@ public class DealServiceTest {
         System.out.println(resultMap);
     }
 
+    @Test
+    public void 꿀딜_게시글_좋아요(){
+        Map<String, Object> resultMap = new HashMap<>();
+        Integer postIdx = 49;
+        String userId = "ssafy";
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        Optional<DealEntity> optionalDeal = dealRepository.findById(postIdx);
+        if(optionalUser.isPresent() && optionalDeal.isPresent()){
+            UserEntity user = optionalUser.get();
+            DealEntity deal = optionalDeal.get();
+            Optional<UserLikeDealsEntity> optionalUserLikeDeals = userLikeDealsRepository.findByDealAndUser(deal, user);
+            if(optionalUserLikeDeals.isPresent()){
+                UserLikeDealsEntity userLikeDeals = optionalUserLikeDeals.get();
+                userLikeDealsRepository.delete(userLikeDeals);
+                deal.setLikes(deal.getLikes() - 1);
+                dealRepository.save(deal);
+                resultMap.put("message", okay);
+                resultMap.put("data", "좋아요 취소");
+            } else{
+                UserLikeDealsEntity userLikeDeals = UserLikeDealsEntity
+                        .builder()
+                        .deal(deal)
+                        .user(user)
+                        .build();
+               userLikeDealsRepository.save(userLikeDeals);
+               deal.setLikes(deal.getLikes() + 1);
+               dealRepository.save(deal);
+               resultMap.put("message", "좋아요");
+            }
+        } else{
+            resultMap.put("message", fail);
+        }
+        System.out.println(resultMap);
+    }
+
+    @Test
+    public void 꿀딜_게시글_조회(){
+        Map<String, Object> resultMap = new HashMap<>();
+        String category = "의류";
+        List<DealEntity> deals = dealRepository.findByCategory(category);
+        if(deals != null){
+            List<DealDto> result = dealMapper.toDtoList(deals);
+            resultMap.put("message", okay);
+            resultMap.put("data", result);
+        } else{
+            resultMap.put("message", fail);
+        }
+        System.out.println(resultMap);
+    }
 }

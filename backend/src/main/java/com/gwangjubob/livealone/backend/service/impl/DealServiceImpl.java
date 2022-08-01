@@ -4,8 +4,10 @@ package com.gwangjubob.livealone.backend.service.impl;
 import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
 import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
+import com.gwangjubob.livealone.backend.domain.entity.UserLikeDealsEntity;
 import com.gwangjubob.livealone.backend.domain.repository.DealCommentRepository;
 import com.gwangjubob.livealone.backend.domain.repository.DealRepository;
+import com.gwangjubob.livealone.backend.domain.repository.UserLikeDealsRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
@@ -26,14 +28,16 @@ public class DealServiceImpl implements DealService {
     private UserRepository userRepository;
 
     private DealCommentRepository dealCommentRepository;
+    private UserLikeDealsRepository userLikeDealsRepository;
     private DealCommentMapper dealCommentMapper;
     @Autowired
-    DealServiceImpl(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentRepository dealCommentRepository, DealCommentMapper dealCommentMapper){
+    DealServiceImpl(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentRepository dealCommentRepository, DealCommentMapper dealCommentMapper, UserLikeDealsRepository userLikeDealsRepository){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
         this.dealCommentRepository = dealCommentRepository;
         this.dealCommentMapper = dealCommentMapper;
+        this.userLikeDealsRepository = userLikeDealsRepository;
     }
 
 
@@ -67,7 +71,18 @@ public class DealServiceImpl implements DealService {
             data.setComments(commentDto);
             data.setUserNickname(deal.getUser().getNickname());
             data.setUserId(deal.getUser().getId());
-            return data;
+        } else{
+            data = null;
+        }
+        return data;
+    }
+
+    @Override
+    public List<DealDto> viewDeal(String category) {
+        List<DealEntity> deals = dealRepository.findByCategory(category);
+        List<DealDto> data = new ArrayList<>();
+        if(deals != null){
+            data = dealMapper.toDtoList(deals);
         } else{
             data = null;
         }
@@ -84,7 +99,6 @@ public class DealServiceImpl implements DealService {
             deal.setUpdateTime(LocalDateTime.now());
             DealEntity res =dealRepository.save(deal);
             data = dealMapper.toDto(res);
-            return data;
         } else {
             data = null;
         }
@@ -151,5 +165,35 @@ public class DealServiceImpl implements DealService {
         } else{
             return false;
         }
+    }
+
+    @Override
+    public boolean likeDeal(Integer idx, String userId) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        Optional<DealEntity> optionalDeal = dealRepository.findById(idx);
+        if(optionalUser.isPresent() && optionalDeal.isPresent()){
+            UserEntity user = optionalUser.get();
+            DealEntity deal = optionalDeal.get();
+            Optional<UserLikeDealsEntity> optionalUserLikeDeals = userLikeDealsRepository.findByDealAndUser(deal, user);
+            if (optionalUserLikeDeals.isPresent()){
+                UserLikeDealsEntity userLikeDeals = optionalUserLikeDeals.get();
+                userLikeDealsRepository.delete(userLikeDeals);
+                deal.setLikes(deal.getLikes() - 1);
+                dealRepository.save(deal);
+            } else{
+                UserLikeDealsEntity userLikeDeals = UserLikeDealsEntity
+                        .builder()
+                        .deal(deal)
+                        .user(user)
+                        .build();
+                userLikeDealsRepository.save(userLikeDeals);
+                deal.setLikes(deal.getLikes() - 1);
+                dealRepository.save(deal);
+            }
+            return true;
+        } else{
+            return false;
+        }
+
     }
 }
