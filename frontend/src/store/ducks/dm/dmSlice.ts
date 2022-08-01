@@ -2,13 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getDmNoticeCount } from "./dmThunk";
 
 interface IntialStateType {
-  dmCount: number;
-  noticeCount: number;
+  count: number;
 }
 
 const initialState: IntialStateType = {
-  dmCount: 0,
-  noticeCount: 0
+  count: 0
 };
 
 export const dmSlice = createSlice({
@@ -17,8 +15,7 @@ export const dmSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(getDmNoticeCount.fulfilled, (state, { payload }) => {
-      state.dmCount = payload.countDM;
-      state.noticeCount = payload.countNotice;
+      state.count = payload.countDM;
     });
   }
 });
