@@ -15,4 +15,10 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
 
     @Query(value = "SELECT COUNT(n.idx) FROM NoticeEntity n WHERE n.user.id=:id and n.read=false")
     long findCountNotice(String id);
+
+    NoticeEntity findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx(String like, String userId, String tip, Integer postIdx);
+
+    List<NoticeEntity> findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx(String reply, String userId, String tip, Integer postIdx);
+
+    List<NoticeEntity> findAllByPostIdxAndPostType(Integer idx, String tip);
 }
