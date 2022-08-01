@@ -187,7 +187,7 @@ public class DealServiceImpl implements DealService {
                         .user(user)
                         .build();
                 userLikeDealsRepository.save(userLikeDeals);
-                deal.setLikes(deal.getLikes() - 1);
+                deal.setLikes(deal.getLikes() + 1);
                 dealRepository.save(deal);
             }
             return true;

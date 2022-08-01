@@ -12,14 +12,16 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @SpringBootTest
 @Transactional
@@ -320,8 +322,51 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_게시글_조회(){
         Map<String, Object> resultMap = new HashMap<>();
-        String category = "의류";
-        List<DealEntity> deals = dealRepository.findByCategory(category);
+        String keyword = null;
+        String state = "거래 대기"; //거래중, 거래 대기, 거래 완료
+        List<String> categorys = new ArrayList<>(); //"전체", "의류","식품","주방용품","생활용품","홈인테리어","가전디지털","취미용품","기타"
+        categorys.add("전체");
+        categorys.add("식품");
+        String type = "좋아요순"; //조회순, 좋아요순, 최신순
+        List<DealEntity> deals = null;
+        Pageable pageable = PageRequest.of(1, 6);
+        if(categorys.contains("전체")){
+            if(keyword == null){
+                if (type.equals("조회순")){
+                    deals = dealRepository.findByStateOrderByViewDesc(state, pageable);
+                } else if (type.equals("좋아요순")){
+                    deals = dealRepository.findByStateOrderByLikesDesc(state, pageable);
+                } else{
+                    deals = dealRepository.findByStateOrderByIdxDesc(state, pageable);
+                }
+            } else{
+                if (type.equals("조회순")){
+                    deals = dealRepository.findByStateAndTitleContainsOrderByViewDesc(state, keyword, pageable);
+                } else if (type.equals("좋아요순")){
+                    deals = dealRepository.findByStateAndTitleContainsOrderByLikesDesc(state, keyword, pageable);
+                } else{
+                    deals = dealRepository.findByStateAndTitleContainsOrderByIdxDesc(state, keyword, pageable);
+                }
+            }
+        } else{
+            if(keyword == null){
+                if(type.equals("조회순")){
+                    deals = dealRepository.findByStateAndCategoryInOrderByViewDesc(state, categorys, pageable);
+                } else if (type.equals("좋아요순")){
+                    deals = dealRepository.findByStateAndCategoryInOrderByLikesDesc(state, categorys, pageable);
+                } else{
+                    deals = dealRepository.findByStateAndCategoryInOrderByIdxDesc(state, categorys, pageable);
+                }
+            } else{
+                if(type.equals("조회순")){
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByViewDesc(state, categorys, keyword, pageable);
+                } else if (type.equals("좋아요순")){
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByLikesDesc(state, categorys, keyword, pageable);
+                } else{
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByIdxDesc(state, categorys,keyword, pageable);
+                }
+            }
+        }
         if(deals != null){
             List<DealDto> result = dealMapper.toDtoList(deals);
             resultMap.put("message", okay);
