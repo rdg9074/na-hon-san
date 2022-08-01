@@ -64,12 +64,6 @@
 //   }
 // }
 
-.left {
-}
-.right > p {
-  margin-left: auto;
-  background-color: #efefef;
-}
 #chat {
   width: (313px); //329-16
   display: flex;
@@ -83,6 +77,12 @@
     max-width: (240px);
     border: 1px solid #efefef;
     border-radius: (16px);
+  }
+  .left {
+  }
+  .right > p {
+    margin-left: auto;
+    background-color: #efefef;
   }
 }
 

@@ -5,20 +5,25 @@ import { useAppDispatch } from "@store/hooks";
 import { resetUserInfo } from "@store/ducks/auth/authSlice";
 
 type ProfileToolTipProps = {
-  userId: string;
+  userNickname: string;
+  closeTooltip: () => void;
 };
 
-function ProfileToolTip({ userId }: ProfileToolTipProps) {
+function ProfileToolTip({ userNickname, closeTooltip }: ProfileToolTipProps) {
   const dispatch = useAppDispatch();
   const navaigate = useNavigate();
   const onClickLogout = () => {
     dispatch(resetUserInfo());
     navaigate("/");
+    closeTooltip();
   };
   return (
     <div id="profile-tool-tip" className="">
-      {/* 차후 나의피드 id로 라우팅 */}
-      <Link className="content notoBold fs-16" to={`/userfeed/${userId}`}>
+      <Link
+        className="content notoBold fs-16"
+        to={`/userfeed/${userNickname}`}
+        onClick={closeTooltip}
+      >
         마이페이지
       </Link>
       <button

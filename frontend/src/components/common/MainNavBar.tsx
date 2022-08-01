@@ -20,8 +20,8 @@ function MainNavBar() {
   };
   const { userInfo, dmCount, noticeCount } = useAppSelector(state => ({
     userInfo: state.auth.userInfo,
-    dmCount: state.dm.dmCount,
-    noticeCount: state.dm.noticeCount
+    dmCount: state.dm.count,
+    noticeCount: state.alarm.count
   }));
   const params = useSearchParams();
   const dispatch = useAppDispatch();
@@ -71,17 +71,20 @@ function MainNavBar() {
           <nav className="right-nav notoReg flex align-center">
             {userInfo ? (
               <>
-                <button
-                  type="button"
-                  className="right-nav__link alarm"
-                  onClick={() => setAlarmVisible(!alarmVisible)}
-                >
+                <div className="right-nav__link alarm">
                   <p className="alarm__cnt fs-8 flex align-center justify-center">
                     {noticeCount}
                   </p>
-                  <img className="alarm__icon" src={AlarmIcon} alt="알림" />
-                  {alarmVisible && <AlarmToolTip />}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setAlarmVisible(!alarmVisible)}
+                  >
+                    <img className="alarm__icon" src={AlarmIcon} alt="알림" />
+                  </button>
+                  {alarmVisible && (
+                    <AlarmToolTip closeTooltip={() => setAlarmVisible(false)} />
+                  )}
+                </div>
                 <Link className="right-nav__link alarm" to="/letters">
                   <p className="alarm__cnt fs-8 flex align-center justify-center">
                     {dmCount}
@@ -98,7 +101,12 @@ function MainNavBar() {
                   <img className="user" src={UserDummyIcon} alt="더미유저" />
                 </button>
                 <div className="profile">
-                  {profileTooltipVisible && <ProfileToolTip userId="123" />}
+                  {profileTooltipVisible && (
+                    <ProfileToolTip
+                      closeTooltip={() => setProfileTooltipVisible(false)}
+                      userNickname={userInfo.nickname}
+                    />
+                  )}
                 </div>
               </>
             ) : (
