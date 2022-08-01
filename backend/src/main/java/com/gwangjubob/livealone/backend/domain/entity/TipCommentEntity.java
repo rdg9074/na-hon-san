@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate

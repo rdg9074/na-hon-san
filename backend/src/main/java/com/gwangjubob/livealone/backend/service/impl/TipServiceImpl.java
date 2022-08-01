@@ -96,20 +96,9 @@ public class TipServiceImpl implements TipService {
         if(optionalTip.isPresent()){
             TipEntity tip = optionalTip.get();
             if(user.getNickname().equals(tip.getUser().getNickname())){
-                TipUpdateDto updateDto = TipUpdateDto.builder()
-                        .category(tipUpdateDto.getCategory())
-                        .title(tipUpdateDto.getTitle())
-                        .content(tipUpdateDto.getContent())
-                        .bannerImg(tipUpdateDto.getBannerImg())
-                        .build();
-
-                TipEntity updateEntity = tipUpdateMapper.toEntity(updateDto);
-                updateEntity.setIdx(idx);
-                updateEntity.setUser(user);
-                updateEntity.setTime(tip.getTime());
-                updateEntity.setUpdateTime(LocalDateTime.now());
-
-                tipRepository.save(updateEntity);
+                tipUpdateMapper.updateFromDto(tipUpdateDto, tip);
+                tip.setUpdateTime(LocalDateTime.now());
+                tipRepository.save(tip);
             }
         }
     }
@@ -129,6 +118,9 @@ public class TipServiceImpl implements TipService {
 
         if(optionalTipEntity.isPresent()){
             TipEntity tipEntity = optionalTipEntity.get();
+            tipEntity.setView(tipEntity.getView() + 1);
+            tipRepository.save(tipEntity);
+
             TipDetailViewDto tipDto = tipDetailViewMapper.toDto(tipEntity);
 
             tipDto.setUserNickname(tipEntity.getUser().getNickname());
@@ -150,6 +142,10 @@ public class TipServiceImpl implements TipService {
         if(userLikeTipsEntity.isPresent()){
             // 회원이 게시물에 좋아요를 이미 누른 상태 -> 한 번 더 클릭하면 좋아요 취소
             userLikeTipsRepository.delete(userLikeTipsEntity.get());
+
+            tipEntity.setLike(tipEntity.getLike() - 1);
+            tipRepository.save(tipEntity);
+
         }else{
             // 좋아요 누르지 않은 상태 -> 좋아요
             // 좋아요 버튼을 한 번 누르면 -> 좋아요 등록
@@ -160,6 +156,9 @@ public class TipServiceImpl implements TipService {
                     .build();
 
             userLikeTipsRepository.save(likeTipsEntity);
+
+            tipEntity.setLike(tipEntity.getLike() + 1);
+            tipRepository.save(tipEntity);
         }
     }
 

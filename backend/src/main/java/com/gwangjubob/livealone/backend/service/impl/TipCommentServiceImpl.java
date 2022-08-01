@@ -48,6 +48,9 @@ public class TipCommentServiceImpl implements TipCommentService {
                 .build();
 
         tipCommentRepository.save(entity);
+
+        tip.setComment(tip.getComment() + 1);
+        tipRepository.save(tip);
     }
 
     @Override
@@ -107,14 +110,22 @@ public class TipCommentServiceImpl implements TipCommentService {
 
         if(optionalTipCommentEntity.isPresent()){
             TipCommentEntity tipComment = optionalTipCommentEntity.get();
+            TipEntity tipEntity = tipRepository.findByIdx(tipComment.getTip().getIdx()).get();
 
             if(user.getNickname().equals(tipComment.getUser().getNickname())){
                 if(tipComment.getUpIdx() != 0){
+                    tipEntity.setComment(tipEntity.getComment() - 1);
+                    tipRepository.save(tipEntity);
+
                     tipCommentRepository.delete(tipComment);
                 }else{
                     List<TipCommentEntity> replyCommentList = tipCommentRepository.findByUpIdx(idx);
+                    int size = replyCommentList.size();
 
                     if(!replyCommentList.isEmpty()){
+                        tipEntity.setComment(tipEntity.getComment() - size - 1);
+                        tipRepository.save(tipEntity);
+
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
                     }
                     tipCommentRepository.delete(tipComment);
