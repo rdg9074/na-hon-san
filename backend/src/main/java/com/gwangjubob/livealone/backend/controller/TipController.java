@@ -80,8 +80,6 @@ public class TipController {
 
         try{
             TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
-//            tipService.increaseViewCount(dto); // 조회 수 증가
-//            tipService.commentCount(idx); // 전체 댓글 수 확인
             resultMap.put("tip",dto);
             List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
             resultMap.put("tipComments", list);

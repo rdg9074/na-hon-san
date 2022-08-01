@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+//@ToString
 @Table(name="users", uniqueConstraints = {@UniqueConstraint( //추가 name = "NAME_AGE_UNIQUE",
         columnNames = {"nickname"} )})
 @NoArgsConstructor
