@@ -46,8 +46,8 @@ function Alarm({
         <Link
           to={
             postType === "tip"
-              ? `/deal/detail/${postIdx}`
-              : `/tip/detail/${postIdx}`
+              ? `/tip/detail/${postIdx}`
+              : `/deal/detail/${postIdx}`
           }
           className="content notoReg fs-14"
           onClick={onClickAlarm}
@@ -72,8 +72,8 @@ function Alarm({
         <Link
           to={
             postType === "tip"
-              ? `/deal/detail/${postIdx}`
-              : `/tip/detail/${postIdx}`
+              ? `/tip/detail/${postIdx}`
+              : `/deal/detail/${postIdx}`
           }
           className="content notoReg fs-14"
           onClick={onClickAlarm}
@@ -86,8 +86,8 @@ function Alarm({
       <Link
         to={
           postType === "tip"
-            ? `/deal/detail/${postIdx}`
-            : `/tip/detail/${postIdx}`
+            ? `/tip/detail/${postIdx}`
+            : `/deal/detail/${postIdx}`
         }
         className="content notoReg fs-14"
         onClick={onClickAlarm}
