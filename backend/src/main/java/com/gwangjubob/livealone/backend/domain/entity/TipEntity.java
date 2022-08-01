@@ -52,7 +52,8 @@ public class TipEntity{
     @Column(name = "update_time")
     private LocalDateTime updateTime;
 
-    @OneToMany(mappedBy = "tip", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tip",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "tip")
     @OrderBy("time desc") // 댓글 정렬
     private List<TipCommentEntity> tipComments;
 
