@@ -5,9 +5,13 @@ import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 
+import java.util.List;
+
 public interface DealService {
     DealDto registDeal(DealDto dealDto);
     DealDto viewDetailDeal(Integer idx);
+
+    List<DealDto> viewDeal(String category);
 
     DealDto updateDeal(Integer idx, DealDto DealDto);
 
@@ -18,4 +22,6 @@ public interface DealService {
     DealCommentDto updateDealComment(Integer idx, DealCommentDto dealCommentDto);
 
     boolean deleteDealComment(Integer idx);
+
+    boolean likeDeal(Integer idx, String userId);
 }

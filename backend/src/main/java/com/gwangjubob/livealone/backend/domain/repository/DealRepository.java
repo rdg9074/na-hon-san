@@ -12,4 +12,6 @@ import java.util.List;
 public interface DealRepository extends JpaRepository<DealEntity, Integer> {
     List<DealEntity> findByUser(UserEntity userEntity);
     List<DealEntity> findTop6ByCategoryAndStateAndAreaOrderByViewDesc(String category,String state,String area);
+
+    List<DealEntity> findByCategory(String category);
 }

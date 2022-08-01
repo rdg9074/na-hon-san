@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -56,7 +57,25 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/honeyDeal/{idx}")
+    @GetMapping("/honeyDeal/{category}")
+    public ResponseEntity<?> viewDeal(@PathVariable String category){
+        resultMap = new HashMap<>();
+        try {
+            List<DealDto> data = dealService.viewDeal(category);
+            if (data != null){
+                resultMap.put("data", data);
+                resultMap.put("message", okay);
+            } else{
+                resultMap.put("message", fail);
+            }
+            status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+    @GetMapping("/honeyDeal/detail/{idx}")
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx){
         resultMap = new HashMap<>();
         try {
@@ -162,6 +181,24 @@ public class DealController {
                 resultMap.put("message", fail);
             }
             status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/honeyDeal/like/{idx}")
+    public ResponseEntity<?> likeDeal(@PathVariable Integer idx, HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        try {
+            if(dealService.likeDeal(idx, decodeId)){
+                resultMap.put("message", okay);
+            } else{
+                resultMap.put("message", fail);
+            }
+             status = HttpStatus.OK;
         } catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
