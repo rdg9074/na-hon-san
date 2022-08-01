@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface DealCommentRepository extends JpaRepository<DealCommentEntity, Integer> {
     List<DealCommentEntity> findByDeal(DealEntity dealEntity);
+
+    List<DealCommentEntity> findByUpIdx(Integer idx);
 }

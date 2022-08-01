@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
+@Builder
 @Table(name="notices")
 @NoArgsConstructor
 @DynamicInsert
@@ -23,7 +24,7 @@ public class NoticeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-    private UserEntity user; // 로그인 한 사용자 아이디
+    private UserEntity user;
 
     @Column(name = "notice_type")
     private String noticeType; // 알림 타입 - like/comment/reply/follow
@@ -43,8 +44,4 @@ public class NoticeEntity {
     @Column(name = "time")
     LocalDateTime time;
 
-//    public void setUser(UserEntity user) {
-//        this.user = user;
-//        user.getNotices().add(this); // 양방향 매핑
-//    }
 }

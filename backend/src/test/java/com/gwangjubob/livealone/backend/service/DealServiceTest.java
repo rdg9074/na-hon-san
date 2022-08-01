@@ -1,14 +1,8 @@
 package com.gwangjubob.livealone.backend.service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
-import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
-import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
-import com.gwangjubob.livealone.backend.domain.entity.UserLikeDealsEntity;
-import com.gwangjubob.livealone.backend.domain.repository.DealCommentRepository;
-import com.gwangjubob.livealone.backend.domain.repository.DealRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserLikeDealsRepository;
-import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
+import com.gwangjubob.livealone.backend.domain.entity.*;
+import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.mapper.DealCommentMapper;
@@ -37,17 +31,20 @@ public class DealServiceTest {
 
     private DealCommentRepository dealCommentRepository;
     private UserLikeDealsRepository userLikeDealsRepository;
+    private NoticeRepository noticeRepository;
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
 
     @Autowired
-    DealServiceTest(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentMapper dealCommentMapper, DealCommentRepository dealCommentRepository, UserLikeDealsRepository userLikeDealsRepository){
+    DealServiceTest(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentMapper dealCommentMapper,
+                    DealCommentRepository dealCommentRepository, UserLikeDealsRepository userLikeDealsRepository, NoticeRepository noticeRepository){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
         this.dealCommentMapper = dealCommentMapper;
         this.dealCommentRepository = dealCommentRepository;
         this.userLikeDealsRepository = userLikeDealsRepository;
+        this.noticeRepository = noticeRepository;
     }
 
     @Test
@@ -143,6 +140,12 @@ public class DealServiceTest {
             DealEntity dealEntity = optionalDeal.get();
             dealRepository.delete(dealEntity);
             resultMap.put("message", okay);
+
+            // 해당 게시글 관련 모든 알림 삭제
+            List<NoticeEntity> noticeEntityList = noticeRepository.findAllByPostIdxAndPostType(idx, "deal");
+            if(!noticeEntityList.isEmpty()){
+                noticeRepository.deleteAllInBatch(noticeEntityList);
+            }
         } else{
             resultMap.put("message", fail);
         }
@@ -209,10 +212,50 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_댓글_삭제(){
         Map<String, Object> resultMap = new HashMap<>();
+        Integer postIdx = 43;
         Integer idx = 11;
         Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findById(idx);
+        DealEntity deal = dealRepository.findByIdx(postIdx).get();
+
         if(optionalDealComment.isPresent()){
             DealCommentEntity dealCommentEntity = optionalDealComment.get();
+
+            // 대댓글이라면
+            if(dealCommentEntity.getUpIdx() != 0 ){
+                deal.setComment(deal.getComment() - 1);
+                dealRepository.save(deal);
+
+                dealCommentRepository.delete(dealCommentEntity);
+
+                // 알림이 있다면 알림도 삭제
+                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", dealCommentEntity.getUser().getId(), "deal", postIdx);
+                if(noticeEntity != null){
+                    noticeRepository.delete(noticeEntity);
+                }
+            }else{ // 댓글이라면 관련된 대댓글들 모두 삭제
+                List<DealCommentEntity> replyCommenyList = dealCommentRepository.findByUpIdx(idx);
+                int size = replyCommenyList.size();
+
+                if(!replyCommenyList.isEmpty()){
+                    deal.setComment(deal.getComment() - size - 1);
+                    dealRepository.save(deal);
+
+                    dealCommentRepository.deleteAllInBatch(replyCommenyList);
+
+                    // 대댓글관련 알림까지 삭제
+                    List<NoticeEntity> noticeEntityList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply",dealCommentEntity.getUser().getId(), "deal", postIdx);
+                    if(!noticeEntityList.isEmpty()){
+                        noticeRepository.deleteAllInBatch(noticeEntityList);
+                    }
+                }
+
+                // 댓글 알림 삭제
+                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("comment",dealCommentEntity.getUser().getId(),"deal",postIdx);
+                if(noticeEntity != null){
+                    noticeRepository.delete(noticeEntity);
+                }
+            }
+
             dealCommentRepository.delete(dealCommentEntity);
             resultMap.put("message", okay);
         } else{
@@ -239,6 +282,12 @@ public class DealServiceTest {
                 dealRepository.save(deal);
                 resultMap.put("message", okay);
                 resultMap.put("data", "좋아요 취소");
+
+                // 좋아요 취소 누르면 알림까지 삭제
+                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("like",userId,"deal",postIdx);
+                if(noticeEntity != null){
+                    noticeRepository.delete(noticeEntity);
+                }
             } else{
                 UserLikeDealsEntity userLikeDeals = UserLikeDealsEntity
                         .builder()
@@ -249,6 +298,18 @@ public class DealServiceTest {
                deal.setLikes(deal.getLikes() + 1);
                dealRepository.save(deal);
                resultMap.put("message", "좋아요");
+
+               // 알림 등록
+                NoticeEntity noticeEntity = NoticeEntity.builder()
+                        .noticeType("like")
+                        .user(deal.getUser())
+                        .fromUserId(userId)
+                        .postType("deal")
+                        .postIdx(deal.getIdx())
+                        .time(userLikeDeals.getTime())
+                        .build();
+
+                noticeRepository.save(noticeEntity);
             }
         } else{
             resultMap.put("message", fail);
