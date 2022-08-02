@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,11 +77,37 @@ public class TipController {
     }
 
     @GetMapping("/honeyTip/detail/{idx}")
-    public ResponseEntity<?> detailViewTip(@PathVariable Integer idx){
+    public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
 
         try{
             TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
+            Cookie oldCookie = null;
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null){
+                for (Cookie cookie : cookies){
+                    if(cookie.getName().equals("postTip")){
+                        oldCookie = cookie;
+                    }
+                }
+            }
+            if (oldCookie != null){
+                if (!oldCookie.getValue().contains("[" + idx + "]")){
+                    boolean upCheck = tipService.countUpView(idx);
+                    if(upCheck){
+                        oldCookie.setValue(oldCookie.getValue() + "[" + idx + "]");
+                        oldCookie.setPath("/");
+                        oldCookie.setMaxAge(60 * 60 * 24);
+                        response.addCookie(oldCookie);
+                    }
+                }
+            } else{
+                tipService.countUpView(idx);
+                Cookie newCookie = new Cookie("postTip", "["+ idx + "]");
+                newCookie.setPath("/");
+                newCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(newCookie);
+            }
             resultMap.put("tip",dto);
             List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
             resultMap.put("tipComments", list);

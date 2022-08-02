@@ -4,14 +4,14 @@ import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.service.DealService;
 import com.gwangjubob.livealone.backend.service.JwtService;
-import com.gwangjubob.livealone.backend.service.impl.DealServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +76,36 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/honeyDeal/detail/{idx}")
-    public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx){
+    public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
         try {
             DealDto data = dealService.viewDetailDeal(idx);
+            Cookie oldCookie = null;
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null){
+                for (Cookie cookie : cookies){
+                    if(cookie.getName().equals("postDeal")){
+                        oldCookie = cookie;
+                    }
+                }
+            }
+            if(oldCookie != null){
+                if(!oldCookie.getValue().contains("[" + idx + "]")){
+                    boolean upCheck = dealService.countUpView(idx);
+                    if (upCheck){
+                        oldCookie.setValue(oldCookie.getValue() + "[" + idx + "]");
+                        oldCookie.setPath("/");
+                        oldCookie.setMaxAge(60 * 60 * 24);
+                        response.addCookie(oldCookie);
+                    }
+                }
+            } else{
+                dealService.countUpView(idx);
+                Cookie newCookie = new Cookie("postDeal", "["+ idx + "]");
+                newCookie.setPath("/");
+                newCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(newCookie);
+            }
             if(data != null){
                 resultMap.put("data", data);
                 resultMap.put("message", okay);
