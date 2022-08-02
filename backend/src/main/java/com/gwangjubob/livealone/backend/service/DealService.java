@@ -24,4 +24,6 @@ public interface DealService {
     boolean deleteDealComment(Integer idx, String userId);
 
     boolean likeDeal(Integer idx, String userId);
+
+    boolean countUpView(Integer idx);
 }

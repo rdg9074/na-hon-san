@@ -376,4 +376,19 @@ public class DealServiceTest {
         }
         System.out.println(resultMap);
     }
+    @Test
+    public void 조회수_증가(){
+        Map<String, Object> resultMap = new HashMap<>();
+        Integer idx = 51;
+        Optional<DealEntity> optionalDeal = dealRepository.findById(idx);
+        if(optionalDeal.isPresent()){
+            DealEntity deal = optionalDeal.get();
+            deal.setView(deal.getView() + 1);
+            dealRepository.save(deal);
+            resultMap.put("message", okay);
+        } else{
+            resultMap.put("message", fail);
+        }
+        System.out.println(resultMap);
+    }
 }

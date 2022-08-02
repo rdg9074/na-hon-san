@@ -25,9 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -43,7 +41,8 @@ public class TipServiceTest {
     private TipDetailViewMapper tipDetailViewMapper;
     private UserLikeTipsRepository userLikeTipsRepository;
     private NoticeRepository noticeRepository;
-
+    private static final String okay = "SUCCESS";
+    private static final String fail = "FAIL";
     @Autowired
     public TipServiceTest(TipCommentService tipCommentService, TipRepository tipRepository, TipService tipService,
                             UserRepository userRepository, TipCommentRepository tipCommentRepository, TipCreateMapper tipCreateMapper,
@@ -440,8 +439,20 @@ public class TipServiceTest {
             }
 
         }
-
-
-
+    }
+    @Test
+    public void 조회수_증가(){
+        Map<String, Object> resultMap = new HashMap<>();
+        Integer idx = 51;
+        Optional<TipEntity> optionalTip = tipRepository.findById(idx);
+        if(optionalTip.isPresent()){
+            TipEntity tip = optionalTip.get();
+            tip.setView(tip.getView() + 1);
+            tipRepository.save(tip);
+            resultMap.put("message", okay);
+        } else{
+            resultMap.put("message", fail);
+        }
+        System.out.println(resultMap);
     }
 }

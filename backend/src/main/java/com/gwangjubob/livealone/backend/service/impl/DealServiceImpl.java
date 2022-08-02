@@ -273,6 +273,20 @@ public class DealServiceImpl implements DealService {
         } else{
             return false;
         }
-
     }
+
+    @Override
+    public boolean countUpView(Integer idx) {
+        Optional<DealEntity> optionalDeal = dealRepository.findById(idx);
+        if(optionalDeal.isPresent()){
+            DealEntity deal = optionalDeal.get();
+            deal.setView(deal.getView() + 1);
+            dealRepository.save(deal);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

@@ -117,9 +117,6 @@ public class TipServiceImpl implements TipService {
 
         if(optionalTipEntity.isPresent()){
             TipEntity tipEntity = optionalTipEntity.get();
-            tipEntity.setView(tipEntity.getView() + 1);
-            tipRepository.save(tipEntity);
-
             TipDetailViewDto tipDto = tipDetailViewMapper.toDto(tipEntity);
 
             tipDto.setUserNickname(tipEntity.getUser().getNickname());
@@ -173,6 +170,18 @@ public class TipServiceImpl implements TipService {
                 noticeRepository.save(notice);
             }
         }
+    }
+
+    @Override
+    public boolean countUpView(Integer idx) {
+        Optional<TipEntity> optionalTip = tipRepository.findByIdx(idx);
+        if(optionalTip.isPresent()){
+            TipEntity tip = optionalTip.get();
+            tip.setView(tip.getView() + 1);
+            tipRepository.save(tip);
+            return true;
+        }
+        return false;
     }
 
 }

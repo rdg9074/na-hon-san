@@ -14,4 +14,6 @@ public interface TipService {
     void deleteTip(String decodeId, Integer idx);
     TipDetailViewDto detailViewTip(Integer idx);
     void likeTip(String decodeId, Integer idx);
+
+    boolean countUpView(Integer idx);
 }
