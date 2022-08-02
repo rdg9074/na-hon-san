@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.sql.ConnectionBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -60,4 +61,19 @@ public class TipEntity{
     @OneToMany(mappedBy = "tip", cascade = CascadeType.REMOVE)
     private List<UserLikeTipsEntity> userLikeTips;
 
+
+    @Override
+    public String toString() {
+        return "TipEntity{" +
+                "idx=" + idx +
+                ", category='" + category + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", bannerImg=" + Arrays.toString(bannerImg) +
+                ", view=" + view +
+                ", like=" + like +
+                ", comment=" + comment +
+                ", time=" + time +
+                '}';
+    }
 }

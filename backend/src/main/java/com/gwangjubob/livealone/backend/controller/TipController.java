@@ -1,9 +1,6 @@
 package com.gwangjubob.livealone.backend.controller;
 
-import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
+import com.gwangjubob.livealone.backend.dto.tip.*;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
@@ -59,13 +56,18 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/honeyTip/{category}")
-    public ResponseEntity<?> viewTip(@PathVariable String category){
+    @PostMapping("/honeyTip/list")
+    public ResponseEntity<?> viewTip(@RequestBody TipListDto tipListDto){
         resultMap = new HashMap<>();
 
         try{
-            List<TipViewDto> list = tipService.viewTip(category); // 카테고리별 게시글 목록 조회
+            List<TipViewDto> list = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
             resultMap.put("data", list);
+            if(list.size() != tipListDto.getPageSize()){
+                resultMap.put("isEnd", true);
+            }else{
+                resultMap.put("isEnd",false);
+            }
             resultMap.put("message", okay);
             status = HttpStatus.OK;
         }catch (Exception e){
@@ -76,6 +78,20 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("honeyTip/totalCount")
+    public ResponseEntity<?> totalCount(){
+        resultMap = new HashMap<>();
+        try{
+            long totalCount = tipService.getTotalCount();
+            resultMap.put("total",totalCount);
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     @GetMapping("/honeyTip/detail/{idx}")
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();

@@ -7,23 +7,17 @@ import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
-import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
-import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
-import com.gwangjubob.livealone.backend.mapper.TipCreateMapper;
-import com.gwangjubob.livealone.backend.mapper.TipDetailViewMapper;
-import com.gwangjubob.livealone.backend.mapper.TipUpdateMapper;
-import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
-import org.apache.catalina.User;
-import org.junit.jupiter.api.Disabled;
+import com.gwangjubob.livealone.backend.mapper.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -41,13 +35,14 @@ public class TipServiceTest {
     private TipDetailViewMapper tipDetailViewMapper;
     private UserLikeTipsRepository userLikeTipsRepository;
     private NoticeRepository noticeRepository;
+    private TipViewMapper tipViewMapper;
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
     @Autowired
     public TipServiceTest(TipCommentService tipCommentService, TipRepository tipRepository, TipService tipService,
                             UserRepository userRepository, TipCommentRepository tipCommentRepository, TipCreateMapper tipCreateMapper,
                           TipUpdateMapper tipUpdateMapper, TipDetailViewMapper tipDetailViewMapper, UserLikeTipsRepository userLikeTipsRepository,
-                          NoticeRepository noticeRepository){
+                          NoticeRepository noticeRepository, TipViewMapper tipViewMapper){
         this.tipRepository = tipRepository;
         this.tipService = tipService;
         this.tipCommentService = tipCommentService;
@@ -58,6 +53,7 @@ public class TipServiceTest {
         this.tipDetailViewMapper = tipDetailViewMapper;
         this.userLikeTipsRepository = userLikeTipsRepository;
         this.noticeRepository = noticeRepository;
+        this.tipViewMapper = tipViewMapper;
     }
 
     @Test
@@ -105,17 +101,62 @@ public class TipServiceTest {
     }
 
     @Test
-    public void 카테고리별_리스트_조회_테스트(){
-        // given
-        String category = "item";
+    public void 꿀팁_게시글_조회(){
+        Map<String, Object> resultMap = new HashMap<>();
 
-        // when
-        List<TipViewDto> result = tipService.viewTip(category);
-        // then
+        String keyword = null; // 검색 문자(제목)
+        String category = "tip"; // item(꿀템), tip(꿀팁), recipe(꿀시피)
+        String type = "조회순"; // 조회순, 좋아요순, 최신순
+        List<TipEntity> tips = null;
 
-        for(TipViewDto dto : result){
-            System.out.println(dto.toString());
+        int pageNum = 1;
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+
+        if(keyword == null){
+            if(type.equals("조회순")){
+                tips = tipRepository.findByCategoryOrderByViewDesc(category,pageable);
+            }else if(type.equals("좋아요순")){
+                tips = tipRepository.findByCategoryOrderByLikeDesc(category, pageable);
+            }else{
+                tips = tipRepository.findByCategoryOrderByIdxDesc(category, pageable);
+            }
+        }else{
+            if(type.equals("조회순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByViewDesc(category, keyword, pageable);
+            }else if(type.equals("좋아요순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByLikeDesc(category, keyword, pageable);
+            }else{
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByIdxDesc(category, keyword, pageable);
+            }
         }
+
+        if(tips != null){
+            List<TipViewDto> result = new ArrayList<>();
+            for(TipEntity t : tips){
+                TipViewDto tipViewDto = TipViewDto.builder()
+                        .idx(t.getIdx())
+                        .category(t.getCategory())
+                        .userNickname(t.getUser().getNickname())
+                        .userProfileImg(t.getUser().getProfileImg())
+                        .title(t.getTitle())
+                        .bannerImg(t.getBannerImg())
+                        .view(t.getView())
+                        .like(t.getLike())
+                        .comment(t.getComment())
+                        .build();
+
+                result.add(tipViewDto);
+            }
+
+            for(TipViewDto dto : result){
+                System.out.println(dto.toString());
+            }
+
+            System.out.println(result.size());
+        }
+
+
     }
 
     @Test
