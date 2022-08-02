@@ -21,7 +21,7 @@ public interface DealService {
 
     DealCommentDto updateDealComment(Integer idx, DealCommentDto dealCommentDto);
 
-    boolean deleteDealComment(Integer idx);
+    boolean deleteDealComment(Integer idx, String userId);
 
     boolean likeDeal(Integer idx, String userId);
 }

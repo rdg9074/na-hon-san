@@ -230,15 +230,15 @@ public class TipServiceTest {
     @Test
     public void 댓글_대댓글_등록_테스트(){
         // given
-        int upIdx = 91;
+        int upIdx = 104;
 
-        String userId = "ssafy";
+        String userId = "test";
         UserEntity user = userRepository.findById(userId).get();
 
-        String content = "ㄳㄳ";
+        String content = "대댓글 알림 테스트";
         byte[] bannerImg = null;
 
-        int postIdx = 47;
+        int postIdx = 48;
         Optional<TipEntity> optionalTipEntity = tipRepository.findByIdx(postIdx);
 
         if(optionalTipEntity.isPresent()){
@@ -271,6 +271,7 @@ public class TipServiceTest {
                             .user(tip.getUser())
                             .fromUserId(userId)
                             .postType("tip")
+                            .commentIdx(entity.getIdx())
                             .postIdx(tip.getIdx())
                             .build();
 
@@ -281,6 +282,8 @@ public class TipServiceTest {
                             .user(tip.getUser())
                             .fromUserId(userId)
                             .postType("tip")
+                            .commentIdx(entity.getIdx())
+                            .commentUpIdx(entity.getUpIdx())
                             .postIdx(tip.getIdx())
                             .build();
 
@@ -294,10 +297,10 @@ public class TipServiceTest {
     public void 댓글_대댓글_수정_테스트(){
         // given
         String nickname = "test";
-        String content = "댓글 수정 테스트2222";
+        String content = "대댓글 수정 테스트2222";
         byte[] bannerImg = null;
-        Integer idx = 61;
-        Integer upIdx = 60; // 댓글수정이면 0, 대댓글수정이면 댓글 글번호
+        Integer idx = 99;
+        Integer upIdx = 97; // 댓글수정이면 0, 대댓글수정이면 댓글 글번호
 
         UserEntity user = userRepository.findByNickname(nickname).get();
         Optional<TipCommentEntity> optionalTipComment = tipCommentRepository.findByIdx(idx);
@@ -332,7 +335,7 @@ public class TipServiceTest {
     public void 댓글_대댓글_삭제_테스트() {
         // given
         Integer postIdx = 48;
-        Integer idx = 87; // 댓글 번호
+        Integer idx = 104; // 댓글 번호
 
         String userId = "test";
         Optional<TipCommentEntity> optionalTipComment = tipCommentRepository.findByIdx(idx);
@@ -349,8 +352,10 @@ public class TipServiceTest {
                     tipCommentRepository.delete(tipComment);
 
                     // 알림이 있다면 알림도 삭제
-                    NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", userId, "tip", postIdx);
-                    noticeRepository.delete(noticeEntity);
+                    Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("reply", userId, "tip", postIdx, tipComment.getIdx());
+                    if(noticeEntity.isPresent()){
+                        noticeRepository.delete(noticeEntity.get());
+                    }
 
                 }else{ // 댓글이랑 엮인 대댓글"들"까지 삭제해야함
                     List<TipCommentEntity> replyCommentList = tipCommentRepository.findByUpIdx(idx); // 대댓글 리스트 조회
@@ -363,7 +368,7 @@ public class TipServiceTest {
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
 
                         // 대댓글 들 알림까지 삭제
-                        List<NoticeEntity> noticeEntityList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", userId, "tip", postIdx);
+                        List<NoticeEntity> noticeEntityList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentUpIdx("reply", userId, "tip", postIdx, tipComment.getIdx());
 
                         if(!noticeEntityList.isEmpty()){
                             noticeRepository.deleteAllInBatch(noticeEntityList);
@@ -372,10 +377,10 @@ public class TipServiceTest {
                     }
                     tipCommentRepository.delete(tipComment); // 댓글 삭제
 
-                    NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("comment", userId, "tip", postIdx);
+                    Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("comment", userId, "tip", postIdx, tipComment.getIdx());
 
-                    if(noticeEntity != null){
-                        noticeRepository.delete(noticeEntity);
+                    if(noticeEntity.isPresent()){
+                        noticeRepository.delete(noticeEntity.get());
                     }
                 }
             }
@@ -404,9 +409,9 @@ public class TipServiceTest {
 
             // 좋아요 취소 누르면 알림까지 삭제
 //            where n.notice_type = "like" and n.from_user_id = "ssafy" and n.post_type = "tip" and n.post_idx = 47;
-            NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("like",userId,"tip",postIdx);
-            if(noticeEntity != null){
-                noticeRepository.delete(noticeEntity);
+            Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("like",userId,"tip",postIdx);
+            if(noticeEntity.isPresent()){
+                noticeRepository.delete(noticeEntity.get());
             }
         }else{
             // 좋아요 누르지 않은 상태 -> 좋아요

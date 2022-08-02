@@ -230,9 +230,9 @@ public class DealServiceTest {
                 dealCommentRepository.delete(dealCommentEntity);
 
                 // 알림이 있다면 알림도 삭제
-                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", dealCommentEntity.getUser().getId(), "deal", postIdx);
-                if(noticeEntity != null){
-                    noticeRepository.delete(noticeEntity);
+                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", dealCommentEntity.getUser().getId(), "deal", postIdx);
+                if(noticeEntity.isPresent()){
+                    noticeRepository.delete(noticeEntity.get());
                 }
             }else{ // 댓글이라면 관련된 대댓글들 모두 삭제
                 List<DealCommentEntity> replyCommenyList = dealCommentRepository.findByUpIdx(idx);
@@ -252,9 +252,9 @@ public class DealServiceTest {
                 }
 
                 // 댓글 알림 삭제
-                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("comment",dealCommentEntity.getUser().getId(),"deal",postIdx);
-                if(noticeEntity != null){
-                    noticeRepository.delete(noticeEntity);
+                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("comment",dealCommentEntity.getUser().getId(),"deal",postIdx);
+                if(noticeEntity.isPresent()){
+                    noticeRepository.delete(noticeEntity.get());
                 }
             }
 
@@ -286,9 +286,9 @@ public class DealServiceTest {
                 resultMap.put("data", "좋아요 취소");
 
                 // 좋아요 취소 누르면 알림까지 삭제
-                NoticeEntity noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("like",userId,"deal",postIdx);
-                if(noticeEntity != null){
-                    noticeRepository.delete(noticeEntity);
+                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("like",userId,"deal",postIdx);
+                if(noticeEntity.isPresent()){
+                    noticeRepository.delete(noticeEntity.get());
                 }
             } else{
                 UserLikeDealsEntity userLikeDeals = UserLikeDealsEntity

@@ -1,8 +1,10 @@
 package com.gwangjubob.livealone.backend.service.impl;
 
+import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
 import com.gwangjubob.livealone.backend.domain.entity.TipCommentEntity;
 import com.gwangjubob.livealone.backend.domain.entity.TipEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
+import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
 import com.gwangjubob.livealone.backend.domain.repository.TipCommentRepository;
 import com.gwangjubob.livealone.backend.domain.repository.TipRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
@@ -26,20 +28,23 @@ public class TipCommentServiceImpl implements TipCommentService {
     private UserRepository userRepository;
     private TipCommentRepository tipCommentRepository;
     private TipRepository tipRepository;
+    private NoticeRepository noticeRepository;
 
 
     @Autowired
-    public TipCommentServiceImpl(UserRepository userRepository, TipCommentRepository tipCommentRepository, TipRepository tipRepository){
+    public TipCommentServiceImpl(UserRepository userRepository, TipCommentRepository tipCommentRepository,
+                                 NoticeRepository noticeRepository, TipRepository tipRepository){
         this.userRepository = userRepository;
         this.tipCommentRepository = tipCommentRepository;
         this.tipRepository = tipRepository;
+        this.noticeRepository = noticeRepository;
     }
     @Override
     public void createTipComment(String decodeId, TipCommentCreateDto requestDto) {
         UserEntity user = userRepository.findById(decodeId).get();
         TipEntity tip = tipRepository.findByIdx(requestDto.getPostIdx()).get(); // 게시글 정보
 
-        TipCommentEntity entity = TipCommentEntity.builder()
+        TipCommentEntity tipComment = TipCommentEntity.builder()
                 .user(user)
                 .tip(tip)
                 .upIdx(requestDto.getUpIdx())
@@ -47,10 +52,37 @@ public class TipCommentServiceImpl implements TipCommentService {
                 .bannerImg(requestDto.getBannerImg())
                 .build();
 
-        tipCommentRepository.save(entity);
+        tipCommentRepository.save(tipComment);
 
         tip.setComment(tip.getComment() + 1);
         tipRepository.save(tip);
+
+        if(!tip.getUser().getId().equals(user.getId())){
+            if(tipComment.getUpIdx() == 0){
+                NoticeEntity notice = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(tip.getUser())
+                        .fromUserId(user.getId())
+                        .postType("tip")
+                        .postIdx(tip.getIdx())
+                        .commentIdx(tipComment.getIdx())
+                        .build();
+
+                noticeRepository.save(notice);
+            }else{
+                NoticeEntity notice = NoticeEntity.builder()
+                        .noticeType("reply")
+                        .user(tip.getUser())
+                        .fromUserId(user.getId())
+                        .postType("tip")
+                        .postIdx(tip.getIdx())
+                        .commentIdx(tipComment.getIdx())
+                        .commentUpIdx(tipComment.getUpIdx())
+                        .build();
+
+                noticeRepository.save(notice);
+            }
+        }
     }
 
     @Override
@@ -110,26 +142,42 @@ public class TipCommentServiceImpl implements TipCommentService {
 
         if(optionalTipCommentEntity.isPresent()){
             TipCommentEntity tipComment = optionalTipCommentEntity.get();
-            TipEntity tipEntity = tipRepository.findByIdx(tipComment.getTip().getIdx()).get();
+            TipEntity tip = tipRepository.findByIdx(tipComment.getTip().getIdx()).get();
 
             if(user.getNickname().equals(tipComment.getUser().getNickname())){
                 if(tipComment.getUpIdx() != 0){
-                    tipEntity.setComment(tipEntity.getComment() - 1);
-                    tipRepository.save(tipEntity);
+                    tip.setComment(tip.getComment() - 1);
+                    tipRepository.save(tip);
 
                     tipCommentRepository.delete(tipComment);
+
+                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("reply", user.getId(), "tip", tip.getIdx(), tipComment.getIdx());
+                    if(notice.isPresent()){
+                        noticeRepository.delete(notice.get());
+                    }
                 }else{
                     List<TipCommentEntity> replyCommentList = tipCommentRepository.findByUpIdx(idx);
                     int size = replyCommentList.size();
 
                     if(!replyCommentList.isEmpty()){
-                        tipEntity.setComment(tipEntity.getComment() - size - 1);
-                        tipRepository.save(tipEntity);
+                        tip.setComment(tip.getComment() - size - 1);
+                        tipRepository.save(tip);
 
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
+
+                        List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentUpIdx("reply", user.getId(), "tip", tip.getIdx(), tipComment.getIdx());
+
+                        if(!noticeList.isEmpty()){
+                            noticeRepository.deleteAllInBatch(noticeList);
+                        }
                     }
                     tipCommentRepository.delete(tipComment);
 
+                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("comment", user.getId(), "tip", tip.getIdx(), tipComment.getIdx());
+
+                    if(notice.isPresent()){
+                        noticeRepository.delete(notice.get());
+                    }
                 }
             }
         }

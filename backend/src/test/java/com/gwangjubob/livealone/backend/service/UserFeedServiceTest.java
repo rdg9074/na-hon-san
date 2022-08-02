@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Transactional
+//@Transactional
 public class UserFeedServiceTest {
     private DMRepository dmRepository;
     private DMService dmService;
@@ -42,11 +43,16 @@ public class UserFeedServiceTest {
     private TipRepository tipRepository;
     private UserLikeDealsRepository userLikeDealsRepository;
     private UserLikeTipsRepository userLikeTipsRepository;
-    private UserFollowsRepository userFollowsRepository;
+    private NoticeRepository noticeRepository;
     private DealRepository dealRepository;
+    private UserFollowsRepository userFollowsRepository;
 
     @Autowired
-    UserFeedServiceTest(DMRepository dmRepository,UserFollowTipsRepository userFollowTipsRepository,UserFollowsRepository userFollowsRepository,UserLikeDealsRepository userLikeDealsRepository, UserLikeTipsRepository userLikeTipsRepository, UserCategoryRepository userCategoryRepository, DealMapper dealMapper,TipRepository tipRepository, DealRepository dealRepository,UserService userService, UserFeedRepository userFeedRepository, DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserFeedServiceTest(DMRepository dmRepository,UserFollowTipsRepository userFollowTipsRepository, UserFollowsRepository userFollowsRepository,
+                        UserLikeDealsRepository userLikeDealsRepository, UserLikeTipsRepository userLikeTipsRepository, UserCategoryRepository userCategoryRepository,
+                        DealMapper dealMapper,TipRepository tipRepository, DealRepository dealRepository,UserService userService, UserFeedRepository userFeedRepository,
+                        DMService dmService, JavaMailSender javaMailSender, MailRepository mailRepository, UserRepository userRepository, PasswordEncoder passwordEncoder,
+                        NoticeRepository noticeRepository) {
         this.dmRepository = dmRepository;
         this.dmService = dmService;
         this.userLikeDealsRepository = userLikeDealsRepository;
@@ -54,6 +60,7 @@ public class UserFeedServiceTest {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userFollowTipsRepository = userFollowTipsRepository;
+        this.userFollowsRepository = userFollowsRepository;
         this.javaMailSender = javaMailSender;
         this.mailRepository = mailRepository;
         this.userFeedRepository = userFeedRepository;
@@ -62,6 +69,7 @@ public class UserFeedServiceTest {
         this.dealRepository = dealRepository;
         this.userCategoryRepository = userCategoryRepository;
         this.dealMapper = dealMapper;
+        this.noticeRepository = noticeRepository;
     }
 
     @Test
@@ -70,6 +78,8 @@ public class UserFeedServiceTest {
         final UserFollowEntity userFollowEntity = UserFollowEntity.builder()
                 .userId("test")
                 .followId("ssafy")
+                .followNickname(userRepository.findById("ssafy").get().getNickname())
+                .time(LocalDateTime.now())
                 .build();
 
         // when
@@ -80,6 +90,15 @@ public class UserFeedServiceTest {
         Assertions.assertThat(res.getUserId()).isEqualTo(userFollowEntity.getUserId());
         Assertions.assertThat(res.getFollowId()).isEqualTo(userFollowEntity.getFollowId());
 
+        // 팔로우 알림 등록
+        NoticeEntity notice = NoticeEntity.builder()
+                .noticeType("follow")
+                .user(userRepository.findById("test").get())
+                .fromUserId(userRepository.findById("ssafy").get().getId())
+                .time(userFollowEntity.getTime())
+                .build();
+
+        noticeRepository.save(notice);
     }
     @Test
     public void 팔로우_취소_테스트() {
