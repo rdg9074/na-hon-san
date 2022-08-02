@@ -35,6 +35,12 @@ public class NoticeEntity {
     @Column(name="post_idx")
     private Integer postIdx; // 게시글 번호
 
+    @Column(name="comment_idx")
+    private Integer commentIdx;
+
+    @Column(name="comment_up_idx")
+    private Integer commentUpIdx;
+
     @Column(name="isread")
     private Boolean read; // 읽음 여부
 

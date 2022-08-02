@@ -14,6 +14,5 @@ public interface UserFollowsRepository extends JpaRepository<UserFollowEntity, S
 
 
     List<UserFollowEntity> findByUserId(String id);
-
-
+    Optional<UserFollowEntity> findByUserIdAndFollowId(String toId, String fromId);
 }

@@ -172,10 +172,11 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
     @DeleteMapping("/honeyDeal/comment/{idx}")
-    public ResponseEntity<?> deleteDealComment(@PathVariable Integer idx){
+    public ResponseEntity<?> deleteDealComment(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
         try {
-            if(dealService.deleteDealComment(idx)){
+            if(dealService.deleteDealComment(idx, decodeId)){
                 resultMap.put("message", okay);
             } else{
                 resultMap.put("message", fail);
