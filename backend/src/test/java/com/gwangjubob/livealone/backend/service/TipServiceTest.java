@@ -229,7 +229,7 @@ public class TipServiceTest {
     @Test
     public void 댓글_대댓글_등록_테스트(){
         // given
-        int upIdx = 104;
+        int upIdx = 124;
 
         String userId = "test";
         UserEntity user = userRepository.findById(userId).get();
@@ -237,7 +237,7 @@ public class TipServiceTest {
         String content = "대댓글 알림 테스트";
         byte[] bannerImg = null;
 
-        int postIdx = 48;
+        int postIdx = 49;
         Optional<TipEntity> optionalTipEntity = tipRepository.findByIdx(postIdx);
 
         if(optionalTipEntity.isPresent()){
@@ -261,24 +261,26 @@ public class TipServiceTest {
             tip.setComment(tip.getComment() + 1); // 댓글 수 1 증가
             tipRepository.save(tip); // 수정
 
-            // 내가 아닌 사람
-            if(!tip.getUser().getId().equals(userId)){
-                // 알림 등록
-                if(upIdx == 0){ // 댓글 알림 등록
-                    NoticeEntity noticeEntity = NoticeEntity.builder()
-                            .noticeType("comment")
-                            .user(tip.getUser())
-                            .fromUserId(userId)
-                            .postType("tip")
-                            .commentIdx(entity.getIdx())
-                            .postIdx(tip.getIdx())
-                            .build();
+            // 댓글 등록 알림 - 글 작성자가 아닌 사람이 댓글을 달았을 때만 알림가게
+            if(upIdx == 0 && !tip.getUser().getId().equals(userId)){ // 댓글 알림 등록
+                NoticeEntity noticeEntity = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(tip.getUser()) // 글작성자
+                        .fromUserId(userId)
+                        .postType("tip")
+                        .commentIdx(entity.getIdx())
+                        .postIdx(tip.getIdx())
+                        .build();
 
-                    noticeRepository.save(noticeEntity);
-                }else{ // 대댓글 알림 등록
+                noticeRepository.save(noticeEntity);
+            }
+            // 대댓글 등록 알림 - 댓글 작성자가 아닌 사람이 대댓글을 달았을 때, 댓글 작성자한테 알림 가게
+            if(upIdx != 0){
+                TipCommentEntity tipComment = tipCommentRepository.findByIdx(upIdx).get();
+                if(!tipComment.getUser().getId().equals(userId)){
                     NoticeEntity noticeEntity = NoticeEntity.builder()
                             .noticeType("reply")
-                            .user(tip.getUser())
+                            .user(tipComment.getUser()) // 댓글작성자
                             .fromUserId(userId)
                             .postType("tip")
                             .commentIdx(entity.getIdx())

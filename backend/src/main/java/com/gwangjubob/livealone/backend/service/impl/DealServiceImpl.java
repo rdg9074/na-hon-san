@@ -132,27 +132,30 @@ public class DealServiceImpl implements DealService {
             data.setUserId(dealComment.getUser().getId());
             data.setPostIdx(dealComment.getDeal().getIdx());
 
-            if(!deal.getUser().getId().equals(user.getId())){
-                if (dealComment.getUpIdx() == 0) {
-                    NoticeEntity notice = NoticeEntity.builder()
-                            .noticeType("comment")
-                            .user(deal.getUser())
-                            .fromUserId(user.getId())
-                            .postType("deal")
-                            .postIdx(deal.getIdx())
-                            .commentIdx(dealComment.getIdx())
-                            .build();
+            if(dealComment.getUpIdx() == 0 && !deal.getUser().getId().equals(user.getId())){ // 댓글 알림 등록
+                NoticeEntity notice = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(deal.getUser()) // 글작성자
+                        .fromUserId(user.getId())
+                        .postType("deal")
+                        .commentIdx(dealComment.getIdx())
+                        .postIdx(deal.getIdx())
+                        .build();
 
-                    noticeRepository.save(notice);
-                }else{
+                noticeRepository.save(notice);
+            }
+
+            if(dealComment.getUpIdx() != 0){
+                DealCommentEntity upDealComment = dealCommentRepository.findByIdx(dealComment.getUpIdx()).get();
+                if(!upDealComment.getUser().getId().equals(user.getId())){
                     NoticeEntity notice = NoticeEntity.builder()
                             .noticeType("reply")
-                            .user(deal.getUser())
+                            .user(upDealComment.getUser()) // 댓글작성자
                             .fromUserId(user.getId())
                             .postType("deal")
-                            .postIdx(deal.getIdx())
                             .commentIdx(dealComment.getIdx())
                             .commentUpIdx(dealComment.getUpIdx())
+                            .postIdx(deal.getIdx())
                             .build();
 
                     noticeRepository.save(notice);
