@@ -8,15 +8,14 @@ import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
 import com.gwangjubob.livealone.backend.domain.repository.TipRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserLikeTipsRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
-import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
+import com.gwangjubob.livealone.backend.dto.tip.*;
 import com.gwangjubob.livealone.backend.mapper.TipCreateMapper;
 import com.gwangjubob.livealone.backend.mapper.TipDetailViewMapper;
 import com.gwangjubob.livealone.backend.mapper.TipUpdateMapper;
 import com.gwangjubob.livealone.backend.service.TipService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,26 +64,55 @@ public class TipServiceImpl implements TipService {
     }
 
     @Override
-    public List<TipViewDto> viewTip(String category) {
-        List<TipEntity> tipEntity = tipRepository.findByCategory(category);
-        List<TipViewDto> result = new ArrayList<>();
+    public List<TipViewDto> viewTip(TipListDto tipListDto) {
+        String keyword = tipListDto.getKeyword();
+        String category = tipListDto.getCategory();
+        String type = tipListDto.getType();
+        int pageNum = tipListDto.getPageNum();
+        int pageSize = tipListDto.getPageSize();
 
-        for(TipEntity t : tipEntity){
-            TipViewDto dto = TipViewDto.builder()
-                    .idx(t.getIdx())
-                    .userNickname(t.getUser().getNickname())
-                    .userProfileImg(t.getUser().getProfileImg())
-                    .title(t.getTitle())
-                    .bannerImg(t.getBannerImg())
-                    .view(t.getView())
-                    .like(t.getLike())
-                    .comment(t.getComment())
-                    .build();
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        List<TipEntity> tips = null;
 
-            result.add(dto);
+        if(keyword == null){
+            if(type.equals("조회순")){
+                tips = tipRepository.findByCategoryOrderByViewDesc(category,pageable);
+            }else if(type.equals("좋아요순")){
+                tips = tipRepository.findByCategoryOrderByLikeDesc(category, pageable);
+            }else{
+                tips = tipRepository.findByCategoryOrderByIdxDesc(category, pageable);
+            }
+        }else{
+            if(type.equals("조회순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByViewDesc(category, keyword, pageable);
+            }else if(type.equals("좋아요순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByLikeDesc(category, keyword, pageable);
+            }else{
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByIdxDesc(category, keyword, pageable);
+            }
         }
-        return result;
 
+        if(tips != null){
+            List<TipViewDto> result = new ArrayList<>();
+            for(TipEntity t : tips){
+                TipViewDto tipViewDto = TipViewDto.builder()
+                        .idx(t.getIdx())
+                        .category(t.getCategory())
+                        .userNickname(t.getUser().getNickname())
+                        .userProfileImg(t.getUser().getProfileImg())
+                        .title(t.getTitle())
+                        .bannerImg(t.getBannerImg())
+                        .view(t.getView())
+                        .comment(t.getComment())
+                        .build();
+
+                result.add(tipViewDto);
+            }
+
+            return result;
+        }
+
+        return null;
     }
 
     @Override
@@ -182,6 +210,11 @@ public class TipServiceImpl implements TipService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public long getTotalCount() {
+        return tipRepository.count();
     }
 
 }
