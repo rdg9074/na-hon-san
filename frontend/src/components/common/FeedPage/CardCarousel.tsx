@@ -68,9 +68,9 @@ function CardCarousel() {
     <div id="usercarousel">
       <div className="container">
         <div className="slider flex justify-center" ref={slideRef}>
-          {isLoading
+          {/* {isLoading
             ? dummy.map(value => <Card type="deal" data={value} key={v4()} />)
-            : [0, 1, 2, 3].map(() => <CardSkeleton key={v4()} />)}
+            : [0, 1, 2, 3].map(() => <CardSkeleton key={v4()} />)} */}
         </div>
         <button
           className="prevbtn fs-48 flex"
