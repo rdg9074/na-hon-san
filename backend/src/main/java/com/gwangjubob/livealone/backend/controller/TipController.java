@@ -44,7 +44,8 @@ public class TipController {
 
         if(!decodeId.equals("timeout")){
             try{
-                tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
+                int postIdx = tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
+                resultMap.put("postIdx", postIdx);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch(Exception e){

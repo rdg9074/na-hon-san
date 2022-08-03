@@ -45,7 +45,7 @@ public class TipServiceImpl implements TipService {
         this.noticeRepository = noticeRepository;
     }
     @Override
-    public void createTip(String decodeId, TipCreateDto tipCreateDto) {
+    public int createTip(String decodeId, TipCreateDto tipCreateDto) {
         UserEntity user = userRepository.findById(decodeId).get();
 
         TipCreateDto dto = TipCreateDto.builder()
@@ -60,6 +60,8 @@ public class TipServiceImpl implements TipService {
         tipEntity.setUser(user);
 
         tipRepository.save(tipEntity);
+
+        return tipEntity.getIdx();
     }
 
     @Override

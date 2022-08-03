@@ -283,7 +283,7 @@ public class UserFeedServiceImpl implements UserFeedService {
                     .title(tipEntity.getTitle())
                     .bannerImg(tipEntity.getBannerImg())
                     .view(tipEntity.getView())
-                    .like(tipEntity.getLike())
+                    .likes(tipEntity.getLike())
                     .comment(tipEntity.getComment())
                     .build();
 

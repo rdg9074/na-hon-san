@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TipService {
-    void createTip(String decodeId, TipCreateDto tipCreateDto);
+    int createTip(String decodeId, TipCreateDto tipCreateDto);
     Map viewTip(TipListDto tipListDto);
     void updateTip(String decodeId, TipUpdateDto tipUpdateDto, Integer idx);
     void deleteTip(String decodeId, Integer idx);
