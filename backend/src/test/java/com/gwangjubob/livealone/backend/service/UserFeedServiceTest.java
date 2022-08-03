@@ -307,7 +307,7 @@ public class UserFeedServiceTest {
                         .title(tipEntity.getTitle())
                         .bannerImg(tipEntity.getBannerImg())
                         .view(tipEntity.getView())
-                        .like(tipEntity.getLike())
+                        .likes(tipEntity.getLike())
                         .comment(tipEntity.getComment())
                         .build();
 
