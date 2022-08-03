@@ -61,13 +61,9 @@ public class TipController {
         resultMap = new HashMap<>();
 
         try{
-            List<TipViewDto> list = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
-            resultMap.put("data", list);
-            if(list.size() != tipListDto.getPageSize()){
-                resultMap.put("isEnd", true);
-            }else{
-                resultMap.put("isEnd",false);
-            }
+            Map<String, Object> result = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
+            resultMap.put("data", result.get("list"));
+            resultMap.put("hasNext", result.get("hasNext"));
             resultMap.put("message", okay);
             status = HttpStatus.OK;
         }catch (Exception e){

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
@@ -101,62 +102,82 @@ public class TipServiceTest {
     }
 
     @Test
-    public void 꿀팁_게시글_조회(){
+    public void 꿀팁_게시글_커서페이징(){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String keyword = null; // 검색 문자(제목)
-        String category = "tip"; // item(꿀템), tip(꿀팁), recipe(꿀시피)
+        String keyword = "ㅁㄴㅇㄹ";
+        String category = "item"; // item(꿀템), tip(꿀생), recipe(꿀시피), null(전체)
         String type = "조회순"; // 조회순, 좋아요순, 최신순
-        List<TipEntity> tips = null;
+        Slice<TipEntity> tips = null;
 
-        int pageNum = 1;
-        int pageSize = 5;
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Integer lastIdx = 151; // 마지막 게시글 idx(null이면 처음부터 조회 -> 백에서 가장 최신 게시글을 받아서 조회해야함)
+        Integer lastView = null;
+        Integer lastLike = null;
 
-        if(keyword == null){
-            if(type.equals("조회순")){
-                tips = tipRepository.findByCategoryOrderByViewDesc(category,pageable);
-            }else if(type.equals("좋아요순")){
-                tips = tipRepository.findByCategoryOrderByLikeDesc(category, pageable);
-            }else{
-                tips = tipRepository.findByCategoryOrderByIdxDesc(category, pageable);
+        Integer pageSize = 4; // 한 페이지에 조회할 게시글 수
+        Pageable pageable = PageRequest.ofSize(pageSize);
+
+        if(lastIdx == null){ // null 이면 가장 최신 게시글 찾아줘야함
+            lastIdx = tipRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
+        }
+        if(lastView == null){
+            lastView = tipRepository.findTop1ByOrderByViewDesc().get().getView() + 1;
+        }
+        if(lastLike == null){
+            lastLike = tipRepository.findTop1ByOrderByLikeDesc().get().getLike() + 1;
+        }
+
+        if(keyword == null) {
+            if(category == null){ // 전체 조회 -> 무조건 최신순
+                if(type.equals("최신순")){
+                    tips = tipRepository.findByOrderByIdxDesc(lastIdx, pageable);
+                }else if(type.equals("좋아요순")){
+                    tips = tipRepository.findByOrderByLikeDescAndIdxDesc(lastLike, lastIdx, pageable);
+                }else{
+                    tips = tipRepository.findByOrderByViewDescAndIdxDesc(lastView, lastIdx, pageable);
+                }
+            }else{ // 카테고리 별 조회
+                if(type.equals("최신순")){
+                    tips = tipRepository.findByCategoryOrderByIdxDesc(category, lastIdx, pageable);
+                }else if(type.equals("좋아요순")){
+                    tips = tipRepository.findByCategoryOrderByLikeDescAndIdxDesc(category, lastLike, lastIdx, pageable);
+                }else{
+                    tips = tipRepository.findByCategoryOrderByViewDescAndIdxDesc(category, lastView, lastIdx, pageable);
+                }
             }
-        }else{
-            if(type.equals("조회순")){
-                tips = tipRepository.findByCategoryAndTitleContainsOrderByViewDesc(category, keyword, pageable);
+        }else{ // 검색어 존재
+            if(type.equals("최신순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByIdxDesc(category, lastIdx, keyword, pageable);
             }else if(type.equals("좋아요순")){
-                tips = tipRepository.findByCategoryAndTitleContainsOrderByLikeDesc(category, keyword, pageable);
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByLikeDescAndIdxDesc(category, lastLike, lastIdx, keyword, pageable);
             }else{
-                tips = tipRepository.findByCategoryAndTitleContainsOrderByIdxDesc(category, keyword, pageable);
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByViewDescAndIdxDesc(category, lastView, lastIdx, keyword, pageable);
             }
         }
 
         if(tips != null){
+            boolean isEnd = tips.hasNext();
             List<TipViewDto> result = new ArrayList<>();
             for(TipEntity t : tips){
                 TipViewDto tipViewDto = TipViewDto.builder()
                         .idx(t.getIdx())
-                        .category(t.getCategory())
                         .userNickname(t.getUser().getNickname())
                         .userProfileImg(t.getUser().getProfileImg())
                         .title(t.getTitle())
                         .bannerImg(t.getBannerImg())
                         .view(t.getView())
-                        .like(t.getLike())
+                        .likes(t.getLike())
                         .comment(t.getComment())
                         .build();
 
                 result.add(tipViewDto);
             }
+            resultMap.put("list", result);
+            resultMap.put("hasnext", isEnd);
 
-            for(TipViewDto dto : result){
-                System.out.println(dto.toString());
-            }
-
-            System.out.println(result.size());
+            System.out.println(resultMap.get("list"));
+            System.out.println(resultMap.get("hasnext"));
         }
-
-
     }
 
     @Test

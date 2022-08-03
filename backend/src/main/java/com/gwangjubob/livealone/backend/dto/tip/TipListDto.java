@@ -13,6 +13,8 @@ public class TipListDto {
     private String category;
     private String keyword;
     private String type;
-    private int pageNum;
-    private int pageSize;
+    private Integer lastIdx;
+    private Integer lastView;
+    private Integer lastLike;
+    private Integer pageSize;
 }
