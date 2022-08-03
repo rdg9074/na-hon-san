@@ -4,8 +4,11 @@ package com.gwangjubob.livealone.backend.service;
 import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
+import com.gwangjubob.livealone.backend.dto.Deal.DealRequestDto;
+
 
 import java.util.List;
+import java.util.Map;
 
 public interface DealService {
     DealDto registDeal(DealDto dealDto);
@@ -26,4 +29,5 @@ public interface DealService {
     boolean likeDeal(Integer idx, String userId);
 
     boolean countUpView(Integer idx);
+    Map<String, Object> viewDealView(DealRequestDto dealRequestDto);
 }
