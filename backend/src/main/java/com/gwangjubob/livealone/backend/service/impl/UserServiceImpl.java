@@ -131,6 +131,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String NicknameToId(String nickname) {
+        return userRepository.findByNickname(nickname).get().getId();
+    }
+
+    @Override
     public UserMoreDTO infoMore(String id) {
         Optional<UserEntity> optionalUser = userRepository.findById(id);
         if(optionalUser.isPresent()){

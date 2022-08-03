@@ -23,5 +23,5 @@ public interface UserFeedService {
 
     List<DealDto> popularHoneyDeal(String decodeId);
 
-    List<TipViewDto> userFollowHoneyTip(String decodeId);
+    List<TipViewDto> userFollowHoneyTip(String decodeId,int pageNum, int pageSize);
 }

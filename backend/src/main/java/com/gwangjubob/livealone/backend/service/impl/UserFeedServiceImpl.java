@@ -13,6 +13,8 @@ import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +34,13 @@ public class UserFeedServiceImpl implements UserFeedService {
     private DealMapper dealMapper;
     private DealRepository dealRepository;
     private UserFeedRepository userFeedRepository;
+    private UserFollowTipsRepository userFollowTipsRepository;
     private NoticeRepository noticeRepository;
     @Autowired
-    UserFeedServiceImpl(UserRepository userRepository, NoticeRepository noticeRepository, DealMapper dealMapper,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserFeedServiceImpl(UserRepository userRepository,NoticeRepository noticeRepository,UserFollowTipsRepository userFollowTipsRepository,DealMapper dealMapper,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userFollowTipsRepository = userFollowTipsRepository;
         this.dealMapper = dealMapper;
         this.userCategoryRepository = userCategoryRepository;
         this.userInfoMapper = userInfoMapper;
@@ -268,8 +272,23 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<TipViewDto> userFollowHoneyTip(String decodeId) {
+    public List<TipViewDto> userFollowHoneyTip(String decodeId, int pageNum, int pageSize) {
+        List<TipViewDto> result = new ArrayList<>();
+        Pageable pageable = PageRequest.of(pageNum, pageSize);List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(decodeId,pageable); //내가 팔로우 한 유저 목록
+        for(UserFollowTipsEntity tipEntity : tipEntityList){
+            TipViewDto dto = TipViewDto.builder()
+                    .idx(tipEntity.getIdx())
+                    .userNickname(tipEntity.getUser().getNickname())
+                    .userProfileImg(tipEntity.getUser().getProfileImg())
+                    .title(tipEntity.getTitle())
+                    .bannerImg(tipEntity.getBannerImg())
+                    .view(tipEntity.getView())
+                    .like(tipEntity.getLike())
+                    .comment(tipEntity.getComment())
+                    .build();
 
-        return null;
+            result.add(dto);
+        }
+        return result;
     }
 }

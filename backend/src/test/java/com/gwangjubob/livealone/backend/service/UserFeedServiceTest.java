@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -291,8 +293,11 @@ public class UserFeedServiceTest {
         //given
         Optional<UserEntity> user = userRepository.findById("test");
         List<TipViewDto> result = new ArrayList<>();
+        int pageNum = 0;
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
         //when
-        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId()); //내가 팔로우 한 유저 목록
+        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),pageable); //내가 팔로우 한 유저 목록
         //then
         for(UserFollowTipsEntity tipEntity : tipEntityList){
                 TipViewDto dto = TipViewDto.builder()
@@ -309,7 +314,7 @@ public class UserFeedServiceTest {
                 result.add(dto);
             }
         for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i).toString());
+            System.out.println(result.get(i).getBannerImg());
         }
     }
 }

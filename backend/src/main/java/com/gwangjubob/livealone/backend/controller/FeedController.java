@@ -42,11 +42,12 @@ public class FeedController {
         this.userFeedService = userFeedService;
     }
 
-    @PostMapping("/userFeed/follow/{id}")
-    public ResponseEntity<?> registFollow(@PathVariable("id")String fromId, HttpServletRequest request){
+    @PostMapping("/userFeed/follow/{nickname}")
+    public ResponseEntity<?> registFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
+            String fromId = userService.NicknameToId(fromNickname);
             userFeedService.registFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
@@ -58,11 +59,12 @@ public class FeedController {
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @DeleteMapping("/userFeed/follow/{id}")
-    public ResponseEntity<?> deleteFollow(@PathVariable("id")String fromId, HttpServletRequest request){
+    @DeleteMapping("/userFeed/follow/{nickname}")
+    public ResponseEntity<?> deleteFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
+            String fromId = userService.NicknameToId(fromNickname);
             userFeedService.deleteFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
@@ -74,10 +76,11 @@ public class FeedController {
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follow/{id}")
-    public ResponseEntity<?> listFollow(@PathVariable("id")String fromId){
+    @GetMapping("/userFeed/follow/{nickname}")
+    public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
+            String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowOpen()) {// 대상 id가 팔로우 설정이 되어있다면 조회하기
                 List<FollowViewDto> result = userFeedService.listFollow(fromId);
@@ -93,10 +96,11 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follower/{id}")
-    public ResponseEntity<?> listFollower(@PathVariable("id")String fromId){
+    @GetMapping("/userFeed/follower/{nickname}")
+    public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
+            String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
                 List<FollowViewDto> result = userFeedService.listFollower(fromId);
@@ -112,10 +116,11 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follow/search/{id}")
-    public ResponseEntity<?> searchFollow(@PathVariable("id")String fromId, @RequestParam("keyword") String keyword){
+    @GetMapping("/userFeed/follow/search/{nickname}")
+    public ResponseEntity<?> searchFollow(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
+            String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
                 List<FollowViewDto> result = userFeedService.searchFollow(fromId,keyword);
@@ -131,10 +136,11 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follower/search/{id}")
-    public ResponseEntity<?> searchFollower(@PathVariable("id")String fromId, @RequestParam("keyword") String keyword){
+    @GetMapping("/userFeed/follower/search/{nickname}")
+    public ResponseEntity<?> searchFollower(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
+            String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
             if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
                 List<FollowViewDto> result = userFeedService.searchFollower(fromId,keyword);
@@ -150,14 +156,17 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/profile/{id}")
-    public ResponseEntity<?> feedProfile(@PathVariable("id")String fromId){
+    @GetMapping("/userFeed/profile/{nickname}")
+    public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
-                ProfileViewDto result = userFeedService.feedProfile(fromId);
-                resultMap.put("data",result);
-                resultMap.put("result",okay);
-                status = HttpStatus.OK;
+            String fromId = userService.NicknameToId(fromNickname);
+            ProfileViewDto result = userFeedService.feedProfile(fromId);
+            if(result != null) {
+                resultMap.put("data", result);
+                resultMap.put("result", okay);
+            }
+            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -165,15 +174,17 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @GetMapping("/userFeed/post/{id}")
-    public ResponseEntity<?> feedPosts(@PathVariable("id")String fromId, @RequestParam("category") int category){
+    @GetMapping("/userFeed/post/{nickname}")
+    public ResponseEntity<?> feedPosts(@PathVariable("nickname")String fromNickname, @RequestParam("category") int category){
         resultMap = new HashMap<>();
         try{
-
+            String fromId = userService.NicknameToId(fromNickname);
             List<PostViewDto> result = userFeedService.feedPosts(fromId,category);
-            resultMap.put("data",result);
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
+            if(result != null){
+                resultMap.put("data",result);
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
+            }
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -186,9 +197,11 @@ public class FeedController {
         try{
 
             List<PopularFollowDto> result = userFeedService.popularFollower();
-            resultMap.put("data",result);
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
+            if(result != null){
+                resultMap.put("data",result);
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
+            }
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -214,12 +227,13 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
     @GetMapping("/mainFeed/honeyTip")
-    public ResponseEntity<?> userFollowHoneyTip(HttpServletRequest request){
+    public ResponseEntity<?> userFollowHoneyTip(@RequestParam("pageNum")int pageNum,@RequestParam("pageSize") int pageSize, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         try{
             if(decodeId != null){
-                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId);
+                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId,pageNum, pageSize);
+                resultMap.put("total", result.size());
                 resultMap.put("data",result);
 
             }
