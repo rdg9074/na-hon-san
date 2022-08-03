@@ -16,7 +16,8 @@ public class ProfileViewDto {
     private byte[] profileImg;
     private int followCount;
     private int followerCount;
-
+    private int tipCount;
+    private int dealCount;
 
 }
 

@@ -48,4 +48,5 @@ public interface DealRepository extends JpaRepository<DealEntity, Integer> {
 
     Slice<DealEntity> findByStateAndCategoryInAndTitleContainsAndIdxLessThan(String state, List<String> categorys, String keyword, Integer idx, Pageable pageable);
 
+    int countByUserId(String id);
 }
