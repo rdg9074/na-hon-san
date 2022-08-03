@@ -7,15 +7,13 @@ import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.mapper.DealCommentMapper;
 import com.gwangjubob.livealone.backend.mapper.DealMapper;
+import com.gwangjubob.livealone.backend.mapper.DealViewMapper;
 import jdk.jfr.Category;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -34,12 +32,14 @@ public class DealServiceTest {
     private DealCommentRepository dealCommentRepository;
     private UserLikeDealsRepository userLikeDealsRepository;
     private NoticeRepository noticeRepository;
+    private DealViewMapper dealViewMapper;
+
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
 
     @Autowired
     DealServiceTest(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentMapper dealCommentMapper,
-                    DealCommentRepository dealCommentRepository, UserLikeDealsRepository userLikeDealsRepository, NoticeRepository noticeRepository){
+                    DealCommentRepository dealCommentRepository, UserLikeDealsRepository userLikeDealsRepository, NoticeRepository noticeRepository, DealViewMapper dealViewMapper){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
@@ -47,6 +47,7 @@ public class DealServiceTest {
         this.dealCommentRepository = dealCommentRepository;
         this.userLikeDealsRepository = userLikeDealsRepository;
         this.noticeRepository = noticeRepository;
+        this.dealViewMapper = dealViewMapper;
     }
 
     @Test
@@ -324,51 +325,87 @@ public class DealServiceTest {
         Map<String, Object> resultMap = new HashMap<>();
         String keyword = null;
         String state = "거래 대기"; //거래중, 거래 대기, 거래 완료
+        Integer pageSize = 6;
         List<String> categorys = new ArrayList<>(); //"전체", "의류","식품","주방용품","생활용품","홈인테리어","가전디지털","취미용품","기타"
         categorys.add("전체");
-        categorys.add("식품");
         String type = "좋아요순"; //조회순, 좋아요순, 최신순
-        List<DealEntity> deals = null;
-        Pageable pageable = PageRequest.of(1, 6);
+        Slice<DealEntity> deals = null;
+        Pageable pageable = null;
+        Sort sortIdx = Sort.by(
+               Sort.Order.desc("idx")
+        );
+        Sort sortLikes = Sort.by(
+                Sort.Order.desc("likes"),
+                Sort.Order.desc("idx")
+        );
+        Sort sortView = Sort.by(
+                Sort.Order.desc("view"),
+                Sort.Order.desc("idx")
+        );
+        Integer lastLikes = null;
+        Integer lastView = null;
+        Integer lastIdx = null;
+        if(lastLikes == null) {
+            lastLikes = dealRepository.findTop1ByOrderByLikesDesc().get().getLikes() + 1;
+        }
+        if(lastView == null){
+            lastView = dealRepository.findTop1ByOrderByViewDesc().get().getView() + 1;
+        }
+        if(lastIdx == null){
+            lastIdx = dealRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
+        }
         if(categorys.contains("전체")){
             if(keyword == null){
                 if (type.equals("조회순")){
-                    deals = dealRepository.findByStateOrderByViewDesc(state, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortView);
+                    deals = dealRepository.findByStateAndIdxLessThanAndViewLessThanEqual(state, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
-                    deals = dealRepository.findByStateOrderByLikesDesc(state, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortLikes);
+                    deals = dealRepository.findByStateAndIdxLessThanAndLikesLessThanEqual(state,lastIdx, lastLikes, pageable);
                 } else{
-                    deals = dealRepository.findByStateOrderByIdxDesc(state, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortIdx);
+                    deals = dealRepository.findByStateAndIdxLessThan(state, lastIdx, pageable);
                 }
             } else{
                 if (type.equals("조회순")){
-                    deals = dealRepository.findByStateAndTitleContainsOrderByViewDesc(state, keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortView);
+                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThanAndViewLessThanEqual(state, keyword, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
-                    deals = dealRepository.findByStateAndTitleContainsOrderByLikesDesc(state, keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortLikes);
+                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThanAndLikesLessThanEqual(state, keyword, lastIdx, lastLikes, pageable);
                 } else{
-                    deals = dealRepository.findByStateAndTitleContainsOrderByIdxDesc(state, keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortIdx);
+                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThan(state, keyword, lastIdx, pageable);
                 }
             }
         } else{
             if(keyword == null){
                 if(type.equals("조회순")){
-                    deals = dealRepository.findByStateAndCategoryInOrderByViewDesc(state, categorys, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortView);
+                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThanAndViewLessThanEqual(state, categorys, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
-                    deals = dealRepository.findByStateAndCategoryInOrderByLikesDesc(state, categorys, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortLikes);
+                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThanAndLikesLessThanEqual(state, categorys, lastIdx, lastLikes, pageable);
                 } else{
-                    deals = dealRepository.findByStateAndCategoryInOrderByIdxDesc(state, categorys, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortIdx);
+                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThan(state, categorys,lastIdx, pageable);
                 }
             } else{
                 if(type.equals("조회순")){
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByViewDesc(state, categorys, keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortView);
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThanAndViewLessThanEqual(state, categorys, keyword, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByLikesDesc(state, categorys, keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortLikes);
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThanAndLikesLessThanEqual(state, categorys, keyword, lastIdx, lastLikes, pageable);
                 } else{
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsOrderByIdxDesc(state, categorys,keyword, pageable);
+                    pageable = PageRequest.of(0, pageSize, sortIdx);
+                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThan(state, categorys,keyword, lastIdx, pageable);
                 }
             }
         }
         if(deals != null){
-            List<DealDto> result = dealMapper.toDtoList(deals);
+            List<DealEntity> dealsList = deals.getContent();
+            List<DealDto> result = dealMapper.toDtoList(dealsList);
             resultMap.put("message", okay);
             resultMap.put("data", result);
         } else{
@@ -391,4 +428,5 @@ public class DealServiceTest {
         }
         System.out.println(resultMap);
     }
+
 }

@@ -2,6 +2,7 @@ package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
+import com.gwangjubob.livealone.backend.dto.Deal.DealRequestDto;
 import com.gwangjubob.livealone.backend.service.DealService;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,7 +233,25 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-
+    @PostMapping("honeyDeal/view")
+    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto){
+        resultMap = new HashMap<>();
+        try{
+            Map<String, Object> data = dealService.viewDealView(dealRequestDto);
+            if(data != null){
+                resultMap.put("data", data.get("list"));
+                resultMap.put("hasNext", data.get("hasNext"));
+                resultMap.put("message", okay);
+            } else{
+                resultMap.put("message", fail);
+            }
+            status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
