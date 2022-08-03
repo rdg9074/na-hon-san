@@ -51,7 +51,7 @@ function DealPage() {
       </div>
       <div className="hotdeal">
         <p className="fs-36 notoBold">광주 지역 인기 꿀딜</p>
-        <CardList type="deal" />
+        {/* <CardList type="deal" /> */}
       </div>
       <div className="deal">
         <div className="deal-header flex">
@@ -97,7 +97,7 @@ function DealPage() {
             <option value="3">인기순</option>
           </select>
         </div>
-        <CardList type="deal" />
+        {/* <CardList type="deal" /> */}
       </div>
     </div>
   );

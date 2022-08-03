@@ -9,9 +9,7 @@ function FeedPage() {
     <div id="feed-page">
       <CardCarousel />
       <UserCarousel />
-      <div className="card-list">
-        <CardList type="tip" />
-      </div>
+      <div className="card-list">{/* <CardList type="tip" /> */}</div>
     </div>
   );
 }

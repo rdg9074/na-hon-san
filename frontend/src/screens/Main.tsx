@@ -36,9 +36,9 @@ function Main() {
       </div>
       <main className="main flex column align-center">
         <p className="title notoBold">현재 핫한 꿀팁들!</p>
-        <CardList type="tip" />
+        {/* <CardList searchType="tip" sort="like" /> */}
         <p className="title notoBold">현재 핫한 꿀딜들!</p>
-        <CardList type="deal" />
+        {/* <CardList type="deal" /> */}
       </main>
     </div>
   );

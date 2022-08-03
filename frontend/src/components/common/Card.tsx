@@ -1,46 +1,71 @@
 import React, { useEffect, useState } from "react";
 import "./Card.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
-import ThumDummy from "@images/ThumnailDummy.jpg";
+import HoneyRecipe from "@images/HoneyRecipe.svg";
+import HoneyTem from "@images/HoneyTem.svg";
+import HoneyTip from "@images/HoneyTip.svg";
 import HeartIcon from "@images/HeartSkelton.svg";
 import ViewIcon from "@images/ViewSkelton.svg";
 import CommentIcon from "@images/CommentSkelton.svg";
 import getCounts from "@utils/getCounts";
 import TipIcon from "@images/Tip.svg";
 import DealIcon from "@images/Deal.svg";
-import { getDummyImg } from "@apis/dummy";
+import { Link } from "react-router-dom";
 
-type CardProps = {
+export type CardProps = {
   type: "tip" | "deal";
-  data: any;
+  idx: number;
+  userNickname: string;
+  userProfileImg: string | null;
+  title: string;
+  bannerImg: string | null;
+  like: number;
+  comment: number;
+  view: number;
+  category: string;
 };
 
-function Card({ type, data }: CardProps) {
-  // const [imgSrc, setImgSrc] = useState("");
-  // useEffect(() => {
-  //   let url: string;
-  //   (async () => {
-  //     url = await getDummyImg(data.download_url);
-  //     setImgSrc(url);
-  //   })();
-  //   return () => window.URL.revokeObjectURL(url);
-  // }, []);
+function Card({
+  type,
+  idx,
+  userNickname,
+  userProfileImg,
+  title,
+  bannerImg,
+  like,
+  comment,
+  view,
+  category
+}: CardProps) {
+  const getImgSrc = () => {
+    if (bannerImg) return `data:image/jpeg;base64,${bannerImg}`;
+    if (category === "item") return HoneyTem;
+    if (category === "tip") return HoneyTip;
+    if (category === "recipe") return HoneyRecipe;
+    return null;
+  };
   return (
     <div id="card">
-      <header className="card-header flex align-center">
+      <Link
+        className="card-header flex align-center"
+        to={`/userfeed/${userNickname}`}
+      >
         <img
           className="card-header__user-img"
-          src={UserDummyIcon}
+          src={
+            userProfileImg
+              ? `data:image/jpeg;base64,${userProfileImg}`
+              : UserDummyIcon
+          }
           alt="유저더미"
         />
-
-        <p className="card-header__user-name notoBold fs-14">YEOM-JINHO</p>
-      </header>
-      <main className="card-main flex column">
+        <p className="card-header__user-name notoBold fs-14">{userNickname}</p>
+      </Link>
+      <Link className="card-main flex column" to={`/${type}/detail/${idx}`}>
         <div className="img-container">
           <img
             className="card-main__thumnail"
-            src={data.imgSrc}
+            src={getImgSrc()}
             alt="썸네일더미"
           />
         </div>
@@ -65,10 +90,8 @@ function Card({ type, data }: CardProps) {
           <div className="card-label__bottom" />
         </div>
 
-        <p className="card-main__title notoBold fs-14 ellipsis">
-          저의 침대는 어쩌고 저쩌고~~~~~~~그랬다구요~~~~~~ 13123123213
-        </p>
-      </main>
+        <p className="card-main__title notoBold fs-14 ellipsis">{title}</p>
+      </Link>
       <footer className="card-footer flex align-center justify-center">
         <div className="icon-container flex align-center">
           <img
@@ -76,9 +99,7 @@ function Card({ type, data }: CardProps) {
             src={HeartIcon}
             alt="좋아요수"
           />
-          <p className="icon-container__cnt notoReg fs-15">
-            {getCounts(12345)}
-          </p>
+          <p className="icon-container__cnt notoReg fs-15">{getCounts(like)}</p>
         </div>
         <div className="icon-container flex align-center">
           <img
@@ -87,14 +108,12 @@ function Card({ type, data }: CardProps) {
             alt="댓글수"
           />
           <p className="icon-container__cnt notoReg fs-15">
-            {getCounts(12345)}
+            {getCounts(comment)}
           </p>
         </div>
         <div className="icon-container flex align-center">
           <img className="icon-container__icon" src={ViewIcon} alt="조회수" />
-          <p className="icon-container__cnt notoReg fs-15">
-            {getCounts(12345)}
-          </p>
+          <p className="icon-container__cnt notoReg fs-15">{getCounts(view)}</p>
         </div>
       </footer>
     </div>

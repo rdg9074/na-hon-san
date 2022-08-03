@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TipPage.scss";
-import CardList from "@components/common/CardList";
 import tipIcon from "@images/TipIcon.svg";
 import searchIcon from "@images/Search.svg";
 import HoneyRecipe from "@images/HoneyRecipe.svg";
 import HoneyTem from "@images/HoneyTem.svg";
 import HoneyTip from "@images/HoneyTip.svg";
+import InFinityScroll from "@components/common/InFinityScroll";
 
 function TipPage() {
-  const [tag, setTag] = useState(0);
+  const [conditions, setConditions] = useState({
+    category: "tip",
+    sort: "최신순",
+    keyword: null
+  });
+
+  const handleConditions = (type: string, value: string) => {
+    if (type === "keyword" && value === "") {
+      setConditions({ ...conditions, [type]: null });
+    } else {
+      setConditions({ ...conditions, [type]: value });
+    }
+  };
   return (
     <div id="tip-page">
       <div className="intro flex">
@@ -45,15 +57,21 @@ function TipPage() {
           <p className="fs-36 notoBold">광주 지역 꿀팁</p>
           <div>
             <img src={searchIcon} alt="tip" />
-            <input type="text" placeholder="검색어를 입력해 주십쇼..." />
+            <input
+              type="text"
+              placeholder="검색어를 입력해 주세요."
+              onChange={e => handleConditions("keyword", e.target.value)}
+            />
           </div>
         </div>
         <div className="notoBold tag flex">
           <button
             type="button"
-            className={`tag-item flex column ${tag === 0 ? "active" : ""}`}
+            className={`tag-item flex column ${
+              conditions.category === "recipe" ? "active" : ""
+            }`}
             onClick={() => {
-              setTag(0);
+              handleConditions("category", "recipe");
             }}
           >
             <img src={HoneyRecipe} alt="recipe" title="honey-recipe" />
@@ -61,33 +79,45 @@ function TipPage() {
           </button>
           <button
             type="button"
-            className={`tag-item flex column ${tag === 1 ? "active" : ""}`}
+            className={`tag-item flex column ${
+              conditions.category === "tip" ? "active" : ""
+            }`}
             onClick={() => {
-              setTag(1);
+              handleConditions("category", "tip");
             }}
           >
-            <img src={HoneyTip} alt="recipe" title="honey-tip" />
+            <img src={HoneyTip} alt="tip" title="honey-tip" />
             <p>여긴 꿀생</p>
           </button>
           <button
             type="button"
-            className={`tag-item flex column ${tag === 2 ? "active" : ""}`}
+            className={`tag-item flex column ${
+              conditions.category === "item" ? "active" : ""
+            }`}
             onClick={() => {
-              setTag(2);
+              handleConditions("category", "item");
             }}
           >
-            <img src={HoneyTem} alt="recipe" title="honey-tem" />
+            <img src={HoneyTem} alt="item" title="honey-tem" />
             <p>여긴 꿀템</p>
           </button>
         </div>
         <div className="tip-sort flex">
-          <select className="tip-sort__list notoMid">
-            <option value="1">최신순</option>
-            <option value="2">조회순</option>
-            <option value="3">인기순</option>
+          <select
+            className="tip-sort__list notoMid"
+            onChange={e => handleConditions("sort", e.target.value)}
+          >
+            <option value="최신순">최신순</option>
+            <option value="조회순">조회순</option>
+            <option value="인기순">인기순</option>
           </select>
         </div>
-        <CardList type="tip" />
+        <InFinityScroll
+          searchType="tip"
+          sort={conditions.sort}
+          keyword={conditions.keyword}
+          searchCategory={conditions.category}
+        />
       </div>
     </div>
   );
