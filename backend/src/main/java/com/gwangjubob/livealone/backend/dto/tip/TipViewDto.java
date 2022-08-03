@@ -10,7 +10,7 @@ public class TipViewDto {
     private Integer idx;
     private String userNickname;
     private byte[] userProfileImg;
-//    private String category;
+    private String category;
     private String title;
     private byte[] bannerImg;
 
