@@ -149,6 +149,8 @@ public class UserFeedServiceImpl implements UserFeedService {
         Optional<UserEntity> userInfo = userRepository.findById(id);
         int followerCnt = userFeedRepository.countByFollowId(id);
         int followCnt = userFeedRepository.countByUserId(id);
+        int tipCount = tipRepository.countByUserId(id);
+        int dealCount = dealRepository.countByUserId(id);
         if(userInfo.isPresent()){
             profileViewDto.setId(userInfo.get().getId());
             profileViewDto.setNickname(userInfo.get().getNickname());
@@ -156,6 +158,8 @@ public class UserFeedServiceImpl implements UserFeedService {
             profileViewDto.setProfileMsg(userInfo.get().getProfileMsg());
             profileViewDto.setFollowCount(followCnt);
             profileViewDto.setFollowerCount(followerCnt);
+            profileViewDto.setTipCount(tipCount);
+            profileViewDto.setDealCount(dealCount);
         }
         return profileViewDto;
     }

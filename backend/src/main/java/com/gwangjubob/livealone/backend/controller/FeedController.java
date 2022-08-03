@@ -181,7 +181,6 @@ public class FeedController {
             String fromId = userService.NicknameToId(fromNickname);
             List<PostViewDto> result = userFeedService.feedPosts(fromId,category);
             if(result != null){
-                resultMap.put("total",result.size());
                 resultMap.put("data",result);
                 resultMap.put("result",okay);
                 status = HttpStatus.OK;
