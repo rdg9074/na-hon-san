@@ -105,16 +105,16 @@ public class TipServiceTest {
     public void 꿀팁_게시글_커서페이징(){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String keyword = "ㅁㄴㅇㄹ";
-        String category = "item"; // item(꿀템), tip(꿀생), recipe(꿀시피), null(전체)
+        String keyword = null;
+        String category = "tip"; // item(꿀템), tip(꿀생), recipe(꿀시피), null(전체)
         String type = "조회순"; // 조회순, 좋아요순, 최신순
         Slice<TipEntity> tips = null;
 
-        Integer lastIdx = 151; // 마지막 게시글 idx(null이면 처음부터 조회 -> 백에서 가장 최신 게시글을 받아서 조회해야함)
-        Integer lastView = null;
+        Integer lastIdx = 124; // 마지막 게시글 idx(null이면 처음부터 조회 -> 백에서 가장 최신 게시글을 받아서 조회해야함)
+        Integer lastView = 0;
         Integer lastLike = null;
 
-        Integer pageSize = 4; // 한 페이지에 조회할 게시글 수
+        Integer pageSize = 5; // 한 페이지에 조회할 게시글 수
         Pageable pageable = PageRequest.ofSize(pageSize);
 
         if(lastIdx == null){ // null 이면 가장 최신 게시글 찾아줘야함
@@ -183,7 +183,7 @@ public class TipServiceTest {
     @Test
     public void 게시글_상세_조회_테스트() {
         // given
-        Integer idx = 47;
+        Integer idx = 49;
 
         Optional<TipEntity> testTip = tipRepository.findByIdx(idx);
 
