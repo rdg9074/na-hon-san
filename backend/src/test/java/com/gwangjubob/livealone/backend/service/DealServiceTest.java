@@ -325,6 +325,7 @@ public class DealServiceTest {
         String type = "좋아요순"; //조회순, 좋아요순, 최신순
         Slice<DealEntity> deals = null;
         Pageable pageable = null;
+        String area = "광주";
         Sort sortIdx = Sort.by(
                Sort.Order.desc("idx")
         );
@@ -348,55 +349,108 @@ public class DealServiceTest {
         if(lastIdx == null){
             lastIdx = dealRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
         }
-        if(categorys.contains("전체")){
-            if(keyword == null){
-                if (type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findView(state, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findlikes(state,lastIdx, lastLikes, pageable);
+        if(area != null){
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findViewArea(state, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikesArea(state,lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdxArea(state, lastIdx, area, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findIdx(state, lastIdx, pageable);
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleViewArea(state, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikesArea(state, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdxArea(state, keyword, lastIdx, area, pageable);
+                    }
                 }
             } else{
-                if (type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryViewArea(state, categorys, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikesArea(state, categorys, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdxArea(state, categorys,lastIdx, area, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleViewArea(state, categorys, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikesArea(state, categorys, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdxArea(state, categorys,keyword, lastIdx, area, pageable);
+                    }
                 }
             }
         } else{
-            if(keyword == null){
-                if(type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findView(state, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikes(state,lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdx(state, lastIdx, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
+                    }
                 }
             } else{
-                if(type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
+                    }
                 }
             }
         }
+
         if(deals != null){
             List<DealEntity> dealsList = deals.getContent();
             List<DealDto> result = dealMapper.toDtoList(dealsList);

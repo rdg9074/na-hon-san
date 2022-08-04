@@ -301,16 +301,25 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto) {
+    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto, String decodeId) {
         String keyword = dealRequestDto.getKeyword();
         String state = dealRequestDto.getState();
         String type = dealRequestDto.getType();
+        String area = null;
         Integer pageSize = dealRequestDto.getPageSize();
         List<String> categorys = dealRequestDto.getCategorys();
         Integer lastIdx = dealRequestDto.getLastIdx();
         Integer lastView = dealRequestDto.getLastView();
         Integer lastLikes = dealRequestDto.getLastLikes();
         List<DealViewDto> list = new ArrayList<>();
+        if (decodeId != null){
+            Optional<UserEntity> optionalUser = userRepository.findById(decodeId);
+            if(optionalUser.isPresent()){
+                UserEntity user = optionalUser.get();
+                String[] splArr = user.getArea().split(" ");
+                area = splArr[0];
+            }
+        }
         Map<String, Object> data = new HashMap<>();
         if(lastLikes == null) {
             lastLikes = dealRepository.findTop1ByOrderByLikesDesc().get().getLikes() + 1;
@@ -334,52 +343,104 @@ public class DealServiceImpl implements DealService {
                 Sort.Order.desc("view"),
                 Sort.Order.desc("idx")
         );
-        if(categorys.contains("전체")){
-            if(keyword == null){
-                if (type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findView(state, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findlikes(state,lastIdx, lastLikes, pageable);
+        if (area != null){
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findViewArea(state, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikesArea(state,lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdxArea(state, lastIdx, area, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findIdx(state, lastIdx, pageable);
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleViewArea(state, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikesArea(state, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdxArea(state, keyword, lastIdx, area, pageable);
+                    }
                 }
             } else{
-                if (type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryViewArea(state, categorys, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikesArea(state, categorys, lastIdx, lastLikes, area,pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdxArea(state, categorys,lastIdx, area, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleViewArea(state, categorys, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikesArea(state, categorys, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdxArea(state, categorys,keyword, lastIdx, area, pageable);
+                    }
                 }
             }
         } else{
-            if(keyword == null){
-                if(type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findView(state, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikes(state,lastIdx, lastLikes,  pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdx(state, lastIdx, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
+                    }
                 }
             } else{
-                if(type.equals("조회순")){
-                    pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
-                } else if (type.equals("좋아요순")){
-                    pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
+                    }
                 } else{
-                    pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
+                    }
                 }
             }
         }

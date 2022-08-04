@@ -18,6 +18,7 @@ public class DealViewDto {
     private String category;
     private String title;
     private String state;
+    private String area;
     private byte[] bannerImg;
     private Integer likes;
     private Integer comment;
