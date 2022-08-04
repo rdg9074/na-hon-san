@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +44,11 @@ public class UserEntity implements Serializable {
     private Boolean replyNotice;
     @Column(name="profile_msg")
     private String profileMsg;
+
+    @Column(name="area_x")
+    private Double areaX;
+    @Column(name="area_y")
+    private Double areaY;
 
     @Lob
     @Column(name="profile_img")

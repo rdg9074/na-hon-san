@@ -12,6 +12,10 @@ import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import jdk.jfr.Category;
 import org.apache.catalina.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import org.json.simple.parser.JSONParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +25,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.Buffer;
 import java.util.*;
 
 @SpringBootTest
@@ -288,6 +300,55 @@ public class UserServiceTest {
             resultMap.put("message", fail);
         }
         System.out.println(resultMap);
+    }
+
+    @Test
+    public void 주소를_좌표로_변환() throws Exception {
+        String testId = "ssafy";
+        UserEntity user = userRepository.findById(testId).get();
+
+        String userArea = user.getArea();
+
+        String address = URLEncoder.encode(userArea, "UTF-8");
+        String surl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address;
+
+        URL url = new URL(surl);
+
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        String auth = "KakaoAK " + "f5c2474d4cb8a685be34f0c926aa7e8a";
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("X-Requested-With", "curl");
+        conn.setRequestProperty("Authorization", auth);
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+        String inputStr;
+        StringBuilder sb = new StringBuilder();
+        while((inputStr = br.readLine()) != null){
+            sb.append(inputStr);
+        }
+
+        JSONParser parser = new JSONParser();
+        JSONObject json = (JSONObject) parser.parse(sb.toString());
+
+        JSONObject jsonObject = (JSONObject) json.get("meta");
+
+        JSONArray data = (JSONArray) json.get("documents");
+        long size = (long) jsonObject.get("total_count");
+        //System.out.println("size 확인 :: " + size);
+
+        if(size > 0 ){
+            JSONObject jsonX = (JSONObject) data.get(0);
+
+            Double areaX = Double.parseDouble(jsonX.get("x").toString());
+            Double areaY = Double.parseDouble(jsonX.get("y").toString());
+
+            System.out.println(areaX);
+            System.out.println(areaY);
+
+            user.setAreaX(areaX);
+            user.setAreaY(areaY);
+            userRepository.save(user);
+        }
     }
 }
 

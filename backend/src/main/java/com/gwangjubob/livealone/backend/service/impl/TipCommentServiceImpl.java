@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +107,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     .content(requestDto.getContent())
                     .bannerImg(requestDto.getBannerImg())
                     .time(tipComment.getTime())
-                    .updateTime(LocalDateTime.now())
+                    .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .build();
 
             tipCommentRepository.saveAndFlush(updateTipComment);
