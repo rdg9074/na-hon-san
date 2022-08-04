@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./ImgResizer.scss";
 
 interface ImgResizerProps {
@@ -17,10 +17,13 @@ function ImgResizer({ imgfile, newImgfile, imgW, imgH }: ImgResizerProps) {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (ctx && canvas) {
-      canvas.widht = imgW;
+      canvas.width = imgW;
       canvas.height = imgH;
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, imgW, imgH);
       ctx.drawImage(newImg, 0, 0, imgW, imgH);
       const dataUrl = canvas.toDataURL("image/jpeg");
+      console.log(dataUrl);
       newImgfile(dataUrl);
       URL.revokeObjectURL(imgUrl);
     }

@@ -1,0 +1,465 @@
+#tip-edit {
+  .active {
+    border: 2px solid $MAIN_YELLOW;
+  }
+  input[type="file"] {
+    position: absolute;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .header {
+    width: (570px);
+    padding: (24px);
+    &-title {
+      font-size: (32px);
+      padding: (24px);
+      & span {
+        color: $MAIN_YELLOW;
+      }
+    }
+    &-category {
+      margin-top: (24px);
+      justify-content: space-evenly;
+      padding: (24px);
+      position: relative;
+      border-top: 4px solid #d9d9d9;
+      &:hover {
+        border-top: 4px solid $MAIN_YELLOW;
+        & > p {
+          color: $MAIN_YELLOW;
+        }
+      }
+      .category-label {
+        background-color: #fff;
+        position: absolute;
+        color: black;
+        font-size: (16px);
+        top: (-28px);
+        left: (80px);
+        padding: (12px);
+      }
+      & button {
+        margin-top: (12px);
+        height: (100px);
+        width: (100px);
+        border-radius: (12px);
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        & img {
+          height: (60px);
+          width: (60px);
+        }
+        & p {
+          font-size: (12px);
+          margin-top: (12px);
+        }
+      }
+    }
+    &-preview {
+      margin-top: (12px);
+      &_container {
+        width: (570px);
+        position: relative;
+        padding: (48px);
+        border-top: 4px solid #d9d9d9;
+        &:hover {
+          border-top: 4px solid $MAIN_YELLOW;
+          & > p {
+            color: $MAIN_YELLOW;
+          }
+        }
+        & > span {
+          font-size: (12px);
+          color: #666;
+          margin-top: (12px);
+        }
+        & img {
+          z-index: 1;
+          border-radius: (12px);
+        }
+        &-title {
+          color: black;
+          font-size: (16px);
+          top: (-28px);
+          left: (80px);
+
+          position: absolute;
+          background-color: #fff;
+          padding: (12px);
+        }
+      }
+      &_img {
+        width: (200px);
+        height: (200px);
+        & > img {
+          width: (200px);
+          height: (200px);
+          border-radius: (12px);
+        }
+      }
+    }
+  }
+  .title {
+    margin-top: (40px);
+    width: (522px);
+    height: (60px);
+    font-size: (24px);
+    padding: (24px);
+    border-bottom: 1px solid #d9d9d9;
+    outline: none;
+    box-shadow: none;
+    &:focus {
+      border-bottom: 1px solid $MAIN_YELLOW;
+    }
+  }
+  .content {
+    position: relative;
+    border-top: 4px solid #d9d9d9;
+    width: (522px);
+    & > p {
+      position: absolute;
+      color: black;
+      font-size: (16px);
+      padding: (12px);
+      top: (-28px);
+      left: (80px);
+      background-color: #fff;
+    }
+    & > span {
+      display: inline-block;
+      width: 100%;
+      font-size: (12px);
+      color: red;
+      padding: (24px);
+      position: absolute;
+      top: (92px);
+    }
+    &:hover {
+      border-top: 4px solid $MAIN_YELLOW;
+      & > p {
+        color: $MAIN_YELLOW;
+      }
+    }
+  }
+  .send {
+    margin-top: (40px);
+    margin-bottom: (100px);
+    justify-content: space-evenly;
+    width: (570px);
+    & > button {
+      height: (40px);
+      width: (100px);
+      font-size: (16px);
+      background-color: $MAIN_YELLOW;
+      border-radius: (12px);
+    }
+    .cancle {
+      background-color: #d9d9d9;
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #tip-edit {
+    .header {
+      width: vw(570px);
+      padding: vw(24px);
+      &-title {
+        font-size: vw(32px);
+        padding: vw(24px);
+      }
+      &-category {
+        margin-top: vw(24px);
+        padding: vw(24px);
+        .category-label {
+          font-size: vw(16px);
+          top: vw(-28px);
+          left: vw(80px);
+          padding: vw(12px);
+        }
+        & button {
+          margin-top: vw(12px);
+          height: vw(100px);
+          width: vw(100px);
+          border-radius: vw(12px);
+          & img {
+            height: vw(60px);
+            width: vw(60px);
+          }
+          & p {
+            font-size: vw(12px);
+            margin-top: vw(12px);
+          }
+        }
+      }
+      &-preview {
+        margin-top: vw(12px);
+        &_container {
+          width: vw(570px);
+          padding: vw(48px);
+          & > span {
+            font-size: vw(12px);
+            margin-top: vw(12px);
+          }
+          & img {
+            z-index: 1;
+            border-radius: vw(12px);
+          }
+          &-title {
+            font-size: vw(16px);
+            top: vw(-28px);
+            left: vw(80px);
+            padding: vw(12px);
+          }
+        }
+        &_img {
+          width: vw(200px);
+          height: vw(200px);
+          & > img {
+            width: vw(200px);
+            height: vw(200px);
+            border-radius: vw(12px);
+          }
+        }
+      }
+    }
+    .title {
+      margin-top: vw(40px);
+      width: vw(522px);
+      height: vw(60px);
+      font-size: vw(24px);
+      padding: vw(24px);
+    }
+    .content {
+      width: vw(522px);
+      & > p {
+        font-size: vw(16px);
+        padding: vw(12px);
+        top: vw(-28px);
+        left: vw(80px);
+      }
+      & > span {
+        width: 100%;
+        font-size: vw(12px);
+        padding: vw(24px);
+        top: vw(92px);
+      }
+    }
+    .send {
+      margin-top: vw(40px);
+      margin-bottom: vw(100px);
+      width: vw(570px);
+      & > button {
+        height: vw(40px);
+        width: vw(100px);
+        font-size: vw(16px);
+        border-radius: vw(12px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #tip-edit {
+    .header {
+      width: vw-t(468px);
+      padding: vw-t(24px);
+      &-title {
+        font-size: vw-t(32px);
+        padding: vw-t(24px);
+      }
+      &-category {
+        margin-top: vw-t(24px);
+        padding: vw-t(24px);
+        .category-label {
+          font-size: vw-t(16px);
+          top: vw-t(-28px);
+          left: vw-t(80px);
+          padding: vw-t(12px);
+        }
+        & button {
+          margin-top: vw-t(12px);
+          height: vw-t(100px);
+          width: vw-t(100px);
+          border-radius: vw-t(6px);
+          & img {
+            height: vw-t(52px);
+            width: vw-t(52px);
+          }
+          & p {
+            font-size: vw-t(10px);
+            margin-top: vw-t(6px);
+          }
+        }
+      }
+      &-preview {
+        margin-top: vw-t(12px);
+        &_container {
+          width: vw-t(468px);
+          padding: vw-t(48px);
+          & > span {
+            font-size: vw-t(12px);
+            margin-top: vw-t(12px);
+          }
+          & img {
+            z-index: 1;
+            border-radius: vw-t(12px);
+          }
+          &-title {
+            font-size: vw-t(16px);
+            top: vw-t(-28px);
+            left: vw-t(80px);
+            padding: vw-t(12px);
+          }
+        }
+        &_img {
+          width: vw-t(200px);
+          height: vw-t(200px);
+          & > img {
+            width: vw-t(200px);
+            height: vw-t(200px);
+            border-radius: vw-t(12px);
+          }
+        }
+      }
+    }
+    .title {
+      margin-top: vw-t(40px);
+      width: vw-t(422px);
+      height: vw-t(60px);
+      font-size: vw-t(24px);
+      padding: vw-t(24px);
+    }
+    .content {
+      width: vw-t(422px);
+      & > p {
+        font-size: vw-t(16px);
+        padding: vw-t(12px);
+        top: vw-t(-28px);
+        left: vw-t(80px);
+      }
+      & > span {
+        width: 100%;
+        font-size: vw-t(12px);
+        padding: vw-t(24px);
+        top: vw-t(92px);
+      }
+    }
+    .send {
+      margin-top: vw-t(40px);
+      margin-bottom: vw-t(100px);
+      width: vw-t(468px);
+      & > button {
+        height: vw-t(40px);
+        width: vw-t(100px);
+        font-size: vw-t(16px);
+        border-radius: vw-t(12px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #tip-edit {
+    .header {
+      width: vw-p(375px);
+      &-title {
+        font-size: vw-p(32px);
+        padding: vw-p(24px);
+      }
+      &-category {
+        margin-top: vw-p(24px);
+        padding: vw-p(24px);
+        .category-label {
+          font-size: vw-p(16px);
+          top: vw-p(-28px);
+          left: vw-p(124px);
+          padding: vw-p(12px);
+        }
+        & button {
+          margin-top: vw-p(12px);
+          height: vw-p(100px);
+          width: vw-p(100px);
+          border-radius: vw-p(12px);
+          & img {
+            height: vw-p(60px);
+            width: vw-p(60px);
+          }
+          & p {
+            font-size: vw-p(12px);
+            margin-top: vw-p(12px);
+          }
+        }
+      }
+      &-preview {
+        margin-top: vw-p(12px);
+        &_container {
+          width: vw-p(375px);
+          padding: vw-p(48px);
+          & > span {
+            font-size: vw-p(12px);
+            margin-top: vw-p(12px);
+          }
+          & img {
+            z-index: 1;
+            border-radius: vw-p(12px);
+          }
+          &-title {
+            font-size: vw-p(16px);
+            top: vw-p(-28px);
+            left: vw-p(124px);
+            padding: vw-p(12px);
+          }
+        }
+        &_img {
+          width: vw-p(200px);
+          height: vw-p(200px);
+          & > img {
+            width: vw-p(200px);
+            height: vw-p(200px);
+            border-radius: vw-p(12px);
+          }
+        }
+      }
+    }
+    .title {
+      margin-top: vw-p(40px);
+      width: vw-p(351px);
+      height: vw-p(60px);
+      font-size: vw-p(20px);
+      padding: vw-p(24px);
+    }
+    .content {
+      width: vw-p(351px);
+      & > p {
+        font-size: vw-p(16px);
+        padding: vw-p(12px);
+        top: vw-p(-28px);
+        left: vw-p(128px);
+      }
+      & > span {
+        width: 100%;
+        font-size: vw-p(12px);
+        padding: vw-p(24px);
+        top: vw-p(92px);
+      }
+    }
+    .send {
+      margin-top: vw-p(40px);
+      margin-bottom: vw-p(100px);
+      width: vw-p(375px);
+      & > button {
+        height: vw-p(40px);
+        width: vw-p(100px);
+        font-size: vw-p(16px);
+        border-radius: vw-p(12px);
+      }
+    }
+  }
+}
