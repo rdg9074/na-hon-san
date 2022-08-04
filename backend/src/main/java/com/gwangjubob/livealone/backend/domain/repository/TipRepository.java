@@ -48,7 +48,7 @@ public interface TipRepository extends JpaRepository<TipEntity, Integer> {
     Slice<TipEntity> findByCategoryOrderByViewDescAndIdxDesc(String category, @Param("lastView") Integer lastView, @Param("lastIdx") Integer lastIdx, Pageable pageable);
     @Query("SELECT t FROM TipEntity t " +
             "WHERE t.category = :category " +
-            "AND ((t.idx < :lastIdx And t.view = :lastLike) OR t.view < :lastLike)" +
+            "AND ((t.idx < :lastIdx And t.like = :lastLike) OR t.like < :lastLike)" +
             "order by t.like DESC, t.idx DESC")
     Slice<TipEntity> findByCategoryOrderByLikeDescAndIdxDesc(String category, @Param("lastLike") Integer lastLike, @Param("lastIdx") Integer lastIdx, Pageable pageable);
 
@@ -64,7 +64,7 @@ public interface TipRepository extends JpaRepository<TipEntity, Integer> {
     Slice<TipEntity> findByCategoryAndTitleContainsOrderByViewDescAndIdxDesc(String category,Integer lastView, Integer lastIdx, String keyword, Pageable pageable);
     @Query("SELECT t FROM TipEntity t " +
             "WHERE t.category = :category AND t.title LIKE %:keyword% " +
-            "AND ((t.idx < :lastIdx And t.view = :lastLike) OR t.view < :lastLike) " +
+            "AND ((t.idx < :lastIdx And t.like = :lastLike) OR t.like < :lastLike) " +
             "ORDER BY t.like DESC, t.idx DESC")
     Slice<TipEntity> findByCategoryAndTitleContainsOrderByLikeDescAndIdxDesc(String category,Integer lastLike, Integer lastIdx, String keyword, Pageable pageable);
 

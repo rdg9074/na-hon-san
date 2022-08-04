@@ -301,54 +301,57 @@ public class UserServiceTest {
         }
         System.out.println(resultMap);
     }
-
     @Test
-    public void 주소를_좌표로_변환() throws Exception {
-        String testId = "ssafy";
+    public void 주소를_좌표로_변환() {
+        Map<String, Double> location = new HashMap<>();
+        String testId = "test";
         UserEntity user = userRepository.findById(testId).get();
 
         String userArea = user.getArea();
 
-        String address = URLEncoder.encode(userArea, "UTF-8");
-        String surl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address;
+        try{
+            String address = URLEncoder.encode(userArea, "UTF-8");
+            String surl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address;
 
-        URL url = new URL(surl);
+            URL url = new URL(surl);
 
-        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-        String auth = "KakaoAK " + "f5c2474d4cb8a685be34f0c926aa7e8a";
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("X-Requested-With", "curl");
-        conn.setRequestProperty("Authorization", auth);
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            String auth = "KakaoAK " + "f5c2474d4cb8a685be34f0c926aa7e8a";
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-Requested-With", "curl");
+            conn.setRequestProperty("Authorization", auth);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        String inputStr;
-        StringBuilder sb = new StringBuilder();
-        while((inputStr = br.readLine()) != null){
-            sb.append(inputStr);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String inputStr;
+            StringBuilder sb = new StringBuilder();
+            while((inputStr = br.readLine()) != null){
+                sb.append(inputStr);
+            }
+
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(sb.toString());
+
+            JSONObject jsonObject = (JSONObject) json.get("meta");
+
+            JSONArray data = (JSONArray) json.get("documents");
+            long size = (long) jsonObject.get("total_count");
+            if(size > 0 ){
+                JSONObject jsonX = (JSONObject) data.get(0);
+
+                Double areaX = Double.parseDouble(jsonX.get("x").toString());
+                Double areaY = Double.parseDouble(jsonX.get("y").toString());
+
+                location.put("areaX", areaX);
+                location.put("areaY", areaY);
+            }
+
+            System.out.println(location.get("areaX"));
+            System.out.println(location.get("areaY"));
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(sb.toString());
-
-        JSONObject jsonObject = (JSONObject) json.get("meta");
-
-        JSONArray data = (JSONArray) json.get("documents");
-        long size = (long) jsonObject.get("total_count");
         //System.out.println("size 확인 :: " + size);
 
-        if(size > 0 ){
-            JSONObject jsonX = (JSONObject) data.get(0);
-
-            Double areaX = Double.parseDouble(jsonX.get("x").toString());
-            Double areaY = Double.parseDouble(jsonX.get("y").toString());
-
-            System.out.println(areaX);
-            System.out.println(areaY);
-
-            user.setAreaX(areaX);
-            user.setAreaY(areaY);
-            userRepository.save(user);
-        }
     }
 }
 
