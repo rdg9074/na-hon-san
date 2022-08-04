@@ -1,6 +1,7 @@
-#feedlist{
+#feedlist {
+  width: 100%;
   flex-flow: row wrap;
-  #feed-item{
+  #feed-item {
     &:nth-child(n) {
       margin-right: (30px);
       margin-bottom: (40px);
@@ -9,12 +10,25 @@
       margin-right: 0;
     }
   }
+  .spinner-wrapper {
+    width: 100%;
+  }
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+  }
+
+  .no-cotent {
+    margin-top: vw(24px);
+    width: 100%;
+    color: $SKELETON;
+  }
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
-  #feedlist{
+  #feedlist {
     flex-flow: row wrap;
-    #feed-item{
+    #feed-item {
       &:nth-child(n) {
         margin-right: vw(30px);
         margin-bottom: vw(40px);
@@ -24,12 +38,16 @@
       }
     }
   }
+  .loading-spinner {
+    width: vw(60px);
+    height: vw(60px);
+  }
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #feedlist{
+  #feedlist {
     flex-flow: row wrap;
-    #feed-item{
+    #feed-item {
       &:nth-child(n) {
         margin-right: vw-t(15px);
         margin-bottom: vw-t(20px);
@@ -38,13 +56,17 @@
         margin-right: 0;
       }
     }
+    .loading-spinner {
+      width: vw-t(60px);
+      height: vw-t(60px);
+    }
   }
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #feedlist{
+  #feedlist {
     flex-flow: row wrap;
-    #feed-item{
+    #feed-item {
       &:nth-child(n) {
         margin-right: vw-p(15px);
         margin-bottom: vw-p(20px);
@@ -52,6 +74,10 @@
       &:nth-child(2n) {
         margin-right: 0;
       }
+    }
+    .loading-spinner {
+      width: vw-p(60px);
+      height: vw-p(60px);
     }
   }
 }

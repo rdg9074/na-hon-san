@@ -98,7 +98,15 @@ function MainNavBar() {
                     setProfileTooltipVisible(!profileTooltipVisible)
                   }
                 >
-                  <img className="user" src={UserDummyIcon} alt="더미유저" />
+                  <img
+                    className="user"
+                    src={
+                      userInfo.profileImg
+                        ? `data:image/jpeg;base64,${userInfo.profileImg}`
+                        : UserDummyIcon
+                    }
+                    alt="더미유저"
+                  />
                 </button>
                 <div className="profile">
                   {profileTooltipVisible && (

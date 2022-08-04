@@ -79,7 +79,7 @@
     }
   }
   .feed {
-    max-width: (970px);
+    width: (970px);
     margin-top: (60px);
     &-tag {
       width: 100%;
@@ -168,7 +168,7 @@
       }
     }
     .feed {
-      max-width: vw(970px);
+      width: vw(970px);
       margin-top: vw(60px);
       &-tag {
         width: 100%;
@@ -257,7 +257,7 @@
       }
     }
     .feed {
-      max-width: vw-t(970px);
+      width: vw-t(768px);
       margin-top: vw-t(60px);
       &-tag {
         width: 100%;
@@ -349,6 +349,7 @@
       }
     }
     .feed {
+      width: vw-p(375px);
       margin-top: vw-p(20px);
       &-tag {
         width: 100%;
