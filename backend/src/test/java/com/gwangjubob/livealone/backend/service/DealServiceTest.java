@@ -1,6 +1,5 @@
 package com.gwangjubob.livealone.backend.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
@@ -8,16 +7,11 @@ import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
 import com.gwangjubob.livealone.backend.mapper.DealCommentMapper;
 import com.gwangjubob.livealone.backend.mapper.DealMapper;
 import com.gwangjubob.livealone.backend.mapper.DealViewMapper;
-import jdk.jfr.Category;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -358,48 +352,48 @@ public class DealServiceTest {
             if(keyword == null){
                 if (type.equals("조회순")){
                     pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findByStateAndIdxLessThanAndViewLessThanEqual(state, lastIdx, lastView, pageable);
+                    deals = dealRepository.findView(state, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
                     pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findByStateAndIdxLessThanAndLikesLessThanEqual(state,lastIdx, lastLikes, pageable);
+                    deals = dealRepository.findlikes(state,lastIdx, lastLikes, pageable);
                 } else{
                     pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findByStateAndIdxLessThan(state, lastIdx, pageable);
+                    deals = dealRepository.findIdx(state, lastIdx, pageable);
                 }
             } else{
                 if (type.equals("조회순")){
                     pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThanAndViewLessThanEqual(state, keyword, lastIdx, lastView, pageable);
+                    deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
                     pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThanAndLikesLessThanEqual(state, keyword, lastIdx, lastLikes, pageable);
+                    deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
                 } else{
                     pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findByStateAndTitleContainsAndIdxLessThan(state, keyword, lastIdx, pageable);
+                    deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
                 }
             }
         } else{
             if(keyword == null){
                 if(type.equals("조회순")){
                     pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThanAndViewLessThanEqual(state, categorys, lastIdx, lastView, pageable);
+                    deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
                     pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThanAndLikesLessThanEqual(state, categorys, lastIdx, lastLikes, pageable);
+                    deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
                 } else{
                     pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findByStateAndCategoryInAndIdxLessThan(state, categorys,lastIdx, pageable);
+                    deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
                 }
             } else{
                 if(type.equals("조회순")){
                     pageable = PageRequest.of(0, pageSize, sortView);
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThanAndViewLessThanEqual(state, categorys, keyword, lastIdx, lastView, pageable);
+                    deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
                 } else if (type.equals("좋아요순")){
                     pageable = PageRequest.of(0, pageSize, sortLikes);
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThanAndLikesLessThanEqual(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                    deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
                 } else{
                     pageable = PageRequest.of(0, pageSize, sortIdx);
-                    deals = dealRepository.findByStateAndCategoryInAndTitleContainsAndIdxLessThan(state, categorys,keyword, lastIdx, pageable);
+                    deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
                 }
             }
         }
