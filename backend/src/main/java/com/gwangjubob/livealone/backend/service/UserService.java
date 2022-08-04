@@ -5,6 +5,8 @@ import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 
+import java.util.Map;
+
 public interface UserService {
     boolean loginUser(UserLoginDto userLoginDto);
 
@@ -23,4 +25,8 @@ public interface UserService {
     UserInfoDto infoUser(String id);
     String NicknameToId(String nickname);
     UserMoreDTO infoMore(String id);
+
+    Map<String, Double> getXYLocation(String id);
+
+    String getTargetId(String nickname);
 }

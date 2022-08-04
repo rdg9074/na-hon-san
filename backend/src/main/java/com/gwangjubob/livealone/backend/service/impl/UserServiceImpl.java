@@ -13,13 +13,19 @@ import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.UserService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -110,6 +116,13 @@ public class UserServiceImpl implements UserService {
         if(user != null){
             user.setArea(userMoreDTO.getArea());
             userRepository.save(user);
+
+            Map<String, Double> location = getXYLocation(user.getId());
+
+            user.setAreaX(location.get("areaX"));
+            user.setAreaY(location.get("areaY"));
+            userRepository.save(user);
+
             List<UserCategoryEntity> delCategorys = userCategoryRepository.findByUser(user);
             for (UserCategoryEntity uc : delCategorys) {
                 userCategoryRepository.delete(uc);
@@ -155,5 +168,64 @@ public class UserServiceImpl implements UserService {
         } else{
             return null;
         }
+    }
+
+    @Override
+    public Map<String, Double> getXYLocation(String id) {
+        Map<String, Double> location = new HashMap<>();
+
+        UserEntity user = userRepository.findById(id).get();
+
+        String userArea = user.getArea();
+
+        try{
+            String address = URLEncoder.encode(userArea, "UTF-8");
+            String surl = "https://dapi.kakao.com/v2/local/search/address.json?query=" + address;
+
+            URL url = new URL(surl);
+
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            String auth = "KakaoAK " + "f5c2474d4cb8a685be34f0c926aa7e8a";
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-Requested-With", "curl");
+            conn.setRequestProperty("Authorization", auth);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String inputStr;
+            StringBuilder sb = new StringBuilder();
+            while((inputStr = br.readLine()) != null){
+                sb.append(inputStr);
+            }
+
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(sb.toString());
+
+            JSONObject jsonObject = (JSONObject) json.get("meta");
+
+            JSONArray data = (JSONArray) json.get("documents");
+            long size = (long) jsonObject.get("total_count");
+            if(size > 0 ){
+                JSONObject jsonX = (JSONObject) data.get(0);
+
+                Double areaX = Double.parseDouble(jsonX.get("x").toString());
+                Double areaY = Double.parseDouble(jsonX.get("y").toString());
+
+                location.put("areaX", areaX);
+                location.put("areaY", areaY);
+            }
+
+            System.out.println(location.get("areaX"));
+            System.out.println(location.get("areaY"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return location;
+    }
+
+    @Override
+    public String getTargetId(String nickname) {
+        return userRepository.findByNickname(nickname).get().getNickname();
     }
 }
