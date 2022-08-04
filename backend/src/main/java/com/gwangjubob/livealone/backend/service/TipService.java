@@ -16,4 +16,6 @@ public interface TipService {
     boolean countUpView(Integer idx);
 
     long getTotalCount();
+
+    boolean clickLikeButton(String decodeId, Integer idx);
 }

@@ -295,4 +295,26 @@ public class UserFeedServiceImpl implements UserFeedService {
         }
         return result;
     }
+
+    @Override
+    public boolean checkFollowTip(String decodeId, Integer idx) {
+        UserEntity user = userRepository.findById(decodeId).get();
+        TipEntity tip = tipRepository.findByIdx(idx).get();
+
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), tip.getUser().getId()).isPresent()){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkFollowDeal(String decodeId, Integer idx) {
+        UserEntity user = userRepository.findById(decodeId).get();
+        DealEntity deal = dealRepository.findByIdx(idx).get();
+
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), deal.getUser().getId()).isPresent()){
+            return true;
+        }
+        return false;
+    }
 }

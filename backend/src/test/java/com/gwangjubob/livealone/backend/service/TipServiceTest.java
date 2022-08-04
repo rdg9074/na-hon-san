@@ -455,8 +455,8 @@ public class TipServiceTest {
     @Test
     public void 게시글_좋아요_테스트(){
         // givn
-        Integer postIdx = 47; // 게시글 번호
-        String userId = "ssafy"; // 로그인 한 사용자 아이디
+        Integer postIdx = 48; // 게시글 번호
+        String userId = "test"; // 로그인 한 사용자 아이디
 
         UserEntity userEntity = userRepository.findById(userId).get();
         TipEntity tipEntity = tipRepository.findByIdx(postIdx).get(); // 해당 게시물로 이동
@@ -518,5 +518,29 @@ public class TipServiceTest {
             resultMap.put("message", fail);
         }
         System.out.println(resultMap);
+    }
+
+    @Test
+    public void 좋아요_클릭_여부() {
+        // given
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String testId = "test";
+        Integer postIdx = 49;
+
+        UserEntity user = userRepository.findById(testId).get();
+        TipEntity tip = tipRepository.findByIdx(postIdx).get();
+
+        // when
+        boolean clickLikeButton = false;
+        if(userLikeTipsRepository.findByUserAndTip(user, tip).isPresent()){
+            clickLikeButton = true;
+        }
+
+        resultMap.put("isLike", clickLikeButton);
+
+        // then
+        System.out.println("게시글 번호 : " + postIdx +", 사용자ID : " + testId);
+        System.out.println("좋아요 여부 : " + resultMap.get("isLike"));
     }
 }
