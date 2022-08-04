@@ -36,9 +36,37 @@ function Main() {
       </div>
       <main className="main flex column align-center">
         <p className="title notoBold">현재 핫한 꿀팁들!</p>
-        {/* <CardList searchType="tip" sort="like" /> */}
+        <CardList
+          searchType="tip"
+          condition={{
+            type: "좋아요순",
+            keyword: null,
+            pageSize: 6,
+            lastIdx: null,
+            lastView: null,
+            lastLikes: null,
+            category: null,
+            categorys: [],
+            state: ""
+          }}
+          pure
+        />
         <p className="title notoBold">현재 핫한 꿀딜들!</p>
-        {/* <CardList type="deal" /> */}
+        <CardList
+          searchType="deal"
+          condition={{
+            type: "좋아요순",
+            keyword: null,
+            pageSize: 6,
+            lastIdx: null,
+            lastView: null,
+            lastLikes: null,
+            category: null,
+            categorys: ["전체"],
+            state: "거래 대기"
+          }}
+          pure
+        />
       </main>
     </div>
   );
