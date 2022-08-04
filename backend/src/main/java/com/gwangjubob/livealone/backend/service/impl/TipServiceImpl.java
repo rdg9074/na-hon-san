@@ -20,6 +20,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -152,7 +153,7 @@ public class TipServiceImpl implements TipService {
             TipEntity tip = optionalTip.get();
             if(user.getNickname().equals(tip.getUser().getNickname())){
                 tipUpdateMapper.updateFromDto(tipUpdateDto, tip);
-                tip.setUpdateTime(LocalDateTime.now());
+                tip.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
                 tipRepository.save(tip);
             }
         }
