@@ -7,6 +7,7 @@ import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.TipCommentService;
 import com.gwangjubob.livealone.backend.service.TipService;
+import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -24,6 +25,7 @@ public class TipController {
     private TipService tipService;
     private JwtService jwtService;
     private TipCommentService tipCommentService;
+    private UserFeedService userFeedService;
 
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
@@ -31,10 +33,11 @@ public class TipController {
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
 
-    public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService){
+    public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService, UserFeedService userFeedService){
         this.tipService = tipService;
         this.jwtService = jwtService;
         this.tipCommentService = tipCommentService;
+        this.userFeedService = userFeedService;
     }
 
     @PostMapping("/honeyTip")
@@ -92,8 +95,15 @@ public class TipController {
     @GetMapping("/honeyTip/detail/{idx}")
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
-
+        String decodeId = null;
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request);
+        }
         try{
+            if(decodeId != null){
+                resultMap.put("isLike", tipService.clickLikeButton(decodeId, idx));
+                resultMap.put("isFollow", userFeedService.checkFollowTip(decodeId, idx));
+            }
             TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
             Cookie oldCookie = null;
             Cookie[] cookies = request.getCookies();

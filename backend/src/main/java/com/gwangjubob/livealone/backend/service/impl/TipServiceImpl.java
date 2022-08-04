@@ -246,4 +246,15 @@ public class TipServiceImpl implements TipService {
         return tipRepository.count();
     }
 
+    @Override
+    public boolean clickLikeButton(String decodeId, Integer idx) {
+        UserEntity user = userRepository.findById(decodeId).get();
+        TipEntity tip = tipRepository.findByIdx(idx).get();
+
+        if(userLikeTipsRepository.findByUserAndTip(user,tip).isPresent()){
+            return true;
+        }
+        return false;
+    }
+
 }

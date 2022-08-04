@@ -29,5 +29,8 @@ public interface DealService {
     boolean likeDeal(Integer idx, String userId);
 
     boolean countUpView(Integer idx);
+
+    Boolean clickLikeButton(String decodeId, Integer idx);
+
     Map<String, Object> viewDealView(DealRequestDto dealRequestDto,String decodeId);
 }

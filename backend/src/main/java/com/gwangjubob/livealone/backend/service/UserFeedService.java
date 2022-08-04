@@ -24,4 +24,8 @@ public interface UserFeedService {
     List<DealDto> popularHoneyDeal(String decodeId);
 
     List<TipViewDto> userFollowHoneyTip(String decodeId,int pageNum, int pageSize);
+
+    boolean checkFollowDeal(String decodeId, Integer idx);
+
+    boolean checkFollowTip(String decodeId, Integer idx);
 }

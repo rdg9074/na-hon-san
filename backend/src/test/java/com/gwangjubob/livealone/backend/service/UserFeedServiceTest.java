@@ -21,10 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
@@ -316,5 +313,26 @@ public class UserFeedServiceTest {
         for (int i = 0; i < result.size(); i++) {
             System.out.println(result.get(i).getBannerImg());
         }
+    }
+
+    @Test
+    public void 팔로우_여부_테스트(){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String userId = "ssafy"; // 로그인 한 사용자 아이디
+        String followNickname = "test"; // 게시글 작성자 닉네임
+
+        UserEntity user = userRepository.findById(userId).get();
+        UserEntity followUser = userRepository.findByNickname(followNickname).get();
+
+        boolean isFollow = false;
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), followUser.getId()).isPresent()){
+            isFollow = true;
+        }
+
+        resultMap.put("isFollow", isFollow);
+
+        System.out.println("로그인 사용자 ID : " + userId + ", 글 작성자 닉네임 : " + followNickname);
+        System.out.println("팔로우 여부 : " + isFollow);
     }
 }

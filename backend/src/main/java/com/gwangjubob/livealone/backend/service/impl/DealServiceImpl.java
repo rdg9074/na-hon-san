@@ -460,5 +460,16 @@ public class DealServiceImpl implements DealService {
         return data;
     }
 
+    @Override
+    public Boolean clickLikeButton(String decodeId, Integer idx) {
+        UserEntity user = userRepository.findById(decodeId).get();
+        DealEntity deal = dealRepository.findByIdx(idx).get();
+
+        if(userLikeDealsRepository.findByDealAndUser(deal,user).isPresent()){
+            return true;
+        }
+        return false;
+    }
+
 
 }
