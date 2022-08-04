@@ -56,6 +56,9 @@
       margin-top: (108px);
     }
   }
+  #card-list {
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: $DESKTOP-VW) {

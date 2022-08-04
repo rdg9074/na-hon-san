@@ -9,11 +9,13 @@ import storageSession from "redux-persist/lib/storage/session";
 import alarmSlice from "./ducks/alarm/alarmSlice";
 import authSlice from "./ducks/auth/authSlice";
 import dmSlice from "./ducks/dm/dmSlice";
+import infinitySlice from "./ducks/infinity/infinitySlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
   dm: dmSlice,
-  alarm: alarmSlice
+  alarm: alarmSlice,
+  infinity: infinitySlice
 });
 
 const persistConfig = {

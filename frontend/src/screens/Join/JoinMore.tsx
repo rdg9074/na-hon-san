@@ -5,18 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { setUserMoreInfo } from "@apis/auth";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
+import dealCategory from "@constants/dealCategory";
 
 function JoinMore() {
-  const categorysData = [
-    "의류",
-    "식품",
-    "주방용품",
-    "생활용품",
-    "홈인테리어",
-    "가전디지털",
-    "취미용품",
-    "기타"
-  ];
   const navigate = useNavigate();
   const [address, setAddress] = useState<string>("");
   const [categorys, setCategorys] = useState<Array<string>>([]);
@@ -103,7 +94,7 @@ function JoinMore() {
           </button>
           <p className="form__title notoBold fs-16">관심 카테고리</p>
           <ul className="categorys-ul flex">
-            {categorysData.map(category => (
+            {dealCategory.map(category => (
               <li className={categoryClass(category)} key={v4()}>
                 <button type="button" onClick={() => toggleCategorys(category)}>
                   {category}

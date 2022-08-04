@@ -107,6 +107,9 @@
         font-size: (24px);
       }
     }
+    .selected {
+      background-color: $MAIN_YELLOW;
+    }
   }
   #card-list {
     margin-top: (48px);

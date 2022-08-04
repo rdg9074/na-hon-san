@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Card.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
 import HoneyRecipe from "@images/HoneyRecipe.svg";
@@ -12,14 +12,13 @@ import TipIcon from "@images/Tip.svg";
 import DealIcon from "@images/Deal.svg";
 import { Link } from "react-router-dom";
 
-export type CardProps = {
-  type: "tip" | "deal";
+export type CardType = {
   idx: number;
   userNickname: string;
   userProfileImg: string | null;
   title: string;
   bannerImg: string | null;
-  like: number;
+  likes: number;
   comment: number;
   view: number;
   category: string;
@@ -27,16 +26,21 @@ export type CardProps = {
 
 function Card({
   type,
-  idx,
-  userNickname,
-  userProfileImg,
-  title,
-  bannerImg,
-  like,
-  comment,
-  view,
-  category
-}: CardProps) {
+  data: {
+    idx,
+    userNickname,
+    userProfileImg,
+    title,
+    bannerImg,
+    likes,
+    comment,
+    view,
+    category
+  }
+}: {
+  type: "tip" | "deal";
+  data: CardType;
+}) {
   const getImgSrc = () => {
     if (bannerImg) return `data:image/jpeg;base64,${bannerImg}`;
     if (category === "item") return HoneyTem;
@@ -99,7 +103,9 @@ function Card({
             src={HeartIcon}
             alt="좋아요수"
           />
-          <p className="icon-container__cnt notoReg fs-15">{getCounts(like)}</p>
+          <p className="icon-container__cnt notoReg fs-15">
+            {getCounts(likes)}
+          </p>
         </div>
         <div className="icon-container flex align-center">
           <img
