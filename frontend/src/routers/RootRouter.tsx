@@ -49,7 +49,7 @@ function RootRouter() {
             <Route path="detail/:id" element={<DealDetailPage />} />
           </Route>
           <Route path="/news/" element={<NewsPage />} />
-          <Route path="/userfeed/:id" element={<UserFeedPage />} />
+          <Route path="/userfeed/:nickName" element={<UserFeedPage />} />
           <Route path="/account/*">
             <Route index element={<ChkPw />} />
             <Route path="set" element={<AccountSettingPage />} />
