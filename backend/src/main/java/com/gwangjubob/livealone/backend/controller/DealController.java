@@ -234,10 +234,17 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PostMapping("honeyDeal/view")
-    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto){
+    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto, HttpServletRequest request){
         resultMap = new HashMap<>();
+        String decodeId = null;
+        if(request !=null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request);
+        }
+        System.out.println("----------------------------------------------------------");
+        System.out.println(decodeId);
+        System.out.println("----------------------------------------------------------");
         try{
-            Map<String, Object> data = dealService.viewDealView(dealRequestDto);
+            Map<String, Object> data = dealService.viewDealView(dealRequestDto, decodeId);
             if(data != null){
                 resultMap.put("data", data.get("list"));
                 resultMap.put("hasNext", data.get("hasNext"));
