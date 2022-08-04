@@ -14,12 +14,16 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
     "@types/redux-logger": "^3.0.9",
+    "aws-sdk": "^2.1185.0",
     "axios": "^0.27.2",
     "craco-alias": "^3.0.1",
+    "patch-package": "^6.4.7",
+    "quill": "^1.3.7",
     "react": "^18.2.0",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
+    "react-quill": "^2.0.0-beta.4",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -33,7 +37,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test --watchAll --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [
