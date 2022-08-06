@@ -1,20 +1,23 @@
-#feed-item{
-  .img-container{
+#feed-item {
+  .img-container {
     position: relative;
-    max-width: (220px);
-    max-height: (180px);
+    width: (220px);
+    height: (180px);
     margin-top: (24px);
-    &:hover{
+    & > img {
+      background-color: #fff;
+    }
+    &:hover {
       cursor: pointer;
-      .item__img{
+      .item__img {
         filter: brightness(50%);
       }
-      .feed-info{
+      .feed-info {
         animation: fadeIn 0.5s;
       }
     }
   }
-  .feed-info{
+  .feed-info {
     width: 100%;
     height: 164px;
     position: absolute;
@@ -22,26 +25,26 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
-    & > p{
+    & > p {
       margin-top: (24px);
       height: (24px);
-      & > img{
+      & > img {
         height: (24px);
         width: (24px);
         margin-right: (20px);
       }
-      & > span{
+      & > span {
         height: (16px);
       }
     }
   }
-  .item{
-    &__img{
+  .item {
+    &__img {
       width: (220px);
       height: (180px);
       border-radius: (24px);
     }
-    &__title{
+    &__title {
       text-align: center;
       margin-top: (12px);
     }
@@ -49,23 +52,23 @@
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
-  #feed-item{
-    .img-container{
+  #feed-item {
+    .img-container {
       position: relative;
-      max-width: vw(220px);
-      max-height: vw(180px);
+      width: vw(220px);
+      height: vw(180px);
       margin-top: vw(24px);
-      &:hover{
+      &:hover {
         cursor: pointer;
-        .item__img{
+        .item__img {
           filter: brightness(50%);
         }
-        .feed-info{
+        .feed-info {
           animation: fadeIn 0.5s;
         }
       }
     }
-    .feed-info{
+    .feed-info {
       width: 100%;
       height: vw(164px);
       position: absolute;
@@ -73,26 +76,26 @@
       align-items: center;
       justify-content: center;
       z-index: 1;
-      & > p{
+      & > p {
         margin-top: vw(24px);
         height: vw(24px);
-        & > img{
+        & > img {
           height: vw(24px);
           width: vw(24px);
           margin-right: vw(20px);
         }
-        & > span{
+        & > span {
           height: vw(16px);
         }
       }
     }
-    .item{
-      &__img{
+    .item {
+      &__img {
         width: vw(220px);
         height: vw(180px);
         border-radius: vw(24px);
       }
-      &__title{
+      &__title {
         text-align: center;
         margin-top: vw(12px);
       }
@@ -101,50 +104,50 @@
 }
 
 @media screen and (max-width: $TABLET-VW) {
-  #feed-item{
-    .img-container{
+  #feed-item {
+    .img-container {
       position: relative;
-      max-width: vw-t(160px);
-      max-height: vw-t(120px);
+      width: vw-t(152px);
+      height: vw-t(140px);
       margin-top: vw-t(24px);
-      &:hover{
+      &:hover {
         cursor: pointer;
-        .item__img{
+        .item__img {
           filter: brightness(50%);
         }
-        .feed-info{
+        .feed-info {
           animation: fadeIn 0.5s;
         }
       }
     }
-    .feed-info{
+    .feed-info {
       width: 100%;
-      height: vw-t(110px);
+      height: vw-t(140px);
       position: absolute;
       color: white;
       align-items: center;
       justify-content: center;
       z-index: 1;
-      & > p{
+      & > p {
         margin-top: vw-t(12px);
         height: vw-t(24px);
-        & > img{
+        & > img {
           height: vw-t(16px);
           width: vw-t(16px);
           margin-right: vw-t(20px);
         }
-        & > span{
+        & > span {
           height: vw-t(16px);
         }
       }
     }
-    .item{
-      &__img{
-        width: vw-t(160px);
-        height: vw-t(120px);
+    .item {
+      &__img {
+        width: vw-t(152px);
+        height: vw-t(140px);
         border-radius: vw-t(24px);
       }
-      &__title{
+      &__title {
         text-align: center;
         margin-top: vw-t(12px);
       }
@@ -153,57 +156,56 @@
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #feed-item{
-    .img-container{
+  #feed-item {
+    .img-container {
       position: relative;
-      max-width: vw-p(150px);
-      max-height: vw-p(110px);
+      width: vw-p(160px);
+      height: vw-p(120px);
       margin-top: vw-p(16px);
-      &:hover{
+      &:hover {
         cursor: pointer;
-        .item__img{
+        .item__img {
           filter: brightness(50%);
         }
-        .feed-info{
+        .feed-info {
           animation: fadeIn 0.5s;
         }
       }
     }
-    .feed-info{
+    .feed-info {
       width: 100%;
-      height: vw-p(96px);
+      height: vw-p(100px);
       position: absolute;
       color: white;
       align-items: center;
       justify-content: center;
       z-index: 1;
-      & > p{
+      & > p {
         margin-top: vw-p(16px);
         height: vw-p(24px);
-        & > img{
+        & > img {
           height: vw-p(16px);
           width: vw-p(16px);
           margin-right: vw-p(20px);
         }
-        & > span{
+        & > span {
           height: vw-p(16px);
         }
       }
     }
-    .item{
-      &__img{
-        width: vw-p(150px);
-        height: vw-p(110px);
+    .item {
+      &__img {
+        width: vw-p(160px);
+        height: vw-p(120px);
         border-radius: vw-p(24px);
       }
-      &__title{
+      &__title {
         text-align: center;
         margin-top: vw-p(12px);
       }
     }
   }
 }
-
 
 @keyframes fadeIn {
   from {

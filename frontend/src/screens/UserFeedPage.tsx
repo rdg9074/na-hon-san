@@ -146,7 +146,7 @@ function UserFeedPage() {
           readOnly
         />
       </div>
-      <div className="feed">
+      <div className="feed flex column align-center">
         <div className="feed-tag flex">
           <button
             onClick={() => {

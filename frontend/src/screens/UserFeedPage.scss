@@ -132,7 +132,7 @@
         font-size: vw(24px);
         & img {
           top: 0;
-          left: vw(230px);
+          left: vw(280px);
           position: absolute;
           height: vw(24px);
           width: vw(24px);
@@ -222,7 +222,7 @@
         font-size: vw-t(24px);
         & img {
           top: 0;
-          left: vw-t(230px);
+          left: vw-t(280px);
           position: absolute;
           height: vw-t(24px);
           width: vw-t(24px);
@@ -257,7 +257,8 @@
       }
     }
     .feed {
-      width: vw-t(768px);
+      width: vw-t(748px);
+      padding: vw-t(20px);
       margin-top: vw-t(60px);
       &-tag {
         width: 100%;
@@ -314,7 +315,7 @@
         font-size: vw-p(24px);
         & img {
           top: 0;
-          left: vw-p(230px);
+          left: vw-p(280px);
           position: absolute;
           height: vw-p(24px);
           width: vw-p(24px);
