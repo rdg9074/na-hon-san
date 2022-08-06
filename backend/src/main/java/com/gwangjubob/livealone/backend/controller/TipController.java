@@ -1,15 +1,13 @@
 package com.gwangjubob.livealone.backend.controller;
 
-import com.gwangjubob.livealone.backend.dto.tip.TipCreateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
+import com.gwangjubob.livealone.backend.dto.tip.*;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.TipCommentService;
 import com.gwangjubob.livealone.backend.service.TipService;
+import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -27,6 +25,7 @@ public class TipController {
     private TipService tipService;
     private JwtService jwtService;
     private TipCommentService tipCommentService;
+    private UserFeedService userFeedService;
 
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
@@ -34,10 +33,11 @@ public class TipController {
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
 
-    public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService){
+    public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService, UserFeedService userFeedService){
         this.tipService = tipService;
         this.jwtService = jwtService;
         this.tipCommentService = tipCommentService;
+        this.userFeedService = userFeedService;
     }
 
     @PostMapping("/honeyTip")
@@ -47,7 +47,8 @@ public class TipController {
 
         if(!decodeId.equals("timeout")){
             try{
-                tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
+                int postIdx = tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
+                resultMap.put("postIdx", postIdx);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch(Exception e){
@@ -59,13 +60,14 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/honeyTip/{category}")
-    public ResponseEntity<?> viewTip(@PathVariable String category){
+    @PostMapping("/honeyTip/list")
+    public ResponseEntity<?> viewTip(@RequestBody TipListDto tipListDto){
         resultMap = new HashMap<>();
 
         try{
-            List<TipViewDto> list = tipService.viewTip(category); // 카테고리별 게시글 목록 조회
-            resultMap.put("data", list);
+            Map<String, Object> result = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
+            resultMap.put("data", result.get("list"));
+            resultMap.put("hasNext", result.get("hasNext"));
             resultMap.put("message", okay);
             status = HttpStatus.OK;
         }catch (Exception e){
@@ -76,11 +78,32 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("honeyTip/totalCount")
+    public ResponseEntity<?> totalCount(){
+        resultMap = new HashMap<>();
+        try{
+            long totalCount = tipService.getTotalCount();
+            resultMap.put("total",totalCount);
+            resultMap.put("message", okay);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     @GetMapping("/honeyTip/detail/{idx}")
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
-
+        String decodeId = null;
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request);
+        }
         try{
+            if(decodeId != null){
+                resultMap.put("isLike", tipService.clickLikeButton(decodeId, idx));
+                resultMap.put("isFollow", userFeedService.checkFollowTip(decodeId, idx));
+            }
             TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
             Cookie oldCookie = null;
             Cookie[] cookies = request.getCookies();

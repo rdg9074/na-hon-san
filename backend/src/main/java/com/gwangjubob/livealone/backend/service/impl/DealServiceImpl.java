@@ -5,15 +5,21 @@ import com.gwangjubob.livealone.backend.domain.entity.*;
 import com.gwangjubob.livealone.backend.domain.repository.*;
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
+import com.gwangjubob.livealone.backend.dto.Deal.DealRequestDto;
+import com.gwangjubob.livealone.backend.dto.Deal.DealViewDto;
 import com.gwangjubob.livealone.backend.mapper.DealCommentMapper;
 import com.gwangjubob.livealone.backend.mapper.DealMapper;
+import com.gwangjubob.livealone.backend.mapper.DealViewMapper;
 import com.gwangjubob.livealone.backend.service.DealService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -26,9 +32,10 @@ public class DealServiceImpl implements DealService {
     private UserLikeDealsRepository userLikeDealsRepository;
     private NoticeRepository noticeRepository;
     private DealCommentMapper dealCommentMapper;
+    private DealViewMapper dealViewMapper;
     @Autowired
     DealServiceImpl(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentRepository dealCommentRepository,
-                    NoticeRepository noticeRepository, DealCommentMapper dealCommentMapper, UserLikeDealsRepository userLikeDealsRepository){
+                    NoticeRepository noticeRepository, DealCommentMapper dealCommentMapper, UserLikeDealsRepository userLikeDealsRepository, DealViewMapper dealViewMapper){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
@@ -36,6 +43,7 @@ public class DealServiceImpl implements DealService {
         this.dealCommentMapper = dealCommentMapper;
         this.userLikeDealsRepository = userLikeDealsRepository;
         this.noticeRepository = noticeRepository;
+        this.dealViewMapper = dealViewMapper;
     }
 
 
@@ -94,7 +102,7 @@ public class DealServiceImpl implements DealService {
         if(optionalDeal.isPresent()){
             DealEntity deal = optionalDeal.get();
             dealMapper.updateFromDto(dealDto, deal);
-            deal.setUpdateTime(LocalDateTime.now());
+            deal.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             DealEntity res =dealRepository.save(deal);
             data = dealMapper.toDto(res);
         } else {
@@ -132,27 +140,30 @@ public class DealServiceImpl implements DealService {
             data.setUserId(dealComment.getUser().getId());
             data.setPostIdx(dealComment.getDeal().getIdx());
 
-            if(!deal.getUser().getId().equals(user.getId())){
-                if (dealComment.getUpIdx() == 0) {
-                    NoticeEntity notice = NoticeEntity.builder()
-                            .noticeType("comment")
-                            .user(deal.getUser())
-                            .fromUserId(user.getId())
-                            .postType("deal")
-                            .postIdx(deal.getIdx())
-                            .commentIdx(dealComment.getIdx())
-                            .build();
+            if(dealComment.getUpIdx() == 0 && !deal.getUser().getId().equals(user.getId())){ // 댓글 알림 등록
+                NoticeEntity notice = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(deal.getUser()) // 글작성자
+                        .fromUserId(user.getId())
+                        .postType("deal")
+                        .commentIdx(dealComment.getIdx())
+                        .postIdx(deal.getIdx())
+                        .build();
 
-                    noticeRepository.save(notice);
-                }else{
+                noticeRepository.save(notice);
+            }
+
+            if(dealComment.getUpIdx() != 0){
+                DealCommentEntity upDealComment = dealCommentRepository.findByIdx(dealComment.getUpIdx()).get();
+                if(!upDealComment.getUser().getId().equals(user.getId())){
                     NoticeEntity notice = NoticeEntity.builder()
                             .noticeType("reply")
-                            .user(deal.getUser())
+                            .user(upDealComment.getUser()) // 댓글작성자
                             .fromUserId(user.getId())
                             .postType("deal")
-                            .postIdx(deal.getIdx())
                             .commentIdx(dealComment.getIdx())
                             .commentUpIdx(dealComment.getUpIdx())
+                            .postIdx(deal.getIdx())
                             .build();
 
                     noticeRepository.save(notice);
@@ -170,6 +181,7 @@ public class DealServiceImpl implements DealService {
         DealCommentDto data = new DealCommentDto();
         if(optionalDealComment.isPresent()){
             DealCommentEntity dealComment = optionalDealComment.get();
+            dealComment.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             dealCommentMapper.updateFromDto(dealCommentDto, dealComment);
             dealCommentRepository.save(dealComment);
             data = dealCommentMapper.toDto(dealComment);
@@ -286,6 +298,177 @@ public class DealServiceImpl implements DealService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto, String decodeId) {
+        String keyword = dealRequestDto.getKeyword();
+        String state = dealRequestDto.getState();
+        String type = dealRequestDto.getType();
+        String area = null;
+        Integer pageSize = dealRequestDto.getPageSize();
+        List<String> categorys = dealRequestDto.getCategorys();
+        Integer lastIdx = dealRequestDto.getLastIdx();
+        Integer lastView = dealRequestDto.getLastView();
+        Integer lastLikes = dealRequestDto.getLastLikes();
+        List<DealViewDto> list = new ArrayList<>();
+        if (decodeId != null){
+            Optional<UserEntity> optionalUser = userRepository.findById(decodeId);
+            if(optionalUser.isPresent()){
+                UserEntity user = optionalUser.get();
+                String[] splArr = user.getArea().split(" ");
+                area = splArr[0];
+            }
+        }
+        Map<String, Object> data = new HashMap<>();
+        if(lastLikes == null) {
+            lastLikes = dealRepository.findTop1ByOrderByLikesDesc().get().getLikes() + 1;
+        }
+        if(lastView == null){
+            lastView = dealRepository.findTop1ByOrderByViewDesc().get().getView() + 1;
+        }
+        if(lastIdx == null){
+            lastIdx = dealRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
+        }
+        Slice<DealEntity> deals = null;
+        Pageable pageable = null;
+        Sort sortIdx = Sort.by(
+                Sort.Order.desc("idx")
+        );
+        Sort sortLikes = Sort.by(
+                Sort.Order.desc("likes"),
+                Sort.Order.desc("idx")
+        );
+        Sort sortView = Sort.by(
+                Sort.Order.desc("view"),
+                Sort.Order.desc("idx")
+        );
+        if (area != null){
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findViewArea(state, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikesArea(state,lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdxArea(state, lastIdx, area, pageable);
+                    }
+                } else{
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleViewArea(state, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikesArea(state, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdxArea(state, keyword, lastIdx, area, pageable);
+                    }
+                }
+            } else{
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryViewArea(state, categorys, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikesArea(state, categorys, lastIdx, lastLikes, area,pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdxArea(state, categorys,lastIdx, area, pageable);
+                    }
+                } else{
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleViewArea(state, categorys, keyword, lastIdx, lastView, area, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikesArea(state, categorys, keyword, lastIdx, lastLikes, area, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdxArea(state, categorys,keyword, lastIdx, area, pageable);
+                    }
+                }
+            }
+        } else{
+            if(categorys.contains("전체")){
+                if(keyword == null){
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findView(state, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findlikes(state,lastIdx, lastLikes,  pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findIdx(state, lastIdx, pageable);
+                    }
+                } else{
+                    if (type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findTitleView(state, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findTitleLikes(state, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findTitleIdx(state, keyword, lastIdx, pageable);
+                    }
+                }
+            } else{
+                if(keyword == null){
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryView(state, categorys, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryLikes(state, categorys, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryIdx(state, categorys,lastIdx, pageable);
+                    }
+                } else{
+                    if(type.equals("조회순")){
+                        pageable = PageRequest.of(0, pageSize, sortView);
+                        deals = dealRepository.findCategoryTitleView(state, categorys, keyword, lastIdx, lastView, pageable);
+                    } else if (type.equals("좋아요순")){
+                        pageable = PageRequest.of(0, pageSize, sortLikes);
+                        deals = dealRepository.findCategoryTitleLikes(state, categorys, keyword, lastIdx, lastLikes, pageable);
+                    } else{
+                        pageable = PageRequest.of(0, pageSize, sortIdx);
+                        deals = dealRepository.findCategoryTitleIdx(state, categorys,keyword, lastIdx, pageable);
+                    }
+                }
+            }
+        }
+        if(deals != null){
+            List<DealEntity> dealsList = deals.getContent();
+            for (DealEntity res : dealsList){
+                DealViewDto dto = dealViewMapper.toDto(res);
+                dto.setUserNickname(res.getUser().getNickname());
+                dto.setUserProfileImg(res.getUser().getProfileImg());
+                list.add(dto);
+            }
+            data.put("list", list);
+            data.put("hasNext", deals.hasNext());
+        } else{
+            data = null;
+        }
+        return data;
+    }
+
+    @Override
+    public Boolean clickLikeButton(String decodeId, Integer idx) {
+        UserEntity user = userRepository.findById(decodeId).get();
+        DealEntity deal = dealRepository.findByIdx(idx).get();
+
+        if(userLikeDealsRepository.findByDealAndUser(deal,user).isPresent()){
+            return true;
+        }
+        return false;
     }
 
 

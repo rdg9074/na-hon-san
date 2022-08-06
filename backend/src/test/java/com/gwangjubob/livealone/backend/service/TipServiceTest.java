@@ -7,23 +7,18 @@ import com.gwangjubob.livealone.backend.dto.tip.TipDetailViewDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentCreateDto;
-import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentUpdateDto;
 import com.gwangjubob.livealone.backend.dto.tipcomment.TipCommentViewDto;
-import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
-import com.gwangjubob.livealone.backend.mapper.TipCreateMapper;
-import com.gwangjubob.livealone.backend.mapper.TipDetailViewMapper;
-import com.gwangjubob.livealone.backend.mapper.TipUpdateMapper;
-import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
-import org.apache.catalina.User;
-import org.junit.jupiter.api.Disabled;
+import com.gwangjubob.livealone.backend.mapper.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -41,13 +36,14 @@ public class TipServiceTest {
     private TipDetailViewMapper tipDetailViewMapper;
     private UserLikeTipsRepository userLikeTipsRepository;
     private NoticeRepository noticeRepository;
+    private TipViewMapper tipViewMapper;
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
     @Autowired
     public TipServiceTest(TipCommentService tipCommentService, TipRepository tipRepository, TipService tipService,
                             UserRepository userRepository, TipCommentRepository tipCommentRepository, TipCreateMapper tipCreateMapper,
                           TipUpdateMapper tipUpdateMapper, TipDetailViewMapper tipDetailViewMapper, UserLikeTipsRepository userLikeTipsRepository,
-                          NoticeRepository noticeRepository){
+                          NoticeRepository noticeRepository, TipViewMapper tipViewMapper){
         this.tipRepository = tipRepository;
         this.tipService = tipService;
         this.tipCommentService = tipCommentService;
@@ -58,6 +54,7 @@ public class TipServiceTest {
         this.tipDetailViewMapper = tipDetailViewMapper;
         this.userLikeTipsRepository = userLikeTipsRepository;
         this.noticeRepository = noticeRepository;
+        this.tipViewMapper = tipViewMapper;
     }
 
     @Test
@@ -105,23 +102,88 @@ public class TipServiceTest {
     }
 
     @Test
-    public void 카테고리별_리스트_조회_테스트(){
-        // given
-        String category = "item";
+    public void 꿀팁_게시글_커서페이징(){
+        Map<String, Object> resultMap = new HashMap<>();
 
-        // when
-        List<TipViewDto> result = tipService.viewTip(category);
-        // then
+        String keyword = null;
+        String category = "tip"; // item(꿀템), tip(꿀생), recipe(꿀시피), null(전체)
+        String type = "조회순"; // 조회순, 좋아요순, 최신순
+        Slice<TipEntity> tips = null;
 
-        for(TipViewDto dto : result){
-            System.out.println(dto.toString());
+        Integer lastIdx = 124; // 마지막 게시글 idx(null이면 처음부터 조회 -> 백에서 가장 최신 게시글을 받아서 조회해야함)
+        Integer lastView = 0;
+        Integer lastLike = null;
+
+        Integer pageSize = 5; // 한 페이지에 조회할 게시글 수
+        Pageable pageable = PageRequest.ofSize(pageSize);
+
+        if(lastIdx == null){ // null 이면 가장 최신 게시글 찾아줘야함
+            lastIdx = tipRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
+        }
+        if(lastView == null){
+            lastView = tipRepository.findTop1ByOrderByViewDesc().get().getView() + 1;
+        }
+        if(lastLike == null){
+            lastLike = tipRepository.findTop1ByOrderByLikeDesc().get().getLike() + 1;
+        }
+
+        if(keyword == null) {
+            if(category == null){ // 전체 조회 -> 무조건 최신순
+                if(type.equals("최신순")){
+                    tips = tipRepository.findByOrderByIdxDesc(lastIdx, pageable);
+                }else if(type.equals("좋아요순")){
+                    tips = tipRepository.findByOrderByLikeDescAndIdxDesc(lastLike, lastIdx, pageable);
+                }else{
+                    tips = tipRepository.findByOrderByViewDescAndIdxDesc(lastView, lastIdx, pageable);
+                }
+            }else{ // 카테고리 별 조회
+                if(type.equals("최신순")){
+                    tips = tipRepository.findByCategoryOrderByIdxDesc(category, lastIdx, pageable);
+                }else if(type.equals("좋아요순")){
+                    tips = tipRepository.findByCategoryOrderByLikeDescAndIdxDesc(category, lastLike, lastIdx, pageable);
+                }else{
+                    tips = tipRepository.findByCategoryOrderByViewDescAndIdxDesc(category, lastView, lastIdx, pageable);
+                }
+            }
+        }else{ // 검색어 존재
+            if(type.equals("최신순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByIdxDesc(category, lastIdx, keyword, pageable);
+            }else if(type.equals("좋아요순")){
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByLikeDescAndIdxDesc(category, lastLike, lastIdx, keyword, pageable);
+            }else{
+                tips = tipRepository.findByCategoryAndTitleContainsOrderByViewDescAndIdxDesc(category, lastView, lastIdx, keyword, pageable);
+            }
+        }
+
+        if(tips != null){
+            boolean isEnd = tips.hasNext();
+            List<TipViewDto> result = new ArrayList<>();
+            for(TipEntity t : tips){
+                TipViewDto tipViewDto = TipViewDto.builder()
+                        .idx(t.getIdx())
+                        .userNickname(t.getUser().getNickname())
+                        .userProfileImg(t.getUser().getProfileImg())
+                        .title(t.getTitle())
+                        .bannerImg(t.getBannerImg())
+                        .view(t.getView())
+                        .likes(t.getLike())
+                        .comment(t.getComment())
+                        .build();
+
+                result.add(tipViewDto);
+            }
+            resultMap.put("list", result);
+            resultMap.put("hasnext", isEnd);
+
+            System.out.println(resultMap.get("list"));
+            System.out.println(resultMap.get("hasnext"));
         }
     }
 
     @Test
     public void 게시글_상세_조회_테스트() {
         // given
-        Integer idx = 47;
+        Integer idx = 49;
 
         Optional<TipEntity> testTip = tipRepository.findByIdx(idx);
 
@@ -229,7 +291,7 @@ public class TipServiceTest {
     @Test
     public void 댓글_대댓글_등록_테스트(){
         // given
-        int upIdx = 104;
+        int upIdx = 124;
 
         String userId = "test";
         UserEntity user = userRepository.findById(userId).get();
@@ -237,7 +299,7 @@ public class TipServiceTest {
         String content = "대댓글 알림 테스트";
         byte[] bannerImg = null;
 
-        int postIdx = 48;
+        int postIdx = 49;
         Optional<TipEntity> optionalTipEntity = tipRepository.findByIdx(postIdx);
 
         if(optionalTipEntity.isPresent()){
@@ -261,24 +323,26 @@ public class TipServiceTest {
             tip.setComment(tip.getComment() + 1); // 댓글 수 1 증가
             tipRepository.save(tip); // 수정
 
-            // 내가 아닌 사람
-            if(!tip.getUser().getId().equals(userId)){
-                // 알림 등록
-                if(upIdx == 0){ // 댓글 알림 등록
-                    NoticeEntity noticeEntity = NoticeEntity.builder()
-                            .noticeType("comment")
-                            .user(tip.getUser())
-                            .fromUserId(userId)
-                            .postType("tip")
-                            .commentIdx(entity.getIdx())
-                            .postIdx(tip.getIdx())
-                            .build();
+            // 댓글 등록 알림 - 글 작성자가 아닌 사람이 댓글을 달았을 때만 알림가게
+            if(upIdx == 0 && !tip.getUser().getId().equals(userId)){ // 댓글 알림 등록
+                NoticeEntity noticeEntity = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(tip.getUser()) // 글작성자
+                        .fromUserId(userId)
+                        .postType("tip")
+                        .commentIdx(entity.getIdx())
+                        .postIdx(tip.getIdx())
+                        .build();
 
-                    noticeRepository.save(noticeEntity);
-                }else{ // 대댓글 알림 등록
+                noticeRepository.save(noticeEntity);
+            }
+            // 대댓글 등록 알림 - 댓글 작성자가 아닌 사람이 대댓글을 달았을 때, 댓글 작성자한테 알림 가게
+            if(upIdx != 0){
+                TipCommentEntity tipComment = tipCommentRepository.findByIdx(upIdx).get();
+                if(!tipComment.getUser().getId().equals(userId)){
                     NoticeEntity noticeEntity = NoticeEntity.builder()
                             .noticeType("reply")
-                            .user(tip.getUser())
+                            .user(tipComment.getUser()) // 댓글작성자
                             .fromUserId(userId)
                             .postType("tip")
                             .commentIdx(entity.getIdx())
@@ -391,8 +455,8 @@ public class TipServiceTest {
     @Test
     public void 게시글_좋아요_테스트(){
         // givn
-        Integer postIdx = 47; // 게시글 번호
-        String userId = "ssafy"; // 로그인 한 사용자 아이디
+        Integer postIdx = 48; // 게시글 번호
+        String userId = "test"; // 로그인 한 사용자 아이디
 
         UserEntity userEntity = userRepository.findById(userId).get();
         TipEntity tipEntity = tipRepository.findByIdx(postIdx).get(); // 해당 게시물로 이동
@@ -454,5 +518,29 @@ public class TipServiceTest {
             resultMap.put("message", fail);
         }
         System.out.println(resultMap);
+    }
+
+    @Test
+    public void 좋아요_클릭_여부() {
+        // given
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String testId = "test";
+        Integer postIdx = 49;
+
+        UserEntity user = userRepository.findById(testId).get();
+        TipEntity tip = tipRepository.findByIdx(postIdx).get();
+
+        // when
+        boolean clickLikeButton = false;
+        if(userLikeTipsRepository.findByUserAndTip(user, tip).isPresent()){
+            clickLikeButton = true;
+        }
+
+        resultMap.put("isLike", clickLikeButton);
+
+        // then
+        System.out.println("게시글 번호 : " + postIdx +", 사용자ID : " + testId);
+        System.out.println("좋아요 여부 : " + resultMap.get("isLike"));
     }
 }

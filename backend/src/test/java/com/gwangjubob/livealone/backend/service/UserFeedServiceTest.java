@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,10 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
@@ -291,8 +290,11 @@ public class UserFeedServiceTest {
         //given
         Optional<UserEntity> user = userRepository.findById("test");
         List<TipViewDto> result = new ArrayList<>();
+        int pageNum = 0;
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
         //when
-        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId()); //내가 팔로우 한 유저 목록
+        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),pageable); //내가 팔로우 한 유저 목록
         //then
         for(UserFollowTipsEntity tipEntity : tipEntityList){
                 TipViewDto dto = TipViewDto.builder()
@@ -302,14 +304,35 @@ public class UserFeedServiceTest {
                         .title(tipEntity.getTitle())
                         .bannerImg(tipEntity.getBannerImg())
                         .view(tipEntity.getView())
-                        .like(tipEntity.getLike())
+                        .likes(tipEntity.getLike())
                         .comment(tipEntity.getComment())
                         .build();
 
                 result.add(dto);
             }
         for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i).toString());
+            System.out.println(result.get(i).getBannerImg());
         }
+    }
+
+    @Test
+    public void 팔로우_여부_테스트(){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String userId = "ssafy"; // 로그인 한 사용자 아이디
+        String followNickname = "test"; // 게시글 작성자 닉네임
+
+        UserEntity user = userRepository.findById(userId).get();
+        UserEntity followUser = userRepository.findByNickname(followNickname).get();
+
+        boolean isFollow = false;
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), followUser.getId()).isPresent()){
+            isFollow = true;
+        }
+
+        resultMap.put("isFollow", isFollow);
+
+        System.out.println("로그인 사용자 ID : " + userId + ", 글 작성자 닉네임 : " + followNickname);
+        System.out.println("팔로우 여부 : " + isFollow);
     }
 }

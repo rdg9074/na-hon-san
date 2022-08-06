@@ -2,8 +2,10 @@ package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.dto.Deal.DealCommentDto;
 import com.gwangjubob.livealone.backend.dto.Deal.DealDto;
+import com.gwangjubob.livealone.backend.dto.Deal.DealRequestDto;
 import com.gwangjubob.livealone.backend.service.DealService;
 import com.gwangjubob.livealone.backend.service.JwtService;
+import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +27,16 @@ public class DealController {
 
     private final JwtService jwtService;
     private final DealService dealService;
+    private final UserFeedService userFeedService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
 
     @Autowired
-    DealController(JwtService jwtService, DealService dealService)
+    DealController(JwtService jwtService, DealService dealService, UserFeedService userFeedService)
     {
         this.jwtService = jwtService;
         this.dealService = dealService;
+        this.userFeedService = userFeedService;
     }
 
     @PostMapping("/honeyDeal")
@@ -78,7 +82,16 @@ public class DealController {
     @GetMapping("/honeyDeal/detail/{idx}")
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
+        String decodeId = null;
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request);
+        }
+
         try {
+            if(decodeId != null){
+                resultMap.put("isLike", dealService.clickLikeButton(decodeId, idx));
+                resultMap.put("isFollow", userFeedService.checkFollowDeal(decodeId, idx));
+            }
             DealDto data = dealService.viewDetailDeal(idx);
             Cookie oldCookie = null;
             Cookie[] cookies = request.getCookies();
@@ -232,7 +245,32 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-
+    @PostMapping("honeyDeal/view")
+    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto, HttpServletRequest request){
+        resultMap = new HashMap<>();
+        String decodeId = null;
+        if(request !=null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request);
+        }
+        System.out.println("----------------------------------------------------------");
+        System.out.println(decodeId);
+        System.out.println("----------------------------------------------------------");
+        try{
+            Map<String, Object> data = dealService.viewDealView(dealRequestDto, decodeId);
+            if(data != null){
+                resultMap.put("data", data.get("list"));
+                resultMap.put("hasNext", data.get("hasNext"));
+                resultMap.put("message", okay);
+            } else{
+                resultMap.put("message", fail);
+            }
+            status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);

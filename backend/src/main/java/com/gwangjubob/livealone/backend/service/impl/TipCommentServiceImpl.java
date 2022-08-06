@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,27 +58,30 @@ public class TipCommentServiceImpl implements TipCommentService {
         tip.setComment(tip.getComment() + 1);
         tipRepository.save(tip);
 
-        if(!tip.getUser().getId().equals(user.getId())){
-            if(tipComment.getUpIdx() == 0){
-                NoticeEntity notice = NoticeEntity.builder()
-                        .noticeType("comment")
-                        .user(tip.getUser())
-                        .fromUserId(user.getId())
-                        .postType("tip")
-                        .postIdx(tip.getIdx())
-                        .commentIdx(tipComment.getIdx())
-                        .build();
+        if(tipComment.getUpIdx() == 0 && !tip.getUser().getId().equals(user.getId())){ // 댓글 알림 등록
+            NoticeEntity notice = NoticeEntity.builder()
+                    .noticeType("comment")
+                    .user(tip.getUser()) // 글작성자
+                    .fromUserId(user.getId())
+                    .postType("tip")
+                    .commentIdx(tipComment.getIdx())
+                    .postIdx(tip.getIdx())
+                    .build();
 
-                noticeRepository.save(notice);
-            }else{
+            noticeRepository.save(notice);
+        }
+
+        if(tipComment.getUpIdx() != 0){
+            TipCommentEntity upTipComment = tipCommentRepository.findByIdx(tipComment.getUpIdx()).get();
+            if(!upTipComment.getUser().getId().equals(user.getId())){
                 NoticeEntity notice = NoticeEntity.builder()
                         .noticeType("reply")
-                        .user(tip.getUser())
+                        .user(upTipComment.getUser()) // 댓글작성자
                         .fromUserId(user.getId())
                         .postType("tip")
-                        .postIdx(tip.getIdx())
                         .commentIdx(tipComment.getIdx())
                         .commentUpIdx(tipComment.getUpIdx())
+                        .postIdx(tip.getIdx())
                         .build();
 
                 noticeRepository.save(notice);
@@ -103,7 +107,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     .content(requestDto.getContent())
                     .bannerImg(requestDto.getBannerImg())
                     .time(tipComment.getTime())
-                    .updateTime(LocalDateTime.now())
+                    .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .build();
 
             tipCommentRepository.saveAndFlush(updateTipComment);
