@@ -10,6 +10,7 @@ import ImgResizer from "@components/common/ImgUploader/ImgResizer";
 import isImage from "@utils/isImage";
 import { tipCreate } from "@apis/honeyTip";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
+import X from "@images/X.svg";
 
 function TipEdit() {
   const [sendFile, setSendFile] = useState<File | null>(null);
@@ -75,6 +76,11 @@ function TipEdit() {
       bannerImg: thumnail.replace("data:image/jpeg;base64,", "")
     };
     const res = await tipCreate(payload);
+    if (res.status === 500) {
+      alert("글이 너무 길어요 ㅠㅠ");
+      setSpinner(false);
+      navigate(`/tip`);
+    }
     navigate(`/tip/detail/${res}`);
   };
 
@@ -123,6 +129,15 @@ function TipEdit() {
           </button>
         </div>
         <div className="header-preview flex justify-center">
+          <button
+            onClick={() => {
+              setThumnail("");
+            }}
+            type="button"
+            className={`close ${!thumnail && "hide"}`}
+          >
+            <img src={X} alt="close" />
+          </button>
           <button
             onClick={clickInput}
             type="button"

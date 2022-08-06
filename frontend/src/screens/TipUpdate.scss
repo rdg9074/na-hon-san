@@ -2,6 +2,17 @@
   .active {
     border: 2px solid $MAIN_YELLOW;
   }
+  .close {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    bottom: (0px);
+    z-index: 2;
+    :hover {
+      border: 1px solid #d9d9d9;
+    }
+  }
   input[type="file"] {
     position: absolute;
     overflow: hidden;
@@ -367,7 +378,12 @@
 
 @media screen and (max-width: $PHONE-VW) {
   #tip-edit {
-    .header {
+    .close {
+      width: 100%;
+      bottom: (8px);
+      z-index: 2;
+    }
+    .he .header {
       width: vw-p(375px);
       &-title {
         font-size: vw-p(32px);
