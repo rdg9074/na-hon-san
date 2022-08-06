@@ -1,6 +1,20 @@
 #tip-edit {
+  .hide {
+    visibility: hidden;
+  }
   .active {
     border: 2px solid $MAIN_YELLOW;
+  }
+  .close {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    bottom: (0px);
+    z-index: 2;
+    :hover {
+      border: 1px solid #d9d9d9;
+    }
   }
   input[type="file"] {
     position: absolute;
@@ -63,10 +77,10 @@
     }
     &-preview {
       margin-top: (12px);
+      position: relative;
       &_container {
-        width: (570px);
         position: relative;
-        padding: (48px);
+        width: (570px);
         border-top: 4px solid #d9d9d9;
         &:hover {
           border-top: 4px solid $MAIN_YELLOW;
@@ -88,7 +102,6 @@
           font-size: (16px);
           top: (-28px);
           left: (80px);
-
           position: absolute;
           background-color: #fff;
           padding: (12px);
@@ -200,6 +213,7 @@
       }
       &-preview {
         margin-top: vw(12px);
+        position: relative;
         &_container {
           width: vw(570px);
           padding: vw(48px);
@@ -367,6 +381,11 @@
 
 @media screen and (max-width: $PHONE-VW) {
   #tip-edit {
+    .close {
+      width: 100%;
+      bottom: (8px);
+      z-index: 2;
+    }
     .header {
       width: vw-p(375px);
       &-title {

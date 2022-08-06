@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import ReactQuill, { Quill } from "react-quill";
+import React, { useState, useEffect, useRef } from "react";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { dataurlToBlob } from "@utils/resizer";
 import { v1 } from "uuid";
@@ -58,7 +58,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
 
             // 캔버스로 그리면 dataurl 생성, 생성 된 dataurl > Blob > File 순으로 변경
             const newFile = new File([dataurlToBlob(dataUrl)], v1());
-            console.log(newFile);
             const url = await uploadFile(newFile);
             setTmpImg(cur => [...cur, url]);
             quill.getEditor().insertEmbed(range.index, "image", url);
@@ -71,7 +70,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
     if (quillRef.current) {
       const toolbar = quillRef.current.getEditor().getModule("toolbar");
       toolbar.addHandler("image", handleImage);
-      console.log(update);
     }
   }, []);
 
@@ -107,14 +105,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
 
   return (
     <div id="editor">
-      <button
-        type="button"
-        onClick={() => {
-          console.log(value);
-        }}
-      >
-        asdasd
-      </button>
       <div className="editor">
         <ReactQuill
           theme="snow"

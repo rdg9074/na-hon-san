@@ -5,14 +5,20 @@ import searchIcon from "@images/Search.svg";
 import HoneyRecipe from "@images/HoneyRecipe.svg";
 import HoneyTem from "@images/HoneyTem.svg";
 import HoneyTip from "@images/HoneyTip.svg";
+import { useNavigate } from "react-router-dom";
 import InFinityScroll from "@components/common/InFinityScroll";
 import { getTipTotalCnt } from "@apis/tip";
-import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@store/hooks";
 
 function TipPage() {
   const navigate = useNavigate();
+  const isLoggedIn = !!useAppSelector(state => state.auth.userInfo);
   const goEdit = () => {
-    navigate("create");
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      navigate("create");
+    }
   };
   const [conditions, setConditions] = useState({
     category: "tip",
