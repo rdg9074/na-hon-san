@@ -1,4 +1,15 @@
+import axios from "axios";
 import API from "./index";
+
+const kakaoClientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
+const naverClientId = process.env.REACT_APP_NAVER_CLIENT_ID;
+export const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+
+export const kakaoRedirectUrl = `http://localhost:3000/oauth/kakao`;
+export const naverRedirectUrl = `http://localhost:3000/oauth/naver`;
+
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUrl}&response_type=code`;
+export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientId}&redirect_uri=${naverRedirectUrl}&state=nahonjan`;
 
 export const sendAuthCode = async (id: string, type: number) => {
   const res = await API.post(`/user/auth`, { id, type });
@@ -49,4 +60,24 @@ export const setUserMoreInfo = async (
     }
   );
   return res.data.message;
+};
+
+export const loginWithSocial = async (type: string, authToken: string) => {
+  const res = await API.post(`/${type}`, {}, { headers: { authToken } });
+  if (res.data.message === "SUCCESS") {
+    sessionStorage.setItem("access-token", res.data["access-token"]);
+  }
+  return res.data;
+};
+
+export const getKakaoToken = async (code: string) => {
+  const res = await axios.post(
+    `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUrl}&code=${code}`,
+    {
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    }
+  );
+  return res.data.access_token;
 };
