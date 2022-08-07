@@ -183,7 +183,7 @@ public class TipServiceTest {
     @Test
     public void 게시글_상세_조회_테스트() {
         // given
-        Integer idx = 49;
+        Integer idx = 48;
 
         Optional<TipEntity> testTip = tipRepository.findByIdx(idx);
 
@@ -194,14 +194,26 @@ public class TipServiceTest {
             tipDto.setUserNickname(tipEntity.getUser().getNickname());
 
             // 조회수 증가
-            tipEntity.setView(tipEntity.getView() + 1);
-            tipRepository.save(tipEntity);
+//            tipEntity.setView(tipEntity.getView() + 1);
+//            tipRepository.save(tipEntity);
 
             // then
             System.out.println(tipDto.toString());
 
+//            SELECT *
+//                    FROM tip_comments tc
+//            WHERE tc.post_idx = 48
+//            ORDER BY
+//            (
+//                    CASE
+//            WHEN tc.up_idx = 0
+//            THEN tc.idx
+//            ELSE tc.up_idx
+//                    END
+//              ), tc.idx DESC, tc.up_idx DESC;
+
             // 게시글 관련된 댓글 조회
-            List<TipCommentEntity> tipCommentEntity = tipCommentRepository.findByTip(tipEntity);
+            List<TipCommentEntity> tipCommentEntity = tipCommentRepository.findByTipOrderBycomment(tipEntity);
             List<TipCommentViewDto> result = new ArrayList<>();
 
             for(TipCommentEntity t : tipCommentEntity){
@@ -398,9 +410,9 @@ public class TipServiceTest {
     public void 댓글_대댓글_삭제_테스트() {
         // given
         Integer postIdx = 48;
-        Integer idx = 104; // 댓글 번호
+        Integer idx = 122; // 댓글 번호
 
-        String userId = "test";
+        String userId = "ssafy";
         Optional<TipCommentEntity> optionalTipComment = tipCommentRepository.findByIdx(idx);
         TipEntity tip = tipRepository.findByIdx(postIdx).get();
 

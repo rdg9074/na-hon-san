@@ -108,6 +108,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     .bannerImg(requestDto.getBannerImg())
                     .time(tipComment.getTime())
                     .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+
                     .build();
 
             tipCommentRepository.saveAndFlush(updateTipComment);
@@ -118,7 +119,7 @@ public class TipCommentServiceImpl implements TipCommentService {
     @Override
     public List<TipCommentViewDto> viewTipComment(Integer idx) {
         TipEntity tipEntity = tipRepository.findByIdx(idx).get();
-        List<TipCommentEntity> tipCommentEntity = tipCommentRepository.findByTip(tipEntity);
+        List<TipCommentEntity> tipCommentEntity = tipCommentRepository.findByTipOrderBycomment(tipEntity);
         List<TipCommentViewDto> result = new ArrayList<>();
 
         for(TipCommentEntity t : tipCommentEntity){
