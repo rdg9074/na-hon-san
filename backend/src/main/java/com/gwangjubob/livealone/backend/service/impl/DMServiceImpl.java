@@ -74,27 +74,12 @@ public class DMServiceImpl implements DMService {
 			dmEntity.setRead(true);
 			dmRepository.save(dmEntity);
 			DMViewDto dmViewDto = new DMViewDto();
-			dmViewDto.setType("from");
 			dmViewDto.setIdx(dmEntity.getIdx());
 			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
 			dmViewDto.setToId(dmEntity.getToUserId().getId());
 			dmViewDto.setTime(dmEntity.getTime());
 			dmViewDto.setRead(dmEntity.getRead());
 			dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
-			dmViewDto.setContent(dmEntity.getContent());
-			dmViewDto.setImage((dmEntity.getImage()));
-			dmViewDtoList.add(dmViewDto);
-		}
-		dmEntityList = dmRepository.findByToUserIdAndFromUserId(fromUserEntity,toUserEntity);
-		for(DMEntity dmEntity : dmEntityList){
-			DMViewDto dmViewDto = new DMViewDto();
-			dmViewDto.setType("to");
-			dmViewDto.setIdx(dmEntity.getIdx());
-			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
-			dmViewDto.setToId(dmEntity.getToUserId().getId());
-			dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
-			dmViewDto.setTime(dmEntity.getTime());
-			dmViewDto.setRead(dmEntity.getRead());
 			dmViewDto.setContent(dmEntity.getContent());
 			dmViewDto.setImage((dmEntity.getImage()));
 			dmViewDtoList.add(dmViewDto);

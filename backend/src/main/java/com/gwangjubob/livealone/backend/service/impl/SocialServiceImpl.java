@@ -35,9 +35,9 @@ public class SocialServiceImpl implements SocialService {
 //    public static JSONParser jsonParser;
     @Override
     @Transactional
-    public String kakaoLogin(String authToken) {
+    public String[] kakaoLogin(String authToken) {
         String reqURL = "https://kapi.kakao.com/v2/user/me";
-        String jsonId;
+        String[] jsonId = new String[2];
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -54,22 +54,24 @@ public class SocialServiceImpl implements SocialService {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
             JSONObject jsonObjectB = (JSONObject) json.get("properties");
-            jsonId = json.get("id").toString();
+            jsonId[0] = json.get("id").toString();
             String jsonName = jsonObjectB.get("nickname").toString();
 //            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId.substring(0, 4);
-            jsonId = "kakao" + jsonId;
+            String nameId = jsonName + jsonId[0].substring(0, 4);
+            jsonId[0] = "kakao" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findByNickname(nameId);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
-                        .id(jsonId)
+                        .id(jsonId[0])
                         .password("social")
                         .nickname(nameId)
                         .social("kakao")
                         .build();
                 userRepository.save(userRegist);
-
+                jsonId[1] = "true";
+            }else{
+                jsonId[1] = "false";
             }
 
 
@@ -111,10 +113,10 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public String naverLogin(String authToken) throws ParseException {
+    public String[] naverLogin(String authToken) throws ParseException {
         String accessToken = naverOAuthRedirect(authToken,"nahonjan");
         String reqURL = "https://openapi.naver.com/v1/nid/me";
-        String jsonId;
+        String[] jsonId = new String[2];
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -131,22 +133,24 @@ public class SocialServiceImpl implements SocialService {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
             JSONObject jsonObjectB = (JSONObject) json.get("response");
-            jsonId = jsonObjectB.get("id").toString();
+            jsonId[0] = jsonObjectB.get("id").toString();
             String jsonName = jsonObjectB.get("nickname").toString();
 //            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId.substring(0, 4);
-            jsonId = "naver" + jsonId;
+            String nameId = jsonName + jsonId[0].substring(0, 4);
+            jsonId[0] = "naver" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findByNickname(nameId);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
-                        .id(jsonId)
+                        .id(jsonId[0])
                         .password("social")
                         .nickname(nameId)
                         .social("naver")
                         .build();
                 userRepository.save(userRegist);
-
+                jsonId[1] = "true";
+            }else{
+                jsonId[1] = "false";
             }
 
 
@@ -160,11 +164,11 @@ public class SocialServiceImpl implements SocialService {
     }
 
     @Override
-    public String googleLogin(String authToken) {
+    public String[] googleLogin(String authToken) {
 
 
         String reqURL = "https://www.googleapis.com/oauth2/v1/userinfo";
-        String jsonId = null;
+        String[] jsonId = new String[2];
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -180,22 +184,24 @@ public class SocialServiceImpl implements SocialService {
             }
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
-            jsonId = json.get("id").toString();
+            jsonId[0] = json.get("id").toString();
             String jsonName = json.get("name").toString();
 //            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId.substring(0, 4);
-            jsonId = "google" + jsonId;
+            String nameId = jsonName + jsonId[0].substring(0, 4);
+            jsonId[0] = "google" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findByNickname(nameId);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
-                        .id(jsonId)
+                        .id(jsonId[0])
                         .password("social")
                         .nickname(nameId)
                         .social("google")
                         .build();
                 userRepository.save(userRegist);
-
+                jsonId[1] = "true";
+            }else{
+                jsonId[1] = "false";
             }
 
 

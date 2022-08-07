@@ -6,9 +6,9 @@ import org.json.simple.parser.ParseException;
 import java.util.List;
 
 public interface SocialService {
-    String kakaoLogin(String authToken);
+    String[] kakaoLogin(String authToken);
 
-    String naverLogin(String authToken) throws ParseException;
+    String[] naverLogin(String authToken) throws ParseException;
 
-    String googleLogin(String authToken);
+    String[] googleLogin(String authToken);
 }
