@@ -15,5 +15,6 @@ public interface DMRepository extends JpaRepository<DMEntity, String> {
     int findCount(String toUserId,String fromUserId);
     @Query(value = "select COUNT(t.idx)  from (SELECT * from dms where is_read = FALSE and to_user_id = :#{#id}) t;", nativeQuery = true)
     long findByCountDM(String id);
+    @Query(value = "select d from DMEntity d where (d.toUserId=:toId and d.fromUserId=:fromId)or(d.toUserId=:fromId and d.fromUserId=:toId) order by d.time desc")
     List<DMEntity> findByToUserIdAndFromUserId(UserEntity toId, UserEntity fromId);
 }

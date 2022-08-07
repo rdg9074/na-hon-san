@@ -39,6 +39,7 @@ public class UserController {
         this.jwtService = jwtService;
         this.mailService = mailService;
     }
+
     @PostMapping("/user")
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
         resultMap = new HashMap<>();

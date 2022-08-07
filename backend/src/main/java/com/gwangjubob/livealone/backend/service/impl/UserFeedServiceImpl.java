@@ -202,13 +202,14 @@ public class UserFeedServiceImpl implements UserFeedService {
     @Override
     @Transactional
     public boolean deleteFollow(String toId, String fromId) {
-        if(userFeedRepository.findByUserIdAndFollowId(toId,fromId).isPresent()){
+        List<UserFollowEntity> res = userFeedRepository.findByUserIdAndFollowId(toId, fromId);
+        if(!res.isEmpty()){
             userFeedRepository.deleteByUserIdAndFollowId(toId,fromId);
-
-            Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserId("follow", fromId);
-            if(notice.isPresent()){
-                noticeRepository.delete(notice.get());
-            }
+//
+//            Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserId("follow", fromId);
+//            if(notice.isPresent()){
+//                noticeRepository.delete(notice.get());
+//            }
             return true;
         }
         return false;
@@ -301,7 +302,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         UserEntity user = userRepository.findById(decodeId).get();
         TipEntity tip = tipRepository.findByIdx(idx).get();
 
-        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), tip.getUser().getId()).isPresent()){
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), tip.getUser().getId()).isEmpty()){
             return true;
         }
         return false;
@@ -312,7 +313,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         UserEntity user = userRepository.findById(decodeId).get();
         DealEntity deal = dealRepository.findByIdx(idx).get();
 
-        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), deal.getUser().getId()).isPresent()){
+        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), deal.getUser().getId()).isEmpty()){
             return true;
         }
         return false;

@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean loginUser(UserLoginDto userLoginDto){
-        UserEntity user = userRepository.findById(userLoginDto.getId()).get();
+        UserEntity user = userRepository.findByIdAndSocial(userLoginDto.getId(),"normal").get();
         if (user !=null){
             Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.getPassword());
             if(passwordCheck){
@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
                 .id(userRegistDto.getId())
                 .password(password)
                 .nickname(userRegistDto.getNickname())
+                .social("normal")
                 .build();
         userRepository.save(user);
     }
