@@ -59,10 +59,10 @@ public class UserEntity implements Serializable {
 //    private List<NoticeEntity> notices = new ArrayList<>();
 
     @Builder
-    public UserEntity(String id, String password, String nickname){ //회원 가입 빌더
+    public UserEntity(String id, String password, String nickname, String social){ //회원 가입 빌더
         this.id = id;
         this.password = password;
         this.nickname = nickname;
+        this.social = social;
     }
-
 }

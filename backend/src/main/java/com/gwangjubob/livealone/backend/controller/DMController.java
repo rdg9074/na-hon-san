@@ -69,7 +69,8 @@ public class DMController {
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message",fail);
+            status = HttpStatus.ACCEPTED;
         }
 
         return new ResponseEntity<>(resultMap, status);
@@ -86,7 +87,8 @@ public class DMController {
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message",fail);
+            status = HttpStatus.ACCEPTED;
         }
 
         return new ResponseEntity<>(resultMap, status);
