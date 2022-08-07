@@ -1,16 +1,25 @@
 import React, { useEffect } from "react";
 import NaverIcon from "@images/Naver.svg";
-import { useSearchParams } from "react-router-dom";
-import { loginNaver } from "@store/ducks/auth/authThunk";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { loginWithSocial } from "@apis/auth";
+import { useAppDispatch } from "@store/hooks";
+import { getUserInfo } from "@store/ducks/auth/authThunk";
 import MsgPageLayout from "./MsgPageLayout";
 
 function NaverOauthHandler() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   useEffect(() => {
     const code = searchParams.get("code") as string;
-    console.log(code);
     (async () => {
-      loginNaver(code);
+      const res = await loginWithSocial("naver", code);
+      await dispatch(getUserInfo());
+      if (res.isRegist === "true") {
+        navigate("/join/welcome");
+      } else {
+        navigate("/");
+      }
     })();
   }, []);
   return (

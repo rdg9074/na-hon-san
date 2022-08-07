@@ -3,23 +3,38 @@ import KakaoIcon from "@images/Kakao.svg";
 import GoogleIcon from "@images/Google.svg";
 import NaverIcon from "@images/Naver.svg";
 import "./SocialSecion.scss";
+import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import {
+  googleClientId,
   KAKAO_AUTH_URL,
-  NAVER_AUTH_URL,
-  googleClientId
-} from "@store/ducks/auth/authThunk";
-import GoogleLogin from "react-google-login";
+  loginWithSocial,
+  NAVER_AUTH_URL
+} from "@apis/auth";
+import { useAppDispatch } from "@store/hooks";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "@store/ducks/auth/authThunk";
 
-function SocialSection() {
+function SocialCompo() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const startKakao = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
   const startNaver = () => {
     window.location.href = NAVER_AUTH_URL;
   };
-  const startGoogle = (res: any) => {
-    console.log(res);
-  };
+  const startGoogle = useGoogleLogin({
+    onSuccess: async response => {
+      console.log(response);
+      const res = await loginWithSocial("google", response.access_token);
+      await dispatch(getUserInfo());
+      if (res.isRegist === "true") {
+        navigate("/join/welcome");
+      } else {
+        navigate("/");
+      }
+    }
+  });
   return (
     <section className="social">
       <button
@@ -38,22 +53,23 @@ function SocialSection() {
         <img className="social__img" src={NaverIcon} alt="네이버" />
         <p className="social__content notoMid fs-15">네이버로 시작하기</p>
       </button>
-      <GoogleLogin
-        clientId={googleClientId}
-        onSuccess={startGoogle}
-        className="simple-login-form__google-login-btn modal-box fs-16"
-        render={renderProps => (
-          <button
-            type="button"
-            className="social__btn flex align-center justify-center google"
-            onClick={renderProps.onClick}
-          >
-            <img className="social__img" src={GoogleIcon} alt="구글" />
-            <p className="social__content notoMid fs-15">구글로 시작하기</p>
-          </button>
-        )}
-      />
+      <button
+        type="button"
+        className="social__btn flex align-center justify-center google"
+        onClick={() => startGoogle()}
+      >
+        <img className="social__img" src={GoogleIcon} alt="구글" />
+        <p className="social__content notoMid fs-15">구글로 시작하기</p>
+      </button>
     </section>
+  );
+}
+
+function SocialSection() {
+  return (
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <SocialCompo />
+    </GoogleOAuthProvider>
   );
 }
 

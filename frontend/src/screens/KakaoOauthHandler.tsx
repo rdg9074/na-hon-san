@@ -1,16 +1,27 @@
 import React, { useEffect } from "react";
 import KakaoIcon from "@images/Kakao.svg";
-import { useSearchParams } from "react-router-dom";
-import { loginKakao } from "@store/ducks/auth/authThunk";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { getKakaoToken, loginWithSocial } from "@apis/auth";
+import { useAppDispatch } from "@store/hooks";
+import { getUserInfo } from "@store/ducks/auth/authThunk";
 import MsgPageLayout from "./MsgPageLayout";
 
 function KakaoOauthHandler() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   useEffect(() => {
     const code = searchParams.get("code") as string;
 
     (async () => {
-      loginKakao(code);
+      const token = await getKakaoToken(code);
+      const res = await loginWithSocial("kakao", token);
+      await dispatch(getUserInfo());
+      if (res.isRegist === "true") {
+        navigate("/join/welcome");
+      } else {
+        navigate("/");
+      }
     })();
   }, []);
   return (
