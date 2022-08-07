@@ -39,10 +39,11 @@ public class SocialController {
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
-            String res = socialService.googleLogin(authToken);
+            String[] res = socialService.googleLogin(authToken);
             if(res!=null) {
-                String accessToken = jwtService.createAccessToken("id", res);
-                String refreshToken = jwtService.createRefreshToken("id", res);
+                String accessToken = jwtService.createAccessToken("id", res[0]);
+                String refreshToken = jwtService.createRefreshToken("id", res[0]);
+                resultMap.put("isRegist",res[1]);
                 resultMap.put("access-token", accessToken);
                 resultMap.put("message", okay);
 
@@ -68,10 +69,11 @@ public class SocialController {
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
-            String res = socialService.naverLogin(authToken);
+            String []res = socialService.naverLogin(authToken);
             if(res!=null) {
-                String accessToken = jwtService.createAccessToken("id", res);
-                String refreshToken = jwtService.createRefreshToken("id", res);
+                String accessToken = jwtService.createAccessToken("id", res[0]);
+                String refreshToken = jwtService.createRefreshToken("id", res[0]);
+                resultMap.put("isRegist",res[1]);
                 resultMap.put("access-token", accessToken);
                 resultMap.put("message", okay);
 
@@ -97,11 +99,13 @@ public class SocialController {
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
-            String res = socialService.kakaoLogin(authToken);
+            String[] res = socialService.kakaoLogin(authToken);
             if(res!=null) {
-                String accessToken = jwtService.createAccessToken("id", res);
-                String refreshToken = jwtService.createRefreshToken("id", res);
+                String accessToken = jwtService.createAccessToken("id", res[0]);
+                String refreshToken = jwtService.createRefreshToken("id", res[0]);
+                resultMap.put("isRegist",res[1]);
                 resultMap.put("access-token", accessToken);
+
                 resultMap.put("message", okay);
 
                 Cookie refreshCookie = new Cookie("refresh-token",refreshToken);
