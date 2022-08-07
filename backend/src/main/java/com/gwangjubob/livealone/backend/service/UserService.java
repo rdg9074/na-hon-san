@@ -29,4 +29,6 @@ public interface UserService {
     Map<String, Double> getXYLocation(String id);
 
     String getTargetId(String nickname);
+
+    Map<String, Object> getPosition(String id);
 }

@@ -6,6 +6,7 @@ import com.gwangjubob.livealone.backend.dto.Deal.DealRequestDto;
 import com.gwangjubob.livealone.backend.service.DealService;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
+import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +25,23 @@ public class DealController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
     private static final String timeOut = "access-token timeout";
+    private static final String noAreaLoginUser = "login user has not area";
+    private static final String noAreaTargetUser = "target user has not area";
 
     private final JwtService jwtService;
     private final DealService dealService;
     private final UserFeedService userFeedService;
+    private final UserService userService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private static Map<String, Object> resultMap;
 
     @Autowired
-    DealController(JwtService jwtService, DealService dealService, UserFeedService userFeedService)
+    DealController(JwtService jwtService, DealService dealService, UserFeedService userFeedService, UserService userService)
     {
         this.jwtService = jwtService;
         this.dealService = dealService;
         this.userFeedService = userFeedService;
+        this.userService = userService;
     }
 
     @PostMapping("/honeyDeal")
@@ -271,6 +276,30 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @GetMapping("honeyDeal/position/{nickname}")
+    public ResponseEntity<?> getPosition(HttpServletRequest request, @PathVariable String nickname){
+        resultMap = new HashMap<>();
+        String decodeId = checkToken(request);
+        String targetId = userService.getTargetId(nickname);
+
+        if(decodeId != null) {
+            try {
+                // 사용자 위치 구하는 서비스 호출
+                resultMap.put("loginUserPosition", userService.getPosition(decodeId));
+                resultMap.put("targetUserPosition", userService.getPosition(targetId));
+                // 중간 위치 구하는 서비스 호출
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
