@@ -227,12 +227,12 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
     @GetMapping("/mainFeed/honeyTip")
-    public ResponseEntity<?> userFollowHoneyTip(@RequestParam("pageNum")int pageNum,@RequestParam("pageSize") int pageSize, HttpServletRequest request){
+    public ResponseEntity<?> userFollowHoneyTip(@RequestParam("lastIdx")Integer lastIdx,@RequestParam("pageSize") int pageSize, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         try{
             if(decodeId != null){
-                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId,pageNum, pageSize);
+                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId,lastIdx, pageSize);
                 resultMap.put("total", result.size());
                 resultMap.put("data",result);
 
