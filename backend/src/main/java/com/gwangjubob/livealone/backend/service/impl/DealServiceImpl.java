@@ -71,7 +71,7 @@ public class DealServiceImpl implements DealService {
         DealDto data = new DealDto();
         if(optionalDeal.isPresent()){
             DealEntity deal = optionalDeal.get();
-            List<DealCommentEntity> comments = dealCommentRepository.findByDeal(deal);
+            List<DealCommentEntity> comments = dealCommentRepository.findByDealOrderByComment(deal);
             List<DealCommentDto> commentDto = dealCommentMapper.toDtoList(comments);
             data = dealMapper.toDto(deal);
             data.setComments(commentDto);

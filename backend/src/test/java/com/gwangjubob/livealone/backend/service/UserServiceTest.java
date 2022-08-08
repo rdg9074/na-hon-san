@@ -526,6 +526,7 @@ public class UserServiceTest {
 
             try{
                 URL url = new URL(surl);
+
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
                 conn.setRequestMethod("GET");
@@ -543,7 +544,7 @@ public class UserServiceTest {
                 JSONObject json = (JSONObject) parser.parse(sb.toString());
 
                 JSONObject result = (JSONObject) json.get("result");
-//                System.out.println(result.toString());
+                System.out.println(result.toString());
                 JSONArray paths = (JSONArray) result.get("path"); // 여기서 최단 시간 찾아야함
 
                 JSONObject path = (JSONObject) paths.get(0);
@@ -558,7 +559,8 @@ public class UserServiceTest {
                     Long totalTime = Long.parseLong(info.get("totalTime").toString());
                     if(minTime > totalTime) minTime = totalTime;
                 }
-                System.out.println("최단시간 : " + minTime);
+                loginUserTime.add(minTime);
+//                System.out.println("최단시간 : " + minTime);
 
                 loginUserTime.add(minTime);
 

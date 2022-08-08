@@ -22,5 +22,5 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
 
  Optional<NoticeEntity> findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx(String comment, String tip, Integer postIdx, Integer idx);
 
- Optional<NoticeEntity> findByNoticeTypeAndUserIdAndFromUserId(String follow, UserEntity user, String fromId);
+ Optional<NoticeEntity> findByNoticeTypeAndUserIdAndFromUserId(String follow, String fromId, String toId);
 }

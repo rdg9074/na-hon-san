@@ -19,9 +19,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 public class UserFollowEntity {
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<TipEntity> tips;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;

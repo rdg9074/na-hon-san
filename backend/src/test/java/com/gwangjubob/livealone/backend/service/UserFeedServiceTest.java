@@ -92,8 +92,8 @@ public class UserFeedServiceTest {
         // 팔로우 알림 등록
         NoticeEntity notice = NoticeEntity.builder()
                 .noticeType("follow")
-                .user(userRepository.findById("test").get())
-                .fromUserId(userRepository.findById("ssafy").get().getId())
+                .user(userRepository.findById("ssafy").get())
+                .fromUserId(userRepository.findById("test").get().getId())
                 .time(userFollowEntity.getTime())
                 .build();
 
@@ -102,9 +102,9 @@ public class UserFeedServiceTest {
     @Test
     public void 팔로우_취소_테스트() {
         // given
-        final String toId ="test";
-        final String fromId = "ssafy";
-        UserEntity user = userRepository.findById(toId).get();
+        final String toId ="ssafy";
+        final String fromId = "aa981204@naver.com";
+        UserEntity user = userRepository.findById(fromId).get();
 
         // when
         userFeedRepository.deleteByUserIdAndFollowId(toId,fromId);
@@ -113,7 +113,7 @@ public class UserFeedServiceTest {
         System.out.println("ok");
 
         // 취소하면 알림도 삭제
-        Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndUserIdAndFromUserId("follow", user, fromId);
+        Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndUserIdAndFromUserId("follow", fromId, toId);
         if(notice.isPresent()){
             noticeRepository.delete(notice.get());
         }
@@ -319,14 +319,14 @@ public class UserFeedServiceTest {
     public void 팔로우_여부_테스트(){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String userId = "ssafy"; // 로그인 한 사용자 아이디
-        String followNickname = "test"; // 게시글 작성자 닉네임
+        String userId = "aa981204@naver.com"; // 로그인 한 사용자 아이디 나?
+        String followNickname = "ssafy"; // 게시글 작성자 닉네임
 
         UserEntity user = userRepository.findById(userId).get();
         UserEntity followUser = userRepository.findByNickname(followNickname).get();
 
         boolean isFollow = false;
-        if(userFeedRepository.findByUserIdAndFollowNickname(followUser.getId(), user.getNickname()).isPresent()){
+        if(userFeedRepository.findByUserIdAndFollowNickname(user.getId(), followNickname).isPresent()){
             isFollow = true;
         }
 
