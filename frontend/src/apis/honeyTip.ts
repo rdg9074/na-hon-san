@@ -1,6 +1,6 @@
 import API from "./index";
 
-interface createForm {
+export interface createForm {
   category: string;
   title: string;
   content: string;
@@ -42,7 +42,12 @@ export const tipUpdate = async (data: createForm, idx: string) => {
 };
 
 export const tipRead = async (idx: string) => {
-  const res = await API.get(`/honeyTip/detail/${idx}`);
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/honeyTip/detail/${idx}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
   return res.data;
 };
 
@@ -54,6 +59,16 @@ export const tipDelete = async (idx: string) => {
     }
   });
   return res.data.message;
+};
+
+export const tipLike = async (idx: string) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/honeyTip/like/${idx}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
+  return res;
 };
 
 export default {};

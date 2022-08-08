@@ -22,7 +22,7 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
   const [replyEdit, setReplyEdit] = useState(false);
 
   const deleteComment = async () => {
-    await commentDelete(info.idx);
+    await commentDelete(info.idx, type);
     changed();
   };
 
@@ -41,12 +41,12 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
           <div className="arrow flex justify-center">
             <img src={ReplyArrow} alt="arrow" />
           </div>
-          <div className="wrapper flex column align-center">
-            <div className="head flex">
-              <div className="head-profile flex align-center">
+          <div className="reply-wrapper flex column align-center">
+            <div className="reply-head flex">
+              <div className="reply-head-profile flex align-center">
                 <button
                   type="button"
-                  className="head-profile_img flex justify-center"
+                  className="reply-head-profile_img flex justify-center"
                 >
                   <img
                     src={
@@ -57,7 +57,7 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
                     alt=""
                   />
                 </button>
-                <div className="head-profile_info">
+                <div className="reply-head-profile_info">
                   <Link
                     to={`/userfeed/${info?.userNickname}`}
                     className="notoReg"
@@ -72,14 +72,17 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
                 </div>
               </div>
               {type === "deal" && (
-                <button type="button" className="head-map flex justify-end">
+                <button
+                  type="button"
+                  className="reply-head-map flex justify-end"
+                >
                   <img src={KaKao} alt="" />
                 </button>
               )}
             </div>
-            <div className="body flex">
+            <div className="reply-body flex">
               {info.bannerImg && (
-                <div className="img-container flex jusify-center">
+                <div className="reply-img-container flex jusify-center">
                   <img
                     src={`data:image/jpeg;base64,${info.bannerImg}`}
                     alt="user"
@@ -88,10 +91,12 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
                 </div>
               )}
 
-              <div className="body-content flex column">
-                <p className="body-content_text notoReg">{info?.content}</p>
+              <div className="reply-body-content flex column">
+                <p className="reply-body-content_text notoReg">
+                  {info?.content}
+                </p>
                 {isAuthor && (
-                  <div className="body-content_btn flex">
+                  <div className="reply-body-content_btn flex">
                     <button
                       type="button"
                       className="notoReg"
@@ -116,6 +121,7 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
           <div className="edit-input flex">
             <div className="empty-space" />
             <CommentEdit
+              type={type}
               commentInfo={info}
               signal={closeEdit}
               changed={changed}

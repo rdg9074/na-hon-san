@@ -1,30 +1,31 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Editor from "@components/common/s3Uploader/Editor";
-import "./TipEdit.scss";
+import "./DealEdit.scss";
 import noimg from "@images/noimg.svg";
-import HoneyRecipe from "@images/HoneyRecipe.svg";
-import HoneyTem from "@images/HoneyTem.svg";
-import HoneyTip from "@images/HoneyTip.svg";
 import ImgResizer from "@components/common/ImgUploader/ImgResizer";
 import isImage from "@utils/isImage";
-import { tipCreate } from "@apis/honeyTip";
+import { dealCreate } from "@apis/honeyDeal";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
 import X from "@images/X.svg";
+import { v4 } from "uuid";
+import dealCategory from "@constants/dealCategory";
+import { useAppSelector } from "@store/hooks";
 
-function TipEdit() {
+function DealEdit() {
   const [sendFile, setSendFile] = useState<File | null>(null);
   const [thumnail, setThumnail] = useState("");
-  const [category, setCategory] = useState("tip");
+  const [category, setCategory] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [chk, setChk] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const imgInput = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const userInfo = useAppSelector(state => state.auth.userInfo);
 
   const back = () => {
-    navigate("/tip");
+    navigate("/deal");
   };
 
   // 썸네일 인풋태그열기 > 파일내리기 > 파일 받기
@@ -46,11 +47,6 @@ function TipEdit() {
     setThumnail(data);
   }, []);
 
-  // 카테고리 변경
-  const changeCategory = (cate: string) => {
-    setCategory(cate);
-  };
-
   // 유효성 검사
   const chkForm = () => {
     if (!titleRef.current?.value) {
@@ -70,22 +66,20 @@ function TipEdit() {
   // 검사 > 에디터에서 밸류 받기 > DB 전송
   const receiveValue = async (data: string) => {
     const payload = {
+      area: "광주",
+      state: "거래 대기",
       category,
       title: titleRef.current?.value as string,
       content: data,
       bannerImg: thumnail.replace("data:image/jpeg;base64,", "")
     };
-    const res = await tipCreate(payload);
-    if (res.status === 500) {
-      alert("글이 너무 길어요 ㅠㅠ");
-      setSpinner(false);
-      navigate(`/tip`);
-    }
-    navigate(`/tip/detail/${res}`);
+    const res = await dealCreate(payload);
+    console.log(res);
+    navigate(`/deal/detail/${res}`);
   };
 
   return (
-    <div id="tip-edit">
+    <div id="deal-edit">
       <input type="file" accept="image/*" ref={imgInput} onChange={fileread} />
       {sendFile ? (
         <ImgResizer
@@ -95,73 +89,76 @@ function TipEdit() {
           imgH={200}
         />
       ) : null}
-      <div className="header ">
-        <div className="header-title notoBold flex">
+      <div className="deal-header ">
+        <div className="deal-header-title notoBold flex">
           <p>
-            <span>꿀</span>팁<span> 쓰</span>기
+            <span>꿀</span>딜<span> 쓰</span>기
           </p>
         </div>
-        <div className="header-category flex">
+        <div className="deal-header-category flex">
           <p className="category-label notoMid">Category</p>
-          <button
-            type="button"
-            onClick={() => changeCategory("recipe")}
-            className={`notoReg ${category === "recipe" ? "active" : null}`}
-          >
-            <img src={HoneyRecipe} alt="꿀시피" title="꿀시피" />
-            <p className="notoReg">꿀시피</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => changeCategory("tip")}
-            className={`notoReg ${category === "tip" ? "active" : null}`}
-          >
-            <img src={HoneyTip} alt="꿀생" title="꿀생" />
-            <p className="notoReg">꿀생</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => changeCategory("item")}
-            className={`notoReg ${category === "item" ? "active" : null}`}
-          >
-            <img src={HoneyTem} alt="꿀템" title="꿀템" />
-            <p className="notoReg">꿀템</p>
-          </button>
+          <div className="deal-header-category-box flex">
+            {dealCategory.map(item => {
+              return (
+                <button
+                  onClick={() => {
+                    setCategory(item);
+                  }}
+                  type="button"
+                  key={v4()}
+                  className={`notoReg ${category === item && "button-active"}`}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <div className="header-preview flex justify-center">
+        <div className="deal-header-preview flex justify-center">
           <button
             onClick={() => {
               setThumnail("");
             }}
             type="button"
-            className={`close ${!thumnail && "hide"}`}
+            className={`deal-close ${!thumnail && "hide"}`}
           >
             <img src={X} alt="close" />
           </button>
           <button
             onClick={clickInput}
             type="button"
-            className="header-preview_container flex column justify-center align-center"
+            className="deal-header-preview_container flex column justify-center align-center"
           >
-            <p className="header-preview_container-title notoMid">Thumnail</p>
-            {thumnail ? (
-              <img src={thumnail} alt="preview" />
-            ) : (
-              <div className="header-preview_img flex justify-center align-center">
-                <img src={noimg} alt="no-img" title="preview" />
-              </div>
-            )}
+            <p className="deal-header-preview_container-title notoMid">
+              Thumnail
+            </p>
+            <div className="deal-header-preview_img flex justify-center align-center">
+              {thumnail ? (
+                <img
+                  className="deal-header-preview_img-img"
+                  src={thumnail}
+                  alt="preview"
+                />
+              ) : (
+                <img
+                  className="deal-header-preview_img-img"
+                  src={noimg}
+                  alt="no-img"
+                  title="preview"
+                />
+              )}
+            </div>
             <span className="notoReg">
               jpg, png, gif, jpeg 파일만 지원해요.
             </span>
           </button>
         </div>
       </div>
-      <div className="content flex column align-center">
+      <div className="deal-content flex column align-center">
         <p className="notoMid">Content</p>
         <input
           ref={titleRef}
-          className="title"
+          className="deal-title"
           type="text"
           placeholder="제목은 30자까지 입력할 수 있어요."
         />
@@ -191,4 +188,4 @@ function TipEdit() {
   );
 }
 
-export default TipEdit;
+export default DealEdit;

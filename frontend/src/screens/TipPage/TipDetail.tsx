@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./TipDetail.scss";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { tipRead, Article, tipDelete } from "@apis/honeyTip";
+import { tipRead, Article, tipDelete, tipLike } from "@apis/honeyTip";
+import { addFollow, delFollow } from "@apis/userFeed";
 import UserDummyIcon from "@images/UserDummy.svg";
 import EmptyHeart from "@images/ArticleEmptyHeart.svg";
+import Heart from "@images/Heart.svg";
 import EditIcon from "@images/EditIcon.svg";
 import DeleteIcon from "@images/DeleteIcon.svg";
 import { useAppSelector } from "@store/hooks";
@@ -15,6 +17,10 @@ function TipDetail() {
   const [newComment, setNewComment] = useState(false);
   const [article, setArticle] = useState<Article>();
   const [comment, setComment] = useState();
+  const [userState, setUserState] = useState({
+    isFollow: false,
+    isLike: false
+  });
   const { id } = useParams();
   const navigate = useNavigate();
   const UserInfo = useAppSelector(state => state.auth.userInfo);
@@ -26,11 +32,17 @@ function TipDetail() {
   useEffect(() => {
     tipRead(id as string)
       .then(res => {
+        console.log(res);
+        setUserState({
+          isFollow: res.isFollow,
+          isLike: res.isLike
+        });
         setArticle(res.tip);
-        setComment(res.tipComments);
+        const comments = res.tipComments.reverse();
+        setComment(comments);
       })
       .catch(() => navigate("NotFound"));
-  }, [newComment]);
+  }, [newComment, id]);
 
   if (!article) {
     return <div />;
@@ -49,6 +61,24 @@ function TipDetail() {
       navigate("/");
     }
     return res;
+  };
+
+  const setLike = async () => {
+    const res = await tipLike(id as string);
+    if (res.status === 200) {
+      changed();
+    } else {
+      console.log(res.status);
+    }
+  };
+
+  const setFollow = async () => {
+    if (userState.isFollow) {
+      await delFollow(article.userNickname);
+    } else {
+      await delFollow(article.userNickname);
+    }
+    changed();
   };
 
   const isAuthor = UserInfo?.nickname === article.userNickname;
@@ -93,10 +123,11 @@ function TipDetail() {
               </div>
             </div>
             <button
+              onClick={setFollow}
               className={`header-info__btn notoReg ${isAuthor ? "hide" : null}`}
               type="button"
             >
-              팔로우
+              {userState.isFollow ? "언팔로우" : "팔로우"}
             </button>
           </div>
           <div className="header-func flex">
@@ -110,9 +141,15 @@ function TipDetail() {
                 </button>
               </div>
             ) : (
-              <button type="button" className="header-func-btn flex">
-                <img src={EmptyHeart} alt="like" title="like" />
-              </button>
+              <div className="header-func-btn flex">
+                <button onClick={setLike} type="button">
+                  <img
+                    src={userState.isLike ? Heart : EmptyHeart}
+                    alt="like"
+                    title="like"
+                  />
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -137,13 +174,17 @@ function TipDetail() {
                 title="user-icon"
               />
             </div>
-            <CommentInput changed={changed} articleIdx={id as string} />
+            <CommentInput
+              type="Tip"
+              changed={changed}
+              articleIdx={id as string}
+            />
           </div>
           {comment ? (
             <Comments
               postIdx={id as string}
               changed={changed}
-              type="tip"
+              type="Tip"
               comments={comment}
             />
           ) : null}
