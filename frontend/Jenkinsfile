@@ -5,6 +5,13 @@ pipeline {
         stage("frontend"){
             parallel{
                 stage("test"){
+                    script{
+                        try {
+                            sh 'docker rmi front-test'
+                        } catch (e) {
+                            sh 'echo "fail remove test-images"'
+                        }
+                    }
                     steps{
                         sh 'docker build -t front-test -f ./frontend/Dockerfile.dev ./frontend'
                         // sh 'docker run front-test npm run test'
