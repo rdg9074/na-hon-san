@@ -3,7 +3,6 @@ package com.gwangjubob.livealone.backend.dto.dm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.intellij.lang.annotations.Pattern;
 
 import javax.validation.constraints.NotBlank;
 
