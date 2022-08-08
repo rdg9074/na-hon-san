@@ -4,17 +4,17 @@ pipeline {
     stages {
         stage("frontend"){
             parallel{
-                // stage("test"){
-                //     steps{
-                //         sh 'docker build -t front-test -f ./frontend/Dockerfile.dev ./frontend'
-                //         sh 'docker run front-test npm run test'
-                //     }
-                //     post {
-                //         success{
-                //             sh 'echo test 성공!!'
-                //         }
-                //     }
-                // }
+                stage("test"){
+                    steps{
+                        sh 'docker build -t front-test -f ./frontend/Dockerfile.dev ./frontend'
+                        // sh 'docker run front-test npm run test'
+                    }
+                    post {
+                        success{
+                            sh 'echo test 성공!!'
+                        }
+                    }
+                }
                 stage("build"){
                     steps {
                         script{
