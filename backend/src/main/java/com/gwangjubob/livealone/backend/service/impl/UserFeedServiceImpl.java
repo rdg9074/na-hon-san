@@ -246,14 +246,14 @@ public class UserFeedServiceImpl implements UserFeedService {
         List<DealEntity> dealEntityList = new ArrayList<>();
         List<DealDto> result = new ArrayList<>();
         for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
-            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"test",user.get().getArea());
+            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
             for(DealEntity dealEntity : findTop6){
                 dealEntityList.add(dealEntity);
             }
         }
         HashMap<Integer,Boolean> map = new HashMap<>();//
         int cnt = 0;
-        while(cnt < 6){
+        while(cnt < dealEntityList.size()){
             int rand = (int)(Math.random() * dealEntityList.size()); // 0-17 6개 숫자 중복안됨,
             if(!map.containsKey(rand)){ // 뽑은 숫자가 아니라면 result에
                 cnt++;

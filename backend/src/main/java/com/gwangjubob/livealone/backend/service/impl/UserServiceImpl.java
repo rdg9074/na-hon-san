@@ -44,12 +44,7 @@ public class UserServiceImpl implements UserService {
     public boolean loginUser(UserLoginDto userLoginDto){
         UserEntity user = userRepository.findByIdAndSocial(userLoginDto.getId(),"normal").get();
         if (user !=null){
-            Boolean passwordCheck = passwordEncoder.matches(userLoginDto.getPassword(),user.getPassword());
-            if(passwordCheck){
-                return true;
-            }else{
-                return false;
-            }
+            return passwordEncoder.matches(userLoginDto.getPassword(),user.getPassword());
         }
         return false;
     }
