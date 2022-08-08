@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeViewDto {
+public class NoticeViewDto implements Comparable<NoticeViewDto>{
     private Integer idx;
     private String noticeType;
     private Integer postIdx;
@@ -20,4 +20,11 @@ public class NoticeViewDto {
     private String postType;
     private Boolean read;
     private LocalDateTime time;
+
+    @Override
+    public int compareTo(NoticeViewDto o) {
+        if(o.getIdx() < idx) return -1;
+        else if(o.getIdx() > idx) return 1;
+        return 0;
+    }
 }

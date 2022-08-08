@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -77,11 +78,11 @@ public class NoticeServiceTest {
     @Test
     public void 전체_알림_조회() {
         // given
-        String testId = "ssafy";
+        String testId = "test";
         Map<String, Object> types = new HashMap<>();
-        types.put("like", false);
+        types.put("like", true);
         types.put("follow",true);
-        types.put("comment", true);
+        types.put("comment", false);
         types.put("reply", true);
 
         // when
@@ -111,12 +112,15 @@ public class NoticeServiceTest {
                 }
             }
 
+
             // then
+            Collections.sort(result); // 정렬
             for(NoticeViewDto notice : result){
                 System.out.println(notice.toString());
             }
         }
     }
+
 
     @Test
     public void 알림_읽음_테스트() {
