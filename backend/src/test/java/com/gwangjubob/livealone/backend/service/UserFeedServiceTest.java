@@ -76,8 +76,8 @@ public class UserFeedServiceTest {
         // given
         final UserFollowEntity userFollowEntity = UserFollowEntity.builder()
                 .userId("test")
-                .followId("ssafy")
-                .followNickname(userRepository.findById("ssafy").get().getNickname())
+                .followId("aa981204@naver.com")
+                .followNickname(userRepository.findById("aa981204@naver.com").get().getNickname())
                 .time(LocalDateTime.now())
                 .build();
 
