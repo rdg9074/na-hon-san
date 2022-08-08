@@ -74,19 +74,22 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         try {
-            userService.loginUser(userLoginDto); //로그인 서비스 호출
-            String accessToken = jwtService.createAccessToken("id", userLoginDto.getId());
-            String refreshToken = jwtService.createRefreshToken("id", userLoginDto.getId());
-            resultMap.put("access-token", accessToken);
-            resultMap.put("message", okay);
-            // create a cookie
+            if(userService.loginUser(userLoginDto)){//로그인 서비스 호출
+                String accessToken = jwtService.createAccessToken("id", userLoginDto.getId());
+                String refreshToken = jwtService.createRefreshToken("id", userLoginDto.getId());
+                resultMap.put("access-token", accessToken);
+                resultMap.put("message", okay);
+                // create a cookie
 
-            Cookie refreshCookie = new Cookie("refresh-token",refreshToken);
-            refreshCookie.setMaxAge(1*60*60);
-            refreshCookie.setPath("/");
-            refreshCookie.setHttpOnly(true);
+                Cookie refreshCookie = new Cookie("refresh-token",refreshToken);
+                refreshCookie.setMaxAge(1*60*60);
+                refreshCookie.setPath("/");
+                refreshCookie.setHttpOnly(true);
 
-            response.addCookie(refreshCookie);
+                response.addCookie(refreshCookie);
+            }else{
+                resultMap.put("message", fail);
+            }
 
             status = HttpStatus.OK;
         }catch (Exception e){
