@@ -60,6 +60,8 @@ public class NoticeServiceImpl implements NoticeService {
                 }
             }
         }
+
+        Collections.sort(result);
        return result;
     }
 

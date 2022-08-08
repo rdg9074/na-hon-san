@@ -302,7 +302,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         UserEntity user = userRepository.findById(decodeId).get();
         TipEntity tip = tipRepository.findByIdx(idx).get();
 
-        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), tip.getUser().getId()).isEmpty()){
+        if(userFeedRepository.findByUserIdAndFollowNickname(tip.getUser().getId(), user.getNickname()).isPresent()){
             return true;
         }
         return false;

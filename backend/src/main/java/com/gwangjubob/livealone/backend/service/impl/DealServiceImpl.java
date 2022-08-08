@@ -222,14 +222,14 @@ public class DealServiceImpl implements DealService {
 
                     dealCommentRepository.deleteAllInBatch(replyCommentList);
 
-                    List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentUpIdx("reply", user.getId(), "deal", deal.getIdx(), dealComment.getIdx());
+                    List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply", "deal", deal.getIdx(), dealComment.getIdx());
 
                     if(!noticeList.isEmpty()){
                         noticeRepository.deleteAllInBatch(noticeList);
                     }
                     dealCommentRepository.delete(dealComment);
 
-                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("comment", user.getId(), "deal", deal.getIdx(), dealComment.getIdx());
+                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "deal", deal.getIdx(), dealComment.getIdx());
 
                     if(notice.isPresent()){
                         noticeRepository.delete(notice.get());

@@ -170,7 +170,7 @@ public class TipCommentServiceImpl implements TipCommentService {
 
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
 
-                        List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentUpIdx("reply", user.getId(), "tip", tip.getIdx(), tipComment.getIdx());
+                        List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply","tip", tip.getIdx(), tipComment.getIdx());
 
                         if(!noticeList.isEmpty()){
                             noticeRepository.deleteAllInBatch(noticeList);
@@ -178,7 +178,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     }
                     tipCommentRepository.delete(tipComment);
 
-                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("comment", user.getId(), "tip", tip.getIdx(), tipComment.getIdx());
+                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment","tip", tip.getIdx(), tipComment.getIdx());
 
                     if(notice.isPresent()){
                         noticeRepository.delete(notice.get());

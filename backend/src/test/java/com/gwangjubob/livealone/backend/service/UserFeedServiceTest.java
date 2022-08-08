@@ -104,6 +104,7 @@ public class UserFeedServiceTest {
         // given
         final String toId ="test";
         final String fromId = "ssafy";
+        UserEntity user = userRepository.findById(toId).get();
 
         // when
         userFeedRepository.deleteByUserIdAndFollowId(toId,fromId);
@@ -111,6 +112,11 @@ public class UserFeedServiceTest {
         // then
         System.out.println("ok");
 
+        // 취소하면 알림도 삭제
+        Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndUserIdAndFromUserId("follow", user, fromId);
+        if(notice.isPresent()){
+            noticeRepository.delete(notice.get());
+        }
     }
     @Test
     public void 팔로우_리스트조회_테스트() {
@@ -326,7 +332,7 @@ public class UserFeedServiceTest {
         UserEntity followUser = userRepository.findByNickname(followNickname).get();
 
         boolean isFollow = false;
-        if(userFeedRepository.findByUserIdAndFollowId(user.getId(), followUser.getId()).isPresent()){
+        if(userFeedRepository.findByUserIdAndFollowNickname(followUser.getId(), user.getNickname()).isPresent()){
             isFollow = true;
         }
 
