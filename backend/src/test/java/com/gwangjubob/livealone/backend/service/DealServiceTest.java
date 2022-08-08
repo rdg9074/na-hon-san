@@ -83,13 +83,18 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_게시글_상세조회(){
         Map<String, Object> resultMap = new HashMap<>();
-        Integer idx = 13;
+        Integer idx = 94;
         Optional<DealEntity> optionalDeal = dealRepository.findById(idx);
         if(optionalDeal.isPresent()){
             DealEntity dealEntity = optionalDeal.get();
+            List<DealCommentEntity> comments = dealCommentRepository.findByDealOrderByComment(dealEntity);
+            List<DealCommentDto> commentDto = dealCommentMapper.toDtoList(comments);
             DealDto data = dealMapper.toDto(dealEntity);
+            data.setComments(commentDto);
             data.setUserNickname(dealEntity.getUser().getNickname());
+            data.setUserId(dealEntity.getUser().getId());
             resultMap.put("data", data);
+
             resultMap.put("message", okay);
         } else{
             resultMap.put("message", fail);
