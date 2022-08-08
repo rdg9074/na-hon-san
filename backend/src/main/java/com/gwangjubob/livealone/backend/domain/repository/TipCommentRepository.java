@@ -23,6 +23,6 @@ public interface TipCommentRepository extends JpaRepository<TipCommentEntity, In
     List<TipCommentEntity> findByTipOrderByIdxDesc(TipEntity tipEntity);
 
     @Query(value = "SELECT t FROM TipCommentEntity t WHERE t.tip = :tipEntity " +
-            "ORDER BY ( CASE WHEN t.upIdx = 0 THEN t.idx ELSE t.upIdx END), t.idx DESC, t.upIdx DESC")
+            "ORDER BY ( CASE WHEN t.upIdx = 0 THEN t.idx ELSE t.upIdx END), t.upIdx DESC")
     List<TipCommentEntity> findByTipOrderBycomment(TipEntity tipEntity);
 }

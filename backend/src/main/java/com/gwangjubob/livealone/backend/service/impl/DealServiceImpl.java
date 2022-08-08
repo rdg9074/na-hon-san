@@ -140,6 +140,9 @@ public class DealServiceImpl implements DealService {
             data.setUserId(dealComment.getUser().getId());
             data.setPostIdx(dealComment.getDeal().getIdx());
 
+            deal.setComment(deal.getComment() + 1);
+            dealRepository.save(deal);
+
             if(dealComment.getUpIdx() == 0 && !deal.getUser().getId().equals(user.getId())){ // 댓글 알림 등록
                 NoticeEntity notice = NoticeEntity.builder()
                         .noticeType("comment")
@@ -211,28 +214,31 @@ public class DealServiceImpl implements DealService {
                     if(notice.isPresent()){
                         noticeRepository.delete(notice.get());
                     }
-                }
-            }else{
-                List<DealCommentEntity> replyCommentList = dealCommentRepository.findByUpIdx(idx);
-                int size = replyCommentList.size();
+                }else{
+                    List<DealCommentEntity> replyCommentList = dealCommentRepository.findByUpIdx(idx);
+                    int size = replyCommentList.size();
 
-                if(!replyCommentList.isEmpty()){
-                    deal.setComment(deal.getComment() - size - 1);
-                    dealRepository.save(deal);
+                    if(!replyCommentList.isEmpty()){
+                        deal.setComment(deal.getComment() - size);
+                        dealRepository.save(deal);
 
-                    dealCommentRepository.deleteAllInBatch(replyCommentList);
+                        dealCommentRepository.deleteAllInBatch(replyCommentList);
 
-                    List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply", "deal", deal.getIdx(), dealComment.getIdx());
+                        List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply", "deal", deal.getIdx(), dealComment.getIdx());
 
-                    if(!noticeList.isEmpty()){
-                        noticeRepository.deleteAllInBatch(noticeList);
-                    }
-                    dealCommentRepository.delete(dealComment);
+                        if(!noticeList.isEmpty()){
+                            noticeRepository.deleteAllInBatch(noticeList);
+                        }
+                        deal.setComment(deal.getComment() - 1);
+                        dealRepository.save(deal);
 
-                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "deal", deal.getIdx(), dealComment.getIdx());
+                        dealCommentRepository.delete(dealComment);
 
-                    if(notice.isPresent()){
-                        noticeRepository.delete(notice.get());
+                        Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "deal", deal.getIdx(), dealComment.getIdx());
+
+                        if(notice.isPresent()){
+                            noticeRepository.delete(notice.get());
+                        }
                     }
                 }
             }

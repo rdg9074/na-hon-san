@@ -165,7 +165,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     int size = replyCommentList.size();
 
                     if(!replyCommentList.isEmpty()){
-                        tip.setComment(tip.getComment() - size - 1);
+                        tip.setComment(tip.getComment() - size);
                         tipRepository.save(tip);
 
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
@@ -176,6 +176,9 @@ public class TipCommentServiceImpl implements TipCommentService {
                             noticeRepository.deleteAllInBatch(noticeList);
                         }
                     }
+                    tip.setComment(tip.getComment() - 1);
+                    tipRepository.save(tip);
+
                     tipCommentRepository.delete(tipComment);
 
                     Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment","tip", tip.getIdx(), tipComment.getIdx());

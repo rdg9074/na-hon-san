@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 public class DealServiceTest {
     private DealRepository dealRepository;
     private DealMapper dealMapper;
@@ -152,10 +152,10 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_댓글_등록(){
         Map<String, Object> resultMap = new HashMap<>();
-        Integer postIdx = 10;
-        Integer upidx = 0;
-        String userNickname = "비밀번호는 test 입니다.";
-        String content = "댓글 내용입니다.";
+        Integer postIdx = 69;
+        Integer upidx = 30;
+        String userNickname = "ssafy";
+        String content = "e대대ㅐㅐ대ㅐ댇댓글 내용입니다.";
         byte[] bannerImg = null;
         Optional<UserEntity> optionalUser = userRepository.findByNickname(userNickname);
         Optional<DealEntity> optionalDeal = dealRepository.findById(postIdx);
@@ -163,6 +163,7 @@ public class DealServiceTest {
             UserEntity user = optionalUser.get();
             DealEntity deal = optionalDeal.get();
             DealCommentDto input = DealCommentDto.builder()
+                    .upIdx(upidx)
                     .content(content)
                     .bannerImg(bannerImg)
                     .build();
@@ -170,6 +171,41 @@ public class DealServiceTest {
             inputEntity.setDeal(deal);
             inputEntity.setUser(user);
             DealCommentEntity dealCommentEntity  = dealCommentRepository.save(inputEntity);
+            // deal 게시물 댓글 수 증가
+            deal.setComment(deal.getComment() + 1);
+            dealRepository.save(deal);
+
+            // 댓글 등록시 글작성자가 아니면 알림 가게
+            if(upidx == 0 & !deal.getUser().getNickname().equals(userNickname)){
+                NoticeEntity notice = NoticeEntity.builder()
+                        .noticeType("comment")
+                        .user(deal.getUser())
+                        .fromUserId(user.getId())
+                        .postType("deal")
+                        .commentIdx(inputEntity.getIdx())
+                        .postIdx(deal.getIdx())
+                        .build();
+
+                noticeRepository.save(notice);
+            }
+            // 대댓글 등록 알림
+            if(upidx != 0){
+                DealCommentEntity dealComment = dealCommentRepository.findByIdx(upidx).get();
+                if(!dealComment.getUser().getNickname().equals(userNickname)){
+                    NoticeEntity notice = NoticeEntity.builder()
+                            .noticeType("reply")
+                            .user(dealComment.getUser())
+                            .fromUserId(user.getId())
+                            .postType("deal")
+                            .commentIdx(inputEntity.getIdx())
+                            .commentUpIdx(inputEntity.getUpIdx())
+                            .postIdx(deal.getIdx())
+                            .build();
+
+                    noticeRepository.save(notice);
+                }
+            }
+
             DealCommentDto data = dealCommentMapper.toDto(dealCommentEntity);
             data.setPostIdx(deal.getIdx());
             data.setUserNickname(user.getNickname());
@@ -209,8 +245,10 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_댓글_삭제(){
         Map<String, Object> resultMap = new HashMap<>();
-        Integer postIdx = 43;
-        Integer idx = 11;
+        Integer postIdx = 69;
+        Integer idx = 30;
+
+        String userId = "test";
         Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findById(idx);
         DealEntity deal = dealRepository.findByIdx(postIdx).get();
 
@@ -225,29 +263,32 @@ public class DealServiceTest {
                 dealCommentRepository.delete(dealCommentEntity);
 
                 // 알림이 있다면 알림도 삭제
-                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply", dealCommentEntity.getUser().getId(), "deal", postIdx);
+                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdxAndCommentIdx("reply", userId , "deal", postIdx, dealCommentEntity.getIdx());
                 if(noticeEntity.isPresent()){
                     noticeRepository.delete(noticeEntity.get());
                 }
             }else{ // 댓글이라면 관련된 대댓글들 모두 삭제
-                List<DealCommentEntity> replyCommenyList = dealCommentRepository.findByUpIdx(idx);
-                int size = replyCommenyList.size();
+                List<DealCommentEntity> replyCommentList = dealCommentRepository.findByUpIdx(idx);
+                int size = replyCommentList.size();
 
-                if(!replyCommenyList.isEmpty()){
-                    deal.setComment(deal.getComment() - size - 1);
+                if(!replyCommentList.isEmpty()){
+                    deal.setComment(deal.getComment() - size);
                     dealRepository.save(deal);
 
-                    dealCommentRepository.deleteAllInBatch(replyCommenyList);
+                    dealCommentRepository.deleteAllInBatch(replyCommentList);
 
                     // 대댓글관련 알림까지 삭제
-                    List<NoticeEntity> noticeEntityList = noticeRepository.findAllByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("reply",dealCommentEntity.getUser().getId(), "deal", postIdx);
+                    List<NoticeEntity> noticeEntityList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply", "deal", postIdx, dealCommentEntity.getIdx());
                     if(!noticeEntityList.isEmpty()){
                         noticeRepository.deleteAllInBatch(noticeEntityList);
                     }
                 }
+                deal.setComment(deal.getComment() - 1);
+                dealRepository.save(deal);
 
+                dealCommentRepository.delete(dealCommentEntity);
                 // 댓글 알림 삭제
-                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndFromUserIdAndPostTypeAndPostIdx("comment",dealCommentEntity.getUser().getId(),"deal",postIdx);
+                Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment","deal",postIdx, dealCommentEntity.getIdx());
                 if(noticeEntity.isPresent()){
                     noticeRepository.delete(noticeEntity.get());
                 }
