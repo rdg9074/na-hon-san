@@ -12,9 +12,9 @@ export interface commentEditForm {
   bannerImg: string | null;
 }
 
-export const commentCreate = async (data: commentForm) => {
+export const commentCreate = async (data: commentForm, type: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.post("/honeyTip/comment", data, {
+  const res = await API.post(`/honey${type}/comment`, data, {
     headers: {
       Authorization: accessToken
     }
@@ -22,9 +22,9 @@ export const commentCreate = async (data: commentForm) => {
   return res.data;
 };
 
-export const commentDelete = async (idx: number) => {
+export const commentDelete = async (idx: number, type: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.delete(`/honeyTip/comment/${idx}`, {
+  const res = await API.delete(`/honey${type}/comment/${idx}`, {
     headers: {
       Authorization: accessToken
     }
@@ -32,9 +32,13 @@ export const commentDelete = async (idx: number) => {
   return res.data;
 };
 
-export const commentEdit = async (idx: number, data: commentEditForm) => {
+export const commentEdit = async (
+  idx: number,
+  data: commentEditForm,
+  type: string
+) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.put(`/honeyTip/comment/${idx}`, data, {
+  const res = await API.put(`/honey${type}/comment/${idx}`, data, {
     headers: {
       Authorization: accessToken
     }

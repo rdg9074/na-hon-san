@@ -16,6 +16,7 @@ interface CommentEditProps {
   signal: () => void;
   postIdx: string;
   isAuthor: boolean;
+  type: string;
 }
 
 function CommentEdit({
@@ -23,7 +24,8 @@ function CommentEdit({
   signal,
   changed,
   postIdx,
-  isAuthor
+  isAuthor,
+  type
 }: CommentEditProps) {
   const [sendFile, setSendFile] = useState<File | null>(null);
   const [commentImg, setCommentImg] = useState("");
@@ -80,7 +82,7 @@ function CommentEdit({
         bannerImg: commentImg.replace("data:image/jpeg;base64,", "")
       };
       setTimeout(async () => {
-        await commentEdit(commentInfo.idx, data);
+        await commentEdit(commentInfo.idx, data, type);
         changed();
       }, 300);
 
@@ -93,7 +95,7 @@ function CommentEdit({
         bannerImg: commentImg.replace("data:image/jpeg;base64,", "")
       };
       setTimeout(async () => {
-        await commentCreate(data);
+        await commentCreate(data, type);
         changed();
       }, 300);
     }

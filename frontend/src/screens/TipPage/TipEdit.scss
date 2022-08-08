@@ -1,13 +1,14 @@
 #tip-edit {
+  .hide {
+    visibility: hidden;
+  }
   .active {
     border: 2px solid $MAIN_YELLOW;
   }
-  .close {
-    position: absolute;
+  .tip-close {
     width: 100%;
     display: flex;
     justify-content: center;
-    bottom: (0px);
     z-index: 2;
     :hover {
       border: 1px solid #d9d9d9;
@@ -22,7 +23,7 @@
     height: 0;
   }
 
-  .header {
+  .tip-header {
     width: (570px);
     padding: (24px);
     &-title {
@@ -53,7 +54,7 @@
         left: (80px);
         padding: (12px);
       }
-      & button {
+      & > button {
         margin-top: (12px);
         height: (100px);
         width: (100px);
@@ -62,22 +63,28 @@
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        & img {
+        & > img {
           height: (60px);
           width: (60px);
         }
-        & p {
+        & > p {
           font-size: (12px);
           margin-top: (12px);
         }
       }
     }
     &-preview {
+      width: 100%;
       margin-top: (12px);
+      position: relative;
+      .tip-close {
+        position: absolute;
+        bottom: (12px);
+      }
       &_container {
-        width: (570px);
-        position: relative;
         padding: (48px);
+        position: relative;
+        width: (570px);
         border-top: 4px solid #d9d9d9;
         &:hover {
           border-top: 4px solid $MAIN_YELLOW;
@@ -90,7 +97,7 @@
           color: #666;
           margin-top: (12px);
         }
-        & img {
+        & > img {
           z-index: 1;
           border-radius: (12px);
         }
@@ -99,7 +106,6 @@
           font-size: (16px);
           top: (-28px);
           left: (80px);
-
           position: absolute;
           background-color: #fff;
           padding: (12px);
@@ -108,7 +114,8 @@
       &_img {
         width: (200px);
         height: (200px);
-        & > img {
+        margin-top: (24px);
+        &-img {
           width: (200px);
           height: (200px);
           border-radius: (12px);
@@ -116,7 +123,7 @@
       }
     }
   }
-  .title {
+  .tip-title {
     margin-top: (40px);
     width: (522px);
     height: (60px);
@@ -129,7 +136,7 @@
       border-bottom: 1px solid $MAIN_YELLOW;
     }
   }
-  .content {
+  .tip-content {
     position: relative;
     border-top: 4px solid #d9d9d9;
     width: (522px);
@@ -178,7 +185,7 @@
 
 @media screen and (max-width: $DESKTOP-VW) {
   #tip-edit {
-    .header {
+    .tip-header {
       width: vw(570px);
       padding: vw(24px);
       &-title {
@@ -211,6 +218,12 @@
       }
       &-preview {
         margin-top: vw(12px);
+
+        position: relative;
+        .tip-close {
+          position: absolute;
+          bottom: vw(12px);
+        }
         &_container {
           width: vw(570px);
           padding: vw(48px);
@@ -232,6 +245,8 @@
         &_img {
           width: vw(200px);
           height: vw(200px);
+          margin-top: vw(24px);
+
           & > img {
             width: vw(200px);
             height: vw(200px);
@@ -240,14 +255,14 @@
         }
       }
     }
-    .title {
+    .tip-title {
       margin-top: vw(40px);
       width: vw(522px);
       height: vw(60px);
       font-size: vw(24px);
       padding: vw(24px);
     }
-    .content {
+    .tip-content {
       width: vw(522px);
       & > p {
         font-size: vw(16px);
@@ -278,7 +293,7 @@
 
 @media screen and (max-width: $TABLET-VW) {
   #tip-edit {
-    .header {
+    .tip-header {
       width: vw-t(468px);
       padding: vw-t(24px);
       &-title {
@@ -311,6 +326,9 @@
       }
       &-preview {
         margin-top: vw-t(12px);
+        .tip-close {
+          bottom: vw-t(12px);
+        }
         &_container {
           width: vw-t(468px);
           padding: vw-t(48px);
@@ -332,6 +350,8 @@
         &_img {
           width: vw-t(200px);
           height: vw-t(200px);
+          margin-top: vw-t(24px);
+
           & > img {
             width: vw-t(200px);
             height: vw-t(200px);
@@ -340,14 +360,14 @@
         }
       }
     }
-    .title {
+    .tip-title {
       margin-top: vw-t(40px);
       width: vw-t(422px);
       height: vw-t(60px);
       font-size: vw-t(24px);
       padding: vw-t(24px);
     }
-    .content {
+    .tip-content {
       width: vw-t(422px);
       & > p {
         font-size: vw-t(16px);
@@ -383,7 +403,7 @@
       bottom: (8px);
       z-index: 2;
     }
-    .he .header {
+    & .tip-header {
       width: vw-p(375px);
       &-title {
         font-size: vw-p(32px);
@@ -415,6 +435,9 @@
       }
       &-preview {
         margin-top: vw-p(12px);
+        .tip-close {
+          bottom: vw-p(12px);
+        }
         &_container {
           width: vw-p(375px);
           padding: vw-p(48px);
@@ -436,6 +459,7 @@
         &_img {
           width: vw-p(200px);
           height: vw-p(200px);
+          margin-top: vw-p(24px);
           & > img {
             width: vw-p(200px);
             height: vw-p(200px);
@@ -444,14 +468,14 @@
         }
       }
     }
-    .title {
+    .tip-title {
       margin-top: vw-p(40px);
       width: vw-p(351px);
       height: vw-p(60px);
       font-size: vw-p(20px);
       padding: vw-p(24px);
     }
-    .content {
+    .tip-content {
       width: vw-p(351px);
       & > p {
         font-size: vw-p(16px);

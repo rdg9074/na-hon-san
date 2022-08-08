@@ -12,9 +12,10 @@ import { useNavigate } from "react-router-dom";
 interface CommentInputProps {
   articleIdx: string;
   changed: () => void;
+  type: string;
 }
 
-function CommentInput({ articleIdx, changed }: CommentInputProps) {
+function CommentInput({ articleIdx, changed, type }: CommentInputProps) {
   const [sendFile, setSendFile] = useState<File | null>(null);
   const [commentImg, setCommentImg] = useState("");
   const [preview, setPreview] = useState(false);
@@ -65,7 +66,7 @@ function CommentInput({ articleIdx, changed }: CommentInputProps) {
     };
     inputRef.current.disabled = true;
     setTimeout(async () => {
-      await commentCreate(data);
+      await commentCreate(data, type);
       changed();
     }, 300);
     inputRef.current.value = "";

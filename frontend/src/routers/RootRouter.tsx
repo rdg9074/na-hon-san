@@ -3,8 +3,8 @@ import Main from "@screens/Main";
 import FeedPage from "@screens/FeedPage";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import TipPage from "@screens/TipPage";
-import DealPage from "@screens/DealPage";
+import TipPage from "@screens/TipPage/TipPage";
+import DealPage from "@screens/DealPage/DealPage";
 import NewsPage from "@screens/NewsPage";
 import Join from "@screens/Join/Join";
 import ChkEmail from "@screens/ChkEmail";
@@ -24,10 +24,12 @@ import ChatRoom from "@screens/ChatRoom";
 import ChkPw from "@screens/AccountSetting/ChkPw";
 import AccountSettingPage from "@screens/AccountSetting/AccountSettingPage";
 import Withdrawal from "@screens/AccountSetting/Withdrawal";
-import DealDetailPage from "@screens/DealDetailPage";
-import TipDetail from "@screens/TipDetail";
-import TipEdit from "@screens/TipEdit";
-import TipUpdate from "@screens/TipUpdate";
+import DealDetailPage from "@screens/DealPage/DealDetailPage";
+import TipDetail from "@screens/TipPage/TipDetail";
+import TipEdit from "@screens/TipPage/TipEdit";
+import TipUpdate from "@screens/TipPage/TipUpdate";
+import DealEdit from "@screens/DealPage/DealEdit";
+import DealUpdate from "@screens/DealPage/DealUpdate";
 
 function RootRouter() {
   return (
@@ -47,6 +49,9 @@ function RootRouter() {
           <Route path="/deal">
             <Route index element={<DealPage />} />
             <Route path="detail/:id" element={<DealDetailPage />} />
+            <Route path="create" element={<DealEdit />} />
+            <Route path="edit/:id" element={<DealUpdate />} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/news/" element={<NewsPage />} />
           <Route path="/userfeed/:nickName" element={<UserFeedPage />} />
