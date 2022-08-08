@@ -8,13 +8,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserFollowTipsRepository extends JpaRepository<UserFollowTipsEntity, String> {
 
-    @Query(value = "select * from tips t where user_id  In (SELECT follow_id  from user_follows where user_id =:#{#id} )  ORDER  by t.time desc",
+    @Query(value = "select * from tips t where t.idx < :lastIdx and user_id  In (SELECT follow_id  from user_follows where user_id =:#{#id} )  ORDER  by t.time desc",
             countQuery = "SELECT COUNT(*) FROM tips",
             nativeQuery = true)
-    List<UserFollowTipsEntity> findTips(String id, Pageable pageable);
+    List<UserFollowTipsEntity> findTips(String id, int lastIdx, Pageable pageable);
 
 
+    Optional<UserFollowTipsEntity> findTop1ByOrderByIdxDesc();
 }

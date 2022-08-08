@@ -23,7 +23,7 @@ public interface UserFeedService {
 
     List<DealDto> popularHoneyDeal(String decodeId);
 
-    List<TipViewDto> userFollowHoneyTip(String decodeId,int pageNum, int pageSize);
+    List<TipViewDto> userFollowHoneyTip(String decodeId,Integer lastIdx, int pageSize);
 
     boolean checkFollowDeal(String decodeId, Integer idx);
 

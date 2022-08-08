@@ -243,7 +243,7 @@ public class UserFeedServiceTest {
         }
         //then
         for (PopularFollowDto popularFollowDto : popularFollowDtoList){
-            System.out.println(popularFollowDto.toString());
+            System.out.println(popularFollowDto.getFollow_id());
         }
     }
     @Test
@@ -290,11 +290,11 @@ public class UserFeedServiceTest {
         //given
         Optional<UserEntity> user = userRepository.findById("test");
         List<TipViewDto> result = new ArrayList<>();
-        int pageNum = 0;
+        int lastIdx = 10;
         int pageSize = 5;
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Pageable pageable = PageRequest.ofSize( pageSize);
         //when
-        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),pageable); //내가 팔로우 한 유저 목록
+        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),lastIdx,pageable); //내가 팔로우 한 유저 목록
         //then
         for(UserFollowTipsEntity tipEntity : tipEntityList){
                 TipViewDto dto = TipViewDto.builder()
