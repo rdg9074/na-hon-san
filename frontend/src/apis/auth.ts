@@ -5,8 +5,9 @@ const kakaoClientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
 const naverClientId = process.env.REACT_APP_NAVER_CLIENT_ID;
 export const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
-export const kakaoRedirectUrl = `http://localhost:3000/oauth/kakao`;
-export const naverRedirectUrl = `http://localhost:3000/oauth/naver`;
+const clientUrl = "http://i7c208.p.ssafy.io";
+export const kakaoRedirectUrl = `${clientUrl}/oauth/kakao`;
+export const naverRedirectUrl = `${clientUrl}/oauth/naver`;
 
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUrl}&response_type=code`;
 export const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientId}&redirect_uri=${naverRedirectUrl}&state=nahonjan`;
