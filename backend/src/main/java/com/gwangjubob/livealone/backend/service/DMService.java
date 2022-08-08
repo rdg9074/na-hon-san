@@ -13,6 +13,6 @@ import java.util.List;
 public interface DMService {
     boolean sendDM(DMSendDto dmSendDto);
     List<DMViewDto> listDM(String id);
-    List<DMViewDto> listDetailDM(String id, String fromId);
+    List<DMViewDto> listDetailDM(String id, String fromId,int lastIdx,int pageSize);
     long countDM(String id);
 }

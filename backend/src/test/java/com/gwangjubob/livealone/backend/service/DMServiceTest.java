@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,7 +59,47 @@ public class DMServiceTest {
         final DMEntity dmEntity = DMEntity.builder()
                 .fromUserId(fromId)
                 .toUserId(toUserId)
-                .content("test")
+                .content("test2")
+                .build();
+
+        // when
+        final DMEntity res = dmRepository.save(dmEntity);
+
+        // then
+        Assertions.assertThat(res.getIdx()).isNotNull();
+        Assertions.assertThat(res.getFromUserId()).isEqualTo(dmEntity.getFromUserId());
+        Assertions.assertThat(res.getToUserId()).isEqualTo(dmEntity.getToUserId());
+        Assertions.assertThat(res.getContent()).isEqualTo(dmEntity.getContent());
+    }
+    @Disabled
+    @Test
+    public void 메시지_전송_없는_사용자_테스트() {
+        // given
+        final UserEntity fromId = userRepository.findById("test").get();
+        final UserEntity toUserId = userRepository.findById("ssafy2").get();
+        final DMEntity dmEntity = DMEntity.builder()
+                .fromUserId(fromId)
+                .toUserId(toUserId)
+                .content("test2")
+                .build();
+
+        // when
+        final DMEntity res = dmRepository.save(dmEntity);
+
+        // then
+        Assertions.assertThat(res.getIdx()).isNotNull();
+        Assertions.assertThat(res.getFromUserId()).isEqualTo(dmEntity.getFromUserId());
+        Assertions.assertThat(res.getToUserId()).isEqualTo(dmEntity.getToUserId());
+        Assertions.assertThat(res.getContent()).isEqualTo(dmEntity.getContent());
+    }
+    @Test
+    public void 메시지_전송_없는_메시지_테스트() {
+        // given
+        final UserEntity fromId = userRepository.findById("test").get();
+        final UserEntity toUserId = userRepository.findById("ssafy").get();
+        final DMEntity dmEntity = DMEntity.builder()
+                .fromUserId(fromId)
+                .toUserId(toUserId)
                 .build();
 
         // when
@@ -89,11 +131,12 @@ public class DMServiceTest {
         // given
         UserEntity toId = userRepository.findById("ssafy").get();
         UserEntity fromId = userRepository.findById("test").get();
-
+        Integer lastIdx = 119;
+        Pageable pageable = PageRequest.ofSize(5);
 
 
         // when
-        List<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toId, fromId);
+        List<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toId, fromId,lastIdx,pageable);
 
         // thens
         for (int i = 0; i < dmEntityList.size(); i++) {
