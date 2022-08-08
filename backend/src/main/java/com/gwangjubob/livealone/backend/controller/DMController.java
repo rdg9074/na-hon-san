@@ -76,12 +76,12 @@ public class DMController {
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/dm/{fromId}")
-    public ResponseEntity<?> listDetailDM(@PathVariable("fromId")String fromId, HttpServletRequest request){
+    public ResponseEntity<?> listDetailDM(@PathVariable("fromId")String fromId, @RequestParam("lastIdx") int lastIdx, @RequestParam("pageSize") int pageSize, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         try {
             if(decodeId != null){
-                List<DMViewDto> dmViewDtoList =dmService.listDetailDM(decodeId,fromId);
+                List<DMViewDto> dmViewDtoList =dmService.listDetailDM(decodeId,fromId,lastIdx,pageSize);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
                 status = HttpStatus.OK;
