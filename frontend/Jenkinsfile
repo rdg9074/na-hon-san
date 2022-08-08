@@ -21,6 +21,7 @@ pipeline {
                             try {
                                 sh 'docker stop wlsgh97/nahonsan-frontend'
                                 sh 'docker rm wlsgh97/nahonsan-frontend'
+                                sh 'docker rmi wlsgh97/nahonsan-frontend'
                             } catch (e) {
                                 sh 'echo "fail to stop and remove container"'
                             }
@@ -29,7 +30,7 @@ pipeline {
                         sh 'echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin'
                         echo 'Build image...'
                         sh "docker push wlsgh97/nahonsan-frontend"
-                        sh "docker run -d -p 80:3000 wlsgh97/nahonsan-frontend"
+                        sh "docker run -d -p 80:3000 --name wlsgh97/nahonsan-frontend wlsgh97/nahonsan-frontend"
                     }
                 }
             }
