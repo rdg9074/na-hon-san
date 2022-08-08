@@ -422,7 +422,7 @@ public class TipServiceTest {
                     int size = replyCommentList.size();
 
                     if(!replyCommentList.isEmpty()){
-                        tip.setComment(tip.getComment() - size - 1);
+                        tip.setComment(tip.getComment() - size);
                         tipRepository.save(tip);
 
                         tipCommentRepository.deleteAllInBatch(replyCommentList);
@@ -434,6 +434,10 @@ public class TipServiceTest {
                         }
 
                     }
+                    // 댓글 수 삭제
+                    tip.setComment(tip.getComment() - 1);
+                    tipRepository.save(tip);
+
                     tipCommentRepository.delete(tipComment); // 댓글 삭제
 
                     Optional<NoticeEntity> noticeEntity = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "tip", postIdx, tipComment.getIdx());
