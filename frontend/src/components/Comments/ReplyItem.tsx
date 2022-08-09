@@ -9,6 +9,7 @@ import { getTime } from "@utils/getTime";
 import X from "@images/X.svg";
 import { commentType } from "./Comments";
 import CommentEdit from "./CommentEdit";
+import BigImg from "./BigImg";
 
 interface ReplyProps {
   info: commentType;
@@ -20,6 +21,7 @@ interface ReplyProps {
 
 function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
   const [replyEdit, setReplyEdit] = useState(false);
+  const [imgToggle, setImgToggle] = useState(false);
 
   const deleteComment = async () => {
     await commentDelete(info.idx, type);
@@ -36,6 +38,14 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
 
   return (
     <div id="reply-item">
+      {imgToggle && info.bannerImg && (
+        <BigImg
+          imgProps={info.bannerImg}
+          signal={() => {
+            setImgToggle(false);
+          }}
+        />
+      )}
       <div className="reply-item flex column">
         <div className="flex">
           <div className="arrow flex justify-center">
@@ -83,11 +93,18 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
             <div className="reply-body flex">
               {info.bannerImg && (
                 <div className="reply-img-container flex jusify-center">
-                  <img
-                    src={`data:image/jpeg;base64,${info.bannerImg}`}
-                    alt="user"
-                    title="user"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImgToggle(true);
+                    }}
+                  >
+                    <img
+                      src={`data:image/jpeg;base64,${info.bannerImg}`}
+                      alt="user"
+                      title="user"
+                    />
+                  </button>
                 </div>
               )}
 

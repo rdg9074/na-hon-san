@@ -11,7 +11,9 @@ import { useAppSelector } from "@store/hooks";
 
 function DealPage() {
   const navigate = useNavigate();
-  const isLoggedIn = !!useAppSelector(state => state.auth.userInfo);
+  const userInfo = useAppSelector(state => state.auth.userInfo);
+  const area = !!userInfo?.area;
+  const isLoggedIn = !!userInfo;
 
   const [conditions, setConditions] = useState({
     categorys: ["전체", ...dealCategory],
@@ -89,8 +91,10 @@ function DealPage() {
             </p>
             <button
               onClick={() => {
-                if (isLoggedIn) {
+                if (isLoggedIn && area) {
                   navigate("create");
+                } else if (isLoggedIn && !area) {
+                  navigate("/join/more");
                 } else {
                   navigate("/login");
                 }

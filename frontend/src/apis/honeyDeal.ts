@@ -43,7 +43,12 @@ export const dealUpdate = async (data: dealCreateForm, idx: string) => {
 };
 
 export const dealRead = async (idx: string) => {
-  const res = await API.get(`/honeyDeal/detail/${idx}`);
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/honeyDeal/detail/${idx}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
   return res.data;
 };
 
@@ -55,6 +60,16 @@ export const dealDelete = async (idx: string) => {
     }
   });
   return res.data.message;
+};
+
+export const dealLike = async (idx: string) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/honeyDeal/like/${idx}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
+  return res;
 };
 
 export default {};

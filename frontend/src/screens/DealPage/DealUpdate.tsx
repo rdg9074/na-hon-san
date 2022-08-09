@@ -20,12 +20,14 @@ function DealUpdate() {
   const [title, setTitle] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [chk, setChk] = useState(false);
+  const [tumErr, setTumErr] = useState(false);
   const [updateData, setUpdateData] = useState("");
   const [spinner, setSpinner] = useState(false);
   const imgInput = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const userInfo = useAppSelector(state => state.auth.userInfo);
 
   useEffect(() => {
     const articleInfo = location.state as dealArticle;
@@ -94,13 +96,17 @@ function DealUpdate() {
       titleRef.current?.focus();
       return;
     }
+    if (!thumnail) {
+      imgInput.current?.focus();
+      setTumErr(true);
+      return;
+    }
     setSpinner(true);
     setChk(true);
   };
 
   // 검사 > 에디터에서 밸류 받기 > DB 전송
   const receiveValue = async (data: string) => {
-    console.log(1);
     const payload = {
       area: "광주",
       state: dealState,
@@ -124,8 +130,8 @@ function DealUpdate() {
         <ImgResizer
           imgfile={sendFile}
           newImgfile={receiveFile}
-          imgW={200}
-          imgH={200}
+          imgW={400}
+          imgH={400}
         />
       ) : null}
       <div className="deal-header ">
@@ -168,6 +174,31 @@ function DealUpdate() {
             })}
           </div>
         </div>
+        <div className="deal-header-area">
+          <p className="deal-header-area_label notoReg">User Area</p>
+          <div className="deal-header-area-info flex">
+            <input
+              type="text"
+              readOnly
+              value={userInfo?.area as string}
+              className="deal-header-area-info_text notoReg"
+            />
+
+            <button
+              className="deal-header-area-info_button notoReg"
+              type="button"
+              onClick={() => {
+                navigate("/account");
+              }}
+            >
+              변경
+            </button>
+          </div>
+          <div className="deal-header-area_desc notoReg flex column">
+            <span>주소는 마이페이지에서만 변경 가능해요.</span>
+            <span>주소는 위치 추천 용도로만 사용됩니다.</span>
+          </div>
+        </div>
         <div className="deal-header-preview flex justify-center">
           <button
             onClick={() => {
@@ -203,6 +234,10 @@ function DealUpdate() {
               )}
             </div>
             <span className="notoReg">
+              <span className={`${tumErr ? "err" : "hide"}`}>
+                꿀딜 게시글 썸네일은 필수에요.
+              </span>
+              <br />
               jpg, png, gif, jpeg 파일만 지원해요.
             </span>
           </button>

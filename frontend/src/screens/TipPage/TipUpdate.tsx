@@ -106,8 +106,8 @@ function TipUpdate() {
         <ImgResizer
           imgfile={sendFile}
           newImgfile={receiveFile}
-          imgW={200}
-          imgH={200}
+          imgW={400}
+          imgH={400}
         />
       ) : null}
       <div className="tip-header ">
