@@ -44,6 +44,9 @@ function ResetPw() {
       }
     }
   };
+  const handlePasswordChkInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") onResetPassword();
+  };
   return (
     <div className="wrapper">
       <div id="reset-pw">
@@ -77,6 +80,7 @@ function ResetPw() {
             onChange={chkSamePassword}
             ref={chkPasswordRef}
             placeholder="비밀번호를 다시 한번 입력해주세요."
+            onKeyUp={handlePasswordChkInput}
           />
           {samePassword ? (
             <div className="dummy" />

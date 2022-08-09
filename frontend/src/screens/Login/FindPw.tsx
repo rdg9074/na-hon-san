@@ -30,6 +30,10 @@ function FindPw() {
       setIsLoading(false);
     }
   };
+  const handleEmailInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") submitAuthCode();
+  };
+
   return (
     <div className="wrapper">
       <div id="find-pw">
@@ -51,6 +55,7 @@ function FindPw() {
             className="form__input notoReg fs-15"
             placeholder="이메일을 입력해주세요"
             ref={idInputRef}
+            onKeyUp={handleEmailInput}
           />
           {errMsg !== "" ? (
             <p className="form__msg notoMid fs-12">{errMsg}</p>
