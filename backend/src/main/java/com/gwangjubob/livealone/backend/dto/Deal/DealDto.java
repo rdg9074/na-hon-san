@@ -24,6 +24,7 @@ public class DealDto {
     private String title;
     private String content;
     private String category;
+    private byte[] profileImg;
     private byte[] bannerImg;
     private String state;
     private String area;
