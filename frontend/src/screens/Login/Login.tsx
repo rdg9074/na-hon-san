@@ -37,6 +37,9 @@ function Login() {
       setIsLoading(false);
     }
   };
+  const handlePasswordInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") startLogin();
+  };
   return (
     <div className="wrapper">
       <div id="login" className="wrapper">
@@ -66,6 +69,7 @@ function Login() {
             type="password"
             placeholder="비밀번호를 입력해주세요"
             ref={passwordInputRef}
+            onKeyUp={handlePasswordInput}
           />
           <p className="form__msg notoMid fs-12">{errMsg}</p>
           <button

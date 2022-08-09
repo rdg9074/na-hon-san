@@ -84,6 +84,9 @@ function JoinDetail() {
     }
   };
 
+  const handlePasswordChkInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") submitUserInfo();
+  };
   return (
     <div className="wrraper">
       <div id="join-detail">
@@ -156,6 +159,7 @@ function JoinDetail() {
             ref={chkPasswordRef}
             placeholder="비밀번호를 다시 한번 입력해주세요."
             autoComplete="new-password"
+            onKeyUp={handlePasswordChkInput}
           />
           {samePassword ? (
             <div className="dummy" />

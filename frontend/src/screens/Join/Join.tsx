@@ -53,6 +53,7 @@ function Join() {
       setErrMsg("이메일 형식을 확인해주세요.");
     }
   };
+
   return (
     <div className="wrapper">
       <div id="join">
