@@ -1,4 +1,4 @@
-#follow-list{
+#follow-list {
   position: fixed;
   width: 375px;
   height: 500px;
@@ -6,22 +6,22 @@
   margin-top: auto;
   background-color: #fff;
   border-radius: 12px;
-  border: solid 2px #D9D9D9;
+  border: solid 2px #d9d9d9;
   z-index: 1;
-  .list{
-    &-header{
+  .list {
+    &-header {
       align-items: center;
       height: 10%;
       border-bottom: 2px solid $MAIN_YELLOW;
       padding: 12px;
-      &__title{
+      &__title {
         width: 40%;
         font-size: (16px);
         & > span {
           margin-left: 8px;
         }
       }
-      &__input-box{
+      &__input-box {
         position: relative;
         width: 60%;
         & > img {
@@ -31,21 +31,21 @@
           width: 24px;
           height: 24px;
         }
-        & > input{
+        & > input {
           padding-left: 30px;
           padding-right: 30px;
           width: 200px;
           height: 30px;
           border-radius: 12px;
-          border: solid 2px $MAIN_YELLOW
+          border: solid 2px $MAIN_YELLOW;
         }
       }
     }
-    &-body{
+    &-body {
       height: 80%;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
-    &-footer{
+    &-footer {
       border-top: solid 2px $MAIN_YELLOW;
       align-items: center;
       justify-content: center;
@@ -58,36 +58,36 @@
       }
     }
   }
-  #follow-item{
+  #follow-item {
     height: 20%;
   }
 }
 
 @media screen and (max-width: $PHONE-VW) {
-  #follow-list{
+  #follow-list {
     position: fixed;
-    width: vw-p(375px);
+    width: vw-p(335px);
     height: vw-p(400px);
     margin-left: auto;
     margin-top: auto;
     background-color: #fff;
     border-radius: vw-p(12px);
-    border: solid 2px #D9D9D9;
+    border: solid 2px #d9d9d9;
     z-index: 1;
-    .list{
-      &-header{
+    .list {
+      &-header {
         align-items: center;
         height: 15%;
         border-bottom: 2px solid $MAIN_YELLOW;
         padding: vw-p(12px);
-        &__title{
+        &__title {
           width: 40%;
           font-size: vw-p(16px);
           & > span {
             margin-left: vw-p(8px);
           }
         }
-        &__input-box{
+        &__input-box {
           position: relative;
           width: 60%;
           & > img {
@@ -97,20 +97,20 @@
             width: vw-p(24px);
             height: vw-p(24px);
           }
-          & > input{
+          & > input {
             padding-left: vw-p(30px);
             padding-right: vw-p(30px);
             width: vw-p(200px);
             height: vw-p(30px);
             border-radius: vw-p(12px);
-            border: solid 2px $MAIN_YELLOW
+            border: solid 2px $MAIN_YELLOW;
           }
         }
       }
-      &-body{
+      &-body {
         height: 70%;
       }
-      &-footer{
+      &-footer {
         border-top: solid 2px $MAIN_YELLOW;
         align-items: center;
         justify-content: center;
@@ -123,7 +123,7 @@
         }
       }
     }
-    #follow-item{
+    #follow-item {
       height: 20%;
     }
   }

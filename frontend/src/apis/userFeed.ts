@@ -25,4 +25,38 @@ export const delFollow = async (id: string) => {
   return res;
 };
 
+export const readFollow = async (id: string) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/userFeed/follow/${id}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
+  return res;
+};
+
+export const readFollower = async (id: string) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/userFeed/follower/${id}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
+  return res;
+};
+
+export const searchFollow = async (idx: string, keyword: string) => {
+  const res = await API.get(`/userFeed/follow/search/${idx}`, {
+    params: { keyword }
+  });
+  return res;
+};
+
+export const searchFollower = async (idx: string, keyword: string) => {
+  const res = await API.get(`/userFeed/follower/search/${idx}`, {
+    params: { keyword }
+  });
+  return res;
+};
+
 export default {};
