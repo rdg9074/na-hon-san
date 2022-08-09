@@ -15,6 +15,7 @@ public class DealCommentDto {
     private Integer idx;
     private String userId;
     private String userNickname;
+    private byte[] profileImg;
     private Integer postIdx;
     private Integer upIdx;
     private String content;

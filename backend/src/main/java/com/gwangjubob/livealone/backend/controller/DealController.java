@@ -257,9 +257,6 @@ public class DealController {
         if(request !=null && request.getHeader("Authorization") != null){
             decodeId = checkToken(request);
         }
-        System.out.println("----------------------------------------------------------");
-        System.out.println(decodeId);
-        System.out.println("----------------------------------------------------------");
         try{
             Map<String, Object> data = dealService.viewDealView(dealRequestDto, decodeId);
             if(data != null){
