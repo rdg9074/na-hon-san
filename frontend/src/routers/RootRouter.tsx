@@ -30,6 +30,7 @@ import TipEdit from "@screens/TipPage/TipEdit";
 import TipUpdate from "@screens/TipPage/TipUpdate";
 import DealEdit from "@screens/DealPage/DealEdit";
 import DealUpdate from "@screens/DealPage/DealUpdate";
+import NonFeed from "@components/common/FeedPage/NonFeed";
 
 function RootRouter() {
   return (
@@ -46,6 +47,7 @@ function RootRouter() {
             <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/feed" element={<FeedPage />} />
+          <Route path="/nonFeed" element={<NonFeed />} />
           <Route path="/deal">
             <Route index element={<DealPage />} />
             <Route path="detail/:id" element={<DealDetailPage />} />

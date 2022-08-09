@@ -3,17 +3,19 @@ import "./CardCarousel.scss";
 import { v4 } from "uuid";
 import rArrow from "@images/RightArrow.svg";
 import lArrow from "@images/LeftArrow.svg";
-import { getDummy } from "@apis/dummy";
-import Card from "../Card";
+import { getHoneyDealList } from "@apis/feed";
+import Card, { CardType } from "../Card";
 import CardSkeleton from "../CardSkeleton";
 
 function CardCarousel() {
-  const [dummy, setDummy] = useState<Array<any>>([]);
+  const [cardList, setCardList] = useState<Array<CardType>>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
-      const res = await getDummy();
-      setDummy(res);
+      const res = await getHoneyDealList();
+      if (res.result === "SUCCESS") {
+        setCardList(res.data);
+      }
       setIsLoading(true);
     })();
   }, []);
@@ -68,9 +70,11 @@ function CardCarousel() {
     <div id="usercarousel">
       <div className="container">
         <div className="slider flex justify-center" ref={slideRef}>
-          {/* {isLoading
-            ? dummy.map(value => <Card type="deal" data={value} key={v4()} />)
-            : [0, 1, 2, 3].map(() => <CardSkeleton key={v4()} />)} */}
+          {isLoading
+            ? cardList.map(value => (
+                <Card type="deal" data={value} key={v4()} />
+              ))
+            : [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)}
         </div>
         <button
           className="prevbtn fs-48 flex"
