@@ -66,11 +66,13 @@ public class DealServiceImpl implements DealService {
             UserEntity user = optionalUser.get();
             DealEntity deal = dealMapper.toEntity(dealDto);
             deal.setUser(user);
+            String area = user.getArea().split(" ")[0];
+            deal.setArea(area);
             dealRepository.save(deal);
             data = dealMapper.toDto(deal);
             data.setUserNickname(deal.getUser().getNickname());
             data.setUserId(deal.getUser().getId());
-            data.setProfileImg(user.getProfileImg());
+            data.setUserProfileImg(user.getProfileImg());
         } else{
             data = null;
         }
@@ -83,30 +85,37 @@ public class DealServiceImpl implements DealService {
         DealDto data = new DealDto();
         if(optionalDeal.isPresent()){
             DealEntity deal = optionalDeal.get();
-            List<DealCommentEntity> comments = dealCommentRepository.findByDealOrderByComment(deal);
-            List<DealCommentDto> commentDtos = null;
-            if(!comments.isEmpty()){
-                commentDtos = new ArrayList<>();
-                for (DealCommentEntity comment : comments){
-                    DealCommentDto dealCommentDto = dealCommentMapper.toDto(comment);
-                    dealCommentDto.setUserId(comment.getUser().getId());
-                    dealCommentDto.setUserNickname(comment.getUser().getNickname());
-                    dealCommentDto.setProfileImg(comment.getUser().getProfileImg());
-                    commentDtos.add(dealCommentDto);
-                }
-            }
             data = dealMapper.toDto(deal);
-            if(commentDtos != null){
-                data.setComments(commentDtos);
-            }
-
+            data.setLikes(deal.getLikes());
             data.setUserNickname(deal.getUser().getNickname());
             data.setUserId(deal.getUser().getId());
-            data.setProfileImg(deal.getUser().getProfileImg());
+            data.setUserProfileImg(deal.getUser().getProfileImg());
         } else{
             data = null;
         }
         return data;
+    }
+
+    @Override
+    public List<DealCommentDto> viewDealComment(Integer idx) {
+        Optional<DealEntity> optionalDeal = dealRepository.findById(idx);
+        List<DealCommentDto> result = null;
+        if(optionalDeal.isPresent()){
+            DealEntity deal = optionalDeal.get();
+            List<DealCommentEntity> dealCommentEntity = dealCommentRepository.findByDealOrderByComment(deal);
+            if(!dealCommentEntity.isEmpty()){
+                result = new ArrayList<>();
+                for (DealCommentEntity d : dealCommentEntity){
+                    DealCommentDto dto = dealCommentMapper.toDto(d);
+                    dto.setUserId(d.getUser().getId());
+                    dto.setPostIdx(d.getDeal().getIdx());
+                    dto.setUserNickname(d.getUser().getNickname());
+                    dto.setUserProfileImg(d.getUser().getProfileImg());
+                    result.add(dto);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

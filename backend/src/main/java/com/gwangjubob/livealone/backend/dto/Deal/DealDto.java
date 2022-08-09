@@ -24,14 +24,13 @@ public class DealDto {
     private String title;
     private String content;
     private String category;
-    private byte[] profileImg;
+    private byte[] userProfileImg;
     private byte[] bannerImg;
     private String state;
     private String area;
     private Integer view;
     private Integer likes;
     private Integer comment;
-    private List<DealCommentDto> comments;
     LocalDateTime time;
     LocalDateTime updateTime;
 }
