@@ -5,4 +5,10 @@ export const getPopUsers = async () => {
   return res.data;
 };
 
-export const test = {};
+export const getHoneyDealList = async () => {
+  const accessToken = sessionStorage.getItem("access-token");
+  const res = await API.get("/mainFeed/honeyDeal", {
+    headers: { Authorization: `${accessToken}` }
+  });
+  return res.data;
+};
