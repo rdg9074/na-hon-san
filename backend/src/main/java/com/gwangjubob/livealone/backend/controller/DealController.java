@@ -97,7 +97,7 @@ public class DealController {
                 resultMap.put("isLike", dealService.clickLikeButton(decodeId, idx));
                 resultMap.put("isFollow", userFeedService.checkFollowDeal(decodeId, idx));
             }
-            DealDto data = dealService.viewDetailDeal(idx);
+            DealDto dto = dealService.viewDetailDeal(idx);
             Cookie oldCookie = null;
             Cookie[] cookies = request.getCookies();
             if(cookies != null){
@@ -124,8 +124,10 @@ public class DealController {
                 newCookie.setMaxAge(60 * 60 * 24);
                 response.addCookie(newCookie);
             }
-            if(data != null){
-                resultMap.put("data", data);
+            if(dto != null){
+                resultMap.put("deal", dto);
+                List<DealCommentDto> list = dealService.viewDealComment(idx);
+                resultMap.put("dealComments", list);
                 resultMap.put("message", okay);
             } else{
                 resultMap.put("message", fail);

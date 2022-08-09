@@ -200,6 +200,15 @@ public class UserController {
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
+        } else{
+            try {
+                userService.moreUpdate(userMoreDTO); //추가 정보 수정 서비스 호출
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            } catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
         }
         return new ResponseEntity<>(resultMap, status);
     }

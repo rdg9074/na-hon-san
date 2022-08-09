@@ -14,6 +14,8 @@ public interface DealService {
     DealDto registDeal(DealDto dealDto);
     DealDto viewDetailDeal(Integer idx);
 
+    List<DealCommentDto> viewDealComment(Integer idx);
+
     List<DealDto> viewDeal(String category);
 
     DealDto updateDeal(Integer idx, DealDto DealDto);

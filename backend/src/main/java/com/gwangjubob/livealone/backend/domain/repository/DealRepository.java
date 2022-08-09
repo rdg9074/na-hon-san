@@ -1,5 +1,6 @@
 package com.gwangjubob.livealone.backend.domain.repository;
 
+import com.gwangjubob.livealone.backend.domain.entity.DealCommentEntity;
 import com.gwangjubob.livealone.backend.domain.entity.DealEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,8 @@ public interface DealRepository extends JpaRepository<DealEntity, Integer> {
     Optional<DealEntity> findByIdx(Integer postIdx);
     List<DealEntity> findByUser(UserEntity userEntity);
     List<DealEntity> findTop6ByCategoryAndStateAndAreaOrderByViewDesc(String category,String state,String area);
-
+    @Query(value = "select d from DealCommentEntity d where d.deal=:dealEntity order by (case when d.upIdx = 0 then d.idx else d.upIdx end), d.upIdx desc")
+    List<DealCommentEntity> findByDealOrderBycomment(DealEntity dealEntity);
     Optional<DealEntity> findTop1ByOrderByIdxDesc();
 
     Optional<DealEntity> findTop1ByOrderByLikesDesc();
