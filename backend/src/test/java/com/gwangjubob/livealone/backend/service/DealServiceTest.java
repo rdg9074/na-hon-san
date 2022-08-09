@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.*;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 public class DealServiceTest {
     private DealRepository dealRepository;
     private DealMapper dealMapper;
@@ -514,6 +514,7 @@ public class DealServiceTest {
         }
         System.out.println(resultMap);
     }
+
     @Test
     public void 조회수_증가(){
         Map<String, Object> resultMap = new HashMap<>();
@@ -727,23 +728,20 @@ public class DealServiceTest {
                 JSONObject json = (JSONObject) parser.parse(sb.toString());
 
                 JSONObject result = (JSONObject) json.get("result");
-                System.out.println(result.toString());
                 JSONArray paths = (JSONArray) result.get("path"); // 여기서 최단 시간 찾아야함
+//                System.out.println(paths.size());
 
-                JSONObject path = (JSONObject) paths.get(0);
-                JSONObject info = (JSONObject) path.get("info");
+                Long minTime = Long.MAX_VALUE;
 
-                Long minTime = Long.parseLong(info.get("totalTime").toString());
-
-                for(int j=1; j<paths.size(); j++){
-                    path = (JSONObject) paths.get(j);
-                    info = (JSONObject) path.get("info");
+                for(int j=0; j<paths.size(); j++){
+                    JSONObject path = (JSONObject) paths.get(j);
+                    JSONObject info = (JSONObject) path.get("info");
 
                     Long totalTime = Long.parseLong(info.get("totalTime").toString());
                     if(minTime > totalTime) minTime = totalTime;
                 }
-                loginUserTime.add(minTime);
-//                System.out.println("최단시간 : " + minTime);
+                loginUserTime.add(minTime); // 6개. 정렬 -> 3개 뽑으면 되는거 아닌가여?
+                System.out.println("최단시간 : " + minTime);
 
                 loginUserTime.add(minTime);
 

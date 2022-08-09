@@ -30,5 +30,6 @@ public interface UserService {
 
     String getTargetId(String nickname);
 
-    Map<String, Object> getPosition(String id);
+    Map<String, Double> getPosition(String id);
+
 }
