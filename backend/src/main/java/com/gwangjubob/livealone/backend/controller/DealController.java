@@ -277,15 +277,17 @@ public class DealController {
     @GetMapping("honeyDeal/position/{nickname}")
     public ResponseEntity<?> getPosition(HttpServletRequest request, @PathVariable String nickname){
         resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
-        String targetId = userService.getTargetId(nickname);
+        String loginUserId = checkToken(request);
+        String targetUserId = userService.getTargetId(nickname);
 
-        if(decodeId != null) {
+        if(loginUserId != null) {
             try {
                 // 사용자 위치 구하는 서비스 호출
-                resultMap.put("loginUserPosition", userService.getPosition(decodeId));
-                resultMap.put("targetUserPosition", userService.getPosition(targetId));
+                resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
+                resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
                 // 중간 위치 구하는 서비스 호출
+                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
+
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e) {
