@@ -84,7 +84,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/honeyDeal/detail/{idx}")
+    @GetMapping("api/honeyDeal/detail/{idx}")
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
         String decodeId = null;
