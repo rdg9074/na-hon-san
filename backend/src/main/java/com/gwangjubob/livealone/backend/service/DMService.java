@@ -7,12 +7,12 @@ import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
 
 
 import java.util.List;
-
+import java.util.Map;
 
 
 public interface DMService {
     boolean sendDM(DMSendDto dmSendDto);
     List<DMViewDto> listDM(String id);
-    List<DMViewDto> listDetailDM(String id, String fromId,int lastIdx,int pageSize);
+    Map listDetailDM(String id, String fromId, int lastIdx, int pageSize);
     long countDM(String id);
 }

@@ -12,11 +12,10 @@ import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DMServiceImpl implements DMService {
@@ -66,12 +65,14 @@ public class DMServiceImpl implements DMService {
 		return dmViewDtoList;
 	}
 	@Override
-	public List<DMViewDto> listDetailDM(String id, String fromId,int lastIdx, int pageSize){
+	public Map listDetailDM(String id, String fromId,int lastIdx, int pageSize){
 		List<DMViewDto> dmViewDtoList = new ArrayList<>();
 		UserEntity toUserEntity = userRepository.findById(id).get();
 		UserEntity fromUserEntity = userRepository.findById(fromId).get();
 		Pageable pageable = PageRequest.ofSize(pageSize);
-		List<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toUserEntity,fromUserEntity,lastIdx,pageable);
+		Slice<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toUserEntity,fromUserEntity,lastIdx,pageable);
+		Map<String, Object> result = new HashMap<>();
+		boolean hasNext = dmEntityList.hasNext();
 
 		for(DMEntity dmEntity : dmEntityList){
 			dmEntity.setRead(true);
@@ -87,8 +88,9 @@ public class DMServiceImpl implements DMService {
 			dmViewDto.setImage((dmEntity.getImage()));
 			dmViewDtoList.add(dmViewDto);
 		}
-
-		return dmViewDtoList;
+		result.put("list",dmViewDtoList);
+		result.put("hasNext",hasNext);
+		return result;
 	}
 
 	@Override
