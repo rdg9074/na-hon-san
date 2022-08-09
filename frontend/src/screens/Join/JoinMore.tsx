@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./JoinMore.scss";
 import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +6,19 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import { setUserMoreInfo } from "@apis/auth";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
 import dealCategory from "@constants/dealCategory";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { setMoreInfo } from "@store/ducks/auth/authSlice";
 
 function JoinMore() {
   const navigate = useNavigate();
   const [address, setAddress] = useState<string>("");
   const [categorys, setCategorys] = useState<Array<string>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { area, likeCategorys } = useAppSelector(state => ({
+    area: state.auth.userInfo?.area,
+    likeCategorys: state.auth.userInfo?.likeCategorys
+  }));
+  const dispatch = useAppDispatch();
   const scriptUrl =
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
   const open = useDaumPostcodePopup(scriptUrl);
@@ -44,6 +51,7 @@ function JoinMore() {
       setIsLoading(true);
       const res = await setUserMoreInfo(address, categorys);
       if (res === "SUCCESS") {
+        dispatch(setMoreInfo({ area: address, likeCategorys: categorys }));
         navigate("/");
       }
       setIsLoading(false);
@@ -66,6 +74,11 @@ function JoinMore() {
     }
     return `${prefix} selected`;
   };
+
+  useEffect(() => {
+    setCategorys(likeCategorys || []);
+    setAddress(area || "");
+  }, []);
   return (
     <div className="wrapper">
       <div id="join-more">
