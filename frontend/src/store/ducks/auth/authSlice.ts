@@ -14,6 +14,7 @@ export interface UserInfoType {
   profileMsg: string | null;
   profileImg: string | null;
   backgroundImg: string | null;
+  likeCategorys: Array<string> | null;
 }
 interface InitialStateType {
   tmpId: string;
@@ -35,6 +36,12 @@ export const authSlice = createSlice({
     resetUserInfo: state => {
       state.userInfo = null;
       sessionStorage.removeItem("access-token");
+    },
+    setMoreInfo: (state, action) => {
+      if (state.userInfo) {
+        state.userInfo.area = action.payload.area;
+        state.userInfo.likeCategorys = action.payload.likeCategorys;
+      }
     }
   },
   extraReducers: builder => {
@@ -44,6 +51,6 @@ export const authSlice = createSlice({
   }
 });
 
-export const { setTmpId, resetUserInfo } = authSlice.actions;
+export const { setTmpId, resetUserInfo, setMoreInfo } = authSlice.actions;
 
 export default authSlice.reducer;
