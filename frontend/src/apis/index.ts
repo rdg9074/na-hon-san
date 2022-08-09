@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "/api";
+export const BASE_URL = "https://i7c208.p.ssafy.io/api";
 
 const API = axios.create({
   baseURL: BASE_URL,
