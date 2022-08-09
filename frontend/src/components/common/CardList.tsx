@@ -5,7 +5,11 @@ import {
   DealCondition,
   TipCondition
 } from "@store/ducks/infinity/infinity.type";
-import { getDealList, getTipList } from "@store/ducks/infinity/infinityThunk";
+import {
+  getDealList,
+  getFollowTipList,
+  getTipList
+} from "@store/ducks/infinity/infinityThunk";
 import { useAppDispatch } from "@store/hooks";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
@@ -18,7 +22,7 @@ function CardList({
   condition,
   pure
 }: {
-  searchType: "tip" | "deal";
+  searchType: "tip" | "deal" | "followTip";
   condition: TipCondition & DealCondition;
   pure: boolean;
 }) {
@@ -50,6 +54,10 @@ function CardList({
           res = await dispatch(getDealList(condition));
           setCards(res.payload.data);
           setIsLoading(true);
+        } else if (searchType === "followTip") {
+          res = await dispatch(getFollowTipList(condition));
+          setCards(res.payload.list);
+          setIsLoading(true);
         }
       })();
     }
@@ -62,7 +70,13 @@ function CardList({
             검색 결과가 없어요!
           </div>
         ) : (
-          cards.map(data => <Card type={searchType} data={data} key={v4()} />)
+          cards.map(data => (
+            <Card
+              type={searchType === "followTip" ? "tip" : searchType}
+              data={data}
+              key={v4()}
+            />
+          ))
         )
       ) : (
         [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)

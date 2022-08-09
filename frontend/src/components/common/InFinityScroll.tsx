@@ -11,7 +11,7 @@ import CardList from "./CardList";
 
 type InFinityScrollProps = {
   type: string;
-  searchType: "deal" | "tip";
+  searchType: "deal" | "tip" | "followTip";
   keyword: string | null;
   category: string | undefined;
   categorys: Array<string> | undefined;
