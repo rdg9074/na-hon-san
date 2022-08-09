@@ -1,6 +1,5 @@
 package com.gwangjubob.livealone.backend.service.impl;
 
-import com.gwangjubob.livealone.backend.domain.entity.NoticeEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserCategoryEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.repository.UserCategoryRepository;
@@ -8,15 +7,14 @@ import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 import com.gwangjubob.livealone.backend.dto.user.UserMoreDTO;
 import com.gwangjubob.livealone.backend.dto.user.UserRegistDto;
-import com.gwangjubob.livealone.backend.mapper.GenericMapper;
 import com.gwangjubob.livealone.backend.mapper.UserInfoMapper;
-import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -222,12 +220,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getTargetId(String nickname) {
-        return userRepository.findByNickname(nickname).get().getNickname();
+        return userRepository.findByNickname(nickname).get().getId();
     }
 
     @Override
-    public Map<String, Object> getPosition(String id) {
-        Map<String, Object> position = new HashMap<>();
+    public Map<String, Double> getPosition(String id) {
+        Map<String, Double> position = new HashMap<>();
 
         if(!userRepository.findById(id).get().getArea().isEmpty()){
             double positionX = userRepository.findById(id).get().getAreaX();
@@ -236,9 +234,13 @@ public class UserServiceImpl implements UserService {
             position.put("positionX", positionX);
             position.put("positionY", positionY);
         }else{
-            position.put("positionX", "null");
-            position.put("positionY", "null");
+            position.put("positionX", null);
+            position.put("positionY", null);
         }
         return position;
     }
+
+
+
+
 }
