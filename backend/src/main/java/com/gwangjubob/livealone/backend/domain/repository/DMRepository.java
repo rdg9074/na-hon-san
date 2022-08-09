@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DMRepository extends JpaRepository<DMEntity, String> {
     @Query(value = "select * from (select *from dms where to_user_id=:#{#toUserId} order by dms.time desc limit 9999999 ) as temp group by temp.from_user_id;", nativeQuery = true)
@@ -19,4 +20,6 @@ public interface DMRepository extends JpaRepository<DMEntity, String> {
     long findByCountDM(String id);
     @Query(value = "select d from DMEntity d where (d.idx < :lastIdx and d.toUserId=:toId and d.fromUserId=:fromId)or(d.idx < :lastIdx and d.toUserId=:fromId and d.fromUserId=:toId) order by d.time desc")
     Slice<DMEntity> findByToUserIdAndFromUserId(UserEntity toId, UserEntity fromId, Integer lastIdx, Pageable pageable);
+
+    Optional<DMEntity> findTop1ByOrderByIdxDesc();
 }
