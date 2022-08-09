@@ -68,7 +68,6 @@
   font-family: "NotoSansRegular";
 }
 
-
 .phoneOnly {
   display: none;
 }
@@ -258,5 +257,9 @@
   }
   .fs-60 {
     font-size: vw-p(60px);
+  }
+
+  .notPhone {
+    display: none;
   }
 }

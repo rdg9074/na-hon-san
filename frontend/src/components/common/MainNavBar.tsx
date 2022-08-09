@@ -34,7 +34,9 @@ function MainNavBar() {
     <div className="nav-wrapper">
       <nav id="main-nav-bar" className="flex align-center">
         <img className="logo" alt="나혼자잘산다로고" src={HeaderLogoImg} />
-        <p className="title notoBold fs-28 desktopOnly">나혼자잘산다</p>
+        <Link className="title notoBold fs-28 desktopOnly" to="/">
+          나혼자잘산다
+        </Link>
         <div className="nav-container flex justify-space-between align-center">
           <nav className="left-nav notoBold">
             <NavLink
@@ -61,17 +63,11 @@ function MainNavBar() {
             >
               꿀딜
             </NavLink>
-            <NavLink
-              className={({ isActive }) => activeTabClassName(isActive)}
-              to="/news"
-            >
-              뉴스
-            </NavLink>
           </nav>
           <nav className="right-nav notoReg flex align-center">
             {userInfo ? (
               <>
-                <div className="right-nav__link alarm">
+                <div className="right-nav__link alarm notPhone">
                   <p className="alarm__cnt fs-8 flex align-center justify-center">
                     {noticeCount}
                   </p>
@@ -128,7 +124,6 @@ function MainNavBar() {
               </>
             )}
           </nav>
-          <img className="phoneOnly menu-icon" src={MenuIcon} alt="더보기" />
         </div>
       </nav>
     </div>

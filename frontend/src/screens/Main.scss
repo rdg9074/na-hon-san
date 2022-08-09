@@ -1,13 +1,9 @@
 #main {
   .banner {
-    // padding: (95px) (141px) (94px) (129px);
-
-    // width: vw(1440px);
-    width: 100vw;
+    width: 100%;
     height: (428px);
     background-color: #323232;
 
-    // justify-content: space-between;
     align-items: center;
     justify-content: center;
 
@@ -65,7 +61,6 @@
   #main {
     .banner {
       padding: vw(95px) vw(141px) vw(94px) vw(129px);
-      // width: vw(1440px);
       height: vw(428px);
       background-color: #323232;
 
