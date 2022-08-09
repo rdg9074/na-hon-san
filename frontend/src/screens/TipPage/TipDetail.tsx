@@ -76,7 +76,7 @@ function TipDetail() {
     if (userState.isFollow) {
       await delFollow(article.userNickname);
     } else {
-      await delFollow(article.userNickname);
+      await addFollow(article.userNickname);
     }
     changed();
   };

@@ -58,20 +58,22 @@ function CommentInput({ articleIdx, changed, type }: CommentInputProps) {
     if (!inputRef.current?.value.trim()) {
       return inputRef.current?.focus();
     }
-    const data = {
-      postIdx: articleIdx,
-      upIdx: 0,
-      content: inputRef.current.value,
-      bannerImg: commentImg.replace("data:image/jpeg;base64,", "")
-    };
-    inputRef.current.disabled = true;
-    setTimeout(async () => {
+    if (!loading) {
+      setLoading(true);
+      const data = {
+        postIdx: articleIdx,
+        upIdx: 0,
+        content: inputRef.current.value,
+        bannerImg: commentImg.replace("data:image/jpeg;base64,", "")
+      };
+      inputRef.current.disabled = true;
       await commentCreate(data, type);
+      setLoading(false);
       changed();
-    }, 300);
-    inputRef.current.value = "";
-    setCommentImg("");
-    inputRef.current.disabled = false;
+      inputRef.current.value = "";
+      setCommentImg("");
+      inputRef.current.disabled = false;
+    }
     return 0;
   };
 
