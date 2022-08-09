@@ -175,7 +175,7 @@ function DealUpdate() {
           </div>
         </div>
         <div className="deal-header-area">
-          <p className="deal-header-area_label notoReg">User Area</p>
+          <p className="deal-header-area_label notoMid">User Area</p>
           <div className="deal-header-area-info flex">
             <input
               type="text"

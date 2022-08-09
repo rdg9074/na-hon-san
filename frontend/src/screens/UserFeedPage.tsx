@@ -27,6 +27,8 @@ function UserFeedPage() {
   const [followModal, setFollowModal] = useState("");
   const [randomBack, setRandomBack] = useState("");
   const [isLoading, setLoading] = useState(true);
+  const [isChanged, setIsChanged] = useState(false);
+
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: null,
     nickname: null,
@@ -45,6 +47,7 @@ function UserFeedPage() {
   useEffect(() => {
     (async () => {
       const res = await getProfile(nickName as string);
+      console.log(res);
       if (res.result === "Fail") {
         navigate("/404");
       }
@@ -54,20 +57,27 @@ function UserFeedPage() {
       txtArea.current.style.height = "1px";
       txtArea.current.style.height = `${12 + txtArea.current.scrollHeight}px`;
     }
+  }, [nickName, isChanged]);
+
+  useEffect(() => {
     setLoading(true);
     fetch("https://picsum.photos/520/200")
       .then(res => {
         setRandomBack(res.url);
       })
       .then(() => setLoading(false));
-  }, [nickName]);
+  }, []);
 
   const follow = (state: string) => {
     setFollowModal(state);
     setFollowClick(true);
   };
+  const change = () => {
+    setIsChanged(state => !state);
+  };
   const signal = () => {
     setFollowClick(false);
+    change();
   };
 
   return (
@@ -112,7 +122,7 @@ function UserFeedPage() {
             className="notoMid"
             type="button"
             onClick={() => {
-              follow("Follower");
+              follow("팔로워");
             }}
           >
             팔로워
@@ -122,7 +132,7 @@ function UserFeedPage() {
             className="notoMid"
             type="button"
             onClick={() => {
-              follow("Following");
+              follow("팔로잉");
             }}
           >
             팔로잉
@@ -170,7 +180,11 @@ function UserFeedPage() {
         <FeedList type={tagType} userNickname={nickName as string} />
       </div>
       {followClick ? (
-        <FollowList signal={signal} followModal={followModal} />
+        <FollowList
+          idx={nickName as string}
+          signal={signal}
+          followModal={followModal}
+        />
       ) : null}
     </div>
   );
