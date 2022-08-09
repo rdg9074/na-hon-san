@@ -81,7 +81,7 @@ public class DMController {
         String decodeId = checkToken(request);
         try {
             if(decodeId != null){
-                List<DMViewDto> dmViewDtoList =dmService.listDetailDM(decodeId,fromId,lastIdx,pageSize);
+                Map dmViewDtoList =dmService.listDetailDM(decodeId,fromId,lastIdx,pageSize);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
                 status = HttpStatus.OK;

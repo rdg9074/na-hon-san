@@ -15,14 +15,12 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserFeedServiceImpl implements UserFeedService {
@@ -278,27 +276,33 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<TipViewDto> userFollowHoneyTip(String decodeId, Integer lastIdx, int pageSize) {
-        List<TipViewDto> result = new ArrayList<>();
+    public Map userFollowHoneyTip(String decodeId, Integer lastIdx, int pageSize) {
+        List<TipViewDto> tipViewDtoArrayList = new ArrayList<>();
+        Map<String, Object> result = new HashMap<>();
         if(lastIdx == 0){ // null 이면 가장 최신 게시글 찾아줘야함
             lastIdx = userFollowTipsRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
         }
         Pageable pageable = PageRequest.ofSize(pageSize);
-        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(decodeId,lastIdx,pageable); //내가 팔로우 한 유저 목록
+        Slice<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(decodeId,lastIdx,pageable); //내가 팔로우 한 유저 목록
         for(UserFollowTipsEntity tipEntity : tipEntityList){
             TipViewDto dto = TipViewDto.builder()
                     .idx(tipEntity.getIdx())
                     .userNickname(tipEntity.getUser().getNickname())
                     .userProfileImg(tipEntity.getUser().getProfileImg())
                     .title(tipEntity.getTitle())
+                    .category(tipEntity.getCategory())
                     .bannerImg(tipEntity.getBannerImg())
                     .view(tipEntity.getView())
                     .likes(tipEntity.getLike())
                     .comment(tipEntity.getComment())
                     .build();
 
-            result.add(dto);
+            tipViewDtoArrayList.add(dto);
         }
+        boolean hasNext = tipEntityList.hasNext();
+
+        result.put("list", tipViewDtoArrayList);
+        result.put("hasNext", hasNext);
         return result;
     }
 

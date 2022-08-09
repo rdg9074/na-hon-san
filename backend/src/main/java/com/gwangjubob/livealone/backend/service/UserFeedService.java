@@ -8,6 +8,7 @@ import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
 import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserFeedService {
     boolean registFollow(String toId, String fromId);
@@ -23,7 +24,7 @@ public interface UserFeedService {
 
     List<DealDto> popularHoneyDeal(String decodeId);
 
-    List<TipViewDto> userFollowHoneyTip(String decodeId,Integer lastIdx, int pageSize);
+    Map userFollowHoneyTip(String decodeId, Integer lastIdx, int pageSize);
 
     boolean checkFollowDeal(String decodeId, Integer idx);
 

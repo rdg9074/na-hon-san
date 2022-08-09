@@ -232,8 +232,7 @@ public class FeedController {
         String decodeId = checkToken(request);
         try{
             if(decodeId != null){
-                List<TipViewDto> result = userFeedService.userFollowHoneyTip(decodeId,lastIdx, pageSize);
-                resultMap.put("total", result.size());
+                Map result = userFeedService.userFollowHoneyTip(decodeId,lastIdx, pageSize);
                 resultMap.put("data",result);
 
             }

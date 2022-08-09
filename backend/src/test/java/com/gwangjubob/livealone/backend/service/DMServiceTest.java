@@ -129,9 +129,9 @@ public class DMServiceTest {
     @Test
     public void 메시지_세부_조회_테스트(){
         // given
-        UserEntity toId = userRepository.findById("ssafy").get();
-        UserEntity fromId = userRepository.findById("test").get();
-        Integer lastIdx = 119;
+        UserEntity toId = userRepository.findById("test").get();
+        UserEntity fromId = userRepository.findById("ssafy").get();
+        Integer lastIdx = 0;
         Pageable pageable = PageRequest.ofSize(5);
 
 
