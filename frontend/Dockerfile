@@ -18,7 +18,7 @@ RUN REACT_APP_AWS_ACCESS_KEY=${AWS_ACCESS_KEY} REACT_APP_AWS_SECRET_KEY=${AWS_SE
 
 FROM nginx
 
-EXPOSE 80
+EXPOSE 3000
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
