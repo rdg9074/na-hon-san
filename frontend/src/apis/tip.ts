@@ -24,3 +24,16 @@ export const getTipTotalCnt = async () => {
 
   return res.data;
 };
+
+export const reqFollowTipList = async (condition: TipCondition) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(
+    `/mainFeed/honeyTip?lastIdx=${
+      condition.lastIdx === null ? 0 : condition.lastIdx
+    }&pageSize=${condition.pageSize}`,
+    {
+      headers: { Authorization: `${accessToken}` }
+    }
+  );
+  return res.data;
+};

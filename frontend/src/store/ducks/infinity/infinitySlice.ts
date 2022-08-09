@@ -1,5 +1,9 @@
 import { v4 } from "uuid";
-import { getDealList, getTipList } from "@store/ducks/infinity/infinityThunk";
+import {
+  getDealList,
+  getFollowTipList,
+  getTipList
+} from "@store/ducks/infinity/infinityThunk";
 import { createSlice } from "@reduxjs/toolkit";
 import { TipCondition, DealCondition } from "./infinity.type";
 
@@ -78,6 +82,14 @@ export const infinitySlice = createSlice({
         state.lastIdx = lastCard.idx;
         state.lastLikes = lastCard.likes;
         state.lastView = lastCard.view;
+      }
+      state.isLoading = false;
+    });
+    builder.addCase(getFollowTipList.fulfilled, (state, { payload }) => {
+      state.isEnd = !payload.hasNext;
+      if (payload.list.length !== 0) {
+        const lastCard = payload.list[payload.list.length - 1];
+        state.lastIdx = lastCard.idx;
       }
       state.isLoading = false;
     });
