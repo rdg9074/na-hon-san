@@ -44,7 +44,7 @@ public class DealController {
         this.userService = userService;
     }
 
-    @PostMapping("/honeyDeal")
+    @PostMapping("/api/honeyDeal")
     public ResponseEntity<?> registDeal(@RequestBody DealDto dealDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -66,7 +66,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/honeyDeal/{category}")
+    @GetMapping("/api/honeyDeal/{category}")
     public ResponseEntity<?> viewDeal(@PathVariable String category){
         resultMap = new HashMap<>();
         try {
@@ -138,7 +138,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/honeyDeal/{idx}")
+    @PutMapping("/api/honeyDeal/{idx}")
     public ResponseEntity<?> updateDeal(@PathVariable Integer idx, @RequestBody DealDto dealDto){
         resultMap = new HashMap<>();
         try {
@@ -157,7 +157,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/honeyDeal/{idx}")
+    @DeleteMapping("/api/honeyDeal/{idx}")
     public ResponseEntity<?> deleteDeal(@PathVariable Integer idx){
         resultMap = new HashMap<>();
         try {
@@ -174,7 +174,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/honeyDeal/comment")
+    @PostMapping("/api/honeyDeal/comment")
     public ResponseEntity<?> registDealComment(@RequestBody DealCommentDto dealCommentDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -197,7 +197,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/honeyDeal/comment/{idx}")
+    @PutMapping("/api/honeyDeal/comment/{idx}")
     public ResponseEntity<?> updateDealComment(@PathVariable Integer idx, @RequestBody DealCommentDto dealCommentDto){
         resultMap = new HashMap<>();
         try {
@@ -215,7 +215,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @DeleteMapping("/honeyDeal/comment/{idx}")
+    @DeleteMapping("/api/honeyDeal/comment/{idx}")
     public ResponseEntity<?> deleteDealComment(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -233,7 +233,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/honeyDeal/like/{idx}")
+    @GetMapping("/api/honeyDeal/like/{idx}")
     public ResponseEntity<?> likeDeal(@PathVariable Integer idx, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -250,7 +250,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("honeyDeal/view")
+    @PostMapping("/api/honeyDeal/view")
     public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = null;
@@ -274,7 +274,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("honeyDeal/position/{nickname}")
+    @GetMapping("/api/honeyDeal/position/{nickname}")
     public ResponseEntity<?> getPosition(HttpServletRequest request, @PathVariable String nickname){
         resultMap = new HashMap<>();
         String loginUserId = checkToken(request);
