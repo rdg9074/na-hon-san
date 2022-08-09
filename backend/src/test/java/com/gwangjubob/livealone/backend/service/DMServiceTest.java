@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -136,12 +137,12 @@ public class DMServiceTest {
 
 
         // when
-        List<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toId, fromId,lastIdx,pageable);
+        Slice<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toId, fromId,lastIdx,pageable);
 
         // thens
-        for (int i = 0; i < dmEntityList.size(); i++) {
-            System.out.println(dmEntityList.get(i).toString());
-        }
+//        for (int i = 0; i < dmEntityList.size(); i++) {
+//            System.out.println(dmEntityList.get(i).toString());
+//        }
     }
 
     @Test

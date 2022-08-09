@@ -69,6 +69,9 @@ public class DMServiceImpl implements DMService {
 		List<DMViewDto> dmViewDtoList = new ArrayList<>();
 		UserEntity toUserEntity = userRepository.findById(id).get();
 		UserEntity fromUserEntity = userRepository.findById(fromId).get();
+		if(lastIdx == 0){ // null 이면 가장 최신 게시글 찾아줘야함
+			lastIdx = dmRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
+		}
 		Pageable pageable = PageRequest.ofSize(pageSize);
 		Slice<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toUserEntity,fromUserEntity,lastIdx,pageable);
 		Map<String, Object> result = new HashMap<>();
@@ -89,6 +92,7 @@ public class DMServiceImpl implements DMService {
 			dmViewDtoList.add(dmViewDto);
 		}
 		result.put("list",dmViewDtoList);
+		result.put("fromProfileImg",fromUserEntity.getProfileImg());
 		result.put("hasNext",hasNext);
 		return result;
 	}
