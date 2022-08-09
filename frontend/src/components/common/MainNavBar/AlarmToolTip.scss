@@ -16,7 +16,7 @@
   .alarm-list {
     width: (329px);
     max-height: (384px);
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .no-content {
@@ -44,7 +44,7 @@
     .alarm-list {
       width: vw(329px);
       max-height: vw(384px);
-      overflow: scroll;
+      overflow-y: auto;
     }
 
     .no-content {
