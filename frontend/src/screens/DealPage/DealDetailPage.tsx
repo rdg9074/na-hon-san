@@ -8,16 +8,23 @@ import EditIcon from "@images/EditIcon.svg";
 import DeleteIcon from "@images/DeleteIcon.svg";
 import { getTime } from "@utils/getTime";
 import { useAppSelector } from "@store/hooks";
-import { dealRead, dealArticle, dealDelete } from "@apis/honeyDeal";
+import { dealRead, dealArticle, dealDelete, dealLike } from "@apis/honeyDeal";
 import Comments from "@components/Comments/Comments";
 import CommentInput from "@components/Comments/CommentInput";
+import { addFollow, delFollow } from "@apis/userFeed";
+import Heart from "@images/Heart.svg";
 
 function DealDetailPage() {
   const [newComment, setNewComment] = useState(false);
   const [dealState, setDealState] = useState("");
   const [article, setArticle] = useState<dealArticle>();
+  const [isLoading, setIsLoading] = useState(false);
   const [comment, setComment] = useState();
   const { id } = useParams();
+  const [userState, setUserState] = useState({
+    isFollow: false,
+    isLike: false
+  });
   const userInfo = useAppSelector(state => state.auth.userInfo);
   const isAuthor = userInfo?.nickname === article?.userNickname;
   const navigate = useNavigate();
@@ -28,9 +35,14 @@ function DealDetailPage() {
 
   useEffect(() => {
     dealRead(id as string).then(res => {
+      console.log(res);
       setArticle(res.data);
       setComment(res.data.comments);
       setDealState(res.data.state);
+      setUserState({
+        isFollow: res.isFollow,
+        isLike: res.isLike
+      });
     });
   }, [newComment, id]);
 
@@ -61,6 +73,40 @@ function DealDetailPage() {
     return <div />;
   }
 
+  const setLike = async () => {
+    if (!userInfo) {
+      return navigate("/login");
+    }
+    if (!isLoading) {
+      setIsLoading(true);
+      const res = await dealLike(id as string);
+      if (res.status === 200) {
+        changed();
+      } else {
+        console.log(res.status);
+      }
+      setIsLoading(false);
+    }
+    return 0;
+  };
+
+  const setFollow = async () => {
+    if (!userInfo) {
+      return navigate("/login");
+    }
+    if (!isLoading) {
+      setIsLoading(true);
+      if (userState.isFollow) {
+        await delFollow(article.userNickname);
+      } else {
+        await addFollow(article.userNickname);
+      }
+      setIsLoading(false);
+      changed();
+    }
+    return 0;
+  };
+
   return (
     <div id="deal-detail-page">
       <div className="article flex column">
@@ -87,7 +133,12 @@ function DealDetailPage() {
               </button>
             </div>
             <div className="header-info__text flex column">
-              <p className="user-name notoMid">{article.userNickname}</p>
+              <Link
+                to={`/userfeed/${article.userNickname}`}
+                className="user-name notoMid"
+              >
+                {article.userNickname}
+              </Link>
               <div className="created flex column align-center">
                 <p className=" notoReg">
                   {article.updateTime
@@ -97,10 +148,11 @@ function DealDetailPage() {
               </div>
             </div>
             <button
+              onClick={setFollow}
               className={`header-info__btn notoReg ${isAuthor && "hide"} `}
               type="button"
             >
-              팔로우
+              {userState.isFollow ? "언팔로우" : "팔로우"}
             </button>
           </div>
           <div className="header-func flex">
@@ -119,7 +171,13 @@ function DealDetailPage() {
             ) : (
               <div className="header-func-btn flex">
                 <img src={KakaoMap} alt="123" title="map" />
-                <img src={EmptyHeart} alt="123" title="like" />
+                <button onClick={setLike} type="button">
+                  <img
+                    src={userState.isLike ? Heart : EmptyHeart}
+                    alt="like"
+                    title="like"
+                  />
+                </button>
               </div>
             )}
           </div>

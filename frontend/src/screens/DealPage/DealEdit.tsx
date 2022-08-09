@@ -15,8 +15,9 @@ import { useAppSelector } from "@store/hooks";
 function DealEdit() {
   const [sendFile, setSendFile] = useState<File | null>(null);
   const [thumnail, setThumnail] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("기타");
   const [errMsg, setErrMsg] = useState("");
+  const [tumErr, setTumErr] = useState(false);
   const [chk, setChk] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const imgInput = useRef<HTMLInputElement>(null);
@@ -59,6 +60,11 @@ function DealEdit() {
       titleRef.current?.focus();
       return;
     }
+    if (!thumnail) {
+      imgInput.current?.focus();
+      setTumErr(true);
+      return;
+    }
     setSpinner(true);
     setChk(true);
   };
@@ -74,7 +80,6 @@ function DealEdit() {
       bannerImg: thumnail.replace("data:image/jpeg;base64,", "")
     };
     const res = await dealCreate(payload);
-    console.log(res);
     navigate(`/deal/detail/${res}`);
   };
 
@@ -85,8 +90,8 @@ function DealEdit() {
         <ImgResizer
           imgfile={sendFile}
           newImgfile={receiveFile}
-          imgW={200}
-          imgH={200}
+          imgW={400}
+          imgH={400}
         />
       ) : null}
       <div className="deal-header ">
@@ -112,6 +117,31 @@ function DealEdit() {
                 </button>
               );
             })}
+          </div>
+        </div>
+        <div className="deal-header-area">
+          <p className="deal-header-area_label notoReg">User Area</p>
+          <div className="deal-header-area-info flex">
+            <input
+              type="text"
+              readOnly
+              value={userInfo?.area as string}
+              className="deal-header-area-info_text notoReg"
+            />
+
+            <button
+              className="deal-header-area-info_button notoReg"
+              type="button"
+              onClick={() => {
+                navigate("/account");
+              }}
+            >
+              변경
+            </button>
+          </div>
+          <div className="deal-header-area_desc notoReg flex column">
+            <span>주소는 마이페이지에서만 변경 가능해요.</span>
+            <span>주소는 위치 추천 용도로만 사용됩니다.</span>
           </div>
         </div>
         <div className="deal-header-preview flex justify-center">
@@ -149,6 +179,10 @@ function DealEdit() {
               )}
             </div>
             <span className="notoReg">
+              <span className={`${tumErr ? "err" : "hide"}`}>
+                꿀딜 게시글 썸네일은 필수에요.
+              </span>
+              <br />
               jpg, png, gif, jpeg 파일만 지원해요.
             </span>
           </button>

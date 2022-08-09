@@ -8,6 +8,7 @@ import { commentDelete } from "@apis/comment";
 import { getTime } from "@utils/getTime";
 import { commentType } from "./Comments";
 import CommentEdit from "./CommentEdit";
+import BigImg from "./BigImg";
 
 interface CommentProps {
   info: commentType;
@@ -20,6 +21,7 @@ interface CommentProps {
 function CommentItem({ info, type, isAuthor, changed, postIdx }: CommentProps) {
   const [editInput, setEditInput] = useState(false);
   const navigate = useNavigate();
+  const [imgToggle, setImgToggle] = useState(false);
 
   const goFeed = () => {
     navigate(`/userfeed/${info.userNickname}`);
@@ -40,6 +42,14 @@ function CommentItem({ info, type, isAuthor, changed, postIdx }: CommentProps) {
 
   return (
     <div id="comment-item">
+      {imgToggle && info.bannerImg && (
+        <BigImg
+          imgProps={info.bannerImg}
+          signal={() => {
+            setImgToggle(false);
+          }}
+        />
+      )}
       <div className="comment-wrapper flex column align-center">
         <div className="comment-head flex">
           <div className="comment-head-profile flex align-center">
@@ -77,16 +87,22 @@ function CommentItem({ info, type, isAuthor, changed, postIdx }: CommentProps) {
         <div className="comment-body flex">
           {info.bannerImg && (
             <div className="comment-img-container flex jusify-center">
-              <img
-                src={`data:image/jpeg;base64,${info.bannerImg}`}
-                alt="user"
-                title="user"
-              />
+              <button
+                type="button"
+                onClick={() => {
+                  setImgToggle(true);
+                }}
+              >
+                <img
+                  src={`data:image/jpeg;base64,${info.bannerImg}`}
+                  alt="user"
+                  title="user"
+                />
+              </button>
             </div>
           )}
           <div className="comment-body-content flex column">
             <p className="comment-body-content_text notoReg">{info?.content}</p>
-
             {isAuthor ? (
               <div className="comment-body-content_btn flex">
                 <button onClick={editComment} type="button" className="notoReg">

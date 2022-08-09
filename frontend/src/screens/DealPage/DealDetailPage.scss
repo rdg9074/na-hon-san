@@ -1,6 +1,7 @@
 #deal-detail-page {
   .hide {
-    visibility: hidden;
+    // visibility: hidden;
+    display: none;
   }
   .article {
     padding: (24px);
@@ -48,7 +49,7 @@
           background-color: $MAIN_YELLOW;
           padding: (8px);
           font-size: (12px);
-          width: (80px);
+          width: (100px);
           height: (36px);
           border-radius: (12px);
           line-height: (4px);
@@ -174,7 +175,7 @@
             margin-right: vw(8px);
           }
           height: 100%;
-          width: 70%;
+          width: 75%;
 
           &__img-container {
             & > img {
@@ -197,14 +198,14 @@
             background-color: $MAIN_YELLOW;
             padding: vw(8px);
             font-size: vw(12px);
-            width: vw(80px);
+            width: vw(100px);
             height: vw(36px);
             border-radius: vw(12px);
             line-height: vw(4px);
           }
         }
         &-func {
-          width: 30%;
+          width: 25%;
           & img {
             width: vw(24px);
             height: vw(24px);
@@ -307,7 +308,7 @@
         padding: vw(8px);
         &-info {
           height: 100%;
-          width: 70%;
+          width: 82%;
           &__img-container {
             & > img {
               width: vw-t(40px);
@@ -336,15 +337,19 @@
           }
         }
         &-func {
-          width: 30%;
+          width: 18%;
+          justify-content: space-evenly;
           & img {
             width: vw-t(24px);
             height: vw-t(24px);
           }
           &-btn {
             width: 100%;
+            position: relative;
             &_state {
               width: 30%;
+              position: absolute;
+              left: vw-t(-30px);
               & > div {
                 width: vw-t(24px);
                 height: vw-t(24px);
@@ -445,7 +450,7 @@
             margin-right: vw-p(4px);
           }
           height: 100%;
-          width: 70%;
+          width: 80%;
           &__img-container {
             & > img {
               width: vw-p(36px);
@@ -469,39 +474,34 @@
             margin-left: vw-p(12px);
             padding: vw-p(8px);
             font-size: vw-p(12px);
-            width: vw-p(60px);
+            width: vw-p(65px);
             height: vw-p(24px);
             border-radius: vw-p(8px);
             line-height: vw-p(4px);
           }
         }
         &-func {
-          width: 30%;
+          width: 20%;
           & img {
             width: vw-p(24px);
             height: vw-p(24px);
           }
           &-btn {
+            justify-content: space-evenly;
             width: 100%;
+            position: relative;
             &_state {
-              width: 30%;
+              position: absolute;
+              left: vw-p(-28px);
               & > div {
-                width: vw-p(24px);
-                height: vw-p(24px);
+                width: vw-p(20px);
+                height: vw-p(20px);
                 border-radius: 100%;
               }
             }
           }
           &-box {
             width: 100%;
-            &__select {
-              font-size: vw-p(12px);
-              width: vw-p(100px);
-              margin-right: vw-p(12px);
-              height: vw-p(36px);
-              border: none;
-              border-radius: vw-p(8px);
-            }
           }
         }
       }

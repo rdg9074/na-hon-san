@@ -21,6 +21,7 @@ function TipDetail() {
     isFollow: false,
     isLike: false
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const UserInfo = useAppSelector(state => state.auth.userInfo);
@@ -32,7 +33,6 @@ function TipDetail() {
   useEffect(() => {
     tipRead(id as string)
       .then(res => {
-        console.log(res);
         setUserState({
           isFollow: res.isFollow,
           isLike: res.isLike
@@ -64,21 +64,37 @@ function TipDetail() {
   };
 
   const setLike = async () => {
-    const res = await tipLike(id as string);
-    if (res.status === 200) {
-      changed();
-    } else {
-      console.log(res.status);
+    if (!UserInfo) {
+      return navigate("/login");
     }
+    if (!isLoading) {
+      setIsLoading(true);
+      const res = await tipLike(id as string);
+      if (res.status === 200) {
+        changed();
+      } else {
+        console.log(res.status);
+      }
+      setIsLoading(false);
+    }
+    return 0;
   };
 
   const setFollow = async () => {
-    if (userState.isFollow) {
-      await delFollow(article.userNickname);
-    } else {
-      await addFollow(article.userNickname);
+    if (!UserInfo) {
+      return navigate("/login");
     }
-    changed();
+    if (!isLoading) {
+      setIsLoading(true);
+      if (userState.isFollow) {
+        await delFollow(article.userNickname);
+      } else {
+        await addFollow(article.userNickname);
+      }
+      setIsLoading(false);
+      changed();
+    }
+    return 0;
   };
 
   const isAuthor = UserInfo?.nickname === article.userNickname;
