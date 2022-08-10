@@ -69,4 +69,6 @@ public interface TipRepository extends JpaRepository<TipEntity, Integer> {
     Slice<TipEntity> findByCategoryAndTitleContainsOrderByLikeDescAndIdxDesc(String category,Integer lastLike, Integer lastIdx, String keyword, Pageable pageable);
 
     int countByUserId(String id);
+
+    List<TipEntity> findTop3ByUserIdOrderByIdxDesc(String id);
 }

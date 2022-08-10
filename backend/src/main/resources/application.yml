@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://i7c208.p.ssafy.io:3306/s07p11c208?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mariadb://i7c208.p.ssafy.io:3306/s07p11c208?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8&amp
     driver-class-name: org.mariadb.jdbc.Driver
     username: ssafy
     password: ssafy

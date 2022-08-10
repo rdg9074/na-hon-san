@@ -34,10 +34,12 @@ public class UserFeedServiceImpl implements UserFeedService {
     private UserFeedRepository userFeedRepository;
     private UserFollowTipsRepository userFollowTipsRepository;
     private NoticeRepository noticeRepository;
+    private UserFollowsRepository userFollowsRepository;
     @Autowired
-    UserFeedServiceImpl(UserRepository userRepository,NoticeRepository noticeRepository,UserFollowTipsRepository userFollowTipsRepository,DealMapper dealMapper,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
+    UserFeedServiceImpl(UserRepository userRepository,UserFollowsRepository userFollowsRepository,NoticeRepository noticeRepository,UserFollowTipsRepository userFollowTipsRepository,DealMapper dealMapper,DealRepository dealRepository,TipRepository tipRepository, UserFeedRepository userFeedRepository, PasswordEncoder passwordEncoder, UserCategoryRepository userCategoryRepository, UserInfoMapper userInfoMapper){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userFollowsRepository = userFollowsRepository;
         this.userFollowTipsRepository = userFollowTipsRepository;
         this.dealMapper = dealMapper;
         this.userCategoryRepository = userCategoryRepository;
@@ -215,21 +217,39 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<PopularFollowDto> popularFollower() {
-        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList();//조회
+    public List<PopularFollowDto> popularFollower(String decodeId) {
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList(PageRequest.of(0,4));// 인기있는 팔로우 유저
+        List<UserFollowEntity> userFollowEntityList= userFollowsRepository.findByUserId(decodeId); // 내가 팔로우 한 유저 목록
         List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
-        int maxCnt = 0;
         //when
         for (PopularFollowEntity userFollowEntity : userFollowEntities){
-            if(maxCnt++ == 20){
-                break;
-            }
+
             UserEntity userEntity = userRepository.findById(userFollowEntity.getFollowId()).get();
+
             PopularFollowDto popularFollowDto = new PopularFollowDto();
             popularFollowDto.setFollow_id(userEntity.getId());
+            popularFollowDto.setIsFollow(false);
+            for(UserFollowEntity userFollow : userFollowEntityList){
+                if(userFollow.getFollowId().equals(userFollowEntity.getFollowId())){
+                    popularFollowDto.setIsFollow(true);
+                }
+            }
             popularFollowDto.setFollow_nickname(userEntity.getNickname());
             popularFollowDto.setCnt(userFollowEntity.getCnt());
             popularFollowDto.setProfileImg(userEntity.getProfileImg());
+            List<TipEntity> tipEntityList = tipRepository.findTop3ByUserIdOrderByIdxDesc(userEntity.getId());
+            List<TipViewDto> tipViewDtoList = new ArrayList<>();
+            for (TipEntity tipEntity :tipEntityList) { //인기있는 팔로우 유저의 게시글 3개 추가
+                TipViewDto tipViewDto = new TipViewDto();
+                tipViewDto.setIdx(tipEntity.getIdx());
+                tipViewDto.setBannerImg(tipEntity.getBannerImg());
+                tipViewDto.setCategory(tipEntity.getCategory());
+                tipViewDto.setLikes(tipEntity.getLike());
+                tipViewDto.setComment(tipEntity.getComment());
+                tipViewDto.setView(tipEntity.getView());
+                tipViewDtoList.add(tipViewDto);
+            }
+            popularFollowDto.setTipViewDtoList(tipViewDtoList);
             popularFollowDtoList.add(popularFollowDto);
 
         }
@@ -259,6 +279,7 @@ public class UserFeedServiceImpl implements UserFeedService {
                 map.put(rand,true);
                 DealEntity dealEntity = dealEntityList.get(rand);
                 DealDto dealDto = new DealDto();
+                dealDto.setIdx(dealEntity.getIdx());
                 dealDto.setUserNickname(dealEntity.getUser().getNickname());
                 dealDto.setTitle(dealEntity.getTitle());
                 dealDto.setContent(dealEntity.getContent());
@@ -300,7 +321,8 @@ public class UserFeedServiceImpl implements UserFeedService {
             tipViewDtoArrayList.add(dto);
         }
         boolean hasNext = tipEntityList.hasNext();
-
+        List<UserFollowEntity> userFollowEntityList= userFollowsRepository.findByUserId(decodeId);
+        result.put("follow",userFollowEntityList.size());
         result.put("list", tipViewDtoArrayList);
         result.put("hasNext", hasNext);
         return result;
