@@ -60,7 +60,7 @@ public class SocialServiceImpl implements SocialService {
             String nameId = jsonName + jsonId[0].substring(0, 4);
             jsonId[0] = "kakao" + jsonId[0];
             //DB에 회원인지 찾기
-            Optional<UserEntity> user = userRepository.findByNickname(nameId);
+            Optional<UserEntity> user = userRepository.findByNickname(jsonId[0]);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
@@ -139,7 +139,7 @@ public class SocialServiceImpl implements SocialService {
             String nameId = jsonName + jsonId[0].substring(0, 4);
             jsonId[0] = "naver" + jsonId[0];
             //DB에 회원인지 찾기
-            Optional<UserEntity> user = userRepository.findByNickname(nameId);
+            Optional<UserEntity> user = userRepository.findByNickname(jsonId[0]);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
@@ -190,7 +190,7 @@ public class SocialServiceImpl implements SocialService {
             String nameId = jsonName + jsonId[0].substring(0, 4);
             jsonId[0] = "google" + jsonId[0];
             //DB에 회원인지 찾기
-            Optional<UserEntity> user = userRepository.findByNickname(nameId);
+            Optional<UserEntity> user = userRepository.findByNickname(jsonId[0]);
             if (!user.isPresent()) { //존재하지 않는다면
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
