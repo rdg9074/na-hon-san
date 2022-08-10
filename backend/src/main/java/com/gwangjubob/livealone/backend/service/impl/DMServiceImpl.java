@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.*;
 
 @Service
@@ -47,61 +48,62 @@ public class DMServiceImpl implements DMService {
 	@Override
 	public List<DMViewDto> listDM(String id){
 		List<DMViewDto> dmViewDtoList = new ArrayList<>();
-		List<DMEntity> dmEntityList = dmRepository.findListViews(id);
-		for (int i = 0; i < dmEntityList.size(); i++) {
-			for (int j = 0; j < dmEntityList.size(); j++) {
-				if(i==j) continue;
-				if( (!dmEntityList.get(i).getFromUserId().getId().equals(id)  &&
-						dmEntityList.get(i).getToUserId().getId().equals(dmEntityList.get(j).getFromUserId().getId())) ||
-						(!dmEntityList.get(i).getToUserId().getId().equals(id)  &&
-								dmEntityList.get(i).getFromUserId().getId().equals(dmEntityList.get(j).getToUserId().getId()))){
-					if(dmEntityList.get(i).getTime().isAfter(dmEntityList.get(j).getTime())){ // 시간순으로 나중이라면
-						DMViewDto dmViewDto = new DMViewDto();
-						dmViewDto.setIdx(dmEntityList.get(i).getIdx());
-						dmViewDto.setFromId(dmEntityList.get(i).getFromUserId().getId());
-						dmViewDto.setNickname(dmEntityList.get(i).getFromUserId().getNickname());
-						dmViewDto.setToId(dmEntityList.get(i).getToUserId().getId());
-						dmViewDto.setTime(dmEntityList.get(i).getTime());
-						dmViewDto.setRead(dmEntityList.get(i).getRead());
-						dmViewDto.setContent(dmEntityList.get(i).getContent());
-						dmViewDto.setImage((dmEntityList.get(i).getImage()));
-						int count = dmRepository.findCount(id,dmEntityList.get(i).getFromUserId().getId());
-						dmViewDto.setCount(count);
-						dmViewDtoList.add(dmViewDto);
-					}else{
-						DMViewDto dmViewDto = new DMViewDto();
-						dmViewDto.setIdx(dmEntityList.get(j).getIdx());
-						dmViewDto.setFromId(dmEntityList.get(j).getFromUserId().getId());
-						dmViewDto.setNickname(dmEntityList.get(j).getFromUserId().getNickname());
-						dmViewDto.setToId(dmEntityList.get(j).getToUserId().getId());
-						dmViewDto.setTime(dmEntityList.get(j).getTime());
-						dmViewDto.setRead(dmEntityList.get(j).getRead());
-						dmViewDto.setContent(dmEntityList.get(j).getContent());
-						dmViewDto.setImage((dmEntityList.get(j).getImage()));
-						int count = dmRepository.findCount(id,dmEntityList.get(j).getFromUserId().getId());
-						dmViewDto.setCount(count);
-						dmViewDtoList.add(dmViewDto);
+		Optional<UserEntity> optionalUser = userRepository.findById(id);
+		if(optionalUser.isPresent()){
+			UserEntity user = optionalUser.get();
+			List<DMEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
+			List<DMEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
+			List<UserEntity> DMUsers = new ArrayList<>();
+			if(!toUser.isEmpty()){
+				for (DMEntity d: toUser) {
+					if(!DMUsers.contains(d.getToUserId())){
+						DMUsers.add(d.getToUserId());
 					}
 				}
 			}
+			if(!fromUser.isEmpty()){
+				for (DMEntity d: fromUser){
+					if(!DMUsers.contains(d.getFromUserId())){
+						DMUsers.add(d.getFromUserId());
+					}
+				}
+			}
+			List<DMEntity> dmList = new ArrayList<>();
+			if(!DMUsers.isEmpty()){
+				for(UserEntity u : DMUsers){
+					Optional<DMEntity> optionalDM = dmRepository.findByUserIdAndOtherId(user,u);
+					DMEntity dm = optionalDM.get();
+					dmList.add(dm);
+				}
+				Collections.sort(dmList, (a,b) -> b.getIdx() - a.getIdx());
+				for(DMEntity d : dmList){
+					String otherId = null;
+					String nickname = null;
+					if(d.getFromUserId().getId().equals(id)){
+						nickname = d.getToUserId().getNickname();
+						otherId = d.getToUserId().getId();
+					} else if(d.getToUserId().getId().equals(id)){
+						nickname = d.getFromUserId().getNickname();
+						otherId = d.getFromUserId().getId();
+					}
 
+					int cnt = dmRepository.findCount(id, otherId);
+
+					DMViewDto dmViewDto = DMViewDto.builder()
+							.idx(d.getIdx())
+							.fromId(d.getFromUserId().getId())
+							.toId(d.getToUserId().getId())
+							.content(d.getContent())
+							.image(d.getImage())
+							.read(d.getRead())
+							.Nickname(nickname)
+							.time(d.getTime())
+							.count(cnt)
+							.build();
+					dmViewDtoList.add(dmViewDto);
+				}
+			}
 		}
-//
-//		for(DMEntity dmEntity : dmEntityList){
-//
-//			DMViewDto dmViewDto = new DMViewDto();
-//			dmViewDto.setIdx(dmEntity.getIdx());
-//			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
-//			dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
-//			dmViewDto.setToId(dmEntity.getToUserId().getId());
-//			dmViewDto.setTime(dmEntity.getTime());
-//			dmViewDto.setRead(dmEntity.getRead());
-//			dmViewDto.setContent(dmEntity.getContent());
-//			dmViewDto.setImage((dmEntity.getImage()));
-//			int count = dmRepository.findCount(id,dmEntity.getFromUserId().getId());
-//			dmViewDto.setCount(count);
-//			dmViewDtoList.add(dmViewDto);
-//		}
 		return dmViewDtoList;
 	}
 	@Override

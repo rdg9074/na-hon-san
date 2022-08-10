@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Table(name = "tips")
 public class UserFollowTipsEntity implements Serializable  {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name="user_nickname", referencedColumnName = "nickname"),
             @JoinColumn(name="user_id", referencedColumnName = "id")
