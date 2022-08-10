@@ -4,6 +4,8 @@ import com.gwangjubob.livealone.backend.domain.entity.PopularFollowEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserEntity;
 import com.gwangjubob.livealone.backend.domain.entity.UserFollowEntity;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,8 +26,8 @@ public interface UserFeedRepository extends JpaRepository<UserFollowEntity, Stri
     List<UserFollowEntity> findByUserIdAndFollowNicknameContaining(String id, String keyword);
 
     List<UserFollowEntity> findByFollowIdAndUserNicknameContaining(String id, String keyword);
-    @Query(value = "select new PopularFollowEntity(f.idx, f.followId ,f.followNickname, COUNT(f.followNickname))from PopularFollowEntity f GROUP BY f.followNickname ORDER BY COUNT(f.followNickname)  DESC ")
-    List<PopularFollowEntity> popularFollowerList();
+    @Query(value = "select new PopularFollowEntity(f.idx, f.followId ,f.followNickname, COUNT(f.followNickname))from PopularFollowEntity f GROUP BY f.followNickname ORDER BY COUNT(f.followNickname) DESC ")
+    List<PopularFollowEntity> popularFollowerList(Pageable pageable);
 
     Optional<Object> findByUserIdAndFollowNickname(String userId, String followNickname);
 }

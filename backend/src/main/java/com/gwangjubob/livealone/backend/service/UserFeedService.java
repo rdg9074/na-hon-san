@@ -20,7 +20,7 @@ public interface UserFeedService {
     List<PostViewDto> feedPosts(String id, int category);
     boolean deleteFollow(String toId, String fromId);
 
-    List<PopularFollowDto> popularFollower();
+    List<PopularFollowDto> popularFollower(String decodeId);
 
     List<DealDto> popularHoneyDeal(String decodeId);
 

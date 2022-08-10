@@ -191,17 +191,20 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/mainFeed/user")
-    public ResponseEntity<?> popularFollower(){
+    @GetMapping("/mainFeed/user")
+    public ResponseEntity<?> popularFollower(HttpServletRequest request){
         resultMap = new HashMap<>();
         try{
-
-            List<PopularFollowDto> result = userFeedService.popularFollower();
-            if(result != null){
-                resultMap.put("data",result);
-                resultMap.put("result",okay);
+            String decodeId = checkToken(request);
+            if(decodeId != null){
+                List<PopularFollowDto> result = userFeedService.popularFollower(decodeId);
+                if(result != null){
+                    resultMap.put("data",result);
+                    resultMap.put("result",okay);
+                }
                 status = HttpStatus.OK;
             }
+
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -226,7 +229,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/mainFeed/honeyTip")
+    @GetMapping("/mainFeed/honeyTip")
     public ResponseEntity<?> userFollowHoneyTip(@RequestParam("lastIdx")Integer lastIdx,@RequestParam("pageSize") int pageSize, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

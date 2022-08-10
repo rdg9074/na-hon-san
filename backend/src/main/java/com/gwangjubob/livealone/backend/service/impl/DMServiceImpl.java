@@ -48,20 +48,60 @@ public class DMServiceImpl implements DMService {
 	public List<DMViewDto> listDM(String id){
 		List<DMViewDto> dmViewDtoList = new ArrayList<>();
 		List<DMEntity> dmEntityList = dmRepository.findListViews(id);
-		for(DMEntity dmEntity : dmEntityList){
-			DMViewDto dmViewDto = new DMViewDto();
-			dmViewDto.setIdx(dmEntity.getIdx());
-			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
-			dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
-			dmViewDto.setToId(dmEntity.getToUserId().getId());
-			dmViewDto.setTime(dmEntity.getTime());
-			dmViewDto.setRead(dmEntity.getRead());
-			dmViewDto.setContent(dmEntity.getContent());
-			dmViewDto.setImage((dmEntity.getImage()));
-			int count = dmRepository.findCount(id,dmEntity.getFromUserId().getId());
-			dmViewDto.setCount(count);
-			dmViewDtoList.add(dmViewDto);
+		for (int i = 0; i < dmEntityList.size(); i++) {
+			for (int j = 0; j < dmEntityList.size(); j++) {
+				if(i==j) continue;
+				if( (!dmEntityList.get(i).getFromUserId().getId().equals(id)  &&
+						dmEntityList.get(i).getToUserId().getId().equals(dmEntityList.get(j).getFromUserId().getId())) ||
+						(!dmEntityList.get(i).getToUserId().getId().equals(id)  &&
+								dmEntityList.get(i).getFromUserId().getId().equals(dmEntityList.get(j).getToUserId().getId()))){
+					if(dmEntityList.get(i).getTime().isAfter(dmEntityList.get(j).getTime())){ // 시간순으로 나중이라면
+						DMViewDto dmViewDto = new DMViewDto();
+						dmViewDto.setIdx(dmEntityList.get(i).getIdx());
+						dmViewDto.setFromId(dmEntityList.get(i).getFromUserId().getId());
+						dmViewDto.setNickname(dmEntityList.get(i).getFromUserId().getNickname());
+						dmViewDto.setToId(dmEntityList.get(i).getToUserId().getId());
+						dmViewDto.setTime(dmEntityList.get(i).getTime());
+						dmViewDto.setRead(dmEntityList.get(i).getRead());
+						dmViewDto.setContent(dmEntityList.get(i).getContent());
+						dmViewDto.setImage((dmEntityList.get(i).getImage()));
+						int count = dmRepository.findCount(id,dmEntityList.get(i).getFromUserId().getId());
+						dmViewDto.setCount(count);
+						dmViewDtoList.add(dmViewDto);
+					}else{
+						DMViewDto dmViewDto = new DMViewDto();
+						dmViewDto.setIdx(dmEntityList.get(j).getIdx());
+						dmViewDto.setFromId(dmEntityList.get(j).getFromUserId().getId());
+						dmViewDto.setNickname(dmEntityList.get(j).getFromUserId().getNickname());
+						dmViewDto.setToId(dmEntityList.get(j).getToUserId().getId());
+						dmViewDto.setTime(dmEntityList.get(j).getTime());
+						dmViewDto.setRead(dmEntityList.get(j).getRead());
+						dmViewDto.setContent(dmEntityList.get(j).getContent());
+						dmViewDto.setImage((dmEntityList.get(j).getImage()));
+						int count = dmRepository.findCount(id,dmEntityList.get(j).getFromUserId().getId());
+						dmViewDto.setCount(count);
+						dmViewDtoList.add(dmViewDto);
+					}
+				}
+			}
+
 		}
+//
+//		for(DMEntity dmEntity : dmEntityList){
+//
+//			DMViewDto dmViewDto = new DMViewDto();
+//			dmViewDto.setIdx(dmEntity.getIdx());
+//			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
+//			dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
+//			dmViewDto.setToId(dmEntity.getToUserId().getId());
+//			dmViewDto.setTime(dmEntity.getTime());
+//			dmViewDto.setRead(dmEntity.getRead());
+//			dmViewDto.setContent(dmEntity.getContent());
+//			dmViewDto.setImage((dmEntity.getImage()));
+//			int count = dmRepository.findCount(id,dmEntity.getFromUserId().getId());
+//			dmViewDto.setCount(count);
+//			dmViewDtoList.add(dmViewDto);
+//		}
 		return dmViewDtoList;
 	}
 	@Override
@@ -81,6 +121,11 @@ public class DMServiceImpl implements DMService {
 			dmEntity.setRead(true);
 			dmRepository.save(dmEntity);
 			DMViewDto dmViewDto = new DMViewDto();
+			if(dmEntity.getFromUserId().getId().equals(id)){
+				dmViewDto.setType("send");
+			}else{
+				dmViewDto.setType("recv");
+			}
 			dmViewDto.setIdx(dmEntity.getIdx());
 			dmViewDto.setFromId(dmEntity.getFromUserId().getId());
 			dmViewDto.setToId(dmEntity.getToUserId().getId());
