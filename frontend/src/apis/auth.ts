@@ -85,5 +85,7 @@ export const getKakaoToken = async (code: string) => {
 
 export const refreshAccessToken = async () => {
   const res = await API.get("/user/login");
-  return res;
+  if (res.data.message === "SUCCESS") {
+    sessionStorage.setItem("access-token", res.data["access-token"]);
+  }
 };
