@@ -20,8 +20,10 @@ API.interceptors.response.use(
   },
   async err => {
     const originalRequest = err.config;
-    console.log(err);
-    if (err.response.status === 401) {
+    if (
+      err.response.status === 401 &&
+      err.response.data.message !== "refreshTimeout"
+    ) {
       await refreshAccessToken();
       const accessToken = sessionStorage.getItem("access-token");
       originalRequest.headers = {
