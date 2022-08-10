@@ -36,9 +36,12 @@ function DealDetailPage() {
   useEffect(() => {
     dealRead(id as string).then(res => {
       console.log(res);
-      setArticle(res.data);
-      setComment(res.data.comments);
-      setDealState(res.data.state);
+      setArticle(res.deal);
+      if (res.dealComments) {
+        const comments = res.dealComments.reverse();
+        setComment(comments);
+      }
+      setDealState(res.deal.state);
       setUserState({
         isFollow: res.isFollow,
         isLike: res.isLike
@@ -47,7 +50,6 @@ function DealDetailPage() {
   }, [newComment, id]);
 
   const changeColor = (state: string) => {
-    console.log(dealState);
     if (dealState === "거래 대기") {
       return "green";
     }

@@ -80,7 +80,7 @@ function DealEdit() {
       bannerImg: thumnail.replace("data:image/jpeg;base64,", "")
     };
     const res = await dealCreate(payload);
-    navigate(`/deal/detail/${res}`);
+    navigate(`/deal/detail/${res.data.data.idx}`);
   };
 
   return (

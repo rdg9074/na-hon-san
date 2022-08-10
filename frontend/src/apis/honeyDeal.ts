@@ -29,7 +29,7 @@ export const dealCreate = async (data: dealCreateForm) => {
       Authorization: accessToken
     }
   });
-  return res.data;
+  return res;
 };
 
 export const dealUpdate = async (data: dealCreateForm, idx: string) => {
