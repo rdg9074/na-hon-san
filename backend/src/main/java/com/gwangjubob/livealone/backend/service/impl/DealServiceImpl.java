@@ -511,7 +511,30 @@ public class DealServiceImpl implements DealService {
         }
         return false;
     }
+    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        if (unit == "kilometer") {
+            dist = dist * 1.609344;
+        } else if(unit == "meter"){
+            dist = dist * 1609.344;
+        }
+
+        return (dist);
+    }
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
     @Override
     public Map<String, Object> searchMidPosition(String loginUserId, String targetUserId) {
         Map<String, Object> info = new HashMap<>();
@@ -525,91 +548,64 @@ public class DealServiceImpl implements DealService {
         double targetUserX = userService.getPosition(targetUserId).get("positionX");
         double targetUserY = userService.getPosition(targetUserId).get("positionY");
 
-        double midXd = (loginUserX + targetUserX) / 2;
-        double midYd = (loginUserY + targetUserY) / 2;
+        Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
 
-        info.put("midXPosition", midXd);
-        info.put("midYPosition", midYd);
+        if (distanceMeter <= 2000) {
+            System.out.println("두 사용자 간의 거리가 2km 이내입니다. ");
+            info.put("distance", distanceMeter);
 
+            double midXd = (loginUserX + targetUserX) / 2;
+            double midYd = (loginUserY + targetUserY) / 2;
 
-        String surl;
-        URL url;
-        HttpsURLConnection conn;
-        BufferedReader br;
-        String inputStr;
-        StringBuilder sb;
+            info.put("midXPosition", midXd);
+            info.put("midYPosition", midYd);
+        } else {
+            double midXd = (loginUserX + targetUserX) / 2;
+            double midYd = (loginUserY + targetUserY) / 2;
 
-        try{
-            String midX = String.valueOf(midXd);
-            String midY = String.valueOf(midYd);
-            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
-            String radius = "500";
+            info.put("midXPosition", midXd);
+            info.put("midYPosition", midYd);
 
-            surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
-                    +"&x="+midX+"&y="+midY+"&radius="+radius;
+            String surl;
+            URL url;
+            HttpsURLConnection conn;
+            BufferedReader br;
+            String inputStr;
+            StringBuilder sb;
 
-            url = new URL(surl);
-
-            conn = (HttpsURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            sb = new StringBuilder();
-            while((inputStr = br.readLine()) != null){
-                sb.append(inputStr + "\n");
-            }
-            br.close();
-            conn.disconnect();
-
-            JSONParser parser = new JSONParser();
-            JSONObject json = (JSONObject) parser.parse(sb.toString());
-
-            JSONObject resultObj = (JSONObject) json.get("result");
-            long count = (long) resultObj.get("count");
-            if(count > 0){
-                info.put("radius", radius);
-                JSONArray data = (JSONArray) resultObj.get("station");
-
-                for(int i=0; i<data.size(); i++){
-                    JSONObject obj = (JSONObject) data.get(i);
-                    List<Double> list = new ArrayList<>();
-                    list.add(Double.parseDouble(obj.get("x").toString()));
-                    list.add(Double.parseDouble(obj.get("y").toString()));
-
-                    busStation.add(list);
-                    info.put("busStationList", busStation);
-                }
-            }else{
-                radius = "1000";
-                info.put("radius", radius);
+            try {
+                String midX = String.valueOf(midXd);
+                String midY = String.valueOf(midYd);
+                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+                String radius = "500";
 
                 surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
-                        +"&x="+midX+"&y="+midY+"&radius="+radius; // ODsay 버정 조회 api
+                        + "&x=" + midX + "&y=" + midY + "&radius=" + radius;
 
                 url = new URL(surl);
 
                 conn = (HttpsURLConnection) url.openConnection();
-
                 conn.setRequestMethod("GET");
 
                 br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                 sb = new StringBuilder();
-                while((inputStr = br.readLine()) != null){
+                while ((inputStr = br.readLine()) != null) {
                     sb.append(inputStr + "\n");
                 }
                 br.close();
                 conn.disconnect();
 
-                JSONParser parser2 = new JSONParser();
-                JSONObject json2 = (JSONObject) parser2.parse(sb.toString());
-                JSONObject result2 = (JSONObject) json2.get("result");
-                long count2 = (long) result2.get("count");
-                if(count2 > 0) {
-                    JSONArray data = (JSONArray) result2.get("station");
+                JSONParser parser = new JSONParser();
+                JSONObject json = (JSONObject) parser.parse(sb.toString());
 
-                    for(int i=0; i<data.size(); i++){
+                JSONObject resultObj = (JSONObject) json.get("result");
+                long count = (long) resultObj.get("count");
+                if (count > 0) {
+                    info.put("radius", radius);
+                    JSONArray data = (JSONArray) resultObj.get("station");
+
+                    for (int i = 0; i < data.size(); i++) {
                         JSONObject obj = (JSONObject) data.get(i);
-
                         List<Double> list = new ArrayList<>();
                         list.add(Double.parseDouble(obj.get("x").toString()));
                         list.add(Double.parseDouble(obj.get("y").toString()));
@@ -617,43 +613,82 @@ public class DealServiceImpl implements DealService {
                         busStation.add(list);
                         info.put("busStationList", busStation);
                     }
-                }else{
-                    radius = "반경 1km 내에 버스 정류장 없음";
-                    info.put("radius",radius);
+                } else {
+                    radius = "1000";
+                    info.put("radius", radius);
+
+                    surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
+                            + "&x=" + midX + "&y=" + midY + "&radius=" + radius; // ODsay 버정 조회 api
+
+                    url = new URL(surl);
+
+                    conn = (HttpsURLConnection) url.openConnection();
+
+                    conn.setRequestMethod("GET");
+
+                    br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                    sb = new StringBuilder();
+                    while ((inputStr = br.readLine()) != null) {
+                        sb.append(inputStr + "\n");
+                    }
+                    br.close();
+                    conn.disconnect();
+
+                    JSONParser parser2 = new JSONParser();
+                    JSONObject json2 = (JSONObject) parser2.parse(sb.toString());
+                    JSONObject result2 = (JSONObject) json2.get("result");
+                    long count2 = (long) result2.get("count");
+                    if (count2 > 0) {
+                        JSONArray data = (JSONArray) result2.get("station");
+
+                        for (int i = 0; i < data.size(); i++) {
+                            JSONObject obj = (JSONObject) data.get(i);
+
+                            List<Double> list = new ArrayList<>();
+                            list.add(Double.parseDouble(obj.get("x").toString()));
+                            list.add(Double.parseDouble(obj.get("y").toString()));
+
+                            busStation.add(list);
+                            info.put("busStationList", busStation);
+                        }
+                    } else {
+                        radius = "반경 1km 내에 버스 정류장 없음";
+                        info.put("radius", radius);
+                    }
                 }
-            }
 
-            loginUserTime = getMidBusStation(busStation, loginUserX, loginUserY);
-            for(Long t : loginUserTime){
-                System.out.println("로그인 사용자가 걸린 시간 : " + t);
-            }
-
-            targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
-            for(Long t : targetUserTime){
-                System.out.println("상대방 걸린 시간 : " + t);
-            }
-            Long minTime = Long.MAX_VALUE;
-            int index = 0;
-            for(int i=0; i<loginUserTime.size(); i++){
-                Long sum = loginUserTime.get(i) + targetUserTime.get(i);
-                Long minus = Math.abs(loginUserTime.get(i) - targetUserTime.get(i));
-
-                Long tmp = sum + minus * 2;
-                if(minTime > tmp){
-                    index = i;
-                    minTime = tmp;
+                loginUserTime = getMidBusStation(busStation, loginUserX, loginUserY);
+                for (Long t : loginUserTime) {
+                    System.out.println("로그인 사용자가 걸린 시간 : " + t);
                 }
+
+                targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
+                for (Long t : targetUserTime) {
+                    System.out.println("상대방 걸린 시간 : " + t);
+                }
+                Long minTime = Long.MAX_VALUE;
+                int index = 0;
+                for (int i = 0; i < loginUserTime.size(); i++) {
+                    Long sum = loginUserTime.get(i) + targetUserTime.get(i);
+                    Long minus = Math.abs(loginUserTime.get(i) - targetUserTime.get(i));
+
+                    Long tmp = sum + minus * 2;
+                    if (minTime > tmp) {
+                        index = i;
+                        minTime = tmp;
+                    }
+                }
+                Map<String, Object> resultStation = new HashMap<>();
+                resultStation.put("finalBusPositionX", busStation.get(index).get(0));
+                resultStation.put("finalBusPositionY", busStation.get(index).get(1));
+
+                resultStation.put("loginUserTotalTime", loginUserTime.get(index));
+                resultStation.put("targetUserTotalTime", targetUserTime.get(index));
+
+                info.put("result", resultStation);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            Map<String, Object> resultStation = new HashMap<>();
-            resultStation.put("finalBusPositionX", busStation.get(index).get(0));
-            resultStation.put("finalBusPositionY", busStation.get(index).get(1));
-
-            resultStation.put("loginUserTotalTime", loginUserTime.get(index));
-            resultStation.put("targetUserTotalTime", targetUserTime.get(index));
-
-            info.put("result",resultStation);
-        }catch (Exception e){
-            e.printStackTrace();
         }
         return info;
     }

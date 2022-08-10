@@ -531,6 +531,47 @@ public class DealServiceTest {
     }
 
     @Test
+    public void 두_사용자_거리_조회() {
+        Double loginUserX = 126.877498406332;
+        Double loginUserY = 35.1841322155411;
+
+        Double targetUserX = 126.876826236529;
+        Double targetUserY = 35.1849575358041;
+
+        Double distanceKilometer = distance(loginUserY,loginUserX,targetUserY,targetUserX, "kilometer");
+        Double distanceMeter = distance(loginUserY,loginUserX,targetUserY,targetUserX, "meter");
+
+        if(distanceMeter <= 2000){
+            System.out.println("두 사용자 간의 거리가 가깝습니다. " +distanceMeter);
+        }
+        System.out.println(distanceKilometer);
+    }
+
+    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        if (unit == "kilometer") {
+            dist = dist * 1.609344;
+        } else if(unit == "meter"){
+            dist = dist * 1609.344;
+        }
+
+        return (dist);
+    }
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
+    @Test
     public void 중간위치_주변_버스정류장_조회() {
         // given - 중간위치
         double doubleMidX = 126.8533768895765;
