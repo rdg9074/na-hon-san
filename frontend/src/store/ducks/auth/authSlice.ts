@@ -37,6 +37,7 @@ export const authSlice = createSlice({
     resetUserInfo: state => {
       state.userInfo = null;
       sessionStorage.removeItem("access-token");
+      window.location.href = "/";
     },
     setMoreInfo: (state, action) => {
       if (state.userInfo) {

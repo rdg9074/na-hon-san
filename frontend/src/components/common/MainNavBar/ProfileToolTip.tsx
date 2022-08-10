@@ -14,7 +14,6 @@ function ProfileToolTip({ userNickname, closeTooltip }: ProfileToolTipProps) {
   const navaigate = useNavigate();
   const onClickLogout = () => {
     dispatch(resetUserInfo());
-    navaigate("/");
     closeTooltip();
   };
   return (
