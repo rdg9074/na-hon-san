@@ -103,7 +103,14 @@ public class UserController {
     @GetMapping("/user/login")
     public  ResponseEntity<?> updateAccessToken(HttpServletRequest request){
         resultMap = new HashMap<>();
-        String refreshToken = request.getHeader("Set-Cookie").split(";")[0].replace("refresh-token=","");
+        Cookie[] cookies = request.getCookies();
+        String refreshToken = null;
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("refresh-token")){
+                refreshToken = cookie.getValue();
+                break;
+            }
+        }
         String decodeId = jwtService.decodeToken(refreshToken);
         if(decodeId != null){
             String accessToken = jwtService.createAccessToken("id", decodeId);
