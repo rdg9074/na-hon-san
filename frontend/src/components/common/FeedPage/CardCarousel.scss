@@ -1,6 +1,10 @@
 #usercarousel {
+  .empty-message {
+    width: (970px);
+    text-align: center;
+  }
   width: (970px);
-  margin-top: (100px);
+  margin-top: (60px);
   position: relative;
   .container {
     overflow: hidden;
@@ -40,8 +44,11 @@
 
 @media screen and(max-width :$DESKTOP-VW) {
   #usercarousel {
+    .empty-message {
+      width: vw(970px);
+    }
     width: vw(970px);
-    margin-top: vw(100px);
+    margin-top: vw(60px);
     #card {
       margin-left: vw(24px);
       margin-right: vw(24px);
@@ -65,8 +72,11 @@
 
 @media screen and(max-width :$TABLET-VW) {
   #usercarousel {
+    .empty-message {
+      width: vw-t(568px);
+    }
     width: vw-t(568px);
-    margin-top: vw-t(100px);
+    margin-top: vw-t(60px);
     #card {
       margin-left: vw-t(24px);
       margin-right: vw-t(24px);
@@ -90,8 +100,11 @@
 
 @media screen and(max-width :$PHONE-VW) {
   #usercarousel {
+    .empty-message {
+      width: vw-p(340px);
+    }
     width: vw-p(340px);
-    margin-top: vw-p(100px);
+    margin-top: vw-p(60px);
     #user-carousel-item {
       margin-left: vw-p(16px);
       margin-right: vw-p(16px);

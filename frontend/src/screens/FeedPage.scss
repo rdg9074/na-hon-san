@@ -3,6 +3,15 @@
     width: (1170px);
     margin-top: (128px);
   }
+  .carousel-label {
+    margin-top: (80px);
+    & p {
+      & span {
+        color: $MAIN_YELLOW;
+        margin: 0px 12px 0px 12px;
+      }
+    }
+  }
 }
 @media screen and (max-width: $DESKTOP-VW) {
   #feed-page {
@@ -10,13 +19,29 @@
       width: vw(1170px);
       margin-top: vw(128px);
     }
+    .carousel-label {
+      margin-top: vw(80px);
+      & p {
+        & span {
+          margin: 0px vw(12px) 0px vw(12px);
+        }
+      }
+    }
   }
 }
 @media screen and (max-width: $TABLET-VW) {
   #feed-page {
     .card-list {
-      width: vw-t(768px);
+      width: vw-t(678px);
       margin-top: vw-t(60px);
+    }
+    .carousel-label {
+      margin-top: vw-t(80px);
+      & p {
+        & span {
+          margin: 0px vw-t(12px) 0px vw-t(12px);
+        }
+      }
     }
   }
 }
@@ -25,6 +50,14 @@
     .card-list {
       width: vw-p(320px);
       margin-top: vw-p(28px);
+    }
+    .carousel-label {
+      margin-top: vw-p(80px);
+      & p {
+        & span {
+          margin: 0px vw-p(4px) 0px vw-p(4px);
+        }
+      }
     }
   }
 }

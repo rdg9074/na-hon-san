@@ -11,6 +11,7 @@
       height: 40%;
       font-size: (36px);
     }
+
     &-body {
       align-items: center;
       justify-content: space-evenly;
@@ -23,13 +24,19 @@
       }
     }
   }
+  .user-title {
+    margin-top: (80px);
+    & span {
+      color: $MAIN_YELLOW;
+    }
+  }
   .wrapper {
     margin-top: (100px);
     width: 100%;
     justify-content: center;
     .user-list {
-      width: (1170px);
-      flex-wrap: wrap;
+      flex-direction: column;
+      width: (1270px);
     }
   }
 }
@@ -53,11 +60,14 @@
         }
       }
     }
+    .user-title {
+      margin-top: vw(80px);
+    }
     .wrapper {
       margin-top: vw(100px);
       width: 100%;
       .user-list {
-        width: vw(1170px);
+        width: vw(1270px);
       }
     }
   }
@@ -82,11 +92,15 @@
         }
       }
     }
+    .user-title {
+      margin-top: vw-t(80px);
+      margin-bottom: vw-t(80px);
+    }
     .wrapper {
       margin-top: vw-t(40px);
       width: 100%;
       .user-list {
-        width: vw-t(768px);
+        width: vw-t(728px);
       }
     }
   }
@@ -112,7 +126,8 @@
       margin-top: vw-p(40px);
       width: 100%;
       .user-list {
-        width: 100%;
+        width: vw-p(365px);
+        overflow: hidden;
       }
     }
   }

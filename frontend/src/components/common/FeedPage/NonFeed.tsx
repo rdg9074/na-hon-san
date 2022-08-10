@@ -5,9 +5,14 @@ import loadingSpinner from "@images/LoadingSpinner.svg";
 import { getPopUsers } from "@apis/feed";
 import FeedUserItem from "./FeedUserItem";
 
-function NonFeed() {
+type NonFeedProps = {
+  changed: () => void;
+};
+
+function NonFeed({ changed }: NonFeedProps) {
   const [popUsers, setPopUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [change, setChange] = useState(false);
   useEffect(() => {
     (async () => {
       const res = await getPopUsers();
@@ -17,6 +22,7 @@ function NonFeed() {
       }
     })();
   }, []);
+
   return (
     <div id="nonfeed-page">
       <div className="title flex column">
@@ -32,11 +38,16 @@ function NonFeed() {
           </p>
         </div>
       </div>
+      <div className="user-title flex justify-center">
+        <p className="notoBold fs-36">
+          나혼자 <span className="fs-48 notoBold">잘</span> 사는 사람들
+        </p>
+      </div>
       <div className="wrapper flex ">
         <div className="user-list flex">
           {isLoading ? (
             popUsers.map(user => {
-              return <FeedUserItem data={user} key={v4()} />;
+              return <FeedUserItem changed={changed} data={user} key={v4()} />;
             })
           ) : (
             <img
