@@ -1,7 +1,10 @@
 import API from "./index";
 
 export const getPopUsers = async () => {
-  const res = await API.get("/mainFeed/user");
+  const accessToken = sessionStorage.getItem("access-token");
+  const res = await API.get("/mainFeed/user", {
+    headers: { Authorization: `${accessToken}` }
+  });
   return res.data;
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from "react";
 import "./CardCarousel.scss";
 import { v4 } from "uuid";
@@ -70,11 +71,17 @@ function CardCarousel() {
     <div id="usercarousel">
       <div className="container">
         <div className="slider flex justify-center" ref={slideRef}>
-          {isLoading
-            ? cardList.map(value => (
+          {isLoading ? (
+            cardList.length !== 0 ? (
+              cardList.map(value => (
                 <Card type="deal" data={value} key={v4()} />
               ))
-            : [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)}
+            ) : (
+              <p className="notoReg fs-24">카테고리를 설정해주세요</p>
+            )
+          ) : (
+            [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)
+          )}
         </div>
         <button
           className="prevbtn fs-48 flex"

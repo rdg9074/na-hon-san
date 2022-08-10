@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { v4 } from "uuid";
 import "./NonFeed.scss";
+import loadingSpinner from "@images/LoadingSpinner.svg";
+import { getPopUsers } from "@apis/feed";
 import FeedUserItem from "./FeedUserItem";
 
 function NonFeed() {
-  const users = [1, 2, 3, 4];
+  const [popUsers, setPopUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const res = await getPopUsers();
+      if (res.result === "SUCCESS") {
+        setPopUsers(res.data);
+        setIsLoading(true);
+      }
+    })();
+  }, []);
   return (
     <div id="nonfeed-page">
       <div className="title flex column">
@@ -22,9 +34,18 @@ function NonFeed() {
       </div>
       <div className="wrapper flex ">
         <div className="user-list flex">
-          {users.map(() => {
-            return <FeedUserItem key={v4()} />;
-          })}
+          {isLoading ? (
+            popUsers.map(user => {
+              return <FeedUserItem data={user} key={v4()} />;
+            })
+          ) : (
+            <img
+              src={loadingSpinner}
+              title="로딩스피너"
+              alt="로딩스피너"
+              className="loading-spinner"
+            />
+          )}
         </div>
       </div>
     </div>
