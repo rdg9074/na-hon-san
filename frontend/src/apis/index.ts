@@ -21,9 +21,12 @@ API.interceptors.response.use(
   async err => {
     console.log("intercept", err);
     if (err.response.status === 401) {
+      console.log("1");
       await refreshAccessToken();
+      console.log(5);
       const accessToken = sessionStorage.getItem("access-token") as string;
       err.config.headers = { Authorization: `${accessToken}` };
+      console.log(6);
       return API(err.config);
     }
     return Promise.reject(err);
