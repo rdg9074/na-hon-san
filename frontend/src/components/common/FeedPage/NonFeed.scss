@@ -28,13 +28,8 @@
     width: 100%;
     justify-content: center;
     .user-list {
-      width: (970px);
-      justify-content: space-evenly;
+      width: (1170px);
       flex-wrap: wrap;
-      margin-bottom: (60px);
-      #feeduser-item {
-        margin-top: (40px);
-      }
     }
   }
 }
@@ -62,11 +57,7 @@
       margin-top: vw(100px);
       width: 100%;
       .user-list {
-        width: vw(970px);
-        margin-bottom: vw(60px);
-        #feeduser-item {
-          margin-top: vw(40px);
-        }
+        width: vw(1170px);
       }
     }
   }
@@ -95,11 +86,7 @@
       margin-top: vw-t(40px);
       width: 100%;
       .user-list {
-        width: vw-t(568px);
-        margin-bottom: vw-t(60px);
-        #feeduser-item {
-          margin-top: vw-t(40px);
-        }
+        width: vw-t(768px);
       }
     }
   }
@@ -126,10 +113,6 @@
       width: 100%;
       .user-list {
         width: 100%;
-        margin-bottom: vw-p(60px);
-        #feeduser-item {
-          margin-top: vw-p(12px);
-        }
       }
     }
   }

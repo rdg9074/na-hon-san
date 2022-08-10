@@ -1,40 +1,48 @@
 #feeduser-item {
-  .item {
-    width: 460px;
+  &:nth-child(n) {
+    margin-right: (38px);
+    margin-bottom: (40px);
+  }
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+  .user-item {
+    width: (566px);
     &-title {
-      height: 40%;
       &__img {
-        width: 20%;
-        align-items: center;
-        justify-content: center;
-        & > img {
-          width: 60px;
-          height: 60px;
-        }
+        width: (84px);
+        height: (84px);
+        border-radius: 50%;
       }
       &__info {
+        margin-left: (24px);
         justify-content: space-between;
-        align-items: center;
-        & > p {
-          font-size: (20px);
-        }
         & > button {
-          margin-top: (12px);
           background-color: $MAIN_YELLOW;
-          width: (80px);
-          height: (32px);
+          width: (112px);
+          height: (40px);
           border-radius: (12px);
         }
       }
     }
     &-body {
-      padding: (12px);
       margin-top: (24px);
-      justify-content: space-between;
-      & > img {
-        width: 32%;
-        height: (100px);
-        border-radius: (12px);
+      #feed-item {
+        & + #feed-item {
+          margin-left: (16px);
+        }
+        .img-container {
+          width: (178px);
+          height: (142px);
+          margin-top: (24px);
+        }
+        .item {
+          &__img {
+            width: (178px);
+            height: (142px);
+            border-radius: (24px);
+          }
+        }
       }
     }
   }
@@ -42,38 +50,50 @@
 
 @media screen and (max-width: $DESKTOP-VW) {
   #feeduser-item {
-    .item {
-      width: vw(460px);
+    &:nth-child(n) {
+      margin-right: vw(38px);
+      margin-bottom: vw(40px);
+    }
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+    .user-item {
+      width: vw(566px);
       &-title {
-        height: 40%;
         &__img {
-          width: 20%;
-          & > img {
-            width: vw(60px);
-            height: vw(60px);
-          }
+          width: vw(84px);
+          height: vw(84px);
+          border-radius: 50%;
         }
         &__info {
-          & > p {
-            font-size: vw(20px);
-          }
+          margin-left: vw(24px);
+          justify-content: space-between;
           & > button {
             background-color: $MAIN_YELLOW;
-            width: vw(80px);
-            height: vw(32px);
+            width: vw(112px);
+            height: vw(40px);
             border-radius: vw(12px);
-            font-size: vw(16px);
-            margin-top: vw(12px);
           }
         }
       }
       &-body {
-        padding: vw(12px);
         margin-top: vw(24px);
-        & > img {
-          width: 32%;
-          height: vw(100px);
-          border-radius: vw(12px);
+        #feed-item {
+          & + #feed-item {
+            margin-left: vw(16px);
+          }
+          .img-container {
+            width: vw(178px);
+            height: vw(142px);
+            margin-top: vw(24px);
+          }
+          .item {
+            &__img {
+              width: vw(178px);
+              height: vw(142px);
+              border-radius: vw(24px);
+            }
+          }
         }
       }
     }
@@ -82,38 +102,47 @@
 
 @media screen and (max-width: $TABLET-VW) {
   #feeduser-item {
-    .item {
-      width: vw-t(460px);
+    &:nth-child(n) {
+      margin: 0 vw-t(101px);
+      margin-bottom: vw-t(40px);
+    }
+    .user-item {
+      width: vw-t(566px);
       &-title {
-        padding: vw-t(12px);
-        height: 40%;
         &__img {
-          width: 20%;
-          & > img {
-            width: vw-t(60px);
-            height: vw-t(60px);
-          }
+          width: vw-t(84px);
+          height: vw-t(84px);
+          border-radius: 50%;
         }
         &__info {
-          & > p {
-            font-size: vw-t(20px);
-          }
+          margin-left: vw-t(24px);
+          justify-content: space-between;
           & > button {
             background-color: $MAIN_YELLOW;
-            width: vw-t(80px);
-            height: vw-t(32px);
+            width: vw-t(112px);
+            height: vw-t(40px);
             border-radius: vw-t(12px);
-            font-size: vw-t(16px);
-            margin-top: vw-t(12px);
           }
         }
       }
       &-body {
-        margin-top: vw-t(12px);
-        & > img {
-          width: 32%;
-          height: vw-t(100px);
-          border-radius: vw-t(12px);
+        margin-top: vw-t(24px);
+        #feed-item {
+          & + #feed-item {
+            margin-left: vw-t(16px);
+          }
+          .img-container {
+            width: vw-t(178px);
+            height: vw-t(142px);
+            margin-top: vw-t(24px);
+          }
+          .item {
+            &__img {
+              width: vw-t(178px);
+              height: vw-t(142px);
+              border-radius: vw-t(24px);
+            }
+          }
         }
       }
     }
@@ -122,39 +151,48 @@
 
 @media screen and (max-width: $PHONE-VW) {
   #feeduser-item {
-    .item {
+    &:nth-child(n) {
+      margin: 0;
+      margin-bottom: vw-p(40px);
+    }
+    .user-item {
       width: vw-p(365px);
-      padding: vw-p(16px);
       &-title {
-        padding: vw-p(16px);
-        height: 40%;
         &__img {
-          width: 20%;
-          & > img {
-            width: vw-p(40px);
-            height: vw-p(40px);
-          }
+          width: vw-p(84px);
+          height: vw-p(84px);
+          border-radius: 50%;
         }
         &__info {
-          & > p {
-            font-size: vw-p(20px);
-          }
+          margin-left: vw-p(24px);
+          justify-content: space-between;
           & > button {
             background-color: $MAIN_YELLOW;
-            width: vw-p(80px);
-            margin-top: (8px);
-            height: vw-p(32px);
+            width: vw-p(112px);
+            height: vw-p(40px);
             border-radius: vw-p(12px);
-            font-size: vw-p(16px);
           }
         }
       }
       &-body {
-        margin-top: vw-p(12px);
-        & > img {
-          width: 32%;
-          height: vw-p(100px);
-          border-radius: vw-p(12px);
+        overflow-y: hidden;
+        margin-top: vw-p(24px);
+        #feed-item {
+          & + #feed-item {
+            margin-left: vw-p(16px);
+          }
+          .img-container {
+            width: vw-p(178px);
+            height: vw-p(142px);
+            margin-top: vw-p(24px);
+          }
+          .item {
+            &__img {
+              width: vw-p(178px);
+              height: vw-p(142px);
+              border-radius: vw-p(24px);
+            }
+          }
         }
       }
     }

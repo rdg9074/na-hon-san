@@ -1,13 +1,13 @@
 #feed-page {
   .card-list {
-    width: (1280px);
+    width: (1170px);
     margin-top: (128px);
   }
 }
 @media screen and (max-width: $DESKTOP-VW) {
   #feed-page {
     .card-list {
-      width: vw(1280px);
+      width: vw(1170px);
       margin-top: vw(128px);
     }
   }
