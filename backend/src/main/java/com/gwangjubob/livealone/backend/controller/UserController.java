@@ -101,18 +101,18 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/user/login")
-    public  ResponseEntity<?> updateAccessToken(HttpServletRequest request){
+    public  ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
         resultMap = new HashMap<>();
-        Cookie[] cookies = request.getCookies();
-        String refreshToken = null;
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("refresh-token")){
-                refreshToken = cookie.getValue();
-                break;
-            }
-        }
+//        Cookie[] cookies = request.getCookies();
+//        String refreshToken = null;
+//        for(Cookie cookie : cookies){
+//            if(cookie.getName().equals("refresh-token")){
+//                refreshToken = cookie.getValue();
+//                break;
+//            }
+//        }
         String decodeId = jwtService.decodeToken(refreshToken);
-        if(decodeId != null){
+        if(!decodeId.equals("timeout")){
             String accessToken = jwtService.createAccessToken("id", decodeId);
             resultMap.put("access-token", accessToken);
             resultMap.put("message", okay);
@@ -176,6 +176,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
+        System.out.println(decodeId);
         if (decodeId != null){
             try {
                 userInfoDto.setId(decodeId);
