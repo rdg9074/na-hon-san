@@ -21,14 +21,14 @@ public class DealCommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name = "user_nickname", referencedColumnName = "nickname"),
             @JoinColumn(name = "user_id", referencedColumnName = "id")
     })
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_idx")
     private DealEntity deal;
 

@@ -28,6 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,14 +119,31 @@ public class DMServiceTest {
         // given
         final String id = "test";
 
-
+        UserEntity user = userRepository.findById(id).get();
         // when
-        List<DMEntity> dmEntityList = dmRepository.findListViews(id);
-
+        List<DMEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
+        List<DMEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
+        List<UserEntity> DMUsers = new ArrayList<>();
         // thens
-        System.out.println("start");
-        for (int i = 0; i < dmEntityList.size(); i++) {
-            System.out.println(dmEntityList.get(i).toString());
+        for (DMEntity d: toUser) {
+            if(!DMUsers.contains(d.getToUserId())) {
+                DMUsers.add(d.getToUserId());
+            }
+        }
+        for (DMEntity d: fromUser){
+            if(!DMUsers.contains(d.getFromUserId())) {
+                DMUsers.add(d.getFromUserId());
+            }
+        }
+        List<DMEntity> dmList = new ArrayList<>();
+        for (UserEntity u : DMUsers){
+            Optional<DMEntity> optionalDM = dmRepository.findByUserIdAndOtherId(user, u);
+            DMEntity dm = optionalDM.get();
+            dmList.add(dm);
+        }
+        Collections.sort(dmList, (a,b) -> b.getIdx() - a.getIdx());
+        for(DMEntity d: dmList){
+            System.out.println(d);
         }
     }
     @Test

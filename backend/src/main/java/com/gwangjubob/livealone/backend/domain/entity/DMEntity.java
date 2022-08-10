@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 public class DMEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="from_user_id")
     private UserEntity fromUserId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="to_user_id")
     private UserEntity toUserId;
 
