@@ -26,7 +26,7 @@
         width: 70%;
         &__img-container {
           align-items: center;
-          & > img {
+          & button > img {
             width: (40px);
             height: (40px);
             border-radius: 100%;
@@ -178,7 +178,7 @@
           width: 75%;
 
           &__img-container {
-            & > img {
+            & button > img {
               width: vw(40px);
               height: vw(40px);
               border-radius: 100%;
@@ -310,7 +310,7 @@
           height: 100%;
           width: 82%;
           &__img-container {
-            & > img {
+            & button > img {
               width: vw-t(40px);
               height: vw-t(40px);
               border-radius: 100%;
@@ -452,7 +452,7 @@
           height: 100%;
           width: 80%;
           &__img-container {
-            & > img {
+            & button > img {
               width: vw-p(36px);
               height: vw-p(36px);
               border-radius: 100%;

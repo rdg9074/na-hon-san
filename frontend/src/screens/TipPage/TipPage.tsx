@@ -65,7 +65,7 @@ function TipPage() {
             title="Tip"
           />
           <p className="intro-container__count">
-            나혼자 잘 살러들의 꿀팁
+            나혼자 잘사는 꿀팁
             <br />
             <span>{totalCnt}</span>개
           </p>
