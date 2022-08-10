@@ -658,14 +658,18 @@ public class DealServiceImpl implements DealService {
                 }
 
                 loginUserTime = getMidBusStation(busStation, loginUserX, loginUserY);
-                for (Long t : loginUserTime) {
-                    System.out.println("로그인 사용자가 걸린 시간 : " + t);
+                for(Long i=0L ; i < loginUserTime.size(); i++){
+                    System.out.println("로그인 한 사용자가 "+i+"번째 버스정류장을 통해서 가는데 걸린 총 시간 : " + loginUserTime.get(Math.toIntExact(i)));
+                }
+                Thread.sleep(2000);
+                targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
+                for(Long i=0L ; i < targetUserTime.size(); i++){
+                    System.out.println("상대방이 "+i+"번째 버스정류장을 통해서 가는데 걸린 총 시간 : " + loginUserTime.get(Math.toIntExact(i)));
                 }
 
-                targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
-                for (Long t : targetUserTime) {
-                    System.out.println("상대방 걸린 시간 : " + t);
-                }
+                System.out.println(loginUserTime.size());
+                System.out.println(targetUserTime.size());
+
                 Long minTime = Long.MAX_VALUE;
                 int index = 0;
                 for (int i = 0; i < loginUserTime.size(); i++) {
@@ -693,10 +697,11 @@ public class DealServiceImpl implements DealService {
         return info;
     }
 
+
     private ArrayList<Long> getMidBusStation(ArrayList<List> station, Double userX, Double userY) {
         ArrayList<Long> userTime = new ArrayList<>();
 
-        for(int i=0; i<station.size(); i++){
+        for(int i=0; i<5; i++){ // 너무 야맨데...
 
             Double midX = (Double) station.get(i).get(0);
             Double midY = (Double) station.get(i).get(1);
@@ -729,7 +734,7 @@ public class DealServiceImpl implements DealService {
 
                 Object resultObj = json.get("result");
                 if(resultObj!=null){
-                    JSONObject result = (JSONObject) json.get("result");
+                    JSONObject result = (JSONObject) resultObj;
                     JSONArray paths = (JSONArray) result.get("path");
                     JSONObject path = (JSONObject) paths.get(0);
                     JSONObject info = (JSONObject) path.get("info");
@@ -738,10 +743,10 @@ public class DealServiceImpl implements DealService {
 
                     if(paths.size() > 1){
                         for(int j=1; j<paths.size(); j++){
-                            path = (JSONObject) paths.get(j);
-                            info = (JSONObject) path.get("info");
+                            JSONObject path2 = (JSONObject) paths.get(j);
+                            JSONObject info2 = (JSONObject) path2.get("info");
 
-                            Long totalTime = Long.parseLong(info.get("totalTime").toString());
+                            Long totalTime = Long.parseLong(info2.get("totalTime").toString());
                             if(minTime > totalTime) minTime = totalTime;
                         }
                     }
