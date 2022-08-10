@@ -97,7 +97,6 @@ public class DealServiceTest {
             List<DealCommentEntity> comments = dealCommentRepository.findByDealOrderByComment(dealEntity);
             List<DealCommentDto> commentDto = dealCommentMapper.toDtoList(comments);
             DealDto data = dealMapper.toDto(dealEntity);
-            data.setComments(commentDto);
             data.setUserNickname(dealEntity.getUser().getNickname());
             data.setUserId(dealEntity.getUser().getId());
             resultMap.put("data", data);
