@@ -1,3 +1,5 @@
+import { resetUserInfo } from "@store/ducks/auth/authSlice";
+import { useAppDispatch } from "@store/hooks";
 import axios from "axios";
 import API from "./index";
 
@@ -84,8 +86,13 @@ export const getKakaoToken = async (code: string) => {
 };
 
 export const refreshAccessToken = async () => {
-  const res = await API.get("/user/login");
-  if (res.data.message === "SUCCESS") {
-    sessionStorage.setItem("access-token", res.data["access-token"]);
+  try {
+    const res = await API.get("/user/login");
+    if (res.data.message === "SUCCESS") {
+      sessionStorage.setItem("access-token", res.data["access-token"]);
+    }
+  } catch (e) {
+    const dispatch = useAppDispatch();
+    dispatch(resetUserInfo());
   }
 };
