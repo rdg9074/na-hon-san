@@ -23,7 +23,10 @@ API.interceptors.response.use(
     if (err.response.status === 401) {
       await refreshAccessToken();
       const accessToken = sessionStorage.getItem("access-token");
-      originalRequest.headers.authorization = accessToken;
+      originalRequest.headers = {
+        ...originalRequest.headers,
+        Authorization: accessToken
+      };
       return axios(originalRequest);
     }
     return Promise.reject(err);
