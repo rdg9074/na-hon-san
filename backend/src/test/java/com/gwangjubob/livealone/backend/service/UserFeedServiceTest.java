@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -229,7 +230,9 @@ public class UserFeedServiceTest {
     @Test
     public void 인기있는_팔로워_추천() {
         //given
-        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList();//조회
+        int pageSize = 5;
+        Pageable pageable = PageRequest.ofSize(pageSize);
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList(pageable);//조회
         List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
         //when
         for (PopularFollowEntity userFollowEntity : userFollowEntities){
@@ -294,7 +297,7 @@ public class UserFeedServiceTest {
         int pageSize = 5;
         Pageable pageable = PageRequest.ofSize( pageSize);
         //when
-        List<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),lastIdx,pageable); //내가 팔로우 한 유저 목록
+        Slice<UserFollowTipsEntity> tipEntityList = userFollowTipsRepository.findTips(user.get().getId(),lastIdx,pageable); //내가 팔로우 한 유저 목록
         //then
         for(UserFollowTipsEntity tipEntity : tipEntityList){
                 TipViewDto dto = TipViewDto.builder()
