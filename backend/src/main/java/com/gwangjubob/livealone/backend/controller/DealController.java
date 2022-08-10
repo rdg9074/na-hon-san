@@ -44,7 +44,7 @@ public class DealController {
         this.userService = userService;
     }
 
-    @PostMapping("/api/honeyDeal")
+    @PostMapping("/honeyDeal")
     public ResponseEntity<?> registDeal(@RequestBody DealDto dealDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -66,7 +66,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/api/honeyDeal/{category}")
+    @GetMapping("/honeyDeal/{category}")
     public ResponseEntity<?> viewDeal(@PathVariable String category){
         resultMap = new HashMap<>();
         try {
@@ -84,7 +84,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/api/honeyDeal/detail/{idx}")
+    @GetMapping("/honeyDeal/detail/{idx}")
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
         String decodeId = null;
@@ -140,7 +140,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/api/honeyDeal/{idx}")
+    @PutMapping("/honeyDeal/{idx}")
     public ResponseEntity<?> updateDeal(@PathVariable Integer idx, @RequestBody DealDto dealDto){
         resultMap = new HashMap<>();
         try {
@@ -159,7 +159,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/api/honeyDeal/{idx}")
+    @DeleteMapping("/honeyDeal/{idx}")
     public ResponseEntity<?> deleteDeal(@PathVariable Integer idx){
         resultMap = new HashMap<>();
         try {
@@ -176,7 +176,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/api/honeyDeal/comment")
+    @PostMapping("/honeyDeal/comment")
     public ResponseEntity<?> registDealComment(@RequestBody DealCommentDto dealCommentDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -199,7 +199,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/api/honeyDeal/comment/{idx}")
+    @PutMapping("/honeyDeal/comment/{idx}")
     public ResponseEntity<?> updateDealComment(@PathVariable Integer idx, @RequestBody DealCommentDto dealCommentDto){
         resultMap = new HashMap<>();
         try {
@@ -217,7 +217,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @DeleteMapping("/api/honeyDeal/comment/{idx}")
+    @DeleteMapping("/honeyDeal/comment/{idx}")
     public ResponseEntity<?> deleteDealComment(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -235,7 +235,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/honeyDeal/like/{idx}")
+    @GetMapping("/honeyDeal/like/{idx}")
     public ResponseEntity<?> likeDeal(@PathVariable Integer idx, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -252,7 +252,7 @@ public class DealController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/api/honeyDeal/view")
+    @PostMapping("/honeyDeal/view")
     public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = null;
@@ -276,7 +276,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/honeyDeal/position/{nickname}")
+    @GetMapping("/honeyDeal/position/{nickname}")
     public ResponseEntity<?> getPosition(HttpServletRequest request, @PathVariable String nickname){
         resultMap = new HashMap<>();
         String loginUserId = checkToken(request);

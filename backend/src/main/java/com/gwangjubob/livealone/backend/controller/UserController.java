@@ -40,7 +40,7 @@ public class UserController {
         this.mailService = mailService;
     }
 
-    @PostMapping("/api/user")
+    @PostMapping("/user")
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -54,7 +54,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/user/check/{nickname}")
+    @GetMapping("/user/check/{nickname}")
     public ResponseEntity<?> checkNickName(@PathVariable String nickname){
         resultMap = new HashMap<>();
         try {
@@ -70,7 +70,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/api/user/login")
+    @PostMapping("/user/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -99,7 +99,7 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/api/user/login")
+    @GetMapping("/user/login")
     public  ResponseEntity<?> updateAccessToken(HttpServletRequest request){
         resultMap = new HashMap<>();
         String refreshToken = request.getHeader("Set-Cookie").split(";")[0].replace("refresh-token=","");
@@ -115,7 +115,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @PutMapping("/api/user/password")
+    @PutMapping("/user/password")
     public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -133,7 +133,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/api/user/auth")
+    @PostMapping("/user/auth")
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         resultMap = new HashMap<>();
         try {
@@ -149,7 +149,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/api/user/auth")
+    @GetMapping("/user/auth")
     public ResponseEntity<?> checkMail(@ModelAttribute("MailCheckDto") MailCheckDto mailCheckDto) throws Exception {
         resultMap = new HashMap<>();
         try {
@@ -164,7 +164,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PutMapping("/api/user")
+    @PutMapping("/user")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -186,7 +186,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PutMapping("/api/user/more")
+    @PutMapping("/user/more")
     public ResponseEntity<?> moreUpdateUser(@RequestBody UserMoreDTO userMoreDTO, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -212,7 +212,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @DeleteMapping("/api/user")
+    @DeleteMapping("/user")
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -228,7 +228,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/api/user/password")
+    @PostMapping("/user/password")
     public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -247,7 +247,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/user")
+    @GetMapping("/user")
     public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -269,7 +269,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/user/more")
+    @GetMapping("/user/more")
     public ResponseEntity<?> infoMore(HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

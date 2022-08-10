@@ -34,7 +34,7 @@ public class SocialController {
         this.mailService = mailService;
         this.socialService = socialService;
     }
-    @PostMapping("/api/google")
+    @PostMapping("/google")
     public ResponseEntity<?> authGoogle(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
@@ -64,7 +64,7 @@ public class SocialController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/api/naver")
+    @PostMapping("/naver")
     public ResponseEntity<?> authNaver(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
@@ -94,7 +94,7 @@ public class SocialController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/api/kakao")
+    @PostMapping("/kakao")
     public ResponseEntity<?> authKakao(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");

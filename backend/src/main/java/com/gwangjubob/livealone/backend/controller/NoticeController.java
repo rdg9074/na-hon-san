@@ -36,7 +36,7 @@ public class NoticeController {
         this.dmService = dmService;
     }
 
-    @GetMapping("/api/user/notice")
+    @GetMapping("/user/notice")
     public ResponseEntity<?> viewNotice(HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -55,7 +55,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/user/notice/count")
+    @GetMapping("/user/notice/count")
     public ResponseEntity<?> countNotice(HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -76,7 +76,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/api/user/notice/{idx}")
+    @PutMapping("/user/notice/{idx}")
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -99,7 +99,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/api/user/notice/{idx}")
+    @DeleteMapping("/user/notice/{idx}")
     public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable int idx) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

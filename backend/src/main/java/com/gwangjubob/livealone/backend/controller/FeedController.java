@@ -42,7 +42,7 @@ public class FeedController {
         this.userFeedService = userFeedService;
     }
 
-    @PostMapping("/api/userFeed/follow/{nickname}")
+    @PostMapping("/userFeed/follow/{nickname}")
     public ResponseEntity<?> registFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -59,7 +59,7 @@ public class FeedController {
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @DeleteMapping("/api/userFeed/follow/{nickname}")
+    @DeleteMapping("/userFeed/follow/{nickname}")
     public ResponseEntity<?> deleteFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -76,7 +76,7 @@ public class FeedController {
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/userFeed/follow/{nickname}")
+    @GetMapping("/userFeed/follow/{nickname}")
     public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
@@ -96,7 +96,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/userFeed/follower/{nickname}")
+    @GetMapping("/userFeed/follower/{nickname}")
     public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
@@ -116,7 +116,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/userFeed/follow/search/{nickname}")
+    @GetMapping("/userFeed/follow/search/{nickname}")
     public ResponseEntity<?> searchFollow(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
@@ -136,7 +136,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/userFeed/follower/search/{nickname}")
+    @GetMapping("/userFeed/follower/search/{nickname}")
     public ResponseEntity<?> searchFollower(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
@@ -156,7 +156,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/userFeed/profile/{nickname}")
+    @GetMapping("/userFeed/profile/{nickname}")
     public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
@@ -174,7 +174,7 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @GetMapping("/api/userFeed/post/{nickname}")
+    @GetMapping("/userFeed/post/{nickname}")
     public ResponseEntity<?> feedPosts(@PathVariable("nickname")String fromNickname, @RequestParam("category") int category){
         resultMap = new HashMap<>();
         try{
@@ -211,7 +211,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/api/mainFeed/honeyDeal")
+    @GetMapping("/mainFeed/honeyDeal")
     public ResponseEntity<?> popularHoneyDeal(HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

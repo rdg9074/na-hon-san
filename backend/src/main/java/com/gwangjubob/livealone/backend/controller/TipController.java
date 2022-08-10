@@ -40,7 +40,7 @@ public class TipController {
         this.userFeedService = userFeedService;
     }
 
-    @PostMapping("/api/honeyTip")
+    @PostMapping("/honeyTip")
     public ResponseEntity<?> createTip(HttpServletRequest request, @RequestBody TipCreateDto tipCreateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -60,7 +60,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/api/honeyTip/list")
+    @PostMapping("/honeyTip/list")
     public ResponseEntity<?> viewTip(@RequestBody TipListDto tipListDto){
         resultMap = new HashMap<>();
 
@@ -78,7 +78,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/honeyTip/totalCount")
+    @GetMapping("/honeyTip/totalCount")
     public ResponseEntity<?> totalCount(){
         resultMap = new HashMap<>();
         try{
@@ -92,7 +92,7 @@ public class TipController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/api/honeyTip/detail/{idx}")
+    @GetMapping("/honeyTip/detail/{idx}")
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
         String decodeId = null;
@@ -144,7 +144,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/api/honeyTip/{idx}")
+    @PutMapping("/honeyTip/{idx}")
     public ResponseEntity<?> updateTip(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipUpdateDto tipUpdateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -163,7 +163,7 @@ public class TipController {
          return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/api/honeyTip/{idx}")
+    @DeleteMapping("/honeyTip/{idx}")
     public ResponseEntity<?> daleteTip(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -182,7 +182,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/api/honeyTip/comment")
+    @PostMapping("/honeyTip/comment")
     public ResponseEntity<?> createTipComment(HttpServletRequest request, @RequestBody TipCommentCreateDto tipCommentCreateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -201,7 +201,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/api/honeyTip/comment/{idx}")
+    @PutMapping("/honeyTip/comment/{idx}")
     public ResponseEntity<?> updateTipComment(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipCommentUpdateDto tipCommentUpdateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -220,7 +220,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/api/honeyTip/comment/{idx}")
+    @DeleteMapping("/honeyTip/comment/{idx}")
     public ResponseEntity<?> deleteTipComment(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -239,7 +239,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/api/honeyTip/like/{idx}")
+    @GetMapping("/honeyTip/like/{idx}")
     public ResponseEntity<?> likeTip(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
