@@ -719,15 +719,15 @@ public class DealServiceTest {
         List<Double> list5 = new ArrayList<>();
         list5.add(126.8608);
         list5.add(35.17906);
-        List<Double> list6 = new ArrayList<>();
-        list6.add(126.860794);
-        list6.add(35.179);
+//        List<Double> list6 = new ArrayList<>();
+//        list6.add(126.860794);
+//        list6.add(35.179);
         station.add(list1);
         station.add(list2);
         station.add(list3);
         station.add(list4);
         station.add(list5);
-        station.add(list6);
+//        station.add(list6);
 
         for(int i=0; i<station.size(); i++){
             List<Long> loginUserTime = new ArrayList<>();
@@ -749,7 +749,7 @@ public class DealServiceTest {
             String surl2 = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey="+apiKey+"&SX="+targetUserSX+"&SY="+targetUserSY+"&EX="+EX+"&EY="+EY;
 
             try{
-                URL url = new URL(surl);
+                URL url = new URL(surl2);
 
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
@@ -766,9 +766,17 @@ public class DealServiceTest {
 
                 JSONParser parser = new JSONParser();
                 JSONObject json = (JSONObject) parser.parse(sb.toString());
-
+//                System.out.println(json);
                 JSONObject result = (JSONObject) json.get("result");
+//                System.out.println(result);
                 JSONArray paths = (JSONArray) result.get("path"); // 여기서 최단 시간 찾아야함
+//                System.out.println(paths.get(0));
+//                System.out.println(paths.size());
+//                JSONObject path = (JSONObject) paths.get(0);
+//                JSONObject info = (JSONObject) path.get("info");
+//                JSONObject totalTime = (JSONObject) info.get("totalTime");
+//                Long minTime = Long.parseLong(info.get("totalTime").toString());
+//                System.out.println(i+"번째 정류장 총 시간 : " + minTime);
 //                System.out.println(paths.size());
 
                 Long minTime = Long.MAX_VALUE;
