@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import App from "./App";
 import { setUpStore } from "./store";
+import { setUpInterceptors } from "./apis";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -24,3 +25,4 @@ root.render(
     </PersistGate>
   </Provider>
 );
+setUpInterceptors(store);

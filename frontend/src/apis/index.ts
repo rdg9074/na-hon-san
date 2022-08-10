@@ -1,3 +1,4 @@
+import { resetUserInfo } from "@store/ducks/auth/authSlice";
 import axios from "axios";
 import { config } from "process";
 import { refreshAccessToken } from "./auth";
@@ -14,26 +15,27 @@ const API = axios.create({
   }
 });
 
-API.interceptors.response.use(
-  response => {
-    return response;
-  },
-  async err => {
-    const originalRequest = err.config;
-    if (
-      err.response.status === 401 &&
-      err.response.data.message !== "refreshTimeout"
-    ) {
-      await refreshAccessToken();
-      const accessToken = sessionStorage.getItem("access-token");
-      originalRequest.headers = {
-        ...originalRequest.headers,
-        Authorization: accessToken
-      };
-      return axios(originalRequest);
+export const setUpInterceptors = (store: any) => {
+  const { dispatch } = store;
+  API.interceptors.response.use(
+    response => {
+      return response;
+    },
+    async err => {
+      const originalRequest = err.config;
+      if (err.response.data.message === "refreshTimeout") {
+        dispatch(resetUserInfo());
+      } else if (err.response.status === 401) {
+        await refreshAccessToken();
+        const accessToken = sessionStorage.getItem("access-token");
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          Authorization: accessToken
+        };
+        return axios(originalRequest);
+      }
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
-  }
-);
-
+  );
+};
 export default API;
