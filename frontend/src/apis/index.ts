@@ -20,15 +20,16 @@ API.interceptors.response.use(
   },
   async err => {
     const originalRequest = err.config;
-    if (err.response.status === 401) {
-      await refreshAccessToken();
-      const accessToken = sessionStorage.getItem("access-token");
-      originalRequest.headers = {
-        ...originalRequest.headers,
-        Authorization: accessToken
-      };
-      return axios(originalRequest);
-    }
+    console.log(err);
+    // if (err.response.status === 401) {
+    //   await refreshAccessToken();
+    //   const accessToken = sessionStorage.getItem("access-token");
+    //   originalRequest.headers = {
+    //     ...originalRequest.headers,
+    //     Authorization: accessToken
+    //   };
+    //   return axios(originalRequest);
+    // }
     return Promise.reject(err);
   }
 );
