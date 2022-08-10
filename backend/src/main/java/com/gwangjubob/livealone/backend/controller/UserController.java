@@ -85,6 +85,7 @@ public class UserController {
                 refreshCookie.setMaxAge(1*60*60);
                 refreshCookie.setPath("/");
                 refreshCookie.setHttpOnly(true);
+                refreshCookie.setSecure(true);
 
                 response.addCookie(refreshCookie);
             }else{
