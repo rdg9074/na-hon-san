@@ -15,6 +15,7 @@ export interface UserInfoType {
   profileImg: string | null;
   backgroundImg: string | null;
   likeCategorys: Array<string> | null;
+  social: string;
 }
 interface InitialStateType {
   tmpId: string;

@@ -66,9 +66,6 @@ function FollowList({ signal, followModal, idx }: FollowListProps) {
           const res = await searchFollower(idx, keyword as string);
           setData(res.data.data);
         }
-        inputRef.current.value = "";
-      } else {
-        inputRef.current?.focus();
       }
       setIsLoading(false);
     }
