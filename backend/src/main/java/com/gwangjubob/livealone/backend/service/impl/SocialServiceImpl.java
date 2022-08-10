@@ -65,7 +65,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(nameId)
+                        .nickname(jsonId[0])
                         .social("kakao")
                         .build();
                 userRepository.save(userRegist);
@@ -144,7 +144,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(nameId)
+                        .nickname(jsonId[0])
                         .social("naver")
                         .build();
                 userRepository.save(userRegist);
@@ -195,7 +195,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(nameId)
+                        .nickname(jsonId[0])
                         .social("google")
                         .build();
                 userRepository.save(userRegist);
