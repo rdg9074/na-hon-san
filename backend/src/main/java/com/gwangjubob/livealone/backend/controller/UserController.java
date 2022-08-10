@@ -119,7 +119,7 @@ public class UserController {
             status = HttpStatus.OK;
         }else{
             status = HttpStatus.UNAUTHORIZED;
-            resultMap.put("message", fail);
+            resultMap.put("message", "refreshTimeout");
         }
         return new ResponseEntity<>(resultMap,status);
     }
