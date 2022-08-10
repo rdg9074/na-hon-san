@@ -611,7 +611,7 @@ public class DealServiceImpl implements DealService {
                         list.add(Double.parseDouble(obj.get("y").toString()));
 
                         busStation.add(list);
-                        info.put("busStationList", busStation);
+//                        info.put("busStationList", busStation);
                     }
                 } else {
                     radius = "1000";
@@ -649,7 +649,7 @@ public class DealServiceImpl implements DealService {
                             list.add(Double.parseDouble(obj.get("y").toString()));
 
                             busStation.add(list);
-                            info.put("busStationList", busStation);
+//                            info.put("busStationList", busStation);
                         }
                     } else {
                         radius = "반경 1km 내에 버스 정류장 없음";
@@ -658,21 +658,18 @@ public class DealServiceImpl implements DealService {
                 }
 
                 loginUserTime = getMidBusStation(busStation, loginUserX, loginUserY);
-                for(Long i=0L ; i < loginUserTime.size(); i++){
-                    System.out.println("로그인 한 사용자가 "+i+"번째 버스정류장을 통해서 가는데 걸린 총 시간 : " + loginUserTime.get(Math.toIntExact(i)));
+                for(int i=0; i<loginUserTime.size();i++){
+                    System.out.println("사용자가 " + i +"번째 버스정류장까지 가는데 걸린 총 시간 : " + loginUserTime.get(i));
                 }
                 Thread.sleep(2000);
                 targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
-                for(Long i=0L ; i < targetUserTime.size(); i++){
-                    System.out.println("상대방이 "+i+"번째 버스정류장을 통해서 가는데 걸린 총 시간 : " + loginUserTime.get(Math.toIntExact(i)));
+                for(int i=0; i<targetUserTime.size();i++){
+                    System.out.println("상대방이 " + i +"번째 버스정류장까지 가는데 걸린 총 시간 : " + targetUserTime.get(i));
                 }
 
-                System.out.println(loginUserTime.size());
-                System.out.println(targetUserTime.size());
-
-                Long minTime = Long.MAX_VALUE;
+                Long minTime = (loginUserTime.get(0)+targetUserTime.get(0)) + (loginUserTime.get(0)-targetUserTime.get(0))*2;
                 int index = 0;
-                for (int i = 0; i < loginUserTime.size(); i++) {
+                for (int i = 1; i < loginUserTime.size(); i++) {
                     Long sum = loginUserTime.get(i) + targetUserTime.get(i);
                     Long minus = Math.abs(loginUserTime.get(i) - targetUserTime.get(i));
 
@@ -682,6 +679,15 @@ public class DealServiceImpl implements DealService {
                         minTime = tmp;
                     }
                 }
+                Map<String, Object> top5station = new HashMap<>();
+                for(int i=0; i<loginUserTime.size(); i++){
+                    top5station.put("BusStation"+(i+1), busStation.get(i));
+                    top5station.put("loginUserTime"+(i+1), loginUserTime.get(i));
+                    top5station.put("targetUserTime"+(i+1), targetUserTime.get(i));
+                }
+                info.put("busStationList", top5station);
+
+//                System.out.println(index);
                 Map<String, Object> resultStation = new HashMap<>();
                 resultStation.put("finalBusPositionX", busStation.get(index).get(0));
                 resultStation.put("finalBusPositionY", busStation.get(index).get(1));
@@ -701,7 +707,14 @@ public class DealServiceImpl implements DealService {
     private ArrayList<Long> getMidBusStation(ArrayList<List> station, Double userX, Double userY) {
         ArrayList<Long> userTime = new ArrayList<>();
 
-        for(int i=0; i<5; i++){ // 너무 야맨데...
+        int size;
+        if(station.size() > 5){
+            size = 5;
+        }else{
+            size = station.size();
+        }
+
+        for(int i=0; i<size; i++){ // 너무 야맨데...
 
             Double midX = (Double) station.get(i).get(0);
             Double midY = (Double) station.get(i).get(1);
