@@ -18,10 +18,10 @@ API.interceptors.response.use(
   response => {
     return response;
   },
-  err => {
+  async err => {
     console.log("intercept", err);
     if (err.response.status === 401) {
-      refreshAccessToken();
+      await refreshAccessToken();
       const accessToken = sessionStorage.getItem("access-token") as string;
       err.config.headers = { Authorization: `${accessToken}` };
       return API(err.config);
