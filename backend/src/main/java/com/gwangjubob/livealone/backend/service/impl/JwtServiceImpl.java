@@ -23,7 +23,7 @@ public class JwtServiceImpl implements JwtService {
     public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
     
 	private static final String SALT = "gwangjubob";
-	private static final int EXPIRE_MINUTES = 1; //토큰 만료 시간
+	private static final int EXPIRE_MINUTES = 5; //토큰 만료 시간
 
 
 	
@@ -32,7 +32,7 @@ public class JwtServiceImpl implements JwtService {
 	@Override
 	public <T> String createRefreshToken(String key, T data) {
 		//데이터는 별도로 넣지 않음. 유효기간만 5배로 연장
-		return create(key, data, "refresh-token", EXPIRE_MINUTES);
+		return create(key, data, "refresh-token", EXPIRE_MINUTES*12);
 	}
 	
 	//토큰 발급 메서드를 활용한 ACCESS 토큰 생성
