@@ -26,6 +26,7 @@ function AccountSettingPage() {
     return <div />;
   }
   const userInfo = { ...tmpUserInfo } as setType;
+  console.log(userInfo);
   const [errMsg, setErrMsg] = useState(false);
   const [errText, setErrText] = useState("");
   const [isChk, setIsChk] = useState(false);
@@ -248,13 +249,15 @@ function AccountSettingPage() {
               </Link>
               <div> </div>
             </div>
-            <div className="main-account__addinfo flex">
-              <p className="fs-16 notoReg">비밀번호</p>
-              <Link to="/reset/pw" className="notoMid fs-12">
-                변경하기
-              </Link>
-              <div> </div>
-            </div>
+            {userInfo.social === "normal" && (
+              <div className="main-account__addinfo flex">
+                <p className="fs-16 notoReg">비밀번호</p>
+                <Link to="/reset/pw" className="notoMid fs-12">
+                  변경하기
+                </Link>
+                <div> </div>
+              </div>
+            )}
           </div>
           <div className="main-noti__title fs-24 notoMid">알림 설정</div>
           <div className="main-noti__toggle flex">

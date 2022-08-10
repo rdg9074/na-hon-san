@@ -6,7 +6,7 @@ import renderWithProviders from "@utils/test-utils";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { BASE_URL } from "@apis/";
-import DealPage from "@screens/DealPage";
+import DealPage from "@screens/DealPage/DealPage";
 
 const handlers = [
   rest.get(`${BASE_URL}/honeyDeal/view`, (req, res, ctx) => {

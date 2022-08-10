@@ -26,6 +26,11 @@ function FindPw() {
       }
     }
   };
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      sendAuthCode();
+    }
+  };
   return (
     <div className="wrapper">
       <div id="chk-pw">
@@ -47,6 +52,9 @@ function FindPw() {
             className="form__input notoReg fs-15"
             placeholder="비밀번호를 입력해주세요"
             ref={inputRef}
+            onKeyUp={e => {
+              handleKeyUp(e);
+            }}
           />
           {errMsg ? (
             <p className="form__msg notoMid fs-12">

@@ -19,6 +19,7 @@ type UserProfile = {
   followerCount: number;
   tipCount: number;
   dealCount: number;
+  social: string;
 };
 
 function UserFeedPage() {
@@ -37,9 +38,11 @@ function UserFeedPage() {
     followCount: 0,
     followerCount: 0,
     tipCount: 0,
-    dealCount: 0
+    dealCount: 0,
+    social: ""
   });
   const userInfo = useAppSelector(state => state.auth.userInfo);
+  console.log(userInfo);
   const txtArea = useRef<HTMLTextAreaElement>(null);
 
   const { nickName } = useParams();
@@ -47,7 +50,6 @@ function UserFeedPage() {
   useEffect(() => {
     (async () => {
       const res = await getProfile(nickName as string);
-      console.log(res);
       if (res.result === "Fail") {
         navigate("/404");
       }
@@ -72,12 +74,10 @@ function UserFeedPage() {
     setFollowModal(state);
     setFollowClick(true);
   };
-  const change = () => {
-    setIsChanged(state => !state);
-  };
+
   const signal = () => {
     setFollowClick(false);
-    change();
+    setIsChanged(state => !state);
   };
 
   return (
@@ -111,8 +111,13 @@ function UserFeedPage() {
       <div className="info">
         <div className="info__nickname notoBold">
           <p>{userProfile?.nickname}</p>
-          {userProfile.nickname === userInfo?.nickname && (
+          {userProfile.nickname === userInfo?.nickname &&
+          userInfo.social === "normal" ? (
             <Link to="/account">
+              <img src={SetIcon} alt="set" />
+            </Link>
+          ) : (
+            <Link to="/account/set">
               <img src={SetIcon} alt="set" />
             </Link>
           )}
