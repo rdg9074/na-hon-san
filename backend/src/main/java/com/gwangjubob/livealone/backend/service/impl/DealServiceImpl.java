@@ -576,7 +576,8 @@ public class DealServiceImpl implements DealService {
             try {
                 String midX = String.valueOf(midXd);
                 String midY = String.valueOf(midYd);
-                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+//                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+                String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
                 String radius = "500";
 
                 surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
@@ -725,7 +726,8 @@ public class DealServiceImpl implements DealService {
             String EX = String.valueOf(midX);
             String EY = String.valueOf(midY);
 
-            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+//            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+            String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
             String surl = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey="+apiKey+"&SX="+userSX+"&SY="+userSY+"&EX="+EX+"&EY="+EY;
 
             try {
