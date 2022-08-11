@@ -66,9 +66,11 @@ function AccountSettingPage() {
   };
 
   // 상태 메세지 설정 부분
+  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTmpText(e.target.value);
+  };
 
-  const chkLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const state = e.target.value;
     if (state.length > 100) {
       const txt = state.substring(0, 100);
@@ -86,11 +88,6 @@ function AccountSettingPage() {
     }
     e.target.style.height = "1px";
     e.target.style.height = `${12 + e.target.scrollHeight}px`;
-  };
-
-  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTmpText(e.target.value);
-    // chkLength(e);
   };
 
   // 닉네임 중복 체크
@@ -201,7 +198,7 @@ function AccountSettingPage() {
             className="state notoReg"
             defaultValue={tmpText as string}
             onChange={e => handleText(e)}
-            // onKeyDown={e => chkLength(e)}
+            onKeyDown={e => chkLength(e)}
           />
           <p className="text-info fs-12">
             최대 100자 줄바꿈은 5번까지 가능합니다.

@@ -2,7 +2,7 @@ FROM node:14.19.2 as builder
 
 WORKDIR /app
 
-COPY ./package.json ./
+COPY package*.json ./
 
 RUN npm i
 
