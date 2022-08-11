@@ -112,16 +112,16 @@ function UserFeedPage() {
       <div className="info">
         <div className="info__nickname notoBold">
           <p>{userProfile?.nickname}</p>
-          {userProfile.nickname === userInfo?.nickname &&
-          userInfo.social === "normal" ? (
-            <Link to="/account">
-              <img src={SetIcon} alt="set" />
-            </Link>
-          ) : (
-            <Link to="/account/set">
-              <img src={SetIcon} alt="set" />
-            </Link>
-          )}
+          {nickName === userInfo?.nickname &&
+            (userInfo?.social === "normal" ? (
+              <Link to="/account">
+                <img src={SetIcon} alt="set" />
+              </Link>
+            ) : (
+              <Link to="/account/set">
+                <img src={SetIcon} alt="set" />
+              </Link>
+            ))}
         </div>
         <div className="info__follow flex">
           <button
