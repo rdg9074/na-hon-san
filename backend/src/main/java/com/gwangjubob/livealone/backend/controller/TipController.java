@@ -66,9 +66,13 @@ public class TipController {
 
         try{
             Map<String, Object> result = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
-            resultMap.put("data", result.get("list"));
-            resultMap.put("hasNext", result.get("hasNext"));
-            resultMap.put("message", okay);
+            if(result != null){
+                resultMap.put("data", result.get("list"));
+                resultMap.put("hasNext", result.get("hasNext"));
+                resultMap.put("message", okay);
+            }else{
+                resultMap.put("message", fail);
+            }
             status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("message", fail);
