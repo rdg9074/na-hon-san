@@ -50,6 +50,7 @@ function UserFeedPage() {
   useEffect(() => {
     (async () => {
       const res = await getProfile(nickName as string);
+      console.log(res);
       if (res.result === "Fail") {
         navigate("/404");
       }

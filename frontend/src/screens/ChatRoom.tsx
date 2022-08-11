@@ -16,23 +16,30 @@ function ChatRoom() {
   const [isLoading, setIsLoading] = useState(false);
   const [firstLoading, setFirstLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [lastIdx, setLastIdx] = useState(0);
+  const [isEnd, setIsEnd] = useState(false);
+  const [userImg, setUserImg] = useState("");
   const observerTarget = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getDmList = async () => {
     setIsLoading(true);
-    const res = await getDmDetailList(withId as string);
+    const res = await getDmDetailList(withId as string, lastIdx);
     if (res.message === "SUCCESS") {
-      const dummyTest = res.data.map((dm: ChatProps) => ({
-        ...dm,
-        content: dm.content + page
-      }));
+      if (res.data.fromProfileImg) {
+        setUserImg(res.data.fromProfileImg);
+      }
+      if (!res.data.hasNext) {
+        setIsEnd(true);
+      }
       if (!firstLoading) {
         setFirstLoading(true);
-        setDmList([...dummyTest.reverse()]);
+        setDmList([...res.data.list]);
       } else {
-        setDmList([...dmList, ...dummyTest.reverse()]);
+        setDmList([...dmList, ...res.data.list]);
       }
+      console.log(res.data.list[res.data.list.length - 1]);
+      setLastIdx(res.data.list[res.data.list.length - 1].idx);
     }
     setIsLoading(false);
   };
@@ -46,7 +53,7 @@ function ChatRoom() {
   };
 
   const submitDm = async (content: string, image?: string) => {
-    setDmList([{ type: "to", content }, ...dmList]);
+    setDmList([{ type: "send", content }, ...dmList]);
     const res = await sendDm(withId, content, image);
   };
 
@@ -86,7 +93,11 @@ function ChatRoom() {
         <header className="header flex align-center">
           <img
             className="chat-room__user-img"
-            src={UserDummyIcon}
+            src={
+              userImg !== ""
+                ? `data:image/jpeg;base64,${userImg}`
+                : UserDummyIcon
+            }
             alt="유저더미"
           />
           <p className="chat-room__user-nick-name notoBold fs-24">{withId}</p>
@@ -97,23 +108,22 @@ function ChatRoom() {
               {dmList.map((dm: ChatProps) => (
                 <Chat type={dm.type} content={dm.content} key={v4()} />
               ))}
-              {isLoading ? (
-                <div
-                  className="spinner-wrraper
+              {!isEnd &&
+                (isLoading ? (
+                  <div
+                    className="spinner-wrraper
                 flex justify-center"
-                >
-                  <img
-                    src={loadingSpinner}
-                    title="로딩스피너"
-                    alt="로딩스피너"
-                    className="loading-spinner"
-                  />
-                </div>
-              ) : (
-                <div ref={observerTarget} className="observerTarget">
-                  여기!
-                </div>
-              )}
+                  >
+                    <img
+                      src={loadingSpinner}
+                      title="로딩스피너"
+                      alt="로딩스피너"
+                      className="loading-spinner"
+                    />
+                  </div>
+                ) : (
+                  <div ref={observerTarget} className="observerTarget" />
+                ))}
             </>
           ) : (
             <div className="no-chat flex align-center justify-center fs-24">

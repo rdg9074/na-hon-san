@@ -7,7 +7,7 @@ export type ChatProps = {
 };
 function Chat({ type, content }: ChatProps) {
   return (
-    <div id="chat" className={type === "from" ? "left" : "right"}>
+    <div id="chat" className={type === "recv" ? "left" : "right"}>
       <p className="chat-content fs-16 notoReg">{content}</p>
     </div>
   );

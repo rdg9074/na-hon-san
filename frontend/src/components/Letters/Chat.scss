@@ -1,69 +1,9 @@
-// .left {
-// }
-// .right > p {
-//   // justify-content: end;
-//   margin-left: auto;
-// }
-
-// #chat {
-//   width: (644px); //660-16
-//   display: flex;
-
-//   & + #chat {
-//     margin-top: (16px);
-//   }
-//   .chat-content {
-//     padding: 16px 40px;
-
-//     max-width: (600px);
-//     border: 1px solid $SKELETON;
-//     border-radius: (16px);
-//   }
-// }
-
-// @media screen and(max-width:$DESKTOP-VW) {
-//   #chat {
-//     width: vw(644px); //660-16
-//     & + #chat {
-//       margin-top: vw(16px);
-//     }
-//     .chat-content {
-//       padding: vw(16px) vw(40px);
-//       max-width: vw(600px);
-//       border-radius: vw(16px);
-//     }
-//   }
-// }
-
-// @media screen and(max-width:$TABLET-VW) {
-//   #chat {
-//     width: vw-t(644px); //660-16
-//     & + #chat {
-//       margin-top: vw-t(16px);
-//     }
-//     .chat-content {
-//       padding: vw-t(16px) vw-t(40px);
-//       max-width: vw-t(600px);
-//       border-radius: vw-t(16px);
-//     }
-//   }
-// }
-
-// @media screen and(max-width:$PHONE-VW) {
-//   #chat {
-//     width: vw-p(329px);
-//     & + #chat {
-//       margin-top: vw-p(8px);
-//     }
-//     .chat-content {
-//       font-size: vw-p(16px);
-//       padding: vw-p(8px) vw-p(16px);
-//       max-width: vw-p(300px);
-//       border-radius: vw-p(16px);
-//     }
-//   }
-// }
-
+.left {
+}
+.right > p {
+  margin-left: auto;
+  background-color: #efefef;
+}
 #chat {
   width: (313px); //329-16
   display: flex;
@@ -77,12 +17,6 @@
     max-width: (240px);
     border: 1px solid #efefef;
     border-radius: (16px);
-  }
-  .left {
-  }
-  .right > p {
-    margin-left: auto;
-    background-color: #efefef;
   }
 }
 
