@@ -25,7 +25,6 @@ function SocialCompo() {
   };
   const startGoogle = useGoogleLogin({
     onSuccess: async response => {
-      console.log(response);
       const res = await loginWithSocial("google", response.access_token);
       await dispatch(getUserInfo());
       if (res.isRegist === "true") {

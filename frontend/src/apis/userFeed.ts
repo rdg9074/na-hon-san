@@ -11,7 +11,6 @@ export const addFollow = async (id: string) => {
       }
     }
   );
-  console.log(res);
   return res;
 };
 

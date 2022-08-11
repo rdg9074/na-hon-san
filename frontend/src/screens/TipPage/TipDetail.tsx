@@ -76,8 +76,6 @@ function TipDetail() {
       const res = await tipLike(id as string);
       if (res.status === 200) {
         changed();
-      } else {
-        console.log(res.status);
       }
       setIsLoading(false);
     }

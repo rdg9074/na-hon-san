@@ -18,7 +18,6 @@ export const uploadFile = (file: File) => {
   const promise = upload.promise();
 
   return promise.then(res => {
-    console.log(res);
     return res.Location;
   });
 };
@@ -32,8 +31,8 @@ export const deleteFile = (url: string) => {
       Key: fileUrl as string
     },
     function (err, data) {
-      if (err) console.log(err, err.stack);
-      else console.log(data);
+      // if (err) console.log(err, ㄴerr.stack);
+      // else console.log(data);
     }
   );
 };

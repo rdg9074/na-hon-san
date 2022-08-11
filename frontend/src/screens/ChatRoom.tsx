@@ -38,7 +38,6 @@ function ChatRoom() {
       } else {
         setDmList([...dmList, ...res.data.list]);
       }
-      console.log(res.data.list[res.data.list.length - 1]);
       setLastIdx(res.data.list[res.data.list.length - 1].idx);
     }
     setIsLoading(false);

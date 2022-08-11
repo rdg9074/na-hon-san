@@ -26,7 +26,6 @@ function AccountSettingPage() {
     return <div />;
   }
   const userInfo = { ...tmpUserInfo } as setType;
-  console.log(userInfo);
   const [errMsg, setErrMsg] = useState(false);
   const [errText, setErrText] = useState("");
   const [isChk, setIsChk] = useState(false);
