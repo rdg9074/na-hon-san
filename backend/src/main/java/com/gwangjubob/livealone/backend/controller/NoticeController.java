@@ -41,7 +41,7 @@ public class NoticeController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 List<NoticeViewDto> list = noticeService.viewNotice(decodeId); // 알림 목록 조회 서비스 호출
                 resultMap.put("data", list);

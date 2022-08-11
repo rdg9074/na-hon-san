@@ -45,7 +45,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 int postIdx = tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
                 resultMap.put("postIdx", postIdx);
@@ -99,52 +99,55 @@ public class TipController {
     @GetMapping("/honeyTip/detail/{idx}")
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
-        String decodeId = null;
+        String decodeId = "isLogin";
         if(request != null && request.getHeader("Authorization") != null){
-            decodeId = checkToken(request);
-        }
-        try{
-            if(decodeId != null){
-                resultMap.put("isLike", tipService.clickLikeButton(decodeId, idx));
-                resultMap.put("isFollow", userFeedService.checkFollowTip(decodeId, idx));
-            }
-            TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
-            Cookie oldCookie = null;
-            Cookie[] cookies = request.getCookies();
-            if(cookies != null){
-                for (Cookie cookie : cookies){
-                    if(cookie.getName().equals("postTip")){
-                        oldCookie = cookie;
-                    }
-                }
-            }
-            if (oldCookie != null){
-                if (!oldCookie.getValue().contains("[" + idx + "]")){
-                    boolean upCheck = tipService.countUpView(idx);
-                    if(upCheck){
-                        oldCookie.setValue(oldCookie.getValue() + "[" + idx + "]");
-                        oldCookie.setPath("/");
-                        oldCookie.setMaxAge(60 * 60 * 24);
-                        response.addCookie(oldCookie);
-                    }
-                }
-            } else{
-                tipService.countUpView(idx);
-                Cookie newCookie = new Cookie("postTip", "["+ idx + "]");
-                newCookie.setPath("/");
-                newCookie.setMaxAge(60 * 60 * 24);
-                response.addCookie(newCookie);
-            }
-            resultMap.put("tip",dto);
-            List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
-            resultMap.put("tipComments", list);
-            resultMap.put("message", okay);
-            status = HttpStatus.OK;
-        }catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            decodeId = checkToken(request); // 로그인 한 상태 ssafy
         }
 
+        // 만료안됐을때 - 로그인을 했다는 전제
+        if(decodeId != null){
+            try{
+                if(!decodeId.equals("isLogin")){
+                    resultMap.put("isLike", tipService.clickLikeButton(decodeId, idx));
+                    resultMap.put("isFollow", userFeedService.checkFollowTip(decodeId, idx));
+                }
+                TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
+                Cookie oldCookie = null;
+                Cookie[] cookies = request.getCookies();
+                if(cookies != null){
+                    for (Cookie cookie : cookies){
+                        if(cookie.getName().equals("postTip")){
+                            oldCookie = cookie;
+                        }
+                    }
+                }
+                if (oldCookie != null){
+                    if (!oldCookie.getValue().contains("[" + idx + "]")){
+                        boolean upCheck = tipService.countUpView(idx);
+                        if(upCheck){
+                            oldCookie.setValue(oldCookie.getValue() + "[" + idx + "]");
+                            oldCookie.setPath("/");
+                            oldCookie.setMaxAge(60 * 60 * 24);
+                            response.addCookie(oldCookie);
+                        }
+                    }
+                } else{
+                    tipService.countUpView(idx);
+                    Cookie newCookie = new Cookie("postTip", "["+ idx + "]");
+                    newCookie.setPath("/");
+                    newCookie.setMaxAge(60 * 60 * 24);
+                    response.addCookie(newCookie);
+                }
+                resultMap.put("tip",dto);
+                List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
+                resultMap.put("tipComments", list);
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
         return new ResponseEntity<>(resultMap, status);
     }
 
@@ -153,7 +156,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipService.updateTip(decodeId, tipUpdateDto, idx); // 게시글 정보 수정 서비스 호출
                 resultMap.put("message",okay);
@@ -172,7 +175,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipService.deleteTip(decodeId, idx); // 게시글 삭제 서비스 호출
                 resultMap.put("message", okay);
@@ -191,7 +194,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipCommentService.createTipComment(decodeId, tipCommentCreateDto); // 꿀팁 댓글 작성 서비스 호출
                 resultMap.put("message", okay);
@@ -210,7 +213,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipCommentService.updateTipComment(decodeId, idx, tipCommentUpdateDto); // 댓글 수정 서비스 호출
                 resultMap.put("message", okay);
@@ -229,7 +232,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipCommentService.deleteTipComment(decodeId, idx);
                 resultMap.put("message", okay);
@@ -248,7 +251,7 @@ public class TipController {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
-        if(!decodeId.equals("timeout")){
+        if(decodeId != null){
             try{
                 tipService.likeTip(decodeId, idx);
                 resultMap.put("message", okay);
