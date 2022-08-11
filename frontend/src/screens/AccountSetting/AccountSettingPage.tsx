@@ -71,7 +71,7 @@ function AccountSettingPage() {
   };
 
   const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const state = e.target.value;
+    const state = (e.target as HTMLTextAreaElement).value;
     if (state.length > 100) {
       const txt = state.substring(0, 100);
       e.target.value = txt;
