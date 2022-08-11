@@ -25,7 +25,7 @@ public class DealEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "user_nickname", referencedColumnName = "nickname"),
             @JoinColumn(name = "user_id", referencedColumnName = "id")

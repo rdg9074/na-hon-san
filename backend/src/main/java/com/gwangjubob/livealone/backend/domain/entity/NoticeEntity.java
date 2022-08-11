@@ -22,7 +22,7 @@ public class NoticeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx; // 알림글 번호
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private UserEntity user;
 

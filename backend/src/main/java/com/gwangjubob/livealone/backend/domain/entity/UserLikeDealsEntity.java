@@ -24,11 +24,11 @@ public class UserLikeDealsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_idx")
     private DealEntity deal;
 

@@ -21,7 +21,7 @@ public class UserCategoryEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 

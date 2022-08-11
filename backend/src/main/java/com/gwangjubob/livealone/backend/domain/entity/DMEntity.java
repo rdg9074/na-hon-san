@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 public class DMEntity {
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name="from_user_id")
     private UserEntity fromUserId;
     @ManyToOne(cascade = CascadeType.REMOVE)
