@@ -26,8 +26,8 @@ public interface UserFeedRepository extends JpaRepository<UserFollowEntity, Stri
     List<UserFollowEntity> findByUserIdAndFollowNicknameContaining(String id, String keyword);
 
     List<UserFollowEntity> findByFollowIdAndUserNicknameContaining(String id, String keyword);
-    @Query(value = "select new PopularFollowEntity(f.idx, f.followId ,f.followNickname, COUNT(f.followNickname))from PopularFollowEntity f GROUP BY f.followNickname ORDER BY COUNT(f.followNickname) DESC ")
-    List<PopularFollowEntity> popularFollowerList(Pageable pageable);
+    @Query(value = "select new PopularFollowEntity(f.idx, f.followId ,f.followNickname, COUNT(f.followId))from PopularFollowEntity f WHERE NOT f.followId = :decodeId GROUP BY f.followId ORDER BY COUNT(f.followId) DESC ")
+    List<PopularFollowEntity> popularFollowerList(String decodeId,Pageable pageable);
 
     Optional<Object> findByUserIdAndFollowNickname(String userId, String followNickname);
 }
