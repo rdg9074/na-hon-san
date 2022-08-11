@@ -12,7 +12,7 @@ type NonFeedProps = {
 function NonFeed({ changed }: NonFeedProps) {
   const [popUsers, setPopUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [change, setChange] = useState(false);
+
   useEffect(() => {
     (async () => {
       const res = await getPopUsers();

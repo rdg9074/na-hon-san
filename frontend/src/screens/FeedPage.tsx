@@ -18,6 +18,7 @@ function FeedPage() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
+      return;
     }
 
     (async () => {
@@ -40,7 +41,7 @@ function FeedPage() {
           맞춤형 <span> 꿀</span>딜 추천!
         </p>
       </div>
-      <CardCarousel />
+      {userInfo && <CardCarousel />}
       {!isLoading ? (
         <img
           src={loadingSpinner}
