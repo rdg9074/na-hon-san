@@ -13,12 +13,13 @@ export const getDmList = async () => {
   const res = await API.get("/dm", {
     headers: { Authorization: `${accessToken}` }
   });
+  console.log(res.data);
   return res.data;
 };
 
-export const getDmDetailList = async (withId: string) => {
+export const getDmDetailList = async (withId: string, lastIdx: number) => {
   const accessToken = sessionStorage.getItem("access-token");
-  const res = await API.get(`/dm/${withId}`, {
+  const res = await API.get(`/dm/${withId}?lastIdx=${lastIdx}&pageSize=10`, {
     headers: { Authorization: `${accessToken}` }
   });
   return res.data;
