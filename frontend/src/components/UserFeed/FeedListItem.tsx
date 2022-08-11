@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from "react";
 import "./FeedListItem.scss";
-import ThumDummy from "@images/ThumnailDummy.jpg";
 import HeartIcon from "@images/HeartSkelton.svg";
 import ViewIcon from "@images/ViewSkelton.svg";
 import CommentIcon from "@images/CommentSkelton.svg";

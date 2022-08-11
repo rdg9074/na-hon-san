@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import { reqDealList } from "@apis/deal";
-import { reqTipList } from "@apis/tip";
+import { reqDealList } from "@apis/honeyDeal";
+import { reqTipList } from "@apis/honeyTip";
 import {
   DealCondition,
   TipCondition

@@ -7,7 +7,7 @@ import HoneyTem from "@images/HoneyTem.svg";
 import HoneyTip from "@images/HoneyTip.svg";
 import { useNavigate } from "react-router-dom";
 import InFinityScroll from "@components/common/InFinityScroll";
-import { getTipTotalCnt } from "@apis/tip";
+import { getTipTotalCnt } from "@apis/honeyTip";
 import { useAppSelector } from "@store/hooks";
 
 function TipPage() {

@@ -5,8 +5,8 @@ import { v4 } from "uuid";
 import rArrow from "@images/RightArrow.svg";
 import lArrow from "@images/LeftArrow.svg";
 import { getHoneyDealList } from "@apis/feed";
-import Card, { CardType } from "../Card";
-import CardSkeleton from "../CardSkeleton";
+import Card, { CardType } from "@components/common/Card";
+import CardSkeleton from "@components/common/CardSkeleton";
 
 function CardCarousel() {
   const [cardList, setCardList] = useState<Array<CardType>>([]);

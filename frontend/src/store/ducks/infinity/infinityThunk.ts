@@ -1,5 +1,5 @@
-import { reqDealList } from "@apis/deal";
-import { reqFollowTipList, reqTipList } from "@apis/tip";
+import { reqDealList } from "@apis/honeyDeal";
+import { reqFollowTipList, reqTipList } from "@apis/honeyTip";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { DealCondition, TipCondition } from "./infinity.type";
 

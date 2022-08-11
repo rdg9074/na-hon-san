@@ -4,8 +4,8 @@ import "./FeedUserItem.scss";
 import { v4 } from "uuid";
 import UserDummyIcon from "@images/UserDummy.svg";
 import { addFollow, delFollow } from "@apis/userFeed";
-import { CardType } from "../Card";
-import FeedListItem from "../UserFeed/FeedListItem";
+import { CardType } from "@components/common/Card";
+import FeedListItem from "@components/UserFeed/FeedListItem";
 
 type UserCardType = {
   cnt: number;

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import CardCarousel from "@components/common/FeedPage/CardCarousel";
+import CardCarousel from "@components/FeedPage/CardCarousel";
 import InFinityScroll from "@components/common/InFinityScroll";
 import React, { useEffect, useState } from "react";
 import "./FeedPage.scss";
@@ -7,7 +7,7 @@ import loadingSpinner from "@images/LoadingSpinner.svg";
 import { getProfile } from "@apis/setAccount";
 import { useAppSelector } from "@store/hooks";
 import { useNavigate } from "react-router-dom";
-import NonFeed from "@components/common/FeedPage/NonFeed";
+import NonFeed from "@components/FeedPage/NonFeed";
 
 function FeedPage() {
   const [isLoading, setIsLoading] = useState(false);

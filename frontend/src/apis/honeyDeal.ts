@@ -1,5 +1,6 @@
 import API from "./index";
 import { createForm, Article } from "./honeyTip";
+import { DealCondition } from "../store/ducks/infinity/infinity.type";
 
 export interface dealCreateForm extends createForm {
   state: string;
@@ -71,5 +72,32 @@ export const dealLike = async (idx: string) => {
   });
   return res;
 };
+
+export const reqDealList = async (condition: DealCondition) => {
+  const {
+    type,
+    keyword,
+    pageSize,
+    lastIdx,
+    lastView,
+    lastLikes,
+    categorys,
+    state
+  } = condition;
+  let body;
+  if (condition.type === "최신순") {
+    body = { type, keyword, pageSize, lastIdx, categorys, state };
+  }
+  if (condition.type === "좋아요순") {
+    body = { type, keyword, pageSize, lastIdx, categorys, state, lastLikes };
+  }
+  if (condition.type === "조회순") {
+    body = { type, keyword, pageSize, lastIdx, categorys, state, lastView };
+  }
+  const res = await API.post("/honeyDeal/view", body);
+  return res.data;
+};
+
+export const test = {};
 
 export default {};

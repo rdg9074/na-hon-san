@@ -1,5 +1,5 @@
 import React from "react";
-import MsgPageLayout from "@screens/MsgPageLayout";
+import MsgPageLayout from "@screens/common/MsgPageLayout";
 import WelcomeIcon from "@images/Welcome.svg";
 import { useAppSelector } from "@store/hooks";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import MsgPageLayout from "@screens/MsgPageLayout";
+import MsgPageLayout from "@screens/common/MsgPageLayout";
 import ErrorIcon from "@images/PageError.svg";
 
 function PageUnauthorized() {

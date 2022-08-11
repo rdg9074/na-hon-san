@@ -13,7 +13,6 @@ export const getDmList = async () => {
   const res = await API.get("/dm", {
     headers: { Authorization: `${accessToken}` }
   });
-  console.log(res.data);
   return res.data;
 };
 
