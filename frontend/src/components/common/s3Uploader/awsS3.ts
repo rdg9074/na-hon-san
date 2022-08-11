@@ -29,11 +29,11 @@ export const deleteFile = (url: string) => {
     {
       Bucket: "gwangjubob",
       Key: fileUrl as string
-    },
-    function (err, data) {
-      // if (err) console.log(err, ㄴerr.stack);
-      // else console.log(data);
     }
+    // function (err, data) {
+    // if (err) console.log(err, ㄴerr.stack);
+    // else console.log(data);
+    // }
   );
 };
 

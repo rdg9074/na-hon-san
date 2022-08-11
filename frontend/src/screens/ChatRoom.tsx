@@ -20,7 +20,6 @@ function ChatRoom() {
   const [isEnd, setIsEnd] = useState(false);
   const [userImg, setUserImg] = useState("");
   const observerTarget = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const getDmList = async () => {
     setIsLoading(true);
@@ -53,7 +52,7 @@ function ChatRoom() {
 
   const submitDm = async (content: string, image?: string) => {
     setDmList([{ type: "send", content }, ...dmList]);
-    const res = await sendDm(withId, content, image);
+    await sendDm(withId, content, image);
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
