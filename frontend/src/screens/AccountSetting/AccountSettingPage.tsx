@@ -66,12 +66,10 @@ function AccountSettingPage() {
   };
 
   // 상태 메세지 설정 부분
-  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTmpText(e.target.value);
-  };
 
-  const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const state = (e.target as HTMLTextAreaElement).value;
+  const chkLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const state = e.target.value;
     if (state.length > 100) {
       const txt = state.substring(0, 100);
       e.target.value = txt;
@@ -88,6 +86,11 @@ function AccountSettingPage() {
     }
     e.target.style.height = "1px";
     e.target.style.height = `${12 + e.target.scrollHeight}px`;
+  };
+
+  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTmpText(e.target.value);
+    chkLength(e);
   };
 
   // 닉네임 중복 체크
