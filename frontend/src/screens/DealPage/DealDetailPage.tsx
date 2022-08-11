@@ -65,8 +65,8 @@ function DealDetailPage() {
 
   const deleteArticle = async () => {
     const chk = window.confirm("삭제 할거에요?");
-    const res = await dealDelete(id as string);
     if (chk) {
+      const res = await dealDelete(id as string);
       if (res === "SUCCESS") {
         navigate("/");
       }
