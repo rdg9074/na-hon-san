@@ -157,11 +157,20 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
     @GetMapping("/userFeed/profile/{nickname}")
-    public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname){
+    public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname,HttpServletRequest request){
         resultMap = new HashMap<>();
+        String accessToken = request.getHeader("Authorization"); // 로그인 했는지 체크?
+        String decodeId = checkToken(request);
+        String fromId = userService.NicknameToId(fromNickname);
+        ProfileViewDto result = null;
         try{
-            String fromId = userService.NicknameToId(fromNickname);
-            ProfileViewDto result = userFeedService.feedProfile(fromId);
+            if(accessToken != null && decodeId == null){ // 로그인 했는데 인증 만료라면
+                    resultMap.put("result",fail);
+                    status = HttpStatus.UNAUTHORIZED;
+            }else{ //서비스 호출
+                result = userFeedService.feedProfile(fromId, decodeId);
+            }
+
             if(result != null) {
                 resultMap.put("data", result);
                 resultMap.put("result", okay);
