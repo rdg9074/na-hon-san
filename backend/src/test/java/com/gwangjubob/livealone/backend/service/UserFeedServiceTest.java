@@ -230,7 +230,7 @@ public class UserFeedServiceTest {
     @Test
     public void 인기있는_팔로워_추천() {
         //given
-        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList(PageRequest.of(0,4));//조회
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList("test",PageRequest.of(0,4));//조회
         List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
         //when
         for (PopularFollowEntity userFollowEntity : userFollowEntities){

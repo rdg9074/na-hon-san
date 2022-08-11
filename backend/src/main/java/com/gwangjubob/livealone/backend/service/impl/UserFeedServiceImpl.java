@@ -225,7 +225,7 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public List<PopularFollowDto> popularFollower(String decodeId) {
-        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList(PageRequest.of(0,4));// 인기있는 팔로우 유저
+        List<PopularFollowEntity> userFollowEntities = userFeedRepository.popularFollowerList(decodeId,PageRequest.of(0,4));// 인기있는 팔로우 유저
         List<UserFollowEntity> userFollowEntityList= userFollowsRepository.findByUserId(decodeId); // 내가 팔로우 한 유저 목록
         List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
         //when
