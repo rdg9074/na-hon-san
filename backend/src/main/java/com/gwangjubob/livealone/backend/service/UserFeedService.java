@@ -16,7 +16,7 @@ public interface UserFeedService {
     List<FollowViewDto> listFollower(String id);
     List<FollowViewDto> searchFollow(String id,String keyword);
     List<FollowViewDto> searchFollower(String id,String keyword);
-    ProfileViewDto feedProfile(String id);
+    ProfileViewDto feedProfile(String id,String decodeId);
     List<PostViewDto> feedPosts(String id, int category);
     boolean deleteFollow(String toId, String fromId);
 

@@ -145,8 +145,15 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public ProfileViewDto feedProfile(String id) {
+    public ProfileViewDto feedProfile(String id,String decodeId) {
         ProfileViewDto profileViewDto = new ProfileViewDto();
+        profileViewDto.setIsFollow(false);
+        if(decodeId != null){ // 로그인 한 유저라면
+            Optional<UserFollowEntity> res = userFollowsRepository.findByUserIdAndFollowId(decodeId, id);
+            if(res.isPresent()){
+                profileViewDto.setIsFollow(true);
+            }
+        }
         Optional<UserEntity> userInfo = userRepository.findById(id);
         int followerCnt = userFeedRepository.countByFollowId(id);
         int followCnt = userFeedRepository.countByUserId(id);
