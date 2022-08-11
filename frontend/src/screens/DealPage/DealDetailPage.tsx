@@ -64,11 +64,15 @@ function DealDetailPage() {
   };
 
   const deleteArticle = async () => {
-    const res = await dealDelete(id as string);
-    if (res === "SUCCESS") {
-      navigate("/");
+    const chk = window.confirm("삭제 할거에요?");
+    if (chk) {
+      const res = await dealDelete(id as string);
+      if (res === "SUCCESS") {
+        navigate("/");
+      }
+      return res;
     }
-    return res;
+    return 0;
   };
 
   if (!article) {
