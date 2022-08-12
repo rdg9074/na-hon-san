@@ -42,22 +42,24 @@ public class NoticeServiceImpl implements NoticeService {
         for(Map.Entry<String, Object> info : infos.entrySet()){
             if((boolean)info.getValue()){
                 List<NoticeEntity> notices = noticeRepository.findByUserIdAndNoticeType(id, info.getKey());
+                if(!notices.isEmpty()){
+                    for(NoticeEntity n : notices){
+                        NoticeViewDto tmp = new NoticeViewDto();
+                        tmp.setIdx(n.getIdx());
+                        tmp.setNoticeType(n.getNoticeType());
+                        tmp.setUserId(n.getUser().getId());
+                        tmp.setFromUserId(n.getFromUserId());
+                        tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
+                        tmp.setFromUserProfileImg(userService.infoUser(n.getFromUserId()).getProfileImg());
+                        tmp.setPostIdx(n.getPostIdx());
+                        tmp.setRead(n.getRead());
+                        tmp.setTime(n.getTime());
+                        tmp.setPostType(n.getPostType());
 
-                for(NoticeEntity n : notices){
-                    NoticeViewDto tmp = new NoticeViewDto();
-                    tmp.setIdx(n.getIdx());
-                    tmp.setNoticeType(n.getNoticeType());
-                    tmp.setUserId(n.getUser().getId());
-                    tmp.setFromUserId(n.getFromUserId());
-                    tmp.setFromUserNickname(userService.infoUser(n.getFromUserId()).getNickname());
-                    tmp.setFromUserProfileImg(userService.infoUser(n.getFromUserId()).getProfileImg());
-                    tmp.setPostIdx(n.getPostIdx());
-                    tmp.setRead(n.getRead());
-                    tmp.setTime(n.getTime());
-                    tmp.setPostType(n.getPostType());
-
-                    result.add(tmp);
+                        result.add(tmp);
+                    }
                 }
+
             }
         }
 
