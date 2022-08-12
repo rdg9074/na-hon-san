@@ -2,7 +2,6 @@ package com.gwangjubob.livealone.backend.controller;
 
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.SocialService;
-import com.gwangjubob.livealone.backend.service.impl.SocialServiceImpl;
 import com.gwangjubob.livealone.backend.service.impl.MailService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class SocialController {
         this.mailService = mailService;
         this.socialService = socialService;
     }
-    @PostMapping("/google")
+    @PostMapping("/google") // 소셜로그인 - 구글
     public ResponseEntity<?> authGoogle(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
@@ -64,7 +63,7 @@ public class SocialController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/naver")
+    @PostMapping("/naver") // 소셜로그인 - 네이버
     public ResponseEntity<?> authNaver(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
@@ -94,7 +93,7 @@ public class SocialController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/kakao")
+    @PostMapping("/kakao") // 소셜로그인 - 카카오
     public ResponseEntity<?> authKakao(HttpServletRequest request ,HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");

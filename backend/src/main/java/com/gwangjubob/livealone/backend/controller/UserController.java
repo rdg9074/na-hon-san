@@ -10,10 +10,7 @@ import com.gwangjubob.livealone.backend.service.impl.MailService;
 import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.gwangjubob.livealone.backend.dto.user.UserLoginDto;
 
@@ -40,7 +37,7 @@ public class UserController {
         this.mailService = mailService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user") // 회원 가입
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -54,7 +51,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/user/check/{nickname}")
+    @GetMapping("/user/check/{nickname}") // 닉네임 체크
     public ResponseEntity<?> checkNickName(@PathVariable String nickname){
         resultMap = new HashMap<>();
         try {
@@ -70,7 +67,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/user/login")
+    @PostMapping("/user/login") // 로그인
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -100,17 +97,9 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/user/login")
+    @GetMapping("/user/login") // 엑세스 토큰 재발급
     public  ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
         resultMap = new HashMap<>();
-//        Cookie[] cookies = request.getCookies();
-//        String refreshToken = null;
-//        for(Cookie cookie : cookies){
-//            if(cookie.getName().equals("refresh-token")){
-//                refreshToken = cookie.getValue();
-//                break;
-//            }
-//        }
         String decodeId = jwtService.decodeToken(refreshToken);
         if(!decodeId.equals("timeout")){
             String accessToken = jwtService.createAccessToken("id", decodeId);
@@ -123,7 +112,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @PutMapping("/user/password")
+    @PutMapping("/user/password") // 비밀번호 수정
     public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto) throws Exception{
         resultMap = new HashMap<>();
         try {
@@ -141,7 +130,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/user/auth")
+    @PostMapping("/user/auth") // 인증 메일 발송
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         resultMap = new HashMap<>();
         try {
@@ -157,7 +146,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/user/auth")
+    @GetMapping("/user/auth") // 인증 메일 체크
     public ResponseEntity<?> checkMail(@ModelAttribute("MailCheckDto") MailCheckDto mailCheckDto) throws Exception {
         resultMap = new HashMap<>();
         try {
@@ -172,7 +161,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PutMapping("/user")
+    @PutMapping("/user") // 회원 정보 수정
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -195,7 +184,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PutMapping("/user/more")
+    @PutMapping("/user/more") // 회원 추가 정보 수정
     public ResponseEntity<?> moreUpdateUser(@RequestBody UserMoreDTO userMoreDTO, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -221,7 +210,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @DeleteMapping("/user")
+    @DeleteMapping("/user") // 회원 탈퇴
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -237,7 +226,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @PostMapping("/user/password")
+    @PostMapping("/user/password") // 비밀번호 확인
     public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -256,7 +245,7 @@ public class UserController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/user")
+    @GetMapping("/user") // 회원 정보 조회
     public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -278,7 +267,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/user/more")
+    @GetMapping("/user/more") // 회원 추가 정보 조회
     public ResponseEntity<?> infoMore(HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

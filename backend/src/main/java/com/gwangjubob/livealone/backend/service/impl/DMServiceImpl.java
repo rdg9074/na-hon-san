@@ -6,16 +6,13 @@ import com.gwangjubob.livealone.backend.domain.repository.DMRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.dm.DMSendDto;
 import com.gwangjubob.livealone.backend.dto.dm.DMViewDto;
-import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.DMService;
-import com.gwangjubob.livealone.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.*;
 
 @Service
