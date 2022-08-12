@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY ./package.json ./
 
+RUN rm -rf ./node_modules
+RUN rm -f ./package-lock.json
+
 RUN npm i
 
 ARG CYPRESS_RECORD_KEY
