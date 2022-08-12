@@ -2,24 +2,24 @@ pipeline {
     agent any
     
     stages {
-        // stage("unit test"){
-        //     steps{
-        //         script{
-        //             try {
-        //                 sh 'docker rmi front-test'
-        //             } catch (e) {
-        //                 sh 'echo "fail remove test-images"'
-        //             }
-        //         }
-        //         sh 'docker build -t front-test -f ./frontend/Dockerfile.dev ./frontend'
-        //         // sh 'docker run front-test npm run test'
-        //     }
-        //     post {
-        //         success{
-        //             sh 'echo test 성공!!'
-        //         }
-        //     }
-        // }
+        stage("unit test"){
+            steps{
+                script{
+                    try {
+                        sh 'docker rmi front-test'
+                    } catch (e) {
+                        sh 'echo "fail remove test-images"'
+                    }
+                }
+                sh 'docker build -t front-test -f ./frontend/Dockerfile.dev ./frontend'
+                // sh 'docker run front-test npm run test'
+            }
+            post {
+                success{
+                    sh 'echo test 성공!!'
+                }
+            }
+        }
         stage("e2e test"){
             agent {
             // this image provides everything needed to run Cypress
@@ -32,8 +32,7 @@ pipeline {
             }
             steps {
                 dir("frontend"){
-                    sh 'npm ci'
-                    sh "npm run test:ci:record"
+                    sh "npx cypress run --record --key ${CYPRESS_RECORD_KEY}"
                 }
             }
         }
