@@ -12,9 +12,4 @@ ENV CYPRESS_RECORD_KEY ${CYPRESS_RECORD_KEY}
 
 COPY ./ ./
 
-RUN pwd
-RUN ls -al
-RUN cd ./node_modules
-RUN ls ./node_modules -al
-
-# CMD ["/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}"]
+RUN apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
