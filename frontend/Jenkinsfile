@@ -21,12 +21,12 @@ pipeline {
             }
         }
         stage("e2e test"){
-            agent {
-            // this image provides everything needed to run Cypress
-                docker {
-                    image 'cypress/base:10 node:14'
-                }
-            }
+            // agent {
+            // // this image provides everything needed to run Cypress
+            //     docker {
+            //         image 'cypress/base:10 node:14'
+            //     }
+            // }
             environment {
                 CYPRESS_RECORD_KEY = credentials('cypress-key')
             }
