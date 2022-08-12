@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY ./package.json ./
 
-RUN npm i
+RUN npm i -g npx
 
 ARG CYPRESS_RECORD_KEY
 
@@ -12,5 +12,4 @@ ENV CYPRESS_RECORD_KEY ${CYPRESS_RECORD_KEY}
 
 COPY ./ ./
 
-CMD ["npx cypress run"]
-# --record --key ${CYPRESS_RECORD_KEY}"]
+CMD ["npx cypress run --record --key ${CYPRESS_RECORD_KEY}"]
