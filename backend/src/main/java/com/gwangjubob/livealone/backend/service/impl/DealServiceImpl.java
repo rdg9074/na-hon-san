@@ -118,17 +118,6 @@ public class DealServiceImpl implements DealService {
         return result;
     }
 
-    @Override
-    public List<DealDto> viewDeal(String category) {
-        List<DealEntity> deals = dealRepository.findByCategory(category);
-        List<DealDto> data = new ArrayList<>();
-        if(deals != null){
-            data = dealMapper.toDtoList(deals);
-        } else{
-            data = null;
-        }
-        return data;
-    }
 
     @Override
     public DealDto updateDeal(Integer idx, DealDto dealDto) {
@@ -342,7 +331,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto) {
+    public Map<String, Object> viewDeal(DealRequestDto dealRequestDto) {
         String keyword = dealRequestDto.getKeyword();
         String state = dealRequestDto.getState();
         String type = dealRequestDto.getType();
