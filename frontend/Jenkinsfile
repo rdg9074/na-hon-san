@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-    // this image provides everything needed to run Cypress
-        docker {
-            image 'cypress/base:10'
-        }
-    }
+    agent any
     
     stages {
         stage("unit test"){
@@ -26,15 +21,21 @@ pipeline {
             }
         }
         stage("e2e test"){
+            agent {
+            // this image provides everything needed to run Cypress
+                docker {
+                    image 'cypress/base:10'
+                }
+            }
             environment {
                 CYPRESS_RECORD_KEY = credentials('cypress-key')
             }
-                steps {
-                    sh 'cd'
-                    sh 'npm ci'
-                    sh "npm run test:ci:record"
-                }
+            steps {
+                sh 'cd ./frontend'
+                sh 'npm ci'
+                sh "npm run test:ci:record"
             }
+        }
         stage("build"){
             steps {
                 script{
