@@ -33,7 +33,7 @@ pipeline {
                                 sh 'echo "fail remove e2e-test-images"'
                             }
                             sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
-                            sh 'docker run --name e2e front-e2e /node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}"'
+                            sh 'docker run --name e2e front-e2e /node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
                         }
                         post {
                             success{
