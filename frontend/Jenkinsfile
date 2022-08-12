@@ -8,7 +8,7 @@ pipeline {
                     steps{
                         script{
                             try {
-                                sh 'docker rmi front-test'
+                                sh 'docker rmi front-unit'
                             } catch (e) {
                                 sh 'echo "fail remove test-images"'
                             }
