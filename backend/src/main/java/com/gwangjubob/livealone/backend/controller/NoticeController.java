@@ -124,7 +124,7 @@ public class NoticeController {
                 return decodeId;
             }else{
                 resultMap.put("message", timeOut);
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
+                status = HttpStatus.UNAUTHORIZED;
                 return null;
             }
         }
