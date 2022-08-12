@@ -36,7 +36,7 @@ public class NoticeController {
         this.dmService = dmService;
     }
 
-    @GetMapping("/user/notice")
+    @GetMapping("/user/notice") //알림 조회
     public ResponseEntity<?> viewNotice(HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -55,7 +55,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/user/notice/count")
+    @GetMapping("/user/notice/count") //알림 개수 조회
     public ResponseEntity<?> countNotice(HttpServletRequest request) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -76,7 +76,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/user/notice/{idx}")
+    @PutMapping("/user/notice/{idx}") //알림 읽음 처리
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -99,7 +99,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/user/notice/{idx}")
+    @DeleteMapping("/user/notice/{idx}") //알림 삭제
     public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable int idx) {
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);

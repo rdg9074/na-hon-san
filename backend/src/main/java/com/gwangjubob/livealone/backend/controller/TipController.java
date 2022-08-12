@@ -10,7 +10,6 @@ import com.gwangjubob.livealone.backend.service.TipService;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -40,7 +39,7 @@ public class TipController {
         this.userFeedService = userFeedService;
     }
 
-    @PostMapping("/honeyTip")
+    @PostMapping("/honeyTip") //꿀팁 게시글 작성
     public ResponseEntity<?> createTip(HttpServletRequest request, @RequestBody TipCreateDto tipCreateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -60,7 +59,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/honeyTip/list")
+    @PostMapping("/honeyTip/list") //꿀팁 게시글 조회
     public ResponseEntity<?> viewTip(@RequestBody TipListDto tipListDto){
         resultMap = new HashMap<>();
 
@@ -82,7 +81,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/honeyTip/totalCount")
+    @GetMapping("/honeyTip/totalCount") //꿀팁 총 갯수 조회
     public ResponseEntity<?> totalCount(){
         resultMap = new HashMap<>();
         try{
@@ -96,7 +95,7 @@ public class TipController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/honeyTip/detail/{idx}")
+    @GetMapping("/honeyTip/detail/{idx}") //꿀팁 게시글 상세 조회
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
         String decodeId = "isLogin";
@@ -151,7 +150,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/honeyTip/{idx}")
+    @PutMapping("/honeyTip/{idx}")//꿀팁 게시글 수정
     public ResponseEntity<?> updateTip(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipUpdateDto tipUpdateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -170,8 +169,8 @@ public class TipController {
          return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/honeyTip/{idx}")
-    public ResponseEntity<?> daleteTip(HttpServletRequest request, @PathVariable Integer idx){
+    @DeleteMapping("/honeyTip/{idx}") //꿀팁 게시글 삭제
+    public ResponseEntity<?> deleteTip(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
 
@@ -189,7 +188,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/honeyTip/comment")
+    @PostMapping("/honeyTip/comment") //꿀팁 댓글 작성
     public ResponseEntity<?> createTipComment(HttpServletRequest request, @RequestBody TipCommentCreateDto tipCommentCreateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -208,7 +207,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/honeyTip/comment/{idx}")
+    @PutMapping("/honeyTip/comment/{idx}") //꿀팁 댓글 수정
     public ResponseEntity<?> updateTipComment(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipCommentUpdateDto tipCommentUpdateDto){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -227,7 +226,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/honeyTip/comment/{idx}")
+    @DeleteMapping("/honeyTip/comment/{idx}") //꿀팁 댓글 삭제
     public ResponseEntity<?> deleteTipComment(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -246,7 +245,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/honeyTip/like/{idx}")
+    @GetMapping("/honeyTip/like/{idx}") //꿀팁 좋아요, 좋아요 취소
     public ResponseEntity<?> likeTip(HttpServletRequest request, @PathVariable Integer idx){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
