@@ -1,27 +1,27 @@
 pipeline {
     agent any
     stages {
-        stage("unit test"){
-            steps{
-                script{
-                    try {
-                        sh 'docker rmi front-unit'
-                    } catch (e) {
-                        sh 'echo "fail remove test-images"'
-                    }
-                }
-                sh 'docker build -t front-unit -f ./frontend/Dockerfile.unit ./frontend'
-                // sh 'docker run front-test npm run test'
-            }
-            post {
-                success{
-                    sh 'echo unit 테스트 성공!!'
-                }
-                failure{
-                    sh 'echo unit 테스트 실패'
-                }
-            }
-        }
+        // stage("unit test"){
+        //     steps{
+        //         script{
+        //             try {
+        //                 sh 'docker rmi front-unit'
+        //             } catch (e) {
+        //                 sh 'echo "fail remove test-images"'
+        //             }
+        //         }
+        //         sh 'docker build -t front-unit -f ./frontend/Dockerfile.unit ./frontend'
+        //         // sh 'docker run front-test npm run test'
+        //     }
+        //     post {
+        //         success{
+        //             sh 'echo unit 테스트 성공!!'
+        //         }
+        //         failure{
+        //             sh 'echo unit 테스트 실패'
+        //         }
+        //     }
+        // }
         stage("e2e test"){
             steps{
                 script{
