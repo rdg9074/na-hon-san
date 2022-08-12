@@ -229,36 +229,44 @@ public class UserFeedServiceImpl implements UserFeedService {
         List<UserFollowEntity> userFollowEntityList= userFollowsRepository.findByUserId(decodeId); // 내가 팔로우 한 유저 목록
         List<PopularFollowDto> popularFollowDtoList = new ArrayList<>();
         //when
-        for (PopularFollowEntity userFollowEntity : userFollowEntities){
+        if(!userFollowEntities.isEmpty()){
 
-            UserEntity userEntity = userRepository.findById(userFollowEntity.getFollowId()).get();
+            for (PopularFollowEntity userFollowEntity : userFollowEntities){
 
-            PopularFollowDto popularFollowDto = new PopularFollowDto();
-            popularFollowDto.setFollow_id(userEntity.getId());
-            popularFollowDto.setIsFollow(false);
-            for(UserFollowEntity userFollow : userFollowEntityList){
-                if(userFollow.getFollowId().equals(userFollowEntity.getFollowId())){
-                    popularFollowDto.setIsFollow(true);
+                UserEntity userEntity = userRepository.findById(userFollowEntity.getFollowId()).get();
+
+                PopularFollowDto popularFollowDto = new PopularFollowDto();
+                popularFollowDto.setFollow_id(userEntity.getId());
+                popularFollowDto.setIsFollow(false);
+                if(!userFollowEntityList.isEmpty()){
+                    for(UserFollowEntity userFollow : userFollowEntityList){
+                        if(userFollow.getFollowId().equals(userFollowEntity.getFollowId())){
+                            popularFollowDto.setIsFollow(true);
+                        }
+                    }
                 }
-            }
-            popularFollowDto.setFollow_nickname(userEntity.getNickname());
-            popularFollowDto.setCnt(userFollowEntity.getCnt());
-            popularFollowDto.setProfileImg(userEntity.getProfileImg());
-            List<TipEntity> tipEntityList = tipRepository.findTop3ByUserIdOrderByIdxDesc(userEntity.getId());
-            List<TipViewDto> tipViewDtoList = new ArrayList<>();
-            for (TipEntity tipEntity :tipEntityList) { //인기있는 팔로우 유저의 게시글 3개 추가
-                TipViewDto tipViewDto = new TipViewDto();
-                tipViewDto.setIdx(tipEntity.getIdx());
-                tipViewDto.setBannerImg(tipEntity.getBannerImg());
-                tipViewDto.setCategory(tipEntity.getCategory());
-                tipViewDto.setLikes(tipEntity.getLike());
-                tipViewDto.setComment(tipEntity.getComment());
-                tipViewDto.setView(tipEntity.getView());
-                tipViewDtoList.add(tipViewDto);
-            }
-            popularFollowDto.setTipViewDtoList(tipViewDtoList);
-            popularFollowDtoList.add(popularFollowDto);
+                popularFollowDto.setFollow_nickname(userEntity.getNickname());
+                popularFollowDto.setCnt(userFollowEntity.getCnt());
+                popularFollowDto.setProfileImg(userEntity.getProfileImg());
+                List<TipEntity> tipEntityList = tipRepository.findTop3ByUserIdOrderByIdxDesc(userEntity.getId());
+                if(!tipEntityList.isEmpty()){
+                    List<TipViewDto> tipViewDtoList = new ArrayList<>();
+                    for (TipEntity tipEntity :tipEntityList) { //인기있는 팔로우 유저의 게시글 3개 추가
+                        TipViewDto tipViewDto = new TipViewDto();
+                        tipViewDto.setIdx(tipEntity.getIdx());
+                        tipViewDto.setBannerImg(tipEntity.getBannerImg());
+                        tipViewDto.setCategory(tipEntity.getCategory());
+                        tipViewDto.setLikes(tipEntity.getLike());
+                        tipViewDto.setComment(tipEntity.getComment());
+                        tipViewDto.setView(tipEntity.getView());
+                        tipViewDtoList.add(tipViewDto);
+                    }
+                    popularFollowDto.setTipViewDtoList(tipViewDtoList);
+                }
 
+                popularFollowDtoList.add(popularFollowDto);
+
+            }
         }
         return popularFollowDtoList;
     }
@@ -273,9 +281,11 @@ public class UserFeedServiceImpl implements UserFeedService {
         List<DealDto> result = new ArrayList<>();
         for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
             List<DealEntity> findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(user.get(),userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
+            if(!findTop6.isEmpty()){
+                for(DealEntity dealEntity : findTop6){
+                    dealEntityList.add(dealEntity);
+                }
 
-            for(DealEntity dealEntity : findTop6){
-                dealEntityList.add(dealEntity);
             }
         }
         HashMap<Integer,Boolean> map = new HashMap<>();//
