@@ -124,37 +124,43 @@ public class DealController {
     }
 
     @PutMapping("/honeyDeal/{idx}") //꿀딜 게시글 수정
-    public ResponseEntity<?> updateDeal(@PathVariable Integer idx, @RequestBody DealDto dealDto){
+    public ResponseEntity<?> updateDeal(@PathVariable Integer idx, @RequestBody DealDto dealDto, HttpServletRequest request){
         resultMap = new HashMap<>();
-        try {
-            DealDto data = dealService.updateDeal(idx, dealDto);
-            if(data != null){
-                resultMap.put("data", data);
-                resultMap.put("message", okay);
-            } else{
+        String decodeId = checkToken(request);
+        if (decodeId != null){
+            try {
+                DealDto data = dealService.updateDeal(idx, dealDto, decodeId);
+                if(data != null){
+                    resultMap.put("data", data);
+                    resultMap.put("message", okay);
+                } else{
+                    resultMap.put("message", fail);
+                }
+                status = HttpStatus.OK;
+            } catch (Exception e){
                 resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-            status = HttpStatus.OK;
-        } catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
 
     @DeleteMapping("/honeyDeal/{idx}") //꿀딜 게시글 삭제
-    public ResponseEntity<?> deleteDeal(@PathVariable Integer idx){
+    public ResponseEntity<?> deleteDeal(@PathVariable Integer idx, HttpServletRequest request){
         resultMap = new HashMap<>();
-        try {
-            if(dealService.deleteDeal(idx)){
-                resultMap.put("message", okay);
-            } else{
+        String decodeId = checkToken(request);
+        if (decodeId != null){
+            try {
+                if(dealService.deleteDeal(idx, decodeId)){
+                    resultMap.put("message", okay);
+                } else{
+                    resultMap.put("message", fail);
+                }
+                status = HttpStatus.OK;
+            } catch (Exception e){
                 resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-            status = HttpStatus.OK;
-        } catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
@@ -183,20 +189,24 @@ public class DealController {
     }
 
     @PutMapping("/honeyDeal/comment/{idx}") //꿀딜 댓글 수정
-    public ResponseEntity<?> updateDealComment(@PathVariable Integer idx, @RequestBody DealCommentDto dealCommentDto){
+    public ResponseEntity<?> updateDealComment(@PathVariable Integer idx, @RequestBody DealCommentDto dealCommentDto, HttpServletRequest request){
         resultMap = new HashMap<>();
-        try {
-            DealCommentDto data = dealService.updateDealComment(idx, dealCommentDto);
-            if(data != null){
-                resultMap.put("data", data);
-                resultMap.put("message", okay);
-            } else{
+        String decodeId = checkToken(request);
+        if (decodeId != null){
+            try {
+                dealCommentDto.setUserId(decodeId);
+                DealCommentDto data = dealService.updateDealComment(idx, dealCommentDto);
+                if(data != null){
+                    resultMap.put("data", data);
+                    resultMap.put("message", okay);
+                } else{
+                    resultMap.put("message", fail);
+                }
+                status = HttpStatus.OK;
+            } catch (Exception e){
                 resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-            status = HttpStatus.OK;
-        } catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
@@ -244,15 +254,28 @@ public class DealController {
         resultMap = new HashMap<>();
         try{
             Map<String, Object> data = dealService.viewDeal(dealRequestDto);
-
             if(data != null){
                 resultMap.put("data", data.get("list"));
                 resultMap.put("hasNext", data.get("hasNext"));
-                resultMap.put("areaCount", data.get("areaCount"));
                 resultMap.put("message", okay);
             } else{
                 resultMap.put("message", fail);
             }
+            status = HttpStatus.OK;
+        } catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/honeyDeal/count/{area}")//지역 거래 건수 조회
+    public ResponseEntity<?> countArea(@PathVariable String area){
+        resultMap = new HashMap<>();
+        try {
+            long cnt = dealService.countArea(area);
+            resultMap.put("countArea", cnt);
+            resultMap.put("message", okay);
             status = HttpStatus.OK;
         } catch (Exception e){
             resultMap.put("message", fail);
