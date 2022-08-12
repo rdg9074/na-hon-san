@@ -1,6 +1,17 @@
 const CracoAlias = require("craco-alias");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
+  webpack: {
+    plugins: [
+      new BundleAnalyzerPlugin({
+        analyzerMode: "server",
+        analyzerHost: "127.0.0.1",
+        analyzerPort: 8888,
+        openAnalyzer: true
+      })
+    ]
+  },
   style: {
     sass: {
       loaderOptions: {
