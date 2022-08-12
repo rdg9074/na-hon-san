@@ -1,10 +1,15 @@
 pipeline {
-    agent any
+    agent {
+    // this image provides everything needed to run Cypress
+        docker {
+            image 'cypress/base:10'
+        }
+    }
     
     stages {
         stage("frontend"){
             parallel{
-                stage("test"){
+                stage("unit test"){
                     steps{
                         script{
                             try {
@@ -20,6 +25,14 @@ pipeline {
                         success{
                             sh 'echo test 성공!!'
                         }
+                    }
+                }
+                stage("e2e test"){
+                    environment {
+                        CYPRESS_RECORD_KEY = credentials('cypress-key')
+                    }
+                    steps {
+                        npx cypress run --record --key ${CYPRESS_RECORD_KEY}
                     }
                 }
                 stage("build"){
