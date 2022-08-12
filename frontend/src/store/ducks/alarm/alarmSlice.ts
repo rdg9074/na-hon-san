@@ -23,7 +23,11 @@ export const alarmSlice = createSlice({
       state.count = action.payload.count;
     },
     deleteAlarm: (state, action) => {
-      state.list = state.list.filter(alarm => alarm.idx !== action.payload);
+      // state.list = state.list.filter(alarm => alarm.idx !== action.payload);
+      return {
+        ...state,
+        list: [...state.list].filter(alarm => alarm.idx !== action.payload)
+      };
     }
   },
   extraReducers: builder => {
