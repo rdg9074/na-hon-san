@@ -32,7 +32,9 @@ pipeline {
                         CYPRESS_RECORD_KEY = credentials('cypress-key')
                     }
                     steps {
-                        npx cypress run --record --key ${CYPRESS_RECORD_KEY}
+                        sh 'cd ./frontend'
+                        sh 'npm ci'
+                        sh "npm run test:ci:record"
                     }
                 }
                 stage("build"){
