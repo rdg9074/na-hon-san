@@ -17,6 +17,7 @@
     "@types/redux-logger": "^3.0.9",
     "aws-sdk": "^2.1185.0",
     "axios": "^0.27.2",
+    "compression-webpack-plugin": "^10.0.0",
     "craco-alias": "^3.0.1",
     "cypress": "^10.4.0",
     "patch-package": "^6.4.7",

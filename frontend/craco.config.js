@@ -1,5 +1,6 @@
 const CracoAlias = require("craco-alias");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   webpack: {
@@ -10,6 +11,7 @@ module.exports = {
       //   analyzerPort: 8888,
       //   openAnalyzer: true
       // }),
+      new CompressionPlugin()
     ]
   },
   style: {
