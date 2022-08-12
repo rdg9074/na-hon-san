@@ -342,25 +342,17 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto, String decodeId) {
+    public Map<String, Object> viewDealView(DealRequestDto dealRequestDto) {
         String keyword = dealRequestDto.getKeyword();
         String state = dealRequestDto.getState();
         String type = dealRequestDto.getType();
-        String area = null;
+        String area = dealRequestDto.getArea();
         Integer pageSize = dealRequestDto.getPageSize();
         List<String> categorys = dealRequestDto.getCategorys();
         Integer lastIdx = dealRequestDto.getLastIdx();
         Integer lastView = dealRequestDto.getLastView();
         Integer lastLikes = dealRequestDto.getLastLikes();
         List<DealViewDto> list = new ArrayList<>();
-        if (decodeId != null){
-            Optional<UserEntity> optionalUser = userRepository.findById(decodeId);
-            if(optionalUser.isPresent()){
-                UserEntity user = optionalUser.get();
-                String[] splArr = user.getArea().split(" ");
-                area = splArr[0];
-            }
-        }
         Map<String, Object> data = new HashMap<>();
         if(lastLikes == null) {
             lastLikes = dealRepository.findTop1ByOrderByLikesDesc().get().getLikes() + 1;
@@ -485,6 +477,12 @@ public class DealServiceImpl implements DealService {
                 }
             }
         }
+        long cnt = 0;
+        if(area == null){
+            cnt = dealRepository.count();
+        } else{
+            cnt = dealRepository.countAllByArea(area);
+        }
         if(deals != null){
             List<DealEntity> dealsList = deals.getContent();
             for (DealEntity res : dealsList){
@@ -495,6 +493,7 @@ public class DealServiceImpl implements DealService {
             }
             data.put("list", list);
             data.put("hasNext", deals.hasNext());
+            data.put("areaCount", cnt);
         } else{
             data = null;
         }
@@ -703,6 +702,7 @@ public class DealServiceImpl implements DealService {
         }
         return info;
     }
+
 
 
     private ArrayList<Long> getMidBusStation(ArrayList<List> station, Double userX, Double userY) {

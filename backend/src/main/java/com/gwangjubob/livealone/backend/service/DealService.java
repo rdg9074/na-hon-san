@@ -34,7 +34,8 @@ public interface DealService {
 
     Boolean clickLikeButton(String decodeId, Integer idx);
 
-    Map<String, Object> viewDealView(DealRequestDto dealRequestDto,String decodeId);
+    Map<String, Object> viewDealView(DealRequestDto dealRequestDto);
 
     Map<String,Object> searchMidPosition(String loginUserId, String targetUserId);
+
 }

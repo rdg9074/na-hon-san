@@ -253,17 +253,15 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
     @PostMapping("/honeyDeal/view")
-    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto, HttpServletRequest request){
+    public ResponseEntity<?> viewDealView(@RequestBody DealRequestDto dealRequestDto){
         resultMap = new HashMap<>();
-        String decodeId = null;
-        if(request !=null && request.getHeader("Authorization") != null){
-            decodeId = checkToken(request);
-        }
         try{
-            Map<String, Object> data = dealService.viewDealView(dealRequestDto, decodeId);
+            Map<String, Object> data = dealService.viewDealView(dealRequestDto);
+
             if(data != null){
                 resultMap.put("data", data.get("list"));
                 resultMap.put("hasNext", data.get("hasNext"));
+                resultMap.put("areaCount", data.get("areaCount"));
                 resultMap.put("message", okay);
             } else{
                 resultMap.put("message", fail);
