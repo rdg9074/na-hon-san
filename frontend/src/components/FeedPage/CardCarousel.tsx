@@ -12,9 +12,7 @@ import { useAppSelector } from "@store/hooks";
 function CardCarousel() {
   const [cardList, setCardList] = useState<Array<CardType>>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const likeCategorys = useAppSelector(
-    state => state.auth.userInfo?.likeCategorys
-  );
+  const likeCategorys = useAppSelector(state => state.auth.userInfo?.categorys);
   useEffect(() => {
     (async () => {
       const res = await getHoneyDealList();

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserInfo } from "./authThunk";
+import { getUserInfo, getUserMorInfo } from "./authThunk";
 
 export interface UserInfoType {
   id: string;
@@ -14,7 +14,7 @@ export interface UserInfoType {
   profileMsg: string | null;
   profileImg: string | null;
   backgroundImg: string | null;
-  likeCategorys: Array<string> | null;
+  categorys: Array<string>;
   social: string;
 }
 interface InitialStateType {
@@ -42,13 +42,16 @@ export const authSlice = createSlice({
     setMoreInfo: (state, action) => {
       if (state.userInfo) {
         state.userInfo.area = action.payload.area;
-        state.userInfo.likeCategorys = action.payload.likeCategorys;
+        state.userInfo.categorys = action.payload.categorys;
       }
     }
   },
   extraReducers: builder => {
     builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
-      state.userInfo = payload;
+      state.userInfo = { ...state.userInfo, ...payload };
+    });
+    builder.addCase(getUserMorInfo.fulfilled, (state, { payload }) => {
+      state.userInfo = { ...state.userInfo, ...payload };
     });
   }
 });
