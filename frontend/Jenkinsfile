@@ -27,7 +27,7 @@ pipeline {
                         CYPRESS_RECORD_KEY = credentials('cypress-key')
                     }
                     steps {
-                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
+                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
                         sh 'docker run -d front-e2e'
                     }
                 }
