@@ -36,7 +36,13 @@ export const passwordChk = async (password: string) => {
 };
 
 export const getProfile = async (userNickname: string) => {
-  const res = await API.get(`/userFeed/profile/${userNickname}`);
+  const accessToken = sessionStorage.getItem("access-token") as string;
+
+  const res = await API.get(`/userFeed/profile/${userNickname}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
   return res.data;
 };
 
