@@ -44,7 +44,7 @@ function NonFeed({ changed }: NonFeedProps) {
         </p>
       </div>
       <div className="wrapper flex ">
-        <div className="user-list flex">
+        <div className="user-list flex align-center">
           {isLoading ? (
             popUsers.map(user => {
               return <FeedUserItem changed={changed} data={user} key={v4()} />;

@@ -53,6 +53,11 @@ function FeedPage() {
         <NonFeed changed={changed} />
       ) : (
         <div className="card-list">
+          <div className="carousel-label flex justify-center">
+            <p className="fs-36 notoBold flex justify-center">
+              팔로워들 <span> 꿀</span>팁!
+            </p>
+          </div>
           <InFinityScroll
             searchType="followTip"
             type="최신순"
