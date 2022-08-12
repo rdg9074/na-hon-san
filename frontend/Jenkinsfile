@@ -15,7 +15,10 @@ pipeline {
             }
             post {
                 success{
-                    sh 'echo test 성공!!'
+                    sh 'echo unit 테스트 성공!!'
+                }
+                failure{
+                    sh 'echo unit 테스트 실패'
                 }
             }
         }
@@ -29,13 +32,22 @@ pipeline {
                     } catch (e) {
                         sh 'echo "fail remove e2e-test-images"'
                     }
-                    sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
-                    sh 'docker run -d --name e2e front-e2e /app/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
-                }
-                post {
-                    success{
-                        sh 'echo test 성공!!'
+                    try{
+                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
+                        sh 'docker run -d --name e2e front-e2e /app/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
+                    }catch(e){
+                        sh 'echo "테스트 실패"'
+                        
                     }
+                    
+                }
+            }
+            post {
+                success{
+                    sh 'echo  e2e 테스트 실패 성공'
+                }
+                failure{
+                    sh 'echo e2e 테스트 실패'
                 }
             }
         }
