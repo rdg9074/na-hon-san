@@ -63,6 +63,22 @@ export const setUserMoreInfo = async (
   return res.data.message;
 };
 
+export const reqUserInfo = async () => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get("user", {
+    headers: { Authorization: `${accessToken}` }
+  });
+  return res;
+};
+
+export const reqUserMoreInfo = async () => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get("/user/more", {
+    headers: { Authorization: `${accessToken}` }
+  });
+  return res;
+};
+
 export const loginWithSocial = async (type: string, authToken: string) => {
   const res = await API.post(`/${type}`, {}, { headers: { authToken } });
   if (res.data.message === "SUCCESS") {

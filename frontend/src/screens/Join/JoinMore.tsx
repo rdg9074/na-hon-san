@@ -8,16 +8,14 @@ import LoadingSpinner from "@images/LoadingSpinner.svg";
 import dealCategory from "@constants/dealCategory";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { setMoreInfo } from "@store/ducks/auth/authSlice";
+import { getUserMorInfo } from "@store/ducks/auth/authThunk";
 
 function JoinMore() {
   const navigate = useNavigate();
   const [address, setAddress] = useState<string>("");
   const [categorys, setCategorys] = useState<Array<string>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { area, likeCategorys } = useAppSelector(state => ({
-    area: state.auth.userInfo?.area,
-    likeCategorys: state.auth.userInfo?.likeCategorys
-  }));
+  const userInfo = useAppSelector(state => state.auth.userInfo);
   const dispatch = useAppDispatch();
   const scriptUrl =
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -50,7 +48,7 @@ function JoinMore() {
       setIsLoading(true);
       const res = await setUserMoreInfo(address, categorys);
       if (res === "SUCCESS") {
-        dispatch(setMoreInfo({ area: address, likeCategorys: categorys }));
+        dispatch(setMoreInfo({ area: address, categorys }));
         navigate("/");
       }
       setIsLoading(false);
@@ -75,9 +73,17 @@ function JoinMore() {
   };
 
   useEffect(() => {
-    setCategorys(likeCategorys || []);
-    setAddress(area || "");
+    (async () => {
+      await dispatch(getUserMorInfo());
+    })();
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      setCategorys(userInfo?.categorys || []);
+      setAddress(userInfo?.area || "");
+    }
+  }, [userInfo]);
   return (
     <div className="wrapper">
       <div id="join-more">
