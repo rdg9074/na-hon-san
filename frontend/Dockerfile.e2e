@@ -12,4 +12,5 @@ ENV CYPRESS_RECORD_KEY ${CYPRESS_RECORD_KEY}
 
 COPY ./ ./
 
-CMD ["npx cypress run --record --key ${CYPRESS_RECORD_KEY}"]
+CMD ["npx cypress run"]
+# --record --key ${CYPRESS_RECORD_KEY}"]
