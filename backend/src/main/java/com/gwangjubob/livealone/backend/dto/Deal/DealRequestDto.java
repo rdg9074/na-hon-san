@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DealRequestDto {
+    private String area;
     private List<String> categorys;
     private String keyword;
     private String type;

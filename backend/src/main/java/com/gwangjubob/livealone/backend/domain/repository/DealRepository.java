@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface DealRepository extends JpaRepository<DealEntity, Integer> {
 
+
+    long countAllByArea(String area);
     Optional<DealEntity> findByIdx(Integer postIdx);
     List<DealEntity> findByUser(UserEntity userEntity);
     List<DealEntity> findTop6ByCategoryAndStateAndAreaOrderByViewDesc(String category,String state,String area);

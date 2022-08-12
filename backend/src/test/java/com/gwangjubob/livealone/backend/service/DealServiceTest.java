@@ -502,12 +502,19 @@ public class DealServiceTest {
                 }
             }
         }
+        long cnt = 0;
+        if(area == null){
+            cnt = dealRepository.count();
+        } else{
+            cnt = dealRepository.countAllByArea(area);
+        }
 
         if(deals != null){
             List<DealEntity> dealsList = deals.getContent();
             List<DealDto> result = dealMapper.toDtoList(dealsList);
             resultMap.put("message", okay);
             resultMap.put("data", result);
+            resultMap.put("count", cnt);
         } else{
             resultMap.put("message", fail);
         }
