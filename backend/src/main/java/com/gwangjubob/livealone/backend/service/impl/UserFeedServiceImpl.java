@@ -272,7 +272,8 @@ public class UserFeedServiceImpl implements UserFeedService {
         List<DealEntity> dealEntityList = new ArrayList<>();
         List<DealDto> result = new ArrayList<>();
         for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
-            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
+            List<DealEntity> findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(user.get(),userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
+
             for(DealEntity dealEntity : findTop6){
                 dealEntityList.add(dealEntity);
             }

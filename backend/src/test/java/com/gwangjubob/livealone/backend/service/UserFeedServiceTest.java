@@ -258,7 +258,7 @@ public class UserFeedServiceTest {
         List<DealEntity> dealEntityList = new ArrayList<>();
         List<DealDto> result = new ArrayList<>();
         for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
-            List<DealEntity> findTop6 = dealRepository.findTop6ByCategoryAndStateAndAreaOrderByViewDesc(userCategoryEntity.getCategory(),"거래 대기",user.getArea().split(" ")[0]);
+            List<DealEntity> findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(user,userCategoryEntity.getCategory(),"거래 대기",user.getArea().split(" ")[0]);
             for(DealEntity dealEntity : findTop6){
                 dealEntityList.add(dealEntity);
             }
