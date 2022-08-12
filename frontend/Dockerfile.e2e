@@ -6,6 +6,8 @@ COPY ./package.json ./
 
 RUN npm i
 
+ARG CYPRESS_RECORD_KEY
+
 COPY ./ ./
 
-CMD ["npm","run","start"]
+CMD ["npx cypress run --record --key $CYPRESS_RECORD_KEY"]

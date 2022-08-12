@@ -21,20 +21,11 @@ pipeline {
             }
         }
         stage("e2e test"){
-            agent {
-                docker {
-                    image 'cypress/base:14'
-                }
-            }
             environment {
                 CYPRESS_RECORD_KEY = credentials('cypress-key')
             }
             steps {
-                dir("frontend"){
-                    sh 'npm install'
-                    sh 'cypress install'
-                    sh('npx cypress run --record --key $CYPRESS_RECORD_KEY')
-                }
+                sh 'docker run -it -f ./frontend/Dockerfile.e2e ./frontend CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
             }
         }
         stage("build"){
