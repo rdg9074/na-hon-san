@@ -69,57 +69,16 @@ public class DealController {
     @GetMapping("/honeyDeal/detail/{idx}") //꿀딜 게시글 상세 조회
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
         resultMap = new HashMap<>();
-        String decodeId = null;
+        String decodeId = "isLogin";
         if(request != null && request.getHeader("Authorization") != null){
             decodeId = checkToken(request);
-            if(decodeId != null){
-                try {
+        }
+        if(decodeId != null){
+            try {
+                if(!decodeId.equals("isLogin")){
                     resultMap.put("isLike", dealService.clickLikeButton(decodeId, idx));
                     resultMap.put("isFollow", userFeedService.checkFollowDeal(decodeId, idx));
-                    DealDto dto = dealService.viewDetailDeal(idx);
-                    Cookie oldCookie = null;
-                    Cookie[] cookies = request.getCookies();
-                    if(cookies != null){
-                        for (Cookie cookie : cookies){
-                            if(cookie.getName().equals("postDeal")){
-                                oldCookie = cookie;
-                            }
-                        }
-                    }
-                    if(oldCookie != null){
-                        if(!oldCookie.getValue().contains("[" + idx + "]")){
-                            boolean upCheck = dealService.countUpView(idx);
-                            if (upCheck){
-                                oldCookie.setValue(oldCookie.getValue() + "[" + idx + "]");
-                                oldCookie.setPath("/");
-                                oldCookie.setMaxAge(60 * 60 * 24);
-                                response.addCookie(oldCookie);
-                            }
-                        }
-                    } else{
-                        dealService.countUpView(idx);
-                        Cookie newCookie = new Cookie("postDeal", "["+ idx + "]");
-                        newCookie.setPath("/");
-                        newCookie.setMaxAge(60 * 60 * 24);
-                        response.addCookie(newCookie);
-                    }
-                    if(dto != null){
-                        resultMap.put("deal", dto);
-                        List<DealCommentDto> list = dealService.viewDealComment(idx);
-                        resultMap.put("dealComments", list);
-                        resultMap.put("message", okay);
-                    } else{
-                        resultMap.put("message", fail);
-                    }
-                    status = HttpStatus.OK;
-                } catch (Exception e){
-                    resultMap.put("message", fail);
-                    status = HttpStatus.INTERNAL_SERVER_ERROR;
                 }
-
-            }
-        } else{
-            try {
                 DealDto dto = dealService.viewDetailDeal(idx);
                 Cookie oldCookie = null;
                 Cookie[] cookies = request.getCookies();
@@ -156,13 +115,11 @@ public class DealController {
                     resultMap.put("message", fail);
                 }
                 status = HttpStatus.OK;
-            } catch (Exception e){
+            } catch (Exception e) {
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }
-
-
         return new ResponseEntity<>(resultMap, status);
     }
 
