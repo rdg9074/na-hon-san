@@ -1,3 +1,6 @@
+/* eslint-disable no-useless-constructor */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable class-methods-use-this */
 import React from "react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -35,13 +38,13 @@ const handlers = [
 const server = setupServer(...handlers);
 
 const mockIntersectionObserver = class {
-  constructor(callback, options) {}
+  constructor() {}
 
-  observe(target) {
+  observe() {
     return null;
   }
 
-  unobserve(target) {
+  unobserve() {
     return null;
   }
 
