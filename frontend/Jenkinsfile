@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 dir("frontend"){
-                    sh "npx cypress run --record --key ${CYPRESS_RECORD_KEY}"
+                    sh('npx cypress run --record --key $CYPRESS_RECORD_KEY')
                 }
             }
         }
