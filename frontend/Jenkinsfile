@@ -8,7 +8,6 @@ pipeline {
     
     stages {
         stage("frontend"){
-            parallel{
                 stage("unit test"){
                     steps{
                         script{
@@ -55,7 +54,6 @@ pipeline {
                         sh "docker run -d -p 3000:3000 --name frontend wlsgh97/nahonsan-frontend"
                     }
                 }
-            }
         }
     }
 }
