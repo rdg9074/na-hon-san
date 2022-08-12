@@ -32,6 +32,7 @@ pipeline {
             steps {
                 dir("frontend"){
                     sh 'npm install'
+                    sh 'cypress install'
                     sh('npx cypress run --record --key $CYPRESS_RECORD_KEY')
                 }
             }
