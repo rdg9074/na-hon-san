@@ -101,7 +101,7 @@ function MainNavBar() {
                         ? `data:image/jpeg;base64,${userInfo.profileImg}`
                         : UserDummyIcon
                     }
-                    alt="더미유저"
+                    alt="유저프로필"
                   />
                 </button>
                 <div className="profile">
