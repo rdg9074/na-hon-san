@@ -15,6 +15,6 @@ COPY ./ ./
 RUN pwd
 RUN ls -al
 RUN cd ./node_modules
-RUN ls -al
+RUN ls ./node_modules -al
 
-CMD ["./node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}"]
+# CMD ["/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}"]
