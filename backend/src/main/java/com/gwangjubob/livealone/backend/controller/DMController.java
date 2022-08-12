@@ -55,19 +55,17 @@ public class DMController {
     public ResponseEntity<?> listDM(HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
-        try {
-            if(decodeId != null){
-                System.out.println(decodeId);
+        if(decodeId != null){
+            try {
                 List<DMViewDto> dmViewDtoList =dmService.listDM(decodeId);
                 resultMap.put("message",okay);
                 resultMap.put("data",dmViewDtoList);
                 status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message",fail);
+                status = HttpStatus.ACCEPTED;
             }
-        }catch (Exception e){
-            resultMap.put("message",fail);
-            status = HttpStatus.ACCEPTED;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/dm/{fromId}") // DM 세부조회
