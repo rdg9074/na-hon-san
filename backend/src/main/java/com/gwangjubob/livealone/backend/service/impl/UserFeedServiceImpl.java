@@ -279,7 +279,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         }
         HashMap<Integer,Boolean> map = new HashMap<>();//
         int cnt = 0;
-        while(cnt < dealEntityList.size()){
+        while(cnt < dealEntityList.size() && result.size() < 6){
             int rand = (int)(Math.random() * dealEntityList.size()); // 0-17 6개 숫자 중복안됨,
             if(!map.containsKey(rand)){ // 뽑은 숫자가 아니라면 result에
                 cnt++;
