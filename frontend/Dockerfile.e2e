@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY ./package.json ./
 
-RUN npm i -g npx
+RUN npm i
 
 ARG CYPRESS_RECORD_KEY
 
