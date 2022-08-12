@@ -12,4 +12,6 @@ ENV CYPRESS_RECORD_KEY ${CYPRESS_RECORD_KEY}
 
 COPY ./ ./
 
+RUN npx --version
+
 CMD ["npx cypress run --record --key ${CYPRESS_RECORD_KEY}"]
