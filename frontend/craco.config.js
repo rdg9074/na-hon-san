@@ -11,7 +11,16 @@ module.exports = {
       //   analyzerPort: 8888,
       //   openAnalyzer: true
       // }),
-      new CompressionPlugin()
+      // new CompressionPlugin({
+      //   algorithm: "gzip",
+      //   test: /\.js$/
+      // })
+      // new CompressionPlugin({
+      //   algorithm: "gzip",
+      //   test: /\.(js|html)$/,
+      //   threshold: 10240, // 10kb
+      //   minRatio: 0.8
+      // })
     ]
   },
   style: {
