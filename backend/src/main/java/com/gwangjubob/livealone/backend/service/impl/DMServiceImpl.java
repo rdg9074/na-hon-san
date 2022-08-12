@@ -119,8 +119,10 @@ public class DMServiceImpl implements DMService {
 		boolean hasNext = dmEntityList.hasNext();
 
 		for(DMEntity dmEntity : dmEntityList){
-			dmEntity.setRead(true);
-			dmRepository.save(dmEntity);
+			if(dmEntity.getToUserId().equals(toUserEntity.getId())){
+				dmEntity.setRead(true);
+				dmRepository.save(dmEntity);
+			}
 			DMViewDto dmViewDto = new DMViewDto();
 			if(dmEntity.getFromUserId().getId().equals(id)){
 				dmViewDto.setType("send");
