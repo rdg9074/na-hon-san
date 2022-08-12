@@ -26,9 +26,21 @@ pipeline {
                     environment {
                         CYPRESS_RECORD_KEY = credentials('cypress-key')
                     }
-                    steps {
-                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
-                        sh 'docker run -d front-e2e'
+                    steps{
+                        script{
+                            try {
+                                sh 'docker rmi front-e2e'
+                            } catch (e) {
+                                sh 'echo "fail remove e2e-test-images"'
+                            }
+                            sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
+                            sh 'docker run front-e2e'
+                        }
+                        post {
+                            success{
+                                sh 'echo test 성공!!'
+                            }
+                        }
                     }
                 }
                 // stage("build"){
