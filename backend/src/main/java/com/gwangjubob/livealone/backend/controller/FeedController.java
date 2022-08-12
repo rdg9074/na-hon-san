@@ -6,7 +6,6 @@ import com.gwangjubob.livealone.backend.dto.feed.FollowViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.PopularFollowDto;
 import com.gwangjubob.livealone.backend.dto.feed.PostViewDto;
 import com.gwangjubob.livealone.backend.dto.feed.ProfileViewDto;
-import com.gwangjubob.livealone.backend.dto.tip.TipViewDto;
 import com.gwangjubob.livealone.backend.dto.user.UserInfoDto;
 import com.gwangjubob.livealone.backend.service.JwtService;
 import com.gwangjubob.livealone.backend.service.UserFeedService;
@@ -42,7 +41,7 @@ public class FeedController {
         this.userFeedService = userFeedService;
     }
 
-    @PostMapping("/userFeed/follow/{nickname}")
+    @PostMapping("/userFeed/follow/{nickname}") // 팔로우 등록
     public ResponseEntity<?> registFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -51,15 +50,11 @@ public class FeedController {
             userFeedService.registFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
-        }else {
-            resultMap.put("result",fail);
-            status = HttpStatus.UNAUTHORIZED;
         }
-
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @DeleteMapping("/userFeed/follow/{nickname}")
+    @DeleteMapping("/userFeed/follow/{nickname}") // 팔로우 취소
     public ResponseEntity<?> deleteFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -68,15 +63,11 @@ public class FeedController {
             userFeedService.deleteFollow(decodeId,fromId);
             resultMap.put("result",okay);
             status = HttpStatus.OK;
-        }else {
-            resultMap.put("result",fail);
-            status = HttpStatus.UNAUTHORIZED;
         }
-
 
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follow/{nickname}")
+    @GetMapping("/userFeed/follow/{nickname}")  // 팔로우 목록 조회
     public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
@@ -96,7 +87,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follower/{nickname}")
+    @GetMapping("/userFeed/follower/{nickname}") // 팔로워 목록 조회
     public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname){
         resultMap = new HashMap<>();
         try{
@@ -116,7 +107,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follow/search/{nickname}")
+    @GetMapping("/userFeed/follow/search/{nickname}") // 팔로우 검색
     public ResponseEntity<?> searchFollow(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
@@ -136,7 +127,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/follower/search/{nickname}")
+    @GetMapping("/userFeed/follower/search/{nickname}") // 팔로워 검색
     public ResponseEntity<?> searchFollower(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
         resultMap = new HashMap<>();
         try{
@@ -156,7 +147,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/userFeed/profile/{nickname}")
+    @GetMapping("/userFeed/profile/{nickname}") // 회원 피드 - 프로필 조회
     public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname,HttpServletRequest request){
         resultMap = new HashMap<>();
         String accessToken = request.getHeader("Authorization"); // 로그인 했는지 체크?
@@ -169,13 +160,14 @@ public class FeedController {
                     status = HttpStatus.UNAUTHORIZED;
             }else{ //서비스 호출
                 result = userFeedService.feedProfile(fromId, decodeId);
+                status = HttpStatus.OK;
+
             }
 
             if(result != null) {
                 resultMap.put("data", result);
                 resultMap.put("result", okay);
             }
-            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -183,7 +175,7 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @GetMapping("/userFeed/post/{nickname}")
+    @GetMapping("/userFeed/post/{nickname}") // 회원 피드 - 게시글 조회
     public ResponseEntity<?> feedPosts(@PathVariable("nickname")String fromNickname, @RequestParam("category") int category){
         resultMap = new HashMap<>();
         try{
@@ -200,7 +192,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/mainFeed/user")
+    @GetMapping("/mainFeed/user") // 인기있는 팔로워 추천
     public ResponseEntity<?> popularFollower(HttpServletRequest request){
         resultMap = new HashMap<>();
         try{
@@ -220,7 +212,7 @@ public class FeedController {
         }
         return new ResponseEntity<>(resultMap,status);
     }
-    @GetMapping("/mainFeed/honeyDeal")
+    @GetMapping("/mainFeed/honeyDeal") // 인기있는 꿀딜 추천
     public ResponseEntity<?> popularHoneyDeal(HttpServletRequest request){
         resultMap = new HashMap<>();
         String decodeId = checkToken(request);
@@ -228,10 +220,9 @@ public class FeedController {
             if(decodeId != null){
                 List<DealDto> result = userFeedService.popularHoneyDeal(decodeId);
                 resultMap.put("data",result);
-
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
             }
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -247,9 +238,9 @@ public class FeedController {
                 Map result = userFeedService.userFollowHoneyTip(decodeId,lastIdx, pageSize);
                 resultMap.put("data",result);
 
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
             }
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("result",fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;

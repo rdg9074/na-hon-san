@@ -32,7 +32,6 @@ public class SocialServiceImpl implements SocialService {
     SocialServiceImpl(UserRepository userRepository ){
         this.userRepository = userRepository;
     }
-//    public static JSONParser jsonParser;
     @Override
     @Transactional
     public String[] kakaoLogin(String authToken) {
@@ -42,9 +41,7 @@ public class SocialServiceImpl implements SocialService {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            //    요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + authToken);
-            int responseCode = conn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
@@ -53,11 +50,8 @@ public class SocialServiceImpl implements SocialService {
             }
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
-            JSONObject jsonObjectB = (JSONObject) json.get("properties");
             jsonId[0] = json.get("id").toString();
-            String jsonName = jsonObjectB.get("nickname").toString();
-//            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId[0].substring(0, 4);
+            String nameId = "kakao" + jsonId[0].substring(0, 5);
             jsonId[0] = "kakao" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
@@ -65,7 +59,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(jsonId[0])
+                        .nickname(nameId)
                         .social("kakao")
                         .build();
                 userRepository.save(userRegist);
@@ -121,9 +115,7 @@ public class SocialServiceImpl implements SocialService {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            //    요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
-            int responseCode = conn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
@@ -134,9 +126,7 @@ public class SocialServiceImpl implements SocialService {
             JSONObject json = (JSONObject) parser.parse(result);
             JSONObject jsonObjectB = (JSONObject) json.get("response");
             jsonId[0] = jsonObjectB.get("id").toString();
-            String jsonName = jsonObjectB.get("nickname").toString();
-//            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId[0].substring(0, 4);
+            String nameId = "naver" + jsonId[0].substring(0, 5);
             jsonId[0] = "naver" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
@@ -144,7 +134,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(jsonId[0])
+                        .nickname(nameId)
                         .social("naver")
                         .build();
                 userRepository.save(userRegist);
@@ -175,7 +165,6 @@ public class SocialServiceImpl implements SocialService {
             conn.setRequestMethod("GET");
             //    요청에 필요한 Header에 포함될 내용
             conn.setRequestProperty("Authorization", "Bearer " + authToken);
-            int responseCode = conn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
@@ -185,9 +174,7 @@ public class SocialServiceImpl implements SocialService {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
             jsonId[0] = json.get("id").toString();
-            String jsonName = json.get("name").toString();
-//            String IMAGE_URL = (String) jsonObjectB.get("thumbnail_image");
-            String nameId = jsonName + jsonId[0].substring(0, 4);
+            String nameId = "google" + jsonId[0].substring(0, 5);
             jsonId[0] = "google" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
@@ -195,7 +182,7 @@ public class SocialServiceImpl implements SocialService {
                 UserEntity userRegist = UserEntity.builder()
                         .id(jsonId[0])
                         .password("social")
-                        .nickname(jsonId[0])
+                        .nickname(nameId)
                         .social("google")
                         .build();
                 userRepository.save(userRegist);
