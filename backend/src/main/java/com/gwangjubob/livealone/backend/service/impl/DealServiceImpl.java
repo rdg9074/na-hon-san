@@ -221,7 +221,7 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public boolean deleteDealComment(Integer idx, String userId) {
-        Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findById(idx);
+        Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findByIdx(idx);
         if(optionalDealComment.isPresent()){
             DealCommentEntity dealComment = optionalDealComment.get();
             DealEntity deal = dealRepository.findById(dealComment.getDeal().getIdx()).get();
@@ -229,7 +229,12 @@ public class DealServiceImpl implements DealService {
 
             if(user.getId().equals(dealComment.getUser().getId())){
                 if(dealComment.getUpIdx() != 0){
-                    deal.setComment(deal.getComment() - 1);
+                    if(deal.getComment() > 0){
+                        deal.setComment(deal.getComment() - 1);
+                    } else {
+                        deal.setComment(deal.getComment());
+                    }
+
                     dealRepository.save(deal);
 
                     dealCommentRepository.delete(dealComment);
@@ -238,11 +243,11 @@ public class DealServiceImpl implements DealService {
                     if(notice.isPresent()){
                         noticeRepository.delete(notice.get());
                     }
-                }else{
+                } else {
                     List<DealCommentEntity> replyCommentList = dealCommentRepository.findByUpIdx(idx);
                     int size = replyCommentList.size();
 
-                    if(!replyCommentList.isEmpty()){
+                    if(!replyCommentList.isEmpty()) {
                         deal.setComment(deal.getComment() - size);
                         dealRepository.save(deal);
 
@@ -250,19 +255,20 @@ public class DealServiceImpl implements DealService {
 
                         List<NoticeEntity> noticeList = noticeRepository.findAllByNoticeTypeAndPostTypeAndPostIdxAndCommentUpIdx("reply", "deal", deal.getIdx(), dealComment.getIdx());
 
-                        if(!noticeList.isEmpty()){
+                        if (!noticeList.isEmpty()) {
                             noticeRepository.deleteAllInBatch(noticeList);
                         }
+                    }
+                    if(deal.getComment() > 0){
                         deal.setComment(deal.getComment() - 1);
-                        dealRepository.save(deal);
-
-                        dealCommentRepository.delete(dealComment);
-
-                        Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "deal", deal.getIdx(), dealComment.getIdx());
-
-                        if(notice.isPresent()){
-                            noticeRepository.delete(notice.get());
-                        }
+                    } else {
+                        deal.setComment(deal.getComment());
+                    }
+                    dealRepository.save(deal);
+                    dealCommentRepository.delete(dealComment);
+                    Optional<NoticeEntity> notice = noticeRepository.findByNoticeTypeAndPostTypeAndPostIdxAndCommentIdx("comment", "deal", deal.getIdx(), dealComment.getIdx());
+                    if(notice.isPresent()){
+                        noticeRepository.delete(notice.get());
                     }
                 }
             }
