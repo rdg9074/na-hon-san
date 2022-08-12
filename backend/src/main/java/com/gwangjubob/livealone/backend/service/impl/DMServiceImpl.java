@@ -48,20 +48,20 @@ public class DMServiceImpl implements DMService {
 		Optional<UserEntity> optionalUser = userRepository.findById(id);
 		if(optionalUser.isPresent()){
 			UserEntity user = optionalUser.get();
-			List<DMEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
-			List<DMEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
+			List<UserEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
+			List<UserEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
 			List<UserEntity> DMUsers = new ArrayList<>();
 			if(!toUser.isEmpty()){
-				for (DMEntity d: toUser) {
-					if(!DMUsers.contains(d.getToUserId())){
-						DMUsers.add(d.getToUserId());
+				for (UserEntity d: toUser) {
+					if(!DMUsers.contains(d)){
+						DMUsers.add(d);
 					}
 				}
 			}
 			if(!fromUser.isEmpty()){
-				for (DMEntity d: fromUser){
-					if(!DMUsers.contains(d.getFromUserId())){
-						DMUsers.add(d.getFromUserId());
+				for (UserEntity d: fromUser){
+					if(!DMUsers.contains(d)){
+						DMUsers.add(d);
 					}
 				}
 			}
@@ -69,8 +69,10 @@ public class DMServiceImpl implements DMService {
 			if(!DMUsers.isEmpty()){
 				for(UserEntity u : DMUsers){
 					Optional<DMEntity> optionalDM = dmRepository.findByUserIdAndOtherId(user,u);
-					DMEntity dm = optionalDM.get();
-					dmList.add(dm);
+					if(optionalDM.isPresent()){
+						DMEntity dm = optionalDM.get();
+						dmList.add(dm);
+					}
 				}
 				Collections.sort(dmList, (a,b) -> b.getIdx() - a.getIdx());
 				for(DMEntity d : dmList){

@@ -121,25 +121,27 @@ public class DMServiceTest {
 
         UserEntity user = userRepository.findById(id).get();
         // when
-        List<DMEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
-        List<DMEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
+        List<UserEntity> toUser = dmRepository.findByfromUserIdGrouptoUserId(user);
+        List<UserEntity> fromUser = dmRepository.findBytoUserIdGroupFromUserId(user);
         List<UserEntity> DMUsers = new ArrayList<>();
         // thens
-        for (DMEntity d: toUser) {
-            if(!DMUsers.contains(d.getToUserId())) {
-                DMUsers.add(d.getToUserId());
+        for (UserEntity d: toUser) {
+            if(!DMUsers.contains(d)) {
+                DMUsers.add(d);
             }
         }
-        for (DMEntity d: fromUser){
-            if(!DMUsers.contains(d.getFromUserId())) {
-                DMUsers.add(d.getFromUserId());
+        for (UserEntity d: fromUser){
+            if(!DMUsers.contains(d)) {
+                DMUsers.add(d);
             }
         }
         List<DMEntity> dmList = new ArrayList<>();
         for (UserEntity u : DMUsers){
             Optional<DMEntity> optionalDM = dmRepository.findByUserIdAndOtherId(user, u);
-            DMEntity dm = optionalDM.get();
-            dmList.add(dm);
+            if(optionalDM.isPresent()){
+                DMEntity dm = optionalDM.get();
+                dmList.add(dm);
+            }
         }
         Collections.sort(dmList, (a,b) -> b.getIdx() - a.getIdx());
         for(DMEntity d: dmList){
