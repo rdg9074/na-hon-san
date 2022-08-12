@@ -7,10 +7,14 @@ import lArrow from "@images/LeftArrow.svg";
 import { getHoneyDealList } from "@apis/feed";
 import Card, { CardType } from "@components/common/Card";
 import CardSkeleton from "@components/common/CardSkeleton";
+import { useAppSelector } from "@store/hooks";
 
 function CardCarousel() {
   const [cardList, setCardList] = useState<Array<CardType>>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const likeCategorys = useAppSelector(
+    state => state.auth.userInfo?.likeCategorys
+  );
   useEffect(() => {
     (async () => {
       const res = await getHoneyDealList();
@@ -69,37 +73,46 @@ function CardCarousel() {
 
   return (
     <div id="usercarousel">
-      <div className="container">
-        <div className="slider flex justify-center" ref={slideRef}>
-          {isLoading ? (
-            cardList.length !== 0 ? (
-              cardList.map(value => (
-                <Card type="deal" data={value} key={v4()} />
-              ))
-            ) : (
-              <p className="empty-message notoReg fs-24">
-                카테고리를 설정해주세요
-              </p>
-            )
-          ) : (
-            [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)
+      {likeCategorys?.length === 0 ? (
+        <p className="no-category notoReg fs-28 flex align-center justify-center">
+          관심 카테고리를 설정해주세요!
+        </p>
+      ) : (
+        <div className="container">
+          {cardList && (
+            <div className="slider flex justify-center" ref={slideRef}>
+              {isLoading ? (
+                cardList.length !== 0 ? (
+                  cardList.map(value => (
+                    <Card type="deal" data={value} key={v4()} />
+                  ))
+                ) : (
+                  <p className="empty-message notoReg fs-28 flex align-center justify-center">
+                    관심 카테고리에 알맞은 꿀딜이 없어요.
+                  </p>
+                )
+              ) : (
+                [0, 1, 2, 3, 4, 5].map(() => <CardSkeleton key={v4()} />)
+              )}
+            </div>
           )}
+
+          <button
+            className="prevbtn fs-48 flex"
+            type="button"
+            onClick={prevSlide}
+          >
+            <img src={lArrow} alt="lArrow" />
+          </button>
+          <button
+            className="nextbtn fs-48 flex"
+            type="button"
+            onClick={nextSlide}
+          >
+            <img src={rArrow} alt="rArrow" />
+          </button>
         </div>
-        <button
-          className="prevbtn fs-48 flex"
-          type="button"
-          onClick={prevSlide}
-        >
-          <img src={lArrow} alt="lArrow" />
-        </button>
-        <button
-          className="nextbtn fs-48 flex"
-          type="button"
-          onClick={nextSlide}
-        >
-          <img src={rArrow} alt="rArrow" />
-        </button>
-      </div>
+      )}
     </div>
   );
 }
