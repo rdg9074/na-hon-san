@@ -11,8 +11,8 @@ describe("메인페이지 테스트", () => {
   const logout = () => {
     cy.get('[alt="나혼자잘산다로고"]');
     cy.get("body").then($body => {
-      if ($body.find('[alt="더미유저"]').length > 0) {
-        cy.get('[alt="더미유저"]').click();
+      if ($body.find('[alt="유저프로필"]').length > 0) {
+        cy.get('[alt="유저프로필"]').click();
         cy.get("#profile-tool-tip .content").last().click();
       }
     });
@@ -74,16 +74,66 @@ describe("메인페이지 테스트", () => {
       chkRouting(2, "/feed", "left");
     });
 
+    it("알림 툴팁 보이기", () => {
+      cy.get(`#main-nav-bar .right-nav__link`).first().click();
+      cy.get(`#main-nav-bar .right-nav__link`).first().find("#alarm-tool-tip");
+    });
+
     it("쪽지함 라우팅", () => {
       chkRouting(1, "/letters", "right");
     });
 
     it("마이페이지 라우팅 ", () => {
-      cy.get('[alt="더미유저"]').click();
+      cy.get('[alt="유저프로필"]').click();
       cy.get("#profile-tool-tip .content").first().click();
       cy.location().should(location => {
         expect(location.pathname).to.eq("/userfeed/test");
       });
+    });
+  });
+
+  describe("메인페이지 꿀팁", () => {
+    it("꿀팁 리스트 확인", () => {
+      cy.contains("현재 핫한 꿀팁들!")
+        .next()
+        .children("#card")
+        .should("have.length", 6);
+    });
+
+    it("꿀팁 리스트 클릭시 해당 게시물이동", () => {
+      cy.contains("현재 핫한 꿀팁들!")
+        .next()
+        .children("#card")
+        .first()
+        .children(".card-main")
+        .children(".card-main__title")
+        .then($title => {
+          const title = $title.text();
+          $title.click();
+          cy.contains(title);
+        });
+    });
+  });
+  describe("메인페이지 꿀딜", () => {
+    it("꿀딜 리스트 확인", () => {
+      cy.contains("현재 핫한 꿀딜들!")
+        .next()
+        .children("#card")
+        .should("have.length", 6);
+    });
+
+    it("꿀딜 리스트 클릭시 해당 게시물이동", () => {
+      cy.contains("현재 핫한 꿀딜들!")
+        .next()
+        .children("#card")
+        .first()
+        .children(".card-main")
+        .children(".card-main__title")
+        .then($title => {
+          const title = $title.text();
+          $title.click();
+          cy.contains(title);
+        });
     });
   });
 });
