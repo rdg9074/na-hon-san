@@ -27,6 +27,9 @@
       color: $MAIN_GRAY;
     }
   }
+  .read {
+    color: $SKELETON;
+  }
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
