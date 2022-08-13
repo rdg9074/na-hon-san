@@ -80,11 +80,15 @@ export const tipUpdate = async (data: createForm, idx: string) => {
 
 export const tipRead = async (idx: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.get(`/honeyTip/detail/${idx}`, {
-    headers: {
-      Authorization: accessToken
-    }
-  });
+  if (accessToken) {
+    const res = await API.get(`/honeyTip/detail/${idx}`, {
+      headers: {
+        Authorization: accessToken
+      }
+    });
+    return res.data;
+  }
+  const res = await API.get(`/honeyTip/detail/${idx}`);
   return res.data;
 };
 

@@ -1,7 +1,15 @@
 #deal-page {
+  .deal-banner {
+    width: 100%;
+    height: (428px);
+    overflow: hidden;
+    & > img {
+      width: 100%;
+    }
+  }
   .intro {
     width: (1070px);
-    margin-top: (80px);
+    margin-top: (60px);
     height: (240px);
     &-info {
       padding-top: (18px);
@@ -135,9 +143,13 @@
 
 @media screen and (max-width: $DESKTOP-VW) {
   #deal-page {
+    .deal-banner {
+      width: 100%;
+      height: vw(428px);
+    }
     .intro {
       width: vw(1070px);
-      margin-top: vw(80px);
+      margin-top: vw(60px);
       height: vw(240px);
       &-info {
         padding-top: vw(18px);
@@ -263,9 +275,13 @@
   @media screen and (max-width: $TABLET-VW) {
     #deal-page {
       width: vw-t(768px);
+      .deal-banner {
+        width: 100%;
+        height: vw-t(400px);
+      }
       .intro {
         width: vw-t(668px);
-        margin-top: vw-t(80px);
+        margin-top: vw-t(60px);
         height: vw-t(240px);
         &-info {
           padding-top: vw-t(18px);
@@ -404,6 +420,10 @@
   @media screen and (max-width: $PHONE-VW) {
     #deal-page {
       width: vw-p(375px);
+      .deal-banner {
+        width: 100%;
+        height: vw-p(233px);
+      }
       .intro {
         flex-direction: column;
         align-items: center;

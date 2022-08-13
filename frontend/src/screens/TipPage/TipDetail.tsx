@@ -56,7 +56,7 @@ function TipDetail() {
   };
 
   const deleteArticle = async () => {
-    const chk = window.confirm("삭제 할거에요?");
+    const chk = window.confirm("정말로 삭제하시겠습니까?");
     if (chk) {
       const res = await tipDelete(id as string);
       if (res === "SUCCESS") {

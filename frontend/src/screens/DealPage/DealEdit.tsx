@@ -95,7 +95,7 @@ function DealEdit() {
         />
       ) : null}
       <div className="deal-header ">
-        <div className="deal-header-title notoBold flex">
+        <div className="deal-header-title notoBold flex justify-between">
           <p>
             <span>꿀</span>딜<span> 쓰</span>기
           </p>
