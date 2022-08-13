@@ -237,19 +237,20 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public boolean deleteDealComment(Integer idx, String userId) {
+    public void deleteDealComment(Integer idx, String userId) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
         Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findByIdx(idx);
-        if(optionalDealComment.isPresent()){
+        if(optionalDealComment.isPresent() && optionalUser.isPresent()){
             DealCommentEntity dealComment = optionalDealComment.get();
             DealEntity deal = dealRepository.findById(dealComment.getDeal().getIdx()).get();
             UserEntity user = userRepository.findById(userId).get();
 
-            if(user.getId().equals(dealComment.getUser().getId())){
+            if(user.getNickname().equals(dealComment.getUser().getNickname())){
                 if(dealComment.getUpIdx() != 0){
                     if(deal.getComment() > 0){
                         deal.setComment(deal.getComment() - 1);
                     } else {
-                        deal.setComment(deal.getComment());
+                        deal.setComment(0);
                     }
 
                     dealRepository.save(deal);
@@ -265,7 +266,11 @@ public class DealServiceImpl implements DealService {
                     int size = replyCommentList.size();
 
                     if(!replyCommentList.isEmpty()) {
-                        deal.setComment(deal.getComment() - size);
+                        if(deal.getComment() - size > 0){
+                            deal.setComment(deal.getComment() - size);
+                        } else{
+                            deal.setComment(0);
+                        }
                         dealRepository.save(deal);
 
                         dealCommentRepository.deleteAllInBatch(replyCommentList);
@@ -279,7 +284,7 @@ public class DealServiceImpl implements DealService {
                     if(deal.getComment() > 0){
                         deal.setComment(deal.getComment() - 1);
                     } else {
-                        deal.setComment(deal.getComment());
+                        deal.setComment(0);
                     }
                     dealRepository.save(deal);
                     dealCommentRepository.delete(dealComment);
@@ -289,9 +294,6 @@ public class DealServiceImpl implements DealService {
                     }
                 }
             }
-            return true;
-        } else{
-            return false;
         }
     }
 

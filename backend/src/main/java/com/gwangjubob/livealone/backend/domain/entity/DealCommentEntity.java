@@ -28,7 +28,7 @@ public class DealCommentEntity {
     })
     private UserEntity user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_idx")
     private DealEntity deal;
 
