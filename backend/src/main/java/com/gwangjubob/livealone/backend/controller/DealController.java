@@ -216,11 +216,8 @@ public class DealController {
         String decodeId = checkToken(request);
         if(decodeId != null){
             try {
-                if(dealService.deleteDealComment(idx, decodeId)){
-                    resultMap.put("message", okay);
-                } else{
-                    resultMap.put("message", fail);
-                }
+                dealService.deleteDealComment(idx, decodeId);
+                resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
                 resultMap.put("message", fail);

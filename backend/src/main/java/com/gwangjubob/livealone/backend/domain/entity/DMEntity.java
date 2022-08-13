@@ -19,7 +19,7 @@ public class DMEntity {
     @ManyToOne
     @JoinColumn(name="from_user_id")
     private UserEntity fromUserId;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name="to_user_id")
     private UserEntity toUserId;
 
