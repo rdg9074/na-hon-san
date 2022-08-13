@@ -3,6 +3,12 @@
     // visibility: hidden;
     display: none;
   }
+  .grey {
+    background-color: #d9d9d9;
+  }
+  .yellow {
+    background-color: $MAIN_YELLOW;
+  }
   .article {
     padding: (24px);
     margin-top: (24px);
@@ -10,6 +16,12 @@
     .title {
       font-size: (24px);
       line-height: (32px);
+      &-state_info {
+        margin-top: (12px);
+        text-align: end;
+        color: #666;
+        margin-right: (20px);
+      }
     }
     .header {
       margin-top: (12px);
@@ -46,7 +58,6 @@
           }
         }
         &__btn {
-          background-color: $MAIN_YELLOW;
           padding: (8px);
           font-size: (12px);
           width: (100px);
@@ -163,6 +174,12 @@
       .title {
         font-size: vw(24px);
         line-height: vw(32px);
+        &-state_info {
+          margin-top: vw(12px);
+          text-align: end;
+          color: #666;
+          margin-right: vw(20px);
+        }
       }
       .header {
         margin-top: vw(12px);
@@ -195,7 +212,6 @@
             }
           }
           &__btn {
-            background-color: $MAIN_YELLOW;
             padding: vw(8px);
             font-size: vw(12px);
             width: vw(100px);
@@ -470,7 +486,6 @@
             }
           }
           &__btn {
-            background-color: $MAIN_YELLOW;
             margin-left: vw-p(12px);
             padding: vw-p(8px);
             font-size: vw-p(12px);

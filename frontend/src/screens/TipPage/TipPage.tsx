@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import InFinityScroll from "@components/common/InFinityScroll";
 import { getTipTotalCnt } from "@apis/honeyTip";
 import { useAppSelector } from "@store/hooks";
+import TipBanner from "@images/TipBanner.jpg";
 
 function TipPage() {
   const navigate = useNavigate();
@@ -42,10 +43,13 @@ function TipPage() {
   }, []);
   return (
     <div id="tip-page">
+      <div className="tip-banner">
+        <img src={TipBanner} alt="TipBanner" title="TipBanner" />
+      </div>
       <div className="intro flex">
         <div className="intro-info">
           <div className="intro-info__title flex">
-            <p className="fs-48 notoReg">
+            <p className="fs-48 notoBold">
               <span>꿀</span>팁
             </p>
             <button className="notoReg" type="button" onClick={goEdit}>
@@ -53,8 +57,8 @@ function TipPage() {
             </button>
           </div>
           <p className="intro-info__desc p-none notoReg">
-            뭔가 좋은 문구가 있으면 좋을 것 같다는 생각이 조금 씩 들긴 하는데
-            이걸 조금 더 길게 만들어서 이쁘게 만들어두면
+            나혼자 잘사는 자취 만렙러들의 꿀팁 <br />
+            엄청난 꿀팁을 한눈에!
           </p>
         </div>
         <div className="intro-container notoBold">
@@ -65,7 +69,7 @@ function TipPage() {
             title="Tip"
           />
           <p className="intro-container__count">
-            나혼자 잘사는 꿀팁
+            나 혼자 잘 사는 꿀팁
             <br />
             <span>{totalCnt}</span>개
           </p>
@@ -73,7 +77,7 @@ function TipPage() {
       </div>
       <div className="tip">
         <div className="tip-header flex">
-          <p className="fs-36 notoBold">광주 지역 꿀팁</p>
+          <p className="fs-36 notoBold">혼자 잘 사는 꿀팁</p>
           <div>
             <img src={searchIcon} alt="tip" />
             <input
