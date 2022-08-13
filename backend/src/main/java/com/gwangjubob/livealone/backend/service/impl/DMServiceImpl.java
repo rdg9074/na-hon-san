@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -37,6 +39,7 @@ public class DMServiceImpl implements DMService {
 				.fromUserId(fromId)
 				.content(dmSendDto.getContent())
 				.image(dmSendDto.getImage())
+				.time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
 				.build();
 
 		dmRepository.save(dmEntity);

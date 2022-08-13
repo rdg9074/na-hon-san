@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Random;
 
 
@@ -52,6 +54,7 @@ public class MailService {
                 .id(mailSendDto.getId())
                 .type(mailSendDto.getType())
                 .number(authKey)
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
         mailRepository.saveAndFlush(mail);
 
