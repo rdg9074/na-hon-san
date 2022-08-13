@@ -85,25 +85,27 @@ function FeedUserItem({
             {isFollow ? "언팔로우" : "팔로우"}
           </button>
         </div>
-        <div className="user-item-body flex">
-          {tipList.length !== 0 &&
-            tipList.map(feed => {
-              return (
-                <FeedListItem
-                  key={v4()}
-                  type="tip"
-                  feed={{
-                    idx: feed.idx,
-                    title: "",
-                    bannerImg: feed.bannerImg,
-                    likeCnt: feed.likes,
-                    commentCnt: feed.comment,
-                    viewCnt: feed.view
-                  }}
-                />
-              );
-            })}
-        </div>
+        {tipList && (
+          <div className="user-item-body flex">
+            {tipList.length !== 0 &&
+              tipList.map(feed => {
+                return (
+                  <FeedListItem
+                    key={v4()}
+                    type="tip"
+                    feed={{
+                      idx: feed.idx,
+                      title: "",
+                      bannerImg: feed.bannerImg,
+                      likeCnt: feed.likes,
+                      commentCnt: feed.comment,
+                      viewCnt: feed.view
+                    }}
+                  />
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );
