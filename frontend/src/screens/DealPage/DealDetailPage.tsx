@@ -49,10 +49,10 @@ function DealDetailPage() {
   }, [newComment, id]);
 
   const changeColor = (state: string) => {
-    if (dealState === "거래 대기") {
+    if (state === "거래 대기") {
       return "green";
     }
-    if (dealState === "거래 진행") {
+    if (state === "거래 진행") {
       return "yellow";
     }
     return "brown";
@@ -63,7 +63,7 @@ function DealDetailPage() {
   };
 
   const deleteArticle = async () => {
-    const chk = window.confirm("삭제 할거에요?");
+    const chk = window.confirm("정말로 삭제하시겠습니까?");
     if (chk) {
       const res = await dealDelete(id as string);
       if (res === "SUCCESS") {
@@ -114,6 +114,13 @@ function DealDetailPage() {
     <div id="deal-detail-page">
       <div className="article flex column">
         <p className="title notoMid">{article.title}</p>
+        <div className="title-state_info">
+          {isAuthor && (
+            <p className="notoReg fs-10">
+              거래 상태는 수정페이지에서만 변경 가능해요
+            </p>
+          )}
+        </div>
         <div className="header flex">
           <div className="header-info flex">
             <div className="header-info__img-container flex">
@@ -152,7 +159,9 @@ function DealDetailPage() {
             </div>
             <button
               onClick={setFollow}
-              className={`header-info__btn notoReg ${isAuthor && "hide"} `}
+              className={`header-info__btn notoReg ${isAuthor && "hide"} ${
+                userState.isFollow ? "grey" : "yellow"
+              }`}
               type="button"
             >
               {userState.isFollow ? "언팔로우" : "팔로우"}
@@ -162,7 +171,7 @@ function DealDetailPage() {
             {isAuthor ? (
               <div className="header-func-btn flex">
                 <div className="header-func-btn_state flex justify-center">
-                  <div className={`${changeColor(dealState)}`}> </div>
+                  <div className={`notoReg fs-10 ${changeColor(dealState)}`} />
                 </div>
                 <button onClick={goEdit} type="button">
                   <img src={EditIcon} alt="edit" title="edit" />

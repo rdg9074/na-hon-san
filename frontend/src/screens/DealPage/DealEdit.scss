@@ -2,6 +2,9 @@
   .err {
     color: red;
   }
+  .black {
+    color: black;
+  }
   .hide {
     visibility: hidden;
   }
@@ -30,7 +33,7 @@
     &-title {
       font-size: (32px);
       padding: (24px);
-      & span {
+      & > span {
         color: $MAIN_YELLOW;
       }
     }

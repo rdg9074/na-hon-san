@@ -1,19 +1,37 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DealPage.scss";
 import DealImg from "@images/DealImg.svg";
 import CardList from "@components/common/CardList";
 import { v4 } from "uuid";
+import { areaCount } from "@apis/honeyDeal";
 import searchIcon from "@images/Search.svg";
 import InFinityScroll from "@components/common/InFinityScroll";
 import dealCategory from "@constants/dealCategory";
 import { useAppSelector } from "@store/hooks";
+import DealBanner from "@images/DealBanner.jpg";
 
 function DealPage() {
   const navigate = useNavigate();
   const userInfo = useAppSelector(state => state.auth.userInfo);
   const area = !!userInfo?.area;
   const isLoggedIn = !!userInfo;
+  const [areaDetail, setAreaDetail] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      if (area) {
+        const res = await areaCount(
+          userInfo?.area?.split(" ")[0].slice(0, 2) as string
+        );
+        setAreaDetail(res.countArea);
+        // setAreaDetail()
+      } else {
+        const res = await areaCount("전체");
+        setAreaDetail(res.countArea);
+      }
+    })();
+  }, []);
 
   const [conditions, setConditions] = useState({
     categorys: ["전체", ...dealCategory],
@@ -83,10 +101,13 @@ function DealPage() {
 
   return (
     <div id="deal-page">
+      <div className="deal-banner">
+        <img src={DealBanner} alt="banner" title="banner" />
+      </div>
       <div className="intro flex">
         <div className="intro-info">
           <div className="intro-info__title flex">
-            <p className="fs-48 notoReg">
+            <p className="fs-48 notoBold">
               <span>꿀</span>딜
             </p>
             <button
@@ -106,8 +127,8 @@ function DealPage() {
             </button>
           </div>
           <p className="intro-info__desc p-none notoReg">
-            뭔가 좋은 문구가 있으면 좋을 것 같다는 생각이 조금 씩 들긴 하는데
-            이걸 조금 더 길게 만들어서 이쁘게 만들어두면
+            버리긴 아깝고, 사용하지 않는 물건들
+            <br /> 꿀딜로 새로운 가치를 찾아보세요!
           </p>
         </div>
         <div className="intro-container notoBold">
@@ -118,19 +139,35 @@ function DealPage() {
             title="deal"
           />
           <p className="intro-container__count">
-            광주 지역에서 진행중인 꿀딜
+            {`${
+              userInfo?.area
+                ? userInfo?.area?.split(" ")[0].slice(0, 2)
+                : "전체"
+            } 지역에서 진행중인 꿀딜`}
             <br />
-            <span>366</span>건
+            <span>{areaDetail}</span>건
           </p>
         </div>
       </div>
       <div className="hotdeal">
-        <p className="fs-36 notoBold">광주 지역 인기 꿀딜</p>
-        {/* <CardList searchType="deal" condition={hotCondition} pure /> */}
+        <p className="fs-36 notoBold">
+          {" "}
+          {`${
+            userInfo?.area ? userInfo?.area?.split(" ")[0].slice(0, 2) : "전체"
+          } 지역 인기 꿀딜`}
+        </p>
+        <CardList searchType="deal" condition={hotCondition} pure />
       </div>
       <div className="deal">
         <div className="deal-header flex">
-          <p className="fs-36 notoBold">광주 지역 꿀딜</p>
+          <p className="fs-36 notoBold">
+            {" "}
+            {`${
+              userInfo?.area
+                ? userInfo?.area?.split(" ")[0].slice(0, 2)
+                : "전체"
+            } 지역 꿀딜`}
+          </p>
           <div>
             <img src={searchIcon} alt="deal" />
             <input
