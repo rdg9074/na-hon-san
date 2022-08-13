@@ -551,6 +551,7 @@ public class DealServiceImpl implements DealService {
         ArrayList<Long> loginUserTime;
         ArrayList<Long> targetUserTime;
         ArrayList<List> busStation = new ArrayList<>();
+        ArrayList<List> busStationList = new ArrayList<>();
 
         double loginUserX = userService.getPosition(loginUserId).get("positionX");
         double loginUserY = userService.getPosition(loginUserId).get("positionY");
@@ -666,19 +667,28 @@ public class DealServiceImpl implements DealService {
                     }
                 }
 
-                loginUserTime = getMidBusStation(busStation, loginUserX, loginUserY);
+                int size;
+                if(busStation.size() > 5){
+                    size = 5;
+                }else{
+                    size = busStation.size();
+                }
+
+                loginUserTime = getMidBusStation(size, busStation, loginUserX, loginUserY);
                 for(int i=0; i<loginUserTime.size();i++){
                     System.out.println("사용자가 " + i +"번째 버스정류장까지 가는데 걸린 총 시간 : " + loginUserTime.get(i));
                 }
                 Thread.sleep(2000);
-                targetUserTime = getMidBusStation(busStation, targetUserX, targetUserY);
+                targetUserTime = getMidBusStation(size, busStation, targetUserX, targetUserY);
                 for(int i=0; i<targetUserTime.size();i++){
                     System.out.println("상대방이 " + i +"번째 버스정류장까지 가는데 걸린 총 시간 : " + targetUserTime.get(i));
                 }
 
-                Long minTime = (loginUserTime.get(0)+targetUserTime.get(0)) + (loginUserTime.get(0)-targetUserTime.get(0))*2;
+                Long minTime = Long.MAX_VALUE;
                 int index = 0;
-                for (int i = 1; i < loginUserTime.size(); i++) {
+                for (int i = 0; i < loginUserTime.size(); i++) {
+                    //minTime = (loginUserTime.get(0)+targetUserTime.get(0)) + (loginUserTime.get(0)-targetUserTime.get(0))*2;
+
                     Long sum = loginUserTime.get(i) + targetUserTime.get(i);
                     Long minus = Math.abs(loginUserTime.get(i) - targetUserTime.get(i));
 
@@ -688,13 +698,21 @@ public class DealServiceImpl implements DealService {
                         minTime = tmp;
                     }
                 }
-                Map<String, Object> top5station = new HashMap<>();
-                for(int i=0; i<loginUserTime.size(); i++){
-                    top5station.put("BusStation"+(i+1), busStation.get(i));
-                    top5station.put("loginUserTime"+(i+1), loginUserTime.get(i));
-                    top5station.put("targetUserTime"+(i+1), targetUserTime.get(i));
+//                Map<String, Object> top5station = new HashMap<>();
+//                for(int i=0; i<loginUserTime.size(); i++){
+//                    top5station.put("BusStation"+(i+1), busStation.get(i));
+//                    top5station.put("loginUserTime"+(i+1), loginUserTime.get(i));
+//                    top5station.put("targetUserTime"+(i+1), targetUserTime.get(i));
+//                }
+//                info.put("busStationList", top5station);
+
+
+                for(int i=0; i<size; i++){
+                    busStationList.add(busStation.get(i));
                 }
-                info.put("busStationList", top5station);
+                info.put("busStationList", busStationList);
+                info.put("loginUserTimeList", loginUserTime);
+                info.put("targetUserTimeList", targetUserTime);
 
                 Map<String, Object> resultStation = new HashMap<>();
                 resultStation.put("finalBusPositionX", busStation.get(index).get(0));
@@ -723,15 +741,8 @@ public class DealServiceImpl implements DealService {
     }
 
 
-    private ArrayList<Long> getMidBusStation(ArrayList<List> station, Double userX, Double userY) {
+    private ArrayList<Long> getMidBusStation(int size, ArrayList<List> station, Double userX, Double userY) {
         ArrayList<Long> userTime = new ArrayList<>();
-
-        int size;
-        if(station.size() > 5){
-            size = 5;
-        }else{
-            size = station.size();
-        }
 
         for(int i=0; i<size; i++){
 
