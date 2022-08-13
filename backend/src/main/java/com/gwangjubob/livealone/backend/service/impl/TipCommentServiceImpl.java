@@ -51,6 +51,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                 .upIdx(requestDto.getUpIdx())
                 .content(requestDto.getContent())
                 .bannerImg(requestDto.getBannerImg())
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
 
         tipCommentRepository.save(tipComment);
@@ -66,6 +67,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                     .postType("tip")
                     .commentIdx(tipComment.getIdx())
                     .postIdx(tip.getIdx())
+                    .time(tipComment.getTime())
                     .build();
 
             noticeRepository.save(notice);
@@ -81,6 +83,7 @@ public class TipCommentServiceImpl implements TipCommentService {
                         .postType("tip")
                         .commentIdx(tipComment.getIdx())
                         .commentUpIdx(tipComment.getUpIdx())
+                        .time(tipComment.getTime())
                         .postIdx(tip.getIdx())
                         .build();
 

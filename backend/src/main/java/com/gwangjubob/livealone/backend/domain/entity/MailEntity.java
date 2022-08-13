@@ -26,9 +26,10 @@ public class MailEntity {
     LocalDateTime time;
 
     @Builder
-    public MailEntity(String id, String type, String number){ //인증번호 발송 빌더
+    public MailEntity(String id, String type, String number, LocalDateTime time){ //인증번호 발송 빌더
         this.id = id;
         this.type = type;
         this.number = number;
+        this.time = time;
     }
 }

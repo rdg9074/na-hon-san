@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -60,7 +62,7 @@ public class UserFeedServiceImpl implements UserFeedService {
                 UserFollowEntity userFollowEntity = UserFollowEntity.builder()
                 .userId(toId)
                 .userNickname(user.get().getNickname())
-                .followId(fromId)
+                .followId(fromId).time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .followNickname(follow.get().getNickname())
                 .build();
             userFeedRepository.save(userFollowEntity);

@@ -59,6 +59,7 @@ public class TipServiceImpl implements TipService {
 
         TipEntity tipEntity = tipCreateMapper.toEntity(dto);
         tipEntity.setUser(user);
+        tipEntity.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 
         tipRepository.save(tipEntity);
 
@@ -80,7 +81,7 @@ public class TipServiceImpl implements TipService {
         Slice<TipEntity> tips = null;
         Pageable pageable = PageRequest.ofSize(pageSize);
 
-        if(lastIdx == null){ // null 이면 가장 최신 게시글 찾아줘야함
+        if(lastIdx == null){
             lastIdx = tipRepository.findTop1ByOrderByIdxDesc().get().getIdx() + 1;
         }
         if(lastView == null){
@@ -91,7 +92,7 @@ public class TipServiceImpl implements TipService {
         }
 
         if(keyword == null) {
-            if(category == null){ // 전체 조회 -> 무조건 최신순
+            if(category == null){
                 if(type.equals("최신순")){
                     tips = tipRepository.findByOrderByIdxDesc(lastIdx, pageable);
                 }else if(type.equals("좋아요순")){
@@ -207,7 +208,7 @@ public class TipServiceImpl implements TipService {
             UserLikeTipsEntity likeTipsEntity = UserLikeTipsEntity.builder()
                     .tip(tip)
                     .user(user)
-                    .time(LocalDateTime.now())
+                    .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .build();
 
             userLikeTipsRepository.save(likeTipsEntity);
@@ -222,6 +223,7 @@ public class TipServiceImpl implements TipService {
                         .fromUserId(user.getId())
                         .postType("tip")
                         .postIdx(tip.getIdx())
+                        .time(likeTipsEntity.getTime())
                         .build();
 
                 noticeRepository.save(notice);

@@ -68,6 +68,7 @@ public class DealServiceImpl implements DealService {
             deal.setUser(user);
             String area = user.getArea().split(" ")[0];
             deal.setArea(area);
+            deal.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             dealRepository.save(deal);
             data = dealMapper.toDto(deal);
             data.setUserNickname(deal.getUser().getNickname());
@@ -169,6 +170,7 @@ public class DealServiceImpl implements DealService {
             DealCommentEntity dealComment = dealCommentMapper.toEntity(dealCommentDto);
             dealComment.setUser(user);
             dealComment.setDeal(deal);
+            dealComment.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             dealCommentRepository.save(dealComment);
             data = dealCommentMapper.toDto(dealComment);
             data.setUserNickname(dealComment.getUser().getNickname());
@@ -185,6 +187,7 @@ public class DealServiceImpl implements DealService {
                         .fromUserId(user.getId())
                         .postType("deal")
                         .commentIdx(dealComment.getIdx())
+                        .time(dealComment.getTime())
                         .postIdx(deal.getIdx())
                         .build();
 
@@ -320,6 +323,7 @@ public class DealServiceImpl implements DealService {
                         .builder()
                         .deal(deal)
                         .user(user)
+                        .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                         .build();
                 userLikeDealsRepository.save(userLikeDeals);
                 deal.setLikes(deal.getLikes() + 1);
@@ -618,7 +622,6 @@ public class DealServiceImpl implements DealService {
                         list.add(Double.parseDouble(obj.get("y").toString()));
 
                         busStation.add(list);
-//                        info.put("busStationList", busStation);
                     }
                 } else {
                     radius = "1000";
@@ -656,7 +659,6 @@ public class DealServiceImpl implements DealService {
                             list.add(Double.parseDouble(obj.get("y").toString()));
 
                             busStation.add(list);
-//                            info.put("busStationList", busStation);
                         }
                     } else {
                         radius = "반경 1km 내에 버스 정류장 없음";
@@ -694,7 +696,6 @@ public class DealServiceImpl implements DealService {
                 }
                 info.put("busStationList", top5station);
 
-//                System.out.println(index);
                 Map<String, Object> resultStation = new HashMap<>();
                 resultStation.put("finalBusPositionX", busStation.get(index).get(0));
                 resultStation.put("finalBusPositionY", busStation.get(index).get(1));
@@ -732,7 +733,7 @@ public class DealServiceImpl implements DealService {
             size = station.size();
         }
 
-        for(int i=0; i<size; i++){ // 너무 야맨데...
+        for(int i=0; i<size; i++){
 
             Double midX = (Double) station.get(i).get(0);
             Double midY = (Double) station.get(i).get(1);

@@ -33,10 +33,11 @@ public class DMEntity {
     Boolean read;
     LocalDateTime time;
     @Builder
-    public DMEntity(UserEntity fromUserId, UserEntity toUserId, String content, byte[] image){ //DM 전송 빌더
+    public DMEntity(UserEntity fromUserId, UserEntity toUserId, String content, byte[] image, LocalDateTime time){ //DM 전송 빌더
         this.content = content;
         this.image = image;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
+        this.time = time;
     }
 }
