@@ -23,6 +23,16 @@ export interface dealArticle extends Article {
   area: string;
 }
 
+export const dealMap = async (username: string) => {
+  const accessToken = sessionStorage.getItem("access-token") as string;
+  const res = await API.get(`/honeyDeal/position/${username}`, {
+    headers: {
+      Authorization: accessToken
+    }
+  });
+  return res;
+};
+
 export const dealCreate = async (data: dealCreateForm) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
   const res = await API.post("/honeyDeal", data, {
