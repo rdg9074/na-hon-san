@@ -47,7 +47,8 @@ function Main() {
             lastLikes: null,
             category: null,
             categorys: [],
-            state: ""
+            state: "",
+            area: null
           }}
           pure
         />
@@ -63,7 +64,8 @@ function Main() {
             lastLikes: null,
             category: null,
             categorys: ["전체"],
-            state: "거래 대기"
+            state: "거래 대기",
+            area: null
           }}
           pure
         />

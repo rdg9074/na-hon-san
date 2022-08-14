@@ -65,6 +65,7 @@ function FeedPage() {
             category={undefined}
             categorys={undefined}
             state={undefined}
+            area={null}
           />
         </div>
       )}

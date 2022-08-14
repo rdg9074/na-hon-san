@@ -15,6 +15,7 @@ interface IntialStateType {
   lastIdx: number | null;
   lastView: number | null;
   lastLikes: number | null;
+  area: string | null;
 }
 
 const initialState: IntialStateType = {
@@ -24,7 +25,8 @@ const initialState: IntialStateType = {
   isLoading: false,
   lastIdx: null,
   lastView: null,
-  lastLikes: null
+  lastLikes: null,
+  area: null
 };
 
 export const infinitySlice = createSlice({
@@ -60,6 +62,7 @@ export const infinitySlice = createSlice({
       state.lastIdx = null;
       state.lastView = null;
       state.lastLikes = null;
+      state.area = null;
     }
   },
   extraReducers: builder => {

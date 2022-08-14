@@ -96,17 +96,36 @@ export const reqDealList = async (condition: DealCondition) => {
     lastView,
     lastLikes,
     categorys,
-    state
+    state,
+    area
   } = condition;
   let body;
   if (condition.type === "최신순") {
-    body = { type, keyword, pageSize, lastIdx, categorys, state };
+    body = { type, keyword, pageSize, lastIdx, categorys, state, area };
   }
   if (condition.type === "좋아요순") {
-    body = { type, keyword, pageSize, lastIdx, categorys, state, lastLikes };
+    body = {
+      type,
+      keyword,
+      pageSize,
+      lastIdx,
+      categorys,
+      state,
+      lastLikes,
+      area
+    };
   }
   if (condition.type === "조회순") {
-    body = { type, keyword, pageSize, lastIdx, categorys, state, lastView };
+    body = {
+      type,
+      keyword,
+      pageSize,
+      lastIdx,
+      categorys,
+      state,
+      lastView,
+      area
+    };
   }
   const res = await API.post("/honeyDeal/view", body);
   return res.data;
