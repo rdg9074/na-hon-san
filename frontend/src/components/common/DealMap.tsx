@@ -13,6 +13,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
   const { kakao } = window as any;
   const mapRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [scriptLoading, setScriptLoading] = useState(false);
   const [mapInfo, setMapInfo] = useState({
     loginUserPosition: {
       positionY: 0,
@@ -37,6 +38,19 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
       busStationList: []
     }
   });
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.setAttribute("src", `${process.env.REACT_APP_KAKAO_MAP}`);
+    document.body.appendChild(script);
+    const handleLoad = () => setScriptLoading(true);
+
+    script.addEventListener("load", handleLoad);
+
+    return () => {
+      script!.removeEventListener("load", handleLoad);
+    };
+  }, []);
   const makeMap = () => {
     console.log(kakao);
     if (!mapInfo) return;
@@ -137,90 +151,95 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     loginInfoWindow.setMap(map);
     targetInfoWindow.setMap(map);
 
-    const positions = mapInfo.midPositionInfo.busStationList;
+    if (mapInfo.midPositionInfo.busStationList) {
+      const positions = mapInfo.midPositionInfo.busStationList;
 
-    const positionsLeft = positions.filter(
-      position =>
-        position[0] !== mapInfo.midPositionInfo.result.finalBusPositionX &&
-        position[1] !== mapInfo.midPositionInfo.result.finalBusPositionY
-    );
-    const imageSrc = "https://i.ibb.co/NpV92mb/bus-stop.png";
-    const imageSize = new kakao.maps.Size(55, 55);
-    const overImageSize = new kakao.maps.Size(77, 77);
-    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-    const overMarkerImage = new kakao.maps.MarkerImage(imageSrc, overImageSize);
-    const marker = new kakao.maps.Marker({
-      map,
-      position: new kakao.maps.LatLng(
-        mapInfo.midPositionInfo.result.finalBusPositionY,
-        mapInfo.midPositionInfo.result.finalBusPositionX
-      ),
-      image: markerImage
-    });
-    const iwContentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 ${mapInfo.midPositionInfo.result.loginUserTotalTime}분 <br> 상대 기준 ${mapInfo.midPositionInfo.result.targetUserTotalTime}분 <br>가장 가까운 <a href="https://map.kakao.com/link/to/목적 정류장!,${mapInfo.midPositionInfo.result.finalBusPositionY},${mapInfo.midPositionInfo.result.finalBusPositionX}" style="color:blue" target="_blank">길찾기</a></div>`;
-    const iwRemoveable = true;
-
-    const infowindowMain = new kakao.maps.InfoWindow({
-      content: iwContentMain,
-      removable: iwRemoveable
-    });
-    kakao.maps.event.addListener(marker, "click", function () {
-      infowindowMain.open(map, marker);
-    });
-    kakao.maps.event.addListener(marker, "mouseover", function () {
-      marker.setImage(overMarkerImage);
-    });
-
-    kakao.maps.event.addListener(marker, "mouseout", function () {
-      marker.setImage(markerImage);
-    });
-
-    for (let i = 0; i < positionsLeft.length; i += 1) {
-      const imageSrcBus = "https://i.ibb.co/jLvfz5W/bus-stop-1.png";
-      const imageSizeBus = new kakao.maps.Size(35, 35);
-      const overImageSizeBus = new kakao.maps.Size(44, 44);
-      const markerImageBus = new kakao.maps.MarkerImage(
-        imageSrcBus,
-        imageSizeBus
+      const positionsLeft = positions.filter(
+        position =>
+          position[0] !== mapInfo.midPositionInfo.result.finalBusPositionX &&
+          position[1] !== mapInfo.midPositionInfo.result.finalBusPositionY
       );
-      const overMarkerImageBus = new kakao.maps.MarkerImage(
-        imageSrcBus,
-        overImageSizeBus
+      const imageSrc = "https://i.ibb.co/NpV92mb/bus-stop.png";
+      const imageSize = new kakao.maps.Size(55, 55);
+      const overImageSize = new kakao.maps.Size(77, 77);
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      const overMarkerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        overImageSize
       );
-      const markerBus = new kakao.maps.Marker({
+      const marker = new kakao.maps.Marker({
         map,
         position: new kakao.maps.LatLng(
-          mapInfo.midPositionInfo.busStationList[i][1],
-          mapInfo.midPositionInfo.busStationList[i][0]
+          mapInfo.midPositionInfo.result.finalBusPositionY,
+          mapInfo.midPositionInfo.result.finalBusPositionX
         ),
-        image: markerImageBus
+        image: markerImage
+      });
+      console.log(mapInfo.midPositionInfo);
+      const iwContentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 ${mapInfo.midPositionInfo.result.loginUserTotalTime}분 <br> 상대 기준 ${mapInfo.midPositionInfo.result.targetUserTotalTime}분 <br>가장 가까운 <a href="https://map.kakao.com/link/to/목적 정류장!,${mapInfo.midPositionInfo.result.finalBusPositionY},${mapInfo.midPositionInfo.result.finalBusPositionX}" style="color:blue" target="_blank">길찾기</a></div>`;
+      const iwRemoveable = true;
+
+      const infowindowMain = new kakao.maps.InfoWindow({
+        content: iwContentMain,
+        removable: iwRemoveable
+      });
+      kakao.maps.event.addListener(marker, "click", function () {
+        infowindowMain.open(map, marker);
+      });
+      kakao.maps.event.addListener(marker, "mouseover", function () {
+        marker.setImage(overMarkerImage);
       });
 
-      const content = `${mapInfo.midPositionInfo.loginUserTimeList[i]}, ${mapInfo.midPositionInfo.loginUserTimeList[i]}`;
-      const contentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 <br> 상대 기준 <br> 가장 가까운 <a href="https://map.kakao.com/link/to/목적 정류장!,${mapInfo.midPositionInfo.result.finalBusPositionY},${mapInfo.midPositionInfo.result.finalBusPositionX}" style="color:blue" target="_blank">길찾기</a></div>`;
-
-      const iwRemoveableBus = true;
-      const infowindowBus = new kakao.maps.InfoWindow({
-        content
-      });
-      const infowindowBusMain = new kakao.maps.InfoWindow({
-        content: contentMain,
-        removable: iwRemoveableBus
-      });
-      kakao.maps.event.addListener(markerBus, "click", function () {
-        infowindowBusMain.open(map, markerBus);
-        infowindowBus.close();
+      kakao.maps.event.addListener(marker, "mouseout", function () {
+        marker.setImage(markerImage);
       });
 
-      kakao.maps.event.addListener(markerBus, "mouseover", function () {
-        markerBus.setImage(overMarkerImageBus);
-      });
+      for (let i = 0; i < positionsLeft.length; i += 1) {
+        const imageSrcBus = "https://i.ibb.co/jLvfz5W/bus-stop-1.png";
+        const imageSizeBus = new kakao.maps.Size(35, 35);
+        const overImageSizeBus = new kakao.maps.Size(44, 44);
+        const markerImageBus = new kakao.maps.MarkerImage(
+          imageSrcBus,
+          imageSizeBus
+        );
+        const overMarkerImageBus = new kakao.maps.MarkerImage(
+          imageSrcBus,
+          overImageSizeBus
+        );
+        const markerBus = new kakao.maps.Marker({
+          map,
+          position: new kakao.maps.LatLng(
+            mapInfo.midPositionInfo.busStationList[i][1],
+            mapInfo.midPositionInfo.busStationList[i][0]
+          ),
+          image: markerImageBus
+        });
 
-      kakao.maps.event.addListener(markerBus, "mouseout", function () {
-        markerBus.setImage(markerImageBus);
-      });
+        const content = `${mapInfo.midPositionInfo.loginUserTimeList[i]}, ${mapInfo.midPositionInfo.loginUserTimeList[i]}`;
+        const contentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 <br> 상대 기준 <br> 가장 가까운 <a href="https://map.kakao.com/link/to/목적 정류장!,${mapInfo.midPositionInfo.result.finalBusPositionY},${mapInfo.midPositionInfo.result.finalBusPositionX}" style="color:blue" target="_blank">길찾기</a></div>`;
+
+        const iwRemoveableBus = true;
+        const infowindowBus = new kakao.maps.InfoWindow({
+          content
+        });
+        const infowindowBusMain = new kakao.maps.InfoWindow({
+          content: contentMain,
+          removable: iwRemoveableBus
+        });
+        kakao.maps.event.addListener(markerBus, "click", function () {
+          infowindowBusMain.open(map, markerBus);
+          infowindowBus.close();
+        });
+
+        kakao.maps.event.addListener(markerBus, "mouseover", function () {
+          markerBus.setImage(overMarkerImageBus);
+        });
+
+        kakao.maps.event.addListener(markerBus, "mouseout", function () {
+          markerBus.setImage(markerImageBus);
+        });
+      }
     }
-
     const circle = new kakao.maps.Circle({
       center: new kakao.maps.LatLng(
         mapInfo.midPositionInfo.midYPosition,
@@ -249,11 +268,16 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
         const res = await dealMap(targetUser as string);
         if (res.data.message === "SUCCESS") {
           setMapInfo(res.data);
+        } else {
+          alert("나나 상대방 주소 없어요 (여기 핸들링)");
         }
         setIsLoading(true);
       })();
     }
-    makeMap();
+    if (scriptLoading) {
+      makeMap();
+      setScriptLoading(false);
+    }
   }, [mapInfo]);
 
   return (
