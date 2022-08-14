@@ -545,6 +545,7 @@ public class DealServiceImpl implements DealService {
     private static double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
     }
+
     @Override
     public Map<String, Object> searchMidPosition(String loginUserId, String targetUserId) {
         Map<String, Object> info = new HashMap<>();
@@ -587,8 +588,9 @@ public class DealServiceImpl implements DealService {
             try {
                 String midX = String.valueOf(midXd);
                 String midY = String.valueOf(midYd);
-                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+//                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
 //                String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
+                String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
                 String radius = "500";
 
                 surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
@@ -730,6 +732,63 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
+    public Map<String, Object> searchMidPositionTest(String loginUserId, String targetUserId) {
+        Map<String, Object> info = new HashMap<>();
+        ArrayList<Long> targetUserTime = new ArrayList<>();
+        ArrayList<Long> loginUserTime = new ArrayList<>();
+        ArrayList<List> busStationList = new ArrayList<>();
+
+        targetUserTime.add(17L);
+        targetUserTime.add(17L);
+        targetUserTime.add(15L);
+        targetUserTime.add(15L);
+        targetUserTime.add(14L);
+
+        loginUserTime.add(19L);
+        loginUserTime.add(20L);
+        loginUserTime.add(22L);
+        loginUserTime.add(22L);
+        loginUserTime.add(22L);
+
+        ArrayList<Double> list1 = new ArrayList<>();
+        list1.add(0,126.83852);
+        list1.add(1, 35.19075);
+        ArrayList<Double> list2 = new ArrayList<>();
+        list2.add(0,126.83853);
+        list2.add(1, 35.19048);
+        ArrayList<Double> list3 = new ArrayList<>();
+        list3.add(0,126.83691);
+        list3.add(1, 35.18916);
+        ArrayList<Double> list4 = new ArrayList<>();
+        list4.add(0,126.837135);
+        list4.add(1, 35.189053);
+        ArrayList<Double> list5 = new ArrayList<>();
+        list5.add(0,126.83512);
+        list5.add(1, 35.190735);
+        busStationList.add(list1);
+        busStationList.add(list2);
+        busStationList.add(list3);
+        busStationList.add(list4);
+        busStationList.add(list5);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("targetUserTotalTime", 17);
+        result.put("finalBusPositionX", 126.83852);
+        result.put("loginUserTotalTime", 19);
+        result.put("finalBusPositionY", 35.19075);
+
+        info.put("result", result);
+        info.put("loginUserTime", loginUserTime);
+        info.put("targetUserTime", targetUserTime);
+        info.put("busStationList", busStationList);
+        info.put("radius","500");
+        info.put("midXPosition",126.837844095768);
+        info.put("midYPosition",35.19097170925615);
+
+        return info;
+    }
+
+    @Override
     public long countArea(String area) {
         long cnt = 0;
         if(area.equals("전체")){
@@ -755,8 +814,9 @@ public class DealServiceImpl implements DealService {
             String EX = String.valueOf(midX);
             String EY = String.valueOf(midY);
 
-            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
+//            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
 //            String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
+            String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
             String surl = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey="+apiKey+"&SX="+userSX+"&SY="+userSY+"&EX="+EX+"&EY="+EY;
 
             try {
