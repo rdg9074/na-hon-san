@@ -293,8 +293,8 @@ public class DealController {
                 resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
                 resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
                 // 중간 위치 구하는 서비스 호출
-//                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
-                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
+                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
+//                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e) {
