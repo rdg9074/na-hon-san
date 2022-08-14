@@ -306,6 +306,31 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/honeyDeal/position/test/{nickname}") // 꿀딜 좌표 조회
+    public ResponseEntity<?> getPositionTest(HttpServletRequest request, @PathVariable String nickname){
+        resultMap = new HashMap<>();
+        String loginUserId = checkToken(request);
+        String targetUserId = userService.getTargetId(nickname);
+
+        if(loginUserId != null) {
+            try {
+                // 사용자 위치 구하는 서비스 호출
+                resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
+                resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
+                // 중간 위치 구하는 서비스 호출
+//                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
+                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
+                resultMap.put("message", okay);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     public String checkToken(HttpServletRequest request){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
