@@ -7,6 +7,7 @@ import KaKao from "@images/kakao_map.png";
 import { commentDelete } from "@apis/comment";
 import { getTime } from "@utils/getTime";
 import X from "@images/X.svg";
+import MapModal from "@components/common/MapModal";
 import { commentType } from "./Comments";
 import CommentEdit from "./CommentEdit";
 import BigImg from "./BigImg";
@@ -17,9 +18,17 @@ interface ReplyProps {
   isAuthor: boolean;
   changed: () => void;
   postIdx: string;
+  isArticleAuthor: boolean;
 }
 
-function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
+function ReplyItem({
+  info,
+  type,
+  isAuthor,
+  changed,
+  postIdx,
+  isArticleAuthor
+}: ReplyProps) {
   const [replyEdit, setReplyEdit] = useState(false);
   const [imgToggle, setImgToggle] = useState(false);
 
@@ -81,13 +90,12 @@ function ReplyItem({ info, type, isAuthor, changed, postIdx }: ReplyProps) {
                   </p>
                 </div>
               </div>
-              {type === "deal" && (
-                <button
-                  type="button"
-                  className="reply-head-map flex justify-end"
-                >
-                  <img src={KaKao} alt="" />
-                </button>
+              {type === "Deal" && (
+                <div className="reply-head-map flex justify-end">
+                  {isArticleAuthor && (
+                    <MapModal targetUser={info.userNickname} />
+                  )}
+                </div>
               )}
             </div>
             <div className="reply-body flex">

@@ -19,8 +19,15 @@ interface commentsProps {
   type: string;
   changed: () => void;
   postIdx: string;
+  isArticleAuthor: boolean;
 }
-function Comments({ comments, type, changed, postIdx }: commentsProps) {
+function Comments({
+  comments,
+  type,
+  changed,
+  postIdx,
+  isArticleAuthor
+}: commentsProps) {
   const [commentList, setCommentList] = useState(comments);
   const UserInfo = useAppSelector(state => state.auth.userInfo);
 
@@ -39,6 +46,7 @@ function Comments({ comments, type, changed, postIdx }: commentsProps) {
           if (item.upIdx) {
             return (
               <ReplyItem
+                isArticleAuthor={isArticleAuthor}
                 isAuthor={isAuthor}
                 type={type}
                 info={item}
@@ -50,6 +58,7 @@ function Comments({ comments, type, changed, postIdx }: commentsProps) {
           }
           return (
             <CommentItem
+              isArticleAuthor={isArticleAuthor}
               isAuthor={isAuthor}
               type={type}
               info={item}

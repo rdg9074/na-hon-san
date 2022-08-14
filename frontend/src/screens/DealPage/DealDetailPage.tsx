@@ -13,6 +13,7 @@ import Comments from "@components/Comments/Comments";
 import CommentInput from "@components/Comments/CommentInput";
 import { addFollow, delFollow } from "@apis/userFeed";
 import Heart from "@images/Heart.svg";
+import MapModal from "@components/common/MapModal";
 
 function DealDetailPage() {
   const [newComment, setNewComment] = useState(false);
@@ -182,7 +183,19 @@ function DealDetailPage() {
               </div>
             ) : (
               <div className="header-func-btn flex">
-                <img src={KakaoMap} alt="123" title="map" />
+                {userInfo ? (
+                  <MapModal targetUser={article.userNickname} />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
+                    <img src={KakaoMap} alt="KakaoMap" />
+                  </button>
+                )}
+
                 <button onClick={setLike} type="button">
                   <img
                     src={userState.isLike ? Heart : EmptyHeart}
@@ -228,6 +241,7 @@ function DealDetailPage() {
           </div>
           {comment ? (
             <Comments
+              isArticleAuthor={article.userNickname === userInfo?.nickname}
               postIdx={id as string}
               changed={changed}
               type="Deal"

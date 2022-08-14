@@ -48,4 +48,4 @@ function FeedList({ type, userNickname }: FeedListProps) {
   );
 }
 
-export default FeedList;
+export default React.memo(FeedList);

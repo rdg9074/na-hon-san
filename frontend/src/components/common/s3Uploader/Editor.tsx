@@ -18,11 +18,7 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
 
   // 에디터 커스텀
   const quillRef = useRef<any>(null);
-  const toolbarOptions = [
-    ["image"],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }]
-  ];
+  const toolbarOptions = [["image"], [{ color: [] }, { background: [] }]];
   const modules = {
     toolbar: {
       container: toolbarOptions
@@ -83,15 +79,7 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
     }
   }, [update]);
 
-  const formats = [
-    "header",
-    "align",
-    "indent",
-    "background",
-    "color",
-    "image",
-    "width"
-  ];
+  const formats = ["header", "background", "color", "image", "width"];
 
   if (getValue) {
     tmpImg.shift();
@@ -103,9 +91,14 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
     editorValue(value);
   }
 
+  const isPaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    alert("복사 붙여넣기는 지원하지 않습니다.");
+  };
+
   return (
     <div id="editor">
-      <div className="editor">
+      <div className="editor" onPaste={e => isPaste(e)}>
         <ReactQuill
           theme="snow"
           defaultValue={value}

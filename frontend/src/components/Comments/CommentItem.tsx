@@ -6,6 +6,7 @@ import KaKao from "@images/kakao_map.png";
 import X from "@images/X.svg";
 import { commentDelete } from "@apis/comment";
 import { getTime } from "@utils/getTime";
+import MapModal from "@components/common/MapModal";
 import { commentType } from "./Comments";
 import CommentEdit from "./CommentEdit";
 import BigImg from "./BigImg";
@@ -16,9 +17,17 @@ interface CommentProps {
   isAuthor: boolean;
   changed: () => void;
   postIdx: string;
+  isArticleAuthor: boolean;
 }
 
-function CommentItem({ info, type, isAuthor, changed, postIdx }: CommentProps) {
+function CommentItem({
+  info,
+  type,
+  isAuthor,
+  changed,
+  postIdx,
+  isArticleAuthor
+}: CommentProps) {
   const [editInput, setEditInput] = useState(false);
   const navigate = useNavigate();
   const [imgToggle, setImgToggle] = useState(false);
@@ -78,10 +87,10 @@ function CommentItem({ info, type, isAuthor, changed, postIdx }: CommentProps) {
               </p>
             </div>
           </div>
-          {type === "deal" && (
-            <button type="button" className="comment-head-map flex justify-end">
-              <img src={KaKao} alt="" />
-            </button>
+          {type === "Deal" && (
+            <div className="comment-head-map flex justify-end">
+              {isArticleAuthor && <MapModal targetUser={info.userNickname} />}
+            </div>
           )}
         </div>
         <div className="comment-body flex">
