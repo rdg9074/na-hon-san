@@ -72,8 +72,8 @@ function AccountSettingPage() {
 
   const chkLength = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const state = e.target.value;
-    if (state.length > 100) {
-      const txt = state.substring(0, 100);
+    if (state.length > 98) {
+      const txt = state.substring(0, 98);
       e.target.value = txt;
       e.target.focus();
       return;
@@ -86,8 +86,6 @@ function AccountSettingPage() {
 
       e.target.focus();
     }
-    e.target.style.height = "1px";
-    e.target.style.height = `${12 + e.target.scrollHeight}px`;
   };
 
   // 닉네임 중복 체크
@@ -153,15 +151,14 @@ function AccountSettingPage() {
       userInfo.nickname = tmpNickName;
       userInfo.profileMsg = tmpText;
     }
-    setSpinner(true);
     delete userInfo.area;
     delete userInfo.backgroundImg;
     const res = await setAccount(userInfo as UserInfoType);
-
     if (res === "SUCCESS") {
       await dispatch(getUserInfo());
       navigate(`/userfeed/${tmpNickName}`);
     }
+    setSpinner(true);
   };
 
   return (
@@ -201,7 +198,7 @@ function AccountSettingPage() {
             onKeyDown={e => chkLength(e)}
           />
           <p className="text-info fs-12">
-            최대 100자 줄바꿈은 5번까지 가능합니다.
+            최대 99자 줄바꿈은 5번까지 가능합니다.
           </p>
         </div>
       </div>

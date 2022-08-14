@@ -1,4 +1,10 @@
 #userfeed-page {
+  .grey {
+    background-color: #d9d9d9;
+  }
+  .yellow {
+    background-color: $MAIN_YELLOW;
+  }
   padding-bottom: (40px);
   .profile {
     margin-top: (60px);
@@ -57,7 +63,6 @@
       margin-top: (12px);
       & > button {
         font-family: "NotoSansBold";
-        background-color: $MAIN_YELLOW;
         height: (32px);
         width: (100px);
         font-size: (16px);
@@ -71,7 +76,7 @@
         margin-top: (20px);
         padding: (12px);
         width: (320px);
-        height: (120px);
+        height: (140px);
         resize: none;
         border: none;
         outline: none;
@@ -151,7 +156,6 @@
         margin-top: vw(12px);
         & > button {
           font-family: "NotoSansBold";
-          background-color: $MAIN_YELLOW;
           height: vw(32px);
           width: vw(100px);
           font-size: vw(16px);
@@ -163,7 +167,7 @@
           margin-top: (20px);
           padding: (12px);
           width: (320px);
-          height: (120px);
+          height: (140px);
         }
       }
     }
@@ -241,7 +245,6 @@
         margin-top: vw-t(12px);
         & > button {
           font-family: "NotoSansBold";
-          background-color: $MAIN_YELLOW;
           height: vw-t(32px);
           width: vw-t(100px);
           font-size: vw-t(16px);
@@ -334,7 +337,6 @@
         margin-top: vw-p(12px);
         & > button {
           font-family: "NotoSansBold";
-          background-color: $MAIN_YELLOW;
           height: vw-p(32px);
           width: vw-p(100px);
           font-size: vw-p(16px);

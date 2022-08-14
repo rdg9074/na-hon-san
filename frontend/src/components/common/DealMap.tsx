@@ -38,6 +38,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     }
   });
   const makeMap = () => {
+    console.log(kakao);
     if (!mapInfo) return;
     const container = mapRef.current;
     const options = {
@@ -138,12 +139,11 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
 
     const positions = mapInfo.midPositionInfo.busStationList;
 
-    const positionsLeft = positions.filter(function (position) {
-      return (
+    const positionsLeft = positions.filter(
+      position =>
         position[0] !== mapInfo.midPositionInfo.result.finalBusPositionX &&
         position[1] !== mapInfo.midPositionInfo.result.finalBusPositionY
-      );
-    });
+    );
     const imageSrc = "https://i.ibb.co/NpV92mb/bus-stop.png";
     const imageSize = new kakao.maps.Size(55, 55);
     const overImageSize = new kakao.maps.Size(77, 77);
@@ -246,8 +246,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
   useEffect(() => {
     if (!isLoading) {
       (async () => {
-        // const res = await dealMap(targetUser as string);
-        const res = await dealMap("ssafy");
+        const res = await dealMap(targetUser as string);
         if (res.data.message === "SUCCESS") {
           setMapInfo(res.data);
         }

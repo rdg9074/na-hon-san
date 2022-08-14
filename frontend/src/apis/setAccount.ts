@@ -37,12 +37,15 @@ export const passwordChk = async (password: string) => {
 
 export const getProfile = async (userNickname: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-
-  const res = await API.get(`/userFeed/profile/${userNickname}`, {
-    headers: {
-      Authorization: accessToken
-    }
-  });
+  if (accessToken) {
+    const res = await API.get(`/userFeed/profile/${userNickname}`, {
+      headers: {
+        Authorization: accessToken
+      }
+    });
+    return res.data;
+  }
+  const res = await API.get(`/userFeed/profile/${userNickname}`);
   return res.data;
 };
 

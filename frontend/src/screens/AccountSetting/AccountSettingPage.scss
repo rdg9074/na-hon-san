@@ -59,7 +59,7 @@ input[type="file"] {
         margin-top: (20px);
         padding: (12px);
         width: (320px);
-        height: (120px);
+        height: (140px);
         resize: none;
         outline-color: $MAIN_YELLOW;
         border-radius: (12px);
@@ -284,7 +284,7 @@ input[type="file"] {
           margin-top: (20px);
           padding: (12px);
           width: (320px);
-          height: (120px);
+          height: (140px);
           resize: none;
           outline-color: $MAIN_YELLOW;
           border-radius: (12px);
@@ -505,12 +505,11 @@ input[type="file"] {
           margin-top: vw-t(20px);
           padding: vw-t(12px);
           width: (300px);
-          height: vw-t(120px);
+          height: (140px);
           resize: none;
           outline-color: $MAIN_YELLOW;
           border-radius: vw-t(12px);
           border: solid 1px #666;
-          line-height: vw-t(20px);
         }
       }
     }
@@ -727,7 +726,7 @@ input[type="file"] {
           margin-top: vw-p(20px);
           padding: vw-p(12px);
           width: vw-p(300px);
-          height: vw-p(120px);
+          height: (140px);
           resize: none;
           outline-color: $MAIN_YELLOW;
           border-radius: vw-p(12px);

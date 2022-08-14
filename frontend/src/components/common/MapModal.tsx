@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import kakaoMap from "@images/kakao_map.png";
 import DealMap from "@components/common/DealMap";
 
-function MapModal() {
+interface MapModalProps {
+  targetUser: string;
+}
+
+function MapModal({ targetUser }: MapModalProps) {
   const [mapModal, setMapModal] = useState<boolean>(false);
-  const targetUser = "ssafy";
+
   const showModal = () => {
     setMapModal(true);
   };

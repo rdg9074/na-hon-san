@@ -32,7 +32,7 @@ function UserFeedPage() {
   const [isLoading, setLoading] = useState(true);
   const [isChanged, setIsChanged] = useState(false);
   const [wait, setWait] = useState(false);
-
+  const userInfo = useAppSelector(state => state.auth.userInfo);
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: null,
     nickname: "",
@@ -45,7 +45,6 @@ function UserFeedPage() {
     social: "",
     isFollow: false
   });
-  const userInfo = useAppSelector(state => state.auth.userInfo);
   const txtArea = useRef<HTMLTextAreaElement>(null);
 
   const { nickName } = useParams();
@@ -53,16 +52,15 @@ function UserFeedPage() {
   useEffect(() => {
     (async () => {
       const res = await getProfile(nickName as string);
-      if (res.result === "Fail") {
+      if (res.result === "FAIL") {
         navigate("/404");
       }
-      setUserProfile(res.data);
+      if (res.result === "SUCCESS") {
+        setUserProfile(res.data);
+      }
     })();
-    if (txtArea.current) {
-      txtArea.current.style.height = "1px";
-      txtArea.current.style.height = `${12 + txtArea.current.scrollHeight}px`;
-    }
   }, [nickName, isChanged]);
+  //
 
   useEffect(() => {
     setLoading(true);
@@ -87,9 +85,9 @@ function UserFeedPage() {
     if (!userInfo) {
       return navigate("/login");
     }
-    return navigate("/letters");
+    return navigate(`/letters/detail?with=${nickName}`);
   };
-
+  //
   const setFollow = async () => {
     if (!userInfo) {
       return navigate("/login");
@@ -173,10 +171,14 @@ function UserFeedPage() {
         </div>
         {userProfile.nickname !== userInfo?.nickname && (
           <div className="info__btn flex">
-            <button type="button" onClick={setFollow}>
+            <button
+              type="button"
+              onClick={setFollow}
+              className={userProfile.isFollow ? "grey" : "yellow"}
+            >
               {userProfile.isFollow ? "언팔로우" : "팔로우"}
             </button>
-            <button onClick={goDM} type="button">
+            <button onClick={goDM} type="button" className="yellow">
               DM
             </button>
           </div>
@@ -184,7 +186,7 @@ function UserFeedPage() {
       </div>
       <div className="info__state notoReg flex ">
         <textarea
-          className="notoReg"
+          className="info__state__textarea notoReg"
           value={
             userProfile?.profileMsg ? (userProfile.profileMsg as string) : ""
           }
