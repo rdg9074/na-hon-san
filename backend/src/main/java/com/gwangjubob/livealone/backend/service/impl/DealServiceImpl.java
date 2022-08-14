@@ -590,7 +590,8 @@ public class DealServiceImpl implements DealService {
                 String midY = String.valueOf(midYd);
 //                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
 //                String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
-                String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
+//                String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
+                String apiKey = "tfCyZK7P7irQVoasYK5ZXqZKLWs6NrllNfNG3RSSnRg";
                 String radius = "500";
 
                 surl = "https://api.odsay.com/v1/api/pointSearch?apiKey=" + apiKey
@@ -815,8 +816,8 @@ public class DealServiceImpl implements DealService {
             String EY = String.valueOf(midY);
 
 //            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
-//            String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
-            String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
+//            String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
+            String apiKey = "tfCyZK7P7irQVoasYK5ZXqZKLWs6NrllNfNG3RSSnRg";
             String surl = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey="+apiKey+"&SX="+userSX+"&SY="+userSY+"&EX="+EX+"&EY="+EY;
 
             try {
