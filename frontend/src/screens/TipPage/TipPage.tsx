@@ -142,6 +142,7 @@ function TipPage() {
           category={conditions.category}
           categorys={undefined}
           state={undefined}
+          area={null}
         />
       </div>
     </div>

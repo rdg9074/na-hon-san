@@ -16,6 +16,7 @@ type InFinityScrollProps = {
   category: string | undefined;
   categorys: Array<string> | undefined;
   state: string | undefined;
+  area: string | null;
 };
 
 function InFinityScroll({
@@ -24,7 +25,8 @@ function InFinityScroll({
   keyword,
   category,
   categorys,
-  state
+  state,
+  area
 }: InFinityScrollProps) {
   const observerTarget = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -49,7 +51,7 @@ function InFinityScroll({
   useEffect(() => {
     dispatch(resetInfinity());
     setFirstLender(true);
-  }, [type, searchType, keyword, category, categorys, state]);
+  }, [type, searchType, keyword, category, categorys, state, area]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -60,7 +62,8 @@ function InFinityScroll({
           keyword,
           category,
           categorys,
-          state
+          state,
+          area
         })
       );
     }

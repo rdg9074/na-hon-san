@@ -14,4 +14,5 @@ export type TipCondition = Condition & {
 export type DealCondition = Condition & {
   categorys: Array<string>;
   state: string;
+  area: string | null;
 };

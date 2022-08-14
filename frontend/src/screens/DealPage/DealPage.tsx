@@ -51,7 +51,8 @@ function DealPage() {
       lastView: null,
       lastLikes: null,
       categorys: ["전체"],
-      state: "거래 대기"
+      state: "거래 대기",
+      area: userInfo?.area ? userInfo?.area?.split(" ")[0].slice(0, 2) : null
     }),
     []
   );
@@ -236,6 +237,7 @@ function DealPage() {
           categorys={conditions.categorys}
           category={undefined}
           state={conditions.state}
+          area={userInfo?.area ? userInfo.area.split(" ")[0].slice(0, 2) : null}
         />
       </div>
     </div>
