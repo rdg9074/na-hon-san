@@ -41,8 +41,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     null
   );
   const [midPosition, setMidPosition] = useState<midPositionType | null>(null);
-  console.log(kakao);
-  console.log(process.env.REACT_APP_KAKAO_MAP);
+
   const makeMap = () => {
     if (!midPosition) return;
     if (!loginPosition || !targetPosition) return;
@@ -136,8 +135,6 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     targetInfoWindow.setMap(map);
 
     if (midPosition.busStationList && midPosition.result) {
-      // const positions = mapInfo.midPositionInfo.busStationList;
-
       const imageSrc = "https://i.ibb.co/NpV92mb/bus-stop.png";
       const imageSize = new kakao.maps.Size(55, 55);
       const overImageSize = new kakao.maps.Size(77, 77);
@@ -247,7 +244,6 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     if (!isLoading) {
       (async () => {
         const res = await dealMap(targetUser as string);
-        console.log(res.data);
         if (res.data.message === "SUCCESS") {
           setLoginPosition(res.data.loginUserPosition);
           setTargetPosition(res.data.targetUserPosition);
