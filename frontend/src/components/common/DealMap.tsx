@@ -23,7 +23,7 @@ type resultType = {
 
 type midPositionType = {
   result: resultType | null;
-  distacn: number | null;
+  distance: number | null;
   radius: number;
   midXPosition: number;
   midYPosition: number;
@@ -63,15 +63,15 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
       targetPosition.positionY,
       targetPosition.positionX
     );
-
-    const imgSrc = "https://i.ibb.co/8NBcFrw/honeybee.png";
-    const imgSize = new kakao.maps.Size(64, 69);
-    const imgOption = { offset: new kakao.maps.Point(34, 44) };
-    const mdMarkerImg = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
     const mdPosi = new kakao.maps.LatLng(
       midPosition.midYPosition,
       midPosition.midXPosition
     );
+
+    const imgSrc = "https://i.ibb.co/8NBcFrw/honeybee.png";
+    const imgSize = new kakao.maps.Size(64, 69);
+    const imgOption = { offset: new kakao.maps.Point(0, 0) };
+    const mdMarkerImg = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
 
     const loginMarkerImgSrc = "https://i.ibb.co/dgZDp51/user.png";
     const loginMarkerImgSize = new kakao.maps.Size(44, 44);
@@ -110,8 +110,8 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
 
     const loginIwContent =
       '<div class="login-info">' +
-      '  <div class="blank" target="_blank">' +
-      '    <span class="title">나의 위치!</span>' +
+      '  <div class="info__blank" target="_blank">' +
+      '    <span class="info__title">나의 위치!</span>' +
       "  </div>" +
       "</div>";
 
@@ -122,8 +122,8 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
 
     const targetIwContent =
       '<div class="target-info">' +
-      '  <div class="blank" target="_blank">' +
-      '    <span class="title">상대방의 위치!</span>' +
+      '  <div class="info__blank" target="_blank">' +
+      '    <span class="info__title">상대방의 위치!</span>' +
       "  </div>" +
       "</div>";
 
@@ -131,6 +131,23 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
       position: targetUserPosi,
       content: targetIwContent
     });
+
+    if (midPosition.distance) {
+      const mdIWContetn =
+        '<div class="md-info">' +
+        '  <div class="info__blank" target="_blank">' +
+        `    <span class="info__title">상대방과 나의 거리 ${Math.round(
+          midPosition.distance
+        )}!</span>` +
+        "  </div>" +
+        "</div>";
+      const mdInfoWindow = new kakao.maps.CustomOverlay({
+        position: mdPosi,
+        content: mdIWContetn
+      });
+
+      mdInfoWindow.setMap(map);
+    }
     loginInfoWindow.setMap(map);
     targetInfoWindow.setMap(map);
 
