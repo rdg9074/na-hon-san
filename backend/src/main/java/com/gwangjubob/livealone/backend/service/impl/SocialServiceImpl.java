@@ -51,7 +51,7 @@ public class SocialServiceImpl implements SocialService {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
             jsonId[0] = json.get("id").toString();
-            String nameId = "k" + jsonId[0].substring(0, 5);
+            String nameId = "k" + jsonId[0].substring(7, 14);
             jsonId[0] = "kakao" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
@@ -126,7 +126,7 @@ public class SocialServiceImpl implements SocialService {
             JSONObject json = (JSONObject) parser.parse(result);
             JSONObject jsonObjectB = (JSONObject) json.get("response");
             jsonId[0] = jsonObjectB.get("id").toString();
-            String nameId = "n" + jsonId[0].substring(0, 5);
+            String nameId = "n" + jsonId[0].substring(7, 14);
             jsonId[0] = "naver" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
@@ -174,7 +174,7 @@ public class SocialServiceImpl implements SocialService {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(result);
             jsonId[0] = json.get("id").toString();
-            String nameId = "g" + jsonId[0].substring(0, 5);
+            String nameId = "g" + jsonId[0].substring(7, 14);
             jsonId[0] = "google" + jsonId[0];
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
