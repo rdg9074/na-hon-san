@@ -5,6 +5,15 @@
   border: 1px solid $GRAY_DB;
   border-radius: (20px);
 
+  & input[type="file"] {
+    position: absolute;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+  }
+
   .spinner-wrrapper {
     width: 100%;
     justify-content: center;

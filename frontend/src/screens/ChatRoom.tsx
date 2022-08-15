@@ -4,9 +4,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { v4 } from "uuid";
 import "./ChatRoom.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
+import ImgResizer from "@components/common/ImgUploader/ImgResizer";
 import ImgIcon from "@images/ImgIcon.svg";
 import { getDmDetailList, sendDm } from "@apis/dm";
 import loadingSpinner from "@images/LoadingSpinner.svg";
+import isImage from "@utils/isImage";
 
 function ChatRoom() {
   const [searchParams] = useSearchParams();
@@ -19,7 +21,9 @@ function ChatRoom() {
   const [lastIdx, setLastIdx] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
   const [userImg, setUserImg] = useState("");
+  const [sendFile, setSendFile] = useState<File | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
+  const imgInput = useRef<HTMLInputElement>(null);
 
   const getDmList = async () => {
     setIsLoading(true);
@@ -63,6 +67,28 @@ function ChatRoom() {
       }
     }
   };
+
+  // 이미지 인풋 열기
+  const clickInput = () => {
+    imgInput.current?.click();
+  };
+
+  // 이미지 파일 읽고 유효성검사 후 리사이징
+  const fileread = () => {
+    if (imgInput.current?.files) {
+      const file = imgInput.current.files[0];
+
+      if (file && isImage(file)) {
+        setSendFile(file);
+      }
+    }
+  };
+
+  // 한 파일을 받아서 sendDm
+  const receiveFile = async (data: string) => {
+    await sendDm(withId, "", data.replace("data:image/jpeg;base64,", ""));
+  };
+
   useEffect(() => {
     if (!withId) {
       navigate("/404");
@@ -136,11 +162,25 @@ function ChatRoom() {
           onKeyUp={handleKeyUp}
         />
         <footer className="chat-footer">
-          <button type="button" className="chat-btn">
+          <button type="button" className="chat-btn" onClick={clickInput}>
             <img src={ImgIcon} alt="이미지업로드" className="chat__img-icon" />
           </button>
         </footer>
+        <input
+          type="file"
+          accept="image/*"
+          ref={imgInput}
+          onChange={fileread}
+        />
       </div>
+      {sendFile && (
+        <ImgResizer
+          imgfile={sendFile}
+          newImgfile={receiveFile}
+          imgW={200}
+          imgH={200}
+        />
+      )}
     </div>
   );
 }
