@@ -204,6 +204,7 @@ public class DealServiceImpl implements DealService {
                             .postType("deal")
                             .commentIdx(dealComment.getIdx())
                             .commentUpIdx(dealComment.getUpIdx())
+                            .time(dealComment.getTime())
                             .postIdx(deal.getIdx())
                             .build();
 
