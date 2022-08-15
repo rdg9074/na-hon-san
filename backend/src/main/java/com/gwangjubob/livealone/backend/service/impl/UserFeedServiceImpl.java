@@ -303,6 +303,7 @@ public class UserFeedServiceImpl implements UserFeedService {
                 DealDto dealDto = new DealDto();
                 dealDto.setIdx(dealEntity.getIdx());
                 dealDto.setUserNickname(dealEntity.getUser().getNickname());
+                dealDto.setUserProfileImg(dealEntity.getUser().getProfileImg());
                 dealDto.setTitle(dealEntity.getTitle());
                 dealDto.setContent(dealEntity.getContent());
                 dealDto.setCategory(dealEntity.getCategory());
