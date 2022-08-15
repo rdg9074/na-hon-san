@@ -103,8 +103,6 @@ function UserFeedPage() {
     return Math.floor(Math.random() * 9);
   }, [nickName]);
 
-  const randomImg = Math.floor(Math.random() * 9);
-
   return (
     <div id="userfeed-page">
       <div className="profile">
