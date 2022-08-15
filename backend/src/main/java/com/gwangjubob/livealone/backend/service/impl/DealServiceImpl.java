@@ -39,13 +39,16 @@ public class DealServiceImpl implements DealService {
 
     private DealCommentRepository dealCommentRepository;
     private UserLikeDealsRepository userLikeDealsRepository;
+    private ApiActionRepository apiActionRepository;
     private NoticeRepository noticeRepository;
     private DealCommentMapper dealCommentMapper;
     private DealViewMapper dealViewMapper;
     private UserService userService;
+
     @Autowired
     DealServiceImpl(DealRepository dealRepository, DealMapper dealMapper, UserRepository userRepository, DealCommentRepository dealCommentRepository, UserService userService,
-                    NoticeRepository noticeRepository, DealCommentMapper dealCommentMapper, UserLikeDealsRepository userLikeDealsRepository, DealViewMapper dealViewMapper){
+                    NoticeRepository noticeRepository, DealCommentMapper dealCommentMapper, UserLikeDealsRepository userLikeDealsRepository, DealViewMapper dealViewMapper,
+                    ApiActionRepository apiActionRepository){
         this.dealRepository = dealRepository;
         this.dealMapper = dealMapper;
         this.userRepository = userRepository;
@@ -55,6 +58,7 @@ public class DealServiceImpl implements DealService {
         this.noticeRepository = noticeRepository;
         this.dealViewMapper = dealViewMapper;
         this.userService = userService;
+        this.apiActionRepository = apiActionRepository;
     }
 
 
@@ -564,7 +568,6 @@ public class DealServiceImpl implements DealService {
         Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
 
         if (distanceMeter <= 2000) {
-            System.out.println("두 사용자 간의 거리가 2km 이내입니다. ");
             info.put("distance", distanceMeter);
 
             double midXd = (loginUserX + targetUserX) / 2;
@@ -589,9 +592,7 @@ public class DealServiceImpl implements DealService {
             try {
                 String midX = String.valueOf(midXd);
                 String midY = String.valueOf(midYd);
-//                String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
-//                String apiKey = "4TDg6wbzkEuH7hP6AnSu2xCEA+3lLmjCH/hAEGbAnUw";
-//                String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
+
                 String apiKey = "tfCyZK7P7irQVoasYK5ZXqZKLWs6NrllNfNG3RSSnRg";
                 String radius = "500";
 
@@ -617,6 +618,15 @@ public class DealServiceImpl implements DealService {
                 JSONObject resultObj = (JSONObject) json.get("result");
                 long count = (long) resultObj.get("count");
                 if (count > 0) {
+                    // api 호출횟수 +1
+                    Optional<ApiActionEntity> apiActionEntity = apiActionRepository.findByIdx(1);
+                    if(apiActionEntity.isPresent()){
+                        ApiActionEntity apiAction = apiActionEntity.get();
+
+                        apiAction.setApi(apiAction.getApi()+1);
+                        apiActionRepository.save(apiAction);
+                    }
+
                     info.put("radius", radius);
                     JSONArray data = (JSONArray) resultObj.get("station");
 
@@ -629,6 +639,14 @@ public class DealServiceImpl implements DealService {
                         busStation.add(list);
                     }
                 } else {
+                    // api 호출횟수 +1
+                    Optional<ApiActionEntity> apiActionEntity = apiActionRepository.findByIdx(1);
+                    if(apiActionEntity.isPresent()){
+                        ApiActionEntity apiAction = apiActionEntity.get();
+
+                        apiAction.setApi(apiAction.getApi()+1);
+                        apiActionRepository.save(apiAction);
+                    }
                     radius = "1000";
                     info.put("radius", radius);
 
@@ -678,6 +696,14 @@ public class DealServiceImpl implements DealService {
                     size = busStation.size();
                 }
 
+                // size * 2만큼 api 호출 -> db에 저장
+                Optional<ApiActionEntity> apiActionEntity = apiActionRepository.findByIdx(1);
+                if(apiActionEntity.isPresent()){
+                    ApiActionEntity apiAction = apiActionEntity.get();
+                    apiAction.setApi(apiAction.getApi() + size);
+                    apiActionRepository.save(apiAction);
+                }
+
                 loginUserTime = getMidBusStation(size, busStation, loginUserX, loginUserY);
                 for(int i=0; i<loginUserTime.size();i++){
                     System.out.println("사용자가 " + i +"번째 버스정류장까지 가는데 걸린 총 시간 : " + loginUserTime.get(i));
@@ -691,8 +717,6 @@ public class DealServiceImpl implements DealService {
                 Long minTime = Long.MAX_VALUE;
                 int index = 0;
                 for (int i = 0; i < loginUserTime.size(); i++) {
-                    //minTime = (loginUserTime.get(0)+targetUserTime.get(0)) + (loginUserTime.get(0)-targetUserTime.get(0))*2;
-
                     Long sum = loginUserTime.get(i) + targetUserTime.get(i);
                     Long minus = Math.abs(loginUserTime.get(i) - targetUserTime.get(i));
 
@@ -702,14 +726,6 @@ public class DealServiceImpl implements DealService {
                         minTime = tmp;
                     }
                 }
-//                Map<String, Object> top5station = new HashMap<>();
-//                for(int i=0; i<loginUserTime.size(); i++){
-//                    top5station.put("BusStation"+(i+1), busStation.get(i));
-//                    top5station.put("loginUserTime"+(i+1), loginUserTime.get(i));
-//                    top5station.put("targetUserTime"+(i+1), targetUserTime.get(i));
-//                }
-//                info.put("busStationList", top5station);
-
 
                 for(int i=0; i<size; i++){
                     busStationList.add(busStation.get(i));
@@ -834,8 +850,6 @@ public class DealServiceImpl implements DealService {
             String EX = String.valueOf(midX);
             String EY = String.valueOf(midY);
 
-//            String apiKey = "sVVsoLKtRaVMwkTbiQfAPb3Dzbu/GeKVmpaAxqvSH0c";
-//            String apiKey = "jq+RtpFslnVWy1+I0ZAKnxM2eYmrCAwqtgtu/q9LFBw";
             String apiKey = "tfCyZK7P7irQVoasYK5ZXqZKLWs6NrllNfNG3RSSnRg";
             String surl = "https://api.odsay.com/v1/api/searchPubTransPathT?apiKey="+apiKey+"&SX="+userSX+"&SY="+userSY+"&EX="+EX+"&EY="+EY;
 
