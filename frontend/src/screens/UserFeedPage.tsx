@@ -10,6 +10,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { addFollow, delFollow } from "@apis/userFeed";
 import { useAppSelector } from "@store/hooks";
 import { getProfile } from "@apis/setAccount";
+import images from "@images/bc/imgIndex";
 
 type UserProfile = {
   id: string | null;
@@ -64,16 +65,6 @@ function UserFeedPage() {
       }
     })();
   }, [nickName, isChanged]);
-  //
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("https://picsum.photos/520/200")
-      .then(res => {
-        setRandomBack(res.url);
-      })
-      .then(() => setLoading(false));
-  }, []);
 
   const follow = (state: string) => {
     setFollowModal(state);
@@ -109,20 +100,18 @@ function UserFeedPage() {
     return 0;
   };
 
+  const randomImg = Math.floor(Math.random() * 9);
+
   return (
     <div id="userfeed-page">
       <div className="profile">
         <div className="profile-background flex column">
-          {isLoading ? (
-            <BackImgSkeleton />
-          ) : (
-            <img
-              src={randomBack}
-              alt="Thum"
-              className="profile-background__img"
-              title="background"
-            />
-          )}
+          <img
+            src={images[randomImg]}
+            alt="Thum"
+            className="profile-background__img"
+            title="background"
+          />
         </div>
         <div className="profile-user">
           <img
