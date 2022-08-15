@@ -46,6 +46,7 @@ public class MailService {
                 .id(mailSendDto.getId())
                 .type(mailSendDto.getType())
                 .number(authKey)
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
         mailRepository.saveAndFlush(dummyMail);
         mailRepository.deleteById(mailSendDto.getId()); //이전에 인증번호 제거
