@@ -43,7 +43,8 @@ public class FeedController {
 
     @PostMapping("/userFeed/follow/{nickname}") // 팔로우 등록
     public ResponseEntity<?> registFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
             String fromId = userService.NicknameToId(fromNickname);
@@ -56,7 +57,8 @@ public class FeedController {
     }
     @DeleteMapping("/userFeed/follow/{nickname}") // 팔로우 취소
     public ResponseEntity<?> deleteFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         if(decodeId != null){
             String fromId = userService.NicknameToId(fromNickname);
@@ -69,7 +71,8 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follow/{nickname}")  // 팔로우 목록 조회
     public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
@@ -89,7 +92,8 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follower/{nickname}") // 팔로워 목록 조회
     public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
@@ -109,7 +113,8 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follow/search/{nickname}") // 팔로우 검색
     public ResponseEntity<?> searchFollow(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
@@ -129,7 +134,8 @@ public class FeedController {
     }
     @GetMapping("/userFeed/follower/search/{nickname}") // 팔로워 검색
     public ResponseEntity<?> searchFollower(@PathVariable("nickname")String fromNickname, @RequestParam("keyword") String keyword){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
@@ -149,7 +155,8 @@ public class FeedController {
     }
     @GetMapping("/userFeed/profile/{nickname}") // 회원 피드 - 프로필 조회
     public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname,HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         String accessToken = request.getHeader("Authorization"); // 로그인 했는지 체크?
         String decodeId = checkToken(request);
         String fromId = userService.NicknameToId(fromNickname);
@@ -177,7 +184,8 @@ public class FeedController {
 
     @GetMapping("/userFeed/post/{nickname}") // 회원 피드 - 게시글 조회
     public ResponseEntity<?> feedPosts(@PathVariable("nickname")String fromNickname, @RequestParam("category") int category){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String fromId = userService.NicknameToId(fromNickname);
             List<PostViewDto> result = userFeedService.feedPosts(fromId,category);
@@ -194,7 +202,8 @@ public class FeedController {
     }
     @GetMapping("/mainFeed/user") // 인기있는 팔로워 추천
     public ResponseEntity<?> popularFollower(HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         try{
             String decodeId = checkToken(request);
             if(decodeId != null){
@@ -214,7 +223,8 @@ public class FeedController {
     }
     @GetMapping("/mainFeed/honeyDeal") // 인기있는 꿀딜 추천
     public ResponseEntity<?> popularHoneyDeal(HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         try{
             if(decodeId != null){
@@ -231,7 +241,8 @@ public class FeedController {
     }
     @GetMapping("/mainFeed/honeyTip")
     public ResponseEntity<?> userFollowHoneyTip(@RequestParam("lastIdx")Integer lastIdx,@RequestParam("pageSize") int pageSize, HttpServletRequest request){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+//        resultMap = new HashMap<>();
         String decodeId = checkToken(request);
         try{
             if(decodeId != null){
