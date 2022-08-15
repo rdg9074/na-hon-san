@@ -55,7 +55,7 @@ function Login() {
           <p className="or__title notoBold fs-14">또는</p>
           <span className="or__line" />
         </div>
-        <section className="form">
+        <form className="form">
           <p className="form__title notoReg fs-16">이메일</p>
           <input
             className="form__input notoReg fs-15"
@@ -70,6 +70,7 @@ function Login() {
             placeholder="비밀번호를 입력해주세요"
             ref={passwordInputRef}
             onKeyUp={handlePasswordInput}
+            autoComplete="current-password"
           />
           <p className="form__msg notoMid fs-12">{errMsg}</p>
           <button
@@ -87,7 +88,7 @@ function Login() {
               "로그인"
             )}
           </button>
-        </section>
+        </form>
         <footer className="footer notoMid fs-12">
           <div className="footer__container flex align-center justify-center">
             <p className="footer__msg">아직 계정이 없으신가요?</p>

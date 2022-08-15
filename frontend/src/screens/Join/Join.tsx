@@ -69,7 +69,7 @@ function Join() {
           <p className="or__title notoBold fs-14">또는</p>
           <span className="or__line" />
         </div>
-        <section className="form">
+        <form className="form">
           <p className="form__title notoReg fs-16">이메일로 회원가입하기</p>
           <input
             className="form__input notoReg fs-15"
@@ -99,7 +99,7 @@ function Join() {
               "다음"
             )}
           </button>
-        </section>
+        </form>
         <footer className="footer notoMid fs-12 flex align-center justify-center">
           <p className="footer__msg">이미 계정이 있으신가요?</p>
           <Link className="footer__link" to="/login">
