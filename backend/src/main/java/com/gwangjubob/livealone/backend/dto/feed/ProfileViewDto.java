@@ -14,6 +14,8 @@ public class ProfileViewDto {
     private String nickname;
     private String profileMsg;
     private Boolean isFollow;
+    private Boolean followOpen;
+    private Boolean followerOpen;
     private byte[] profileImg;
     private int followCount;
     private int followerCount;

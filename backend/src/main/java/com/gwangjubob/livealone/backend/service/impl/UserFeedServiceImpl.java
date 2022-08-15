@@ -166,6 +166,8 @@ public class UserFeedServiceImpl implements UserFeedService {
             profileViewDto.setNickname(userInfo.get().getNickname());
             profileViewDto.setProfileImg(userInfo.get().getProfileImg());
             profileViewDto.setProfileMsg(userInfo.get().getProfileMsg());
+            profileViewDto.setFollowOpen(userInfo.get().getFollowOpen());
+            profileViewDto.setFollowerOpen(userInfo.get().getFollowerOpen());
             profileViewDto.setFollowCount(followCnt);
             profileViewDto.setFollowerCount(followerCnt);
             profileViewDto.setTipCount(tipCount);
