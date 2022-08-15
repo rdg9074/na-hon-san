@@ -15,6 +15,7 @@ public class DMViewDto  {
     Integer idx;
     String type;
     String fromId;
+    byte[] fromProfileImg;
     String Nickname;
     String toId;
     String content;
