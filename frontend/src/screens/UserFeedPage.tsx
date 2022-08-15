@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./UserFeedPage.scss";
 import UserDummyIcon from "@images/UserDummy.svg";
 import SetIcon from "@images/SetIcon.svg";
@@ -99,6 +99,9 @@ function UserFeedPage() {
     }
     return 0;
   };
+  const randomImg = useMemo(() => {
+    return Math.floor(Math.random() * 9);
+  }, [nickName]);
 
   const randomImg = Math.floor(Math.random() * 9);
 
