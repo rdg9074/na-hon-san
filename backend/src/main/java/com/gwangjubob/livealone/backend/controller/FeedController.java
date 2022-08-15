@@ -70,44 +70,64 @@ public class FeedController {
         return new ResponseEntity<>(resultMap,status);
     }
     @GetMapping("/userFeed/follow/{nickname}")  // 팔로우 목록 조회
-    public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname){
-//        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity<?> listFollow(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
-        try{
-            String fromId = userService.NicknameToId(fromNickname);
-            UserInfoDto userInfoDto =  userService.infoUser(fromId);
-            if(userInfoDto.getFollowOpen()) {// 대상 id가 팔로우 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFeedService.listFollow(fromId);
-                resultMap.put("data",result);
-            }else{
-                resultMap.put("data",notAllowed);
+        String decodeId = "isLogin";
+
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request, resultMap);
+        }
+
+        if(decodeId != null){
+            try{
+                String fromId = userService.NicknameToId(fromNickname);
+                UserInfoDto userInfoDto =  userService.infoUser(fromId);
+                if(userInfoDto.getFollowOpen()) {// 대상 id가 팔로우 설정이 되어있다면 조회하기
+                    List<FollowViewDto> result = userFeedService.listFollow(fromId);
+                    resultMap.put("data",result);
+                }else if(userInfoDto.getId().equals(decodeId)){
+                    List<FollowViewDto> result = userFeedService.listFollow(fromId);
+                    resultMap.put("data",result);
+                }else{
+                    resultMap.put("data",notAllowed);
+                }
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("result",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
-        }catch (Exception e){
-            resultMap.put("result",fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap,status);
     }
     @GetMapping("/userFeed/follower/{nickname}") // 팔로워 목록 조회
-    public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname){
+    public ResponseEntity<?> listFollower(@PathVariable("nickname")String fromNickname, HttpServletRequest request){
 //        Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> resultMap = new HashMap<>();
-        try{
-            String fromId = userService.NicknameToId(fromNickname);
-            UserInfoDto userInfoDto =  userService.infoUser(fromId);
-            if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
-                List<FollowViewDto> result = userFeedService.listFollower(fromId);
-                resultMap.put("data",result);
-            }else{
-                resultMap.put("data",notAllowed);
+        String decodeId = "isLogin";
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request, resultMap);
+        }
+
+        if(decodeId != null){
+            try{
+                String fromId = userService.NicknameToId(fromNickname);
+                UserInfoDto userInfoDto =  userService.infoUser(fromId);
+                if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
+                    List<FollowViewDto> result = userFeedService.listFollower(fromId);
+                    resultMap.put("data",result);
+                }else if(userInfoDto.getId().equals(decodeId)) {
+                    List<FollowViewDto> result = userFeedService.listFollower(fromId);
+                    resultMap.put("data",result);
+                }else{
+                    resultMap.put("data",notAllowed);
+                }
+                resultMap.put("result",okay);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("result",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
-            resultMap.put("result",okay);
-            status = HttpStatus.OK;
-        }catch (Exception e){
-            resultMap.put("result",fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap,status);
     }
