@@ -67,9 +67,10 @@ public class DMController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-    @GetMapping("/dm/{fromId}") // DM 세부조회
-    public ResponseEntity<?> listDetailDM(@PathVariable("fromId")String fromId, @RequestParam("lastIdx") int lastIdx, @RequestParam("pageSize") int pageSize, HttpServletRequest request){
+    @GetMapping("/dm/{fromNickname}") // DM 세부조회
+    public ResponseEntity<?> listDetailDM(@PathVariable("fromNickname")String fromNickname, @RequestParam("lastIdx") int lastIdx, @RequestParam("pageSize") int pageSize, HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
+        String fromId = userService.NicknameToId(fromNickname);
         String decodeId = checkToken(request, resultMap);
         try {
             if(decodeId != null){
