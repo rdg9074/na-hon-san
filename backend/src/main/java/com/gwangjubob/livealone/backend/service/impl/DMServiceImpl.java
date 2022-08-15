@@ -94,7 +94,7 @@ public class DMServiceImpl implements DMService {
 					DMViewDto dmViewDto = DMViewDto.builder()
 							.idx(d.getIdx())
 							.fromId(d.getFromUserId().getId())
-							.fromProfileImg(d.getFromUserId().getProfileImg())
+							.toProfileImg(d.getToUserId().getProfileImg())
 							.toId(d.getToUserId().getId())
 							.content(d.getContent())
 							.image(d.getImage())
