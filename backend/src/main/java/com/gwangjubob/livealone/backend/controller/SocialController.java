@@ -25,7 +25,7 @@ public class SocialController {
     private final SocialService socialService;
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private static Map<String, Object> resultMap;
+    private Map<String, Object> resultMap;
     @Autowired
     SocialController(UserService userService , SocialService socialService, JwtService jwtService, MailService mailService){
         this.userService = userService;

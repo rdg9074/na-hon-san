@@ -29,7 +29,7 @@ public class UserController {
     private final JwtService jwtService;
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private static Map<String, Object> resultMap;
+    private Map<String, Object> resultMap;
     @Autowired
     UserController(UserService userService ,JwtService jwtService,MailService mailService){
         this.userService = userService;
