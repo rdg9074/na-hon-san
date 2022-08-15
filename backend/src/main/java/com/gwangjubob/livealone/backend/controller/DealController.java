@@ -286,8 +286,8 @@ public class DealController {
         Map<String, Object> resultMap = new HashMap<>();
         String loginUserId = checkToken(request, resultMap);
         String targetUserId = userService.getTargetId(nickname);
-//        int apiCount = dealService.getApiCount(); // api 호출횟수
-        int apiCount = 1000;
+        int apiCount = dealService.getApiCount(); // api 호출횟수
+        System.out.println(apiCount);
         if(loginUserId != null) {
             try {
 
