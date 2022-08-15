@@ -105,3 +105,7 @@ export const refreshAccessToken = async () => {
     sessionStorage.setItem("access-token", res.data["access-token"]);
   }
 };
+
+export const deleteRefreshToken = async () => {
+  const res = await API.get("/user/logout");
+};

@@ -3,6 +3,7 @@ import "./ProfileToolTip.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@store/hooks";
 import { resetUserInfo } from "@store/ducks/auth/authSlice";
+import { deleteRefreshToken } from "@apis/auth";
 
 type ProfileToolTipProps = {
   userNickname: string;
@@ -11,9 +12,11 @@ type ProfileToolTipProps = {
 
 function ProfileToolTip({ userNickname, closeTooltip }: ProfileToolTipProps) {
   const dispatch = useAppDispatch();
-  const navaigate = useNavigate();
-  const onClickLogout = () => {
+  const navigate = useNavigate();
+  const onClickLogout = async () => {
     dispatch(resetUserInfo());
+    deleteRefreshToken();
+    navigate("/");
     closeTooltip();
   };
   return (

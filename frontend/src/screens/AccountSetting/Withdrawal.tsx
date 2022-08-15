@@ -5,6 +5,7 @@ import { withdrawal } from "@apis/setAccount";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
 import { useAppDispatch } from "@store/hooks";
 import { resetUserInfo } from "@store/ducks/auth/authSlice";
+import { deleteRefreshToken } from "@apis/auth";
 
 function FindPw() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,6 +30,7 @@ function FindPw() {
       const res = await withdrawal();
       if (res === "SUCCESS") {
         dispatch(resetUserInfo());
+        deleteRefreshToken();
         navigate("/");
       }
       return;
