@@ -172,7 +172,7 @@ public class DMServiceTest {
         // given
         DMSendDto dmSendDto = new DMSendDto();
         dmSendDto.setFromId("test123");
-        dmSendDto.setToId("ssafy");
+        dmSendDto.setToNickname("ssafy");
         dmSendDto.setContent("test");
 
         // when
