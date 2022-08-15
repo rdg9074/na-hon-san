@@ -22,6 +22,8 @@ type UserProfile = {
   dealCount: number;
   social: string;
   isFollow: boolean;
+  followOpen: boolean;
+  followerOpen: boolean;
 };
 
 function UserFeedPage() {
@@ -43,7 +45,9 @@ function UserFeedPage() {
     tipCount: 0,
     dealCount: 0,
     social: "",
-    isFollow: false
+    isFollow: false,
+    followOpen: false,
+    followerOpen: false
   });
   const txtArea = useRef<HTMLTextAreaElement>(null);
 
@@ -219,6 +223,8 @@ function UserFeedPage() {
       </div>
       {followClick ? (
         <FollowList
+          isMine={userProfile.nickname === userInfo?.nickname}
+          isOpen={[userProfile.followerOpen, userProfile.followOpen]}
           idx={nickName as string}
           signal={signal}
           followModal={followModal}

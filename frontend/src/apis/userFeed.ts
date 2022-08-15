@@ -26,21 +26,29 @@ export const delFollow = async (id: string) => {
 
 export const readFollow = async (id: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.get(`/userFeed/follow/${id}`, {
-    headers: {
-      Authorization: accessToken
-    }
-  });
+  if (accessToken) {
+    const res = await API.get(`/userFeed/follow/${id}`, {
+      headers: {
+        Authorization: accessToken
+      }
+    });
+    return res;
+  }
+  const res = await API.get(`/userFeed/follow/${id}`);
   return res;
 };
 
 export const readFollower = async (id: string) => {
   const accessToken = sessionStorage.getItem("access-token") as string;
-  const res = await API.get(`/userFeed/follower/${id}`, {
-    headers: {
-      Authorization: accessToken
-    }
-  });
+  if (accessToken) {
+    const res = await API.get(`/userFeed/follower/${id}`, {
+      headers: {
+        Authorization: accessToken
+      }
+    });
+    return res;
+  }
+  const res = await API.get(`/userFeed/follower/${id}`);
   return res;
 };
 
