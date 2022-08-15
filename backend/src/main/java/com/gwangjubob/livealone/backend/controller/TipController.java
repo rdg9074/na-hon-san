@@ -30,7 +30,6 @@ public class TipController {
     private static final String fail = "FAIL";
     private static final String timeOut = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private Map<String, Object> resultMap;
 
     public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService, UserFeedService userFeedService){
         this.tipService = tipService;
@@ -41,8 +40,8 @@ public class TipController {
 
     @PostMapping("/honeyTip") //꿀팁 게시글 작성
     public ResponseEntity<?> createTip(HttpServletRequest request, @RequestBody TipCreateDto tipCreateDto){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -61,7 +60,7 @@ public class TipController {
 
     @PostMapping("/honeyTip/list") //꿀팁 게시글 조회
     public ResponseEntity<?> viewTip(@RequestBody TipListDto tipListDto){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
         try{
             Map<String, Object> result = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
@@ -83,7 +82,7 @@ public class TipController {
 
     @GetMapping("/honeyTip/totalCount") //꿀팁 총 갯수 조회
     public ResponseEntity<?> totalCount(){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try{
             long totalCount = tipService.getTotalCount();
             resultMap.put("total",totalCount);
@@ -97,10 +96,10 @@ public class TipController {
     }
     @GetMapping("/honeyTip/detail/{idx}") //꿀팁 게시글 상세 조회
     public ResponseEntity<?> detailViewTip(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String decodeId = "isLogin";
         if(request != null && request.getHeader("Authorization") != null){
-            decodeId = checkToken(request); // 로그인 한 상태 ssafy
+            decodeId = checkToken(request, resultMap); // 로그인 한 상태 ssafy
         }
 
         // 만료안됐을때 - 로그인을 했다는 전제
@@ -152,8 +151,8 @@ public class TipController {
 
     @PutMapping("/honeyTip/{idx}")//꿀팁 게시글 수정
     public ResponseEntity<?> updateTip(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipUpdateDto tipUpdateDto){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -171,8 +170,8 @@ public class TipController {
 
     @DeleteMapping("/honeyTip/{idx}") //꿀팁 게시글 삭제
     public ResponseEntity<?> deleteTip(HttpServletRequest request, @PathVariable Integer idx){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -190,8 +189,8 @@ public class TipController {
 
     @PostMapping("/honeyTip/comment") //꿀팁 댓글 작성
     public ResponseEntity<?> createTipComment(HttpServletRequest request, @RequestBody TipCommentCreateDto tipCommentCreateDto){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -209,8 +208,8 @@ public class TipController {
 
     @PutMapping("/honeyTip/comment/{idx}") //꿀팁 댓글 수정
     public ResponseEntity<?> updateTipComment(HttpServletRequest request,@PathVariable Integer idx, @RequestBody TipCommentUpdateDto tipCommentUpdateDto){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -228,8 +227,8 @@ public class TipController {
 
     @DeleteMapping("/honeyTip/comment/{idx}") //꿀팁 댓글 삭제
     public ResponseEntity<?> deleteTipComment(HttpServletRequest request, @PathVariable Integer idx){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -247,8 +246,8 @@ public class TipController {
 
     @GetMapping("/honeyTip/like/{idx}") //꿀팁 좋아요, 좋아요 취소
     public ResponseEntity<?> likeTip(HttpServletRequest request, @PathVariable Integer idx){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -264,7 +263,7 @@ public class TipController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    public String checkToken(HttpServletRequest request){
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){

@@ -29,7 +29,6 @@ public class UserController {
     private final JwtService jwtService;
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private Map<String, Object> resultMap;
     @Autowired
     UserController(UserService userService ,JwtService jwtService,MailService mailService){
         this.userService = userService;
@@ -39,7 +38,7 @@ public class UserController {
 
     @PostMapping("/user") // 회원 가입
     public ResponseEntity<?> registUser(@RequestBody UserRegistDto userRegistDto) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             userService.registUser(userRegistDto); // 회원 등록 서비스 호출
             resultMap.put("message", okay);
@@ -53,7 +52,7 @@ public class UserController {
 
     @GetMapping("/user/check/{nickname}") // 닉네임 체크
     public ResponseEntity<?> checkNickName(@PathVariable String nickname){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             if(userService.checkNickName(nickname)){ // 닉네임 서비스 호출
                 resultMap.put("message", fail);
@@ -69,7 +68,7 @@ public class UserController {
     }
     @PostMapping("/user/login") // 로그인
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             if(userService.loginUser(userLoginDto)){//로그인 서비스 호출
                 String accessToken = jwtService.createAccessToken("id", userLoginDto.getId());
@@ -99,7 +98,7 @@ public class UserController {
     }
     @GetMapping("/user/login") // 엑세스 토큰 재발급
     public  ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String decodeId = jwtService.decodeToken(refreshToken);
         if(!decodeId.equals("timeout")){
             String accessToken = jwtService.createAccessToken("id", decodeId);
@@ -114,7 +113,7 @@ public class UserController {
     }
     @PutMapping("/user/password") // 비밀번호 수정
     public ResponseEntity<?> updatePassword(@RequestBody UserLoginDto userLoginDto) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             boolean res = userService.updatePassword(userLoginDto); // 회원 수정 서비스 호출
             if(res){
@@ -132,7 +131,7 @@ public class UserController {
 
     @PostMapping("/user/auth") // 인증 메일 발송
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             if (mailService.emailCheck(mailSendDto)) { // 이메일 체크 함수 호출
                 mailService.mailSend(mailSendDto); // 이메일 전송 - 비동기
@@ -148,7 +147,7 @@ public class UserController {
     }
     @GetMapping("/user/auth") // 인증 메일 체크
     public ResponseEntity<?> checkMail(@ModelAttribute("MailCheckDto") MailCheckDto mailCheckDto) throws Exception {
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             if (mailService.checkAuthNumber(mailCheckDto)) { // 인증번호 체크 서비스 호출
                 resultMap.put("message", okay);
@@ -163,8 +162,8 @@ public class UserController {
     }
     @PutMapping("/user") // 회원 정보 수정
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         System.out.println(decodeId);
         if (decodeId != null){
             try {
@@ -186,8 +185,8 @@ public class UserController {
     }
     @PutMapping("/user/more") // 회원 추가 정보 수정
     public ResponseEntity<?> moreUpdateUser(@RequestBody UserMoreDTO userMoreDTO, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 userMoreDTO.setUserId(decodeId);
@@ -212,8 +211,8 @@ public class UserController {
     }
     @DeleteMapping("/user") // 회원 탈퇴
     public ResponseEntity<?> deleteUser(HttpServletRequest request) throws Exception{
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
                 userService.userDelete(decodeId); // 회원 탈퇴 서비스 호출
@@ -228,8 +227,8 @@ public class UserController {
     }
     @PostMapping("/user/password") // 비밀번호 확인
     public ResponseEntity<?> passwordCheckUser(@RequestBody UserLoginDto userLoginDto,HttpServletRequest request) {
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null) {
             try {
                 if (userService.passwordCheckUser(decodeId, userLoginDto.getPassword())) { //비밀번호 확인 서비스 호출
@@ -247,8 +246,8 @@ public class UserController {
     }
     @GetMapping("/user") // 회원 정보 조회
     public ResponseEntity<?> infoUser(HttpServletRequest request) throws Exception{
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 UserInfoDto user = userService.infoUser(decodeId); //회원 조회 서비스 호출
@@ -269,8 +268,8 @@ public class UserController {
 
     @GetMapping("/user/more") // 회원 추가 정보 조회
     public ResponseEntity<?> infoMore(HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null) {
             try {
                 UserMoreDTO user = userService.infoMore(decodeId);
@@ -289,7 +288,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    public String checkToken(HttpServletRequest request){
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){

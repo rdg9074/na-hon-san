@@ -25,7 +25,6 @@ public class SocialController {
     private final SocialService socialService;
     private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private Map<String, Object> resultMap;
     @Autowired
     SocialController(UserService userService , SocialService socialService, JwtService jwtService, MailService mailService){
         this.userService = userService;
@@ -35,7 +34,7 @@ public class SocialController {
     }
     @PostMapping("/google") // 소셜로그인 - 구글
     public ResponseEntity<?> authGoogle(HttpServletRequest request ,HttpServletResponse response) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
             String[] res = socialService.googleLogin(authToken);
@@ -65,7 +64,7 @@ public class SocialController {
     }
     @PostMapping("/naver") // 소셜로그인 - 네이버
     public ResponseEntity<?> authNaver(HttpServletRequest request ,HttpServletResponse response) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
             String []res = socialService.naverLogin(authToken);
@@ -95,7 +94,7 @@ public class SocialController {
     }
     @PostMapping("/kakao") // 소셜로그인 - 카카오
     public ResponseEntity<?> authKakao(HttpServletRequest request ,HttpServletResponse response) throws Exception{
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken");
         try {
             String[] res = socialService.kakaoLogin(authToken);
@@ -125,7 +124,7 @@ public class SocialController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    public String checkToken(HttpServletRequest request){
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){

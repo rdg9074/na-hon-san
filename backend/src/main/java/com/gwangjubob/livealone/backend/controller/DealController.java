@@ -46,8 +46,8 @@ public class DealController {
 
     @PostMapping("/honeyDeal") //꿀딜 게시글 등록
     public ResponseEntity<?> registDeal(@RequestBody DealDto dealDto, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 dealDto.setUserId(decodeId);
@@ -68,10 +68,10 @@ public class DealController {
     }
     @GetMapping("/honeyDeal/detail/{idx}") //꿀딜 게시글 상세 조회
     public ResponseEntity<?> viewDetailDeal(@PathVariable Integer idx, HttpServletRequest request, HttpServletResponse response){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String decodeId = "isLogin";
         if(request != null && request.getHeader("Authorization") != null){
-            decodeId = checkToken(request);
+            decodeId = checkToken(request, resultMap);
         }
         if(decodeId != null){
             try {
@@ -125,8 +125,8 @@ public class DealController {
 
     @PutMapping("/honeyDeal/{idx}") //꿀딜 게시글 수정
     public ResponseEntity<?> updateDeal(@PathVariable Integer idx, @RequestBody DealDto dealDto, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 DealDto data = dealService.updateDeal(idx, dealDto, decodeId);
@@ -147,8 +147,8 @@ public class DealController {
 
     @DeleteMapping("/honeyDeal/{idx}") //꿀딜 게시글 삭제
     public ResponseEntity<?> deleteDeal(@PathVariable Integer idx, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 if(dealService.deleteDeal(idx, decodeId)){
@@ -167,8 +167,8 @@ public class DealController {
 
     @PostMapping("/honeyDeal/comment") //꿀딜 댓글 등록
     public ResponseEntity<?> registDealComment(@RequestBody DealCommentDto dealCommentDto, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
                 dealCommentDto.setUserId(decodeId);
@@ -190,8 +190,8 @@ public class DealController {
 
     @PutMapping("/honeyDeal/comment/{idx}") //꿀딜 댓글 수정
     public ResponseEntity<?> updateDealComment(@PathVariable Integer idx, @RequestBody DealCommentDto dealCommentDto, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
                 dealCommentDto.setUserId(decodeId);
@@ -212,8 +212,8 @@ public class DealController {
     }
     @DeleteMapping("/honeyDeal/comment/{idx}") //꿀딜 댓글 삭제
     public ResponseEntity<?> deleteDealComment(HttpServletRequest request, @PathVariable Integer idx){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
                 dealService.deleteDealComment(idx, decodeId);
@@ -229,8 +229,8 @@ public class DealController {
 
     @GetMapping("/honeyDeal/like/{idx}") //꿀딜 게시글 좋아요, 좋아요 취소
     public ResponseEntity<?> likeDeal(@PathVariable Integer idx, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
                 if(dealService.likeDeal(idx, decodeId)){
@@ -248,7 +248,7 @@ public class DealController {
     }
     @PostMapping("/honeyDeal/view") //꿀딜 게시글 조회
     public ResponseEntity<?> viewDeal(@RequestBody DealRequestDto dealRequestDto){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try{
             Map<String, Object> data = dealService.viewDeal(dealRequestDto);
             if(data != null){
@@ -268,7 +268,7 @@ public class DealController {
 
     @GetMapping("/honeyDeal/count/{area}")//지역 거래 건수 조회
     public ResponseEntity<?> countArea(@PathVariable String area){
-        resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             long cnt = dealService.countArea(area);
             resultMap.put("countArea", cnt);
@@ -283,8 +283,8 @@ public class DealController {
 
     @GetMapping("/honeyDeal/position/{nickname}") // 꿀딜 좌표 조회
     public ResponseEntity<?> getPosition(HttpServletRequest request, @PathVariable String nickname){
-        resultMap = new HashMap<>();
-        String loginUserId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String loginUserId = checkToken(request, resultMap);
         String targetUserId = userService.getTargetId(nickname);
 
         if(loginUserId != null) {
@@ -317,8 +317,8 @@ public class DealController {
 
     @GetMapping("/honeyDeal/position/test/{nickname}") // 꿀딜 좌표 조회
     public ResponseEntity<?> getPositionTest(HttpServletRequest request, @PathVariable String nickname){
-        resultMap = new HashMap<>();
-        String loginUserId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String loginUserId = checkToken(request, resultMap);
         String targetUserId = userService.getTargetId(nickname);
 
         if(loginUserId != null) {
@@ -349,7 +349,7 @@ public class DealController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    public String checkToken(HttpServletRequest request){
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){
