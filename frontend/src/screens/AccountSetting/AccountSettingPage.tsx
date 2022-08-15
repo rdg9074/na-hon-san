@@ -147,9 +147,8 @@ function AccountSettingPage() {
       notiList[4],
       notiList[5]
     ];
-    if (tmpNickName && tmpText) {
+    if (tmpNickName) {
       userInfo.nickname = tmpNickName;
-      userInfo.profileMsg = tmpText;
     }
     delete userInfo.area;
     delete userInfo.backgroundImg;
