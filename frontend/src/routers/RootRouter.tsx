@@ -3,6 +3,7 @@ import MainNavBar from "@components/common/MainNavBar";
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./RootLayout.scss";
+import loadingSpinner from "@images/LoadingSpinner.svg";
 
 const Main = lazy(() => import("@screens/Main"));
 const FeedPage = lazy(() => import("@screens/FeedPage"));
@@ -44,7 +45,17 @@ function RootRouter() {
     <>
       <MainNavBar />
       <div id="root-layout">
-        <Suspense fallback={<div>로딩중</div>}>
+        <Suspense
+          fallback={
+            <div className="page-fallback">
+              <img
+                src={loadingSpinner}
+                className="loading-spinner"
+                alt="로딩스피너"
+              />
+            </div>
+          }
+        >
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/tip">
