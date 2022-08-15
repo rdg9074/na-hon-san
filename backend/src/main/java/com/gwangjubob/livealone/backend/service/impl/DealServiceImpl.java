@@ -700,7 +700,7 @@ public class DealServiceImpl implements DealService {
                 Optional<ApiActionEntity> apiActionEntity = apiActionRepository.findByIdx(1);
                 if(apiActionEntity.isPresent()){
                     ApiActionEntity apiAction = apiActionEntity.get();
-                    apiAction.setApi(apiAction.getApi() + size);
+                    apiAction.setApi(apiAction.getApi() + size*2);
                     apiActionRepository.save(apiAction);
                 }
 
