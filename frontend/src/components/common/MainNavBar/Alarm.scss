@@ -27,11 +27,11 @@
       color: $MAIN_GRAY;
     }
   }
-  .read {
-    color: $SKELETON;
-  }
 }
 
+.read {
+  color: $SKELETON;
+}
 @media screen and (max-width: $DESKTOP-VW) {
   #alarm {
     background-color: $HEADER_TOOLTIP;

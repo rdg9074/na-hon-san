@@ -79,12 +79,12 @@
       position: fixed;
       left: 50%;
       top: 50%;
-      z-index: 3;
+      z-index: 9;
       .map-exit {
         width: (40px);
         height: (20px);
         position: absolute;
-        z-index: 100;
+        z-index: 10;
         top: (-300px);
         left: (450px);
       }
@@ -97,7 +97,7 @@
         background-color: #fff;
         position: absolute;
         transform: translate(-50%, -50%);
-        z-index: 99;
+        z-index: 2;
       }
       .main-info {
         width: (210px);
@@ -302,77 +302,6 @@
   }
 }
 @media screen and (max-width: $TABLET-VW) {
-  // @mixin user-info {
-  //   position: relative;
-  //   top: vw-t(-20px);
-  //   left: vw-t(20px);
-  //   border-radius: vw-t(6px);
-  //   border: vw-t(1px) solid #ccc;
-  //   border-bottom: vw-t(2px) solid #ddd;
-  //   float: left;
-  //   :nth-of-type(n) {
-  //     border: 0;
-  //     box-shadow: 0px 1px 2px #888;
-  //   }
-  //   .info__blank {
-  //     display: block;
-  //     text-decoration: none;
-  //     color: #000;
-  //     text-align: center;
-  //     border-radius: vw-t(6px);
-  //     font-size: vw-t(12px);
-  //     font-weight: bold;
-  //     overflow: hidden;
-  //   }
-  //   .info__title {
-  //     display: block;
-  //     text-align: center;
-  //     background: #fff;
-  //     margin-right: vw-t(35px);
-  //     padding: vw-t(10px) vw-t(15px);
-  //     font-size: vw-t(12px);
-  //     font-weight: bold;
-  //   }
-  //   :after {
-  //     content: "";
-  //     position: absolute;
-  //     margin-left: vw-t(-12px);
-  //     left: 50%;
-  //     bottom: vw-t(-12px);
-  //     width: vw-t(22px);
-  //     height: vw-t(12px);
-  //   }
-  // }
-
-  // .login-info {
-  //   @include user-info();
-  //   .info__blank {
-  //     background: #d95050;
-  //   }
-  //   :after {
-  //     content: "";
-  //     position: absolute;
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
-  // .target-info {
-  //   @include user-info();
-  //   .info__blank {
-  //     background: #5882fa;
-  //   }
-  //   :after {
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
-  // .md-info {
-  //   @include user-info();
-  //   .info__blank {
-  //     background: rgb(252, 253, 131);
-  //   }
-  //   :after {
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
   #dealmap {
     .container {
       & > button {
@@ -382,15 +311,11 @@
         position: fixed;
         left: 50%;
         top: 30%;
-        z-index: 30;
         .map-exit {
           width: vw-t(40px);
           height: vw-t(20px);
           top: vw-t(-220px);
           left: vw-t(300px);
-        }
-        .loading-spinner {
-          z-index: 100;
         }
         .map-sight {
           width: vw-t(600px);
@@ -403,7 +328,6 @@
           top: vw-t(-210px);
           right: vw-t(-280px);
           position: absolute;
-          z-index: 100;
           .red-bus {
             margin-bottom: vw-t(10px);
             & > img {
@@ -453,77 +377,6 @@
   }
 }
 @media screen and (max-width: $PHONE-VW) {
-  // @mixin user-info {
-  //   position: relative;
-  //   top: vw-p(-20px);
-  //   left: vw-p(20px);
-  //   border-radius: vw-p(6px);
-  //   border: vw-p(1px) solid #ccc;
-  //   border-bottom: vw-p(2px) solid #ddd;
-  //   float: left;
-  //   :nth-of-type(n) {
-  //     border: 0;
-  //     box-shadow: 0px 1px 2px #888;
-  //   }
-  //   .info__blank {
-  //     display: block;
-  //     text-decoration: none;
-  //     color: #000;
-  //     text-align: center;
-  //     border-radius: (6px);
-  //     font-size: vw-p(12px);
-  //     font-weight: bold;
-  //     overflow: hidden;
-  //   }
-  //   .info__title {
-  //     display: block;
-  //     text-align: center;
-  //     background: #fff;
-  //     margin-right: vw-p(35px);
-  //     padding: vw-p(10px) vw-p(15px);
-  //     font-size: vw-p(12px);
-  //     font-weight: bold;
-  //   }
-  //   :after {
-  //     content: "";
-  //     position: absolute;
-  //     margin-left: vw-p(-12px);
-  //     left: 50%;
-  //     bottom: vw-p(-12px);
-  //     width: vw-p(22px);
-  //     height: vw-p(12px);
-  //   }
-  // }
-
-  // .login-info {
-  //   @include user-info();
-  //   .blank {
-  //     background: #d95050;
-  //   }
-  //   :after {
-  //     content: "";
-  //     position: absolute;
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
-  // .target-info {
-  //   @include user-info();
-  //   .blank {
-  //     background: #5882fa;
-  //   }
-  //   :after {
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
-  // .md-info {
-  //   @include user-info();
-  //   .info__blank {
-  //     background: rgb(252, 253, 131);
-  //   }
-  //   :after {
-  //     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-  //   }
-  // }
   #dealmap {
     .container {
       & > button {
@@ -537,27 +390,19 @@
           width: vw-p(40px);
           height: vw-p(20px);
           position: absolute;
-          z-index: 100;
           top: vw-p(-185px);
           left: vw-p(160px);
-        }
-        .loading-spinner {
-          z-index: 100;
         }
         .map-sight {
           width: vw-p(360px);
           height: vw-p(360px);
           background-color: #fff;
-          position: absolute;
-          z-index: 99;
         }
         .main-info {
           width: vw-p(140px);
           height: vw-p(20px);
           top: vw-p(-170px);
           right: vw-p(-170px);
-          position: absolute;
-          z-index: 100;
           .red-bus {
             margin-bottom: vw-p(5px);
             & > img {

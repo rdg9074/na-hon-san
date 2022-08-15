@@ -69,13 +69,13 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     );
 
     const imgSrc = "https://i.ibb.co/8NBcFrw/honeybee.png";
-    const imgSize = new kakao.maps.Size(64, 69);
-    const imgOption = { offset: new kakao.maps.Point(0, 0) };
+    const imgSize = new kakao.maps.Size(44, 44);
+    const imgOption = { offset: new kakao.maps.Point(22, 22) };
     const mdMarkerImg = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
 
     const loginMarkerImgSrc = "https://i.ibb.co/dgZDp51/user.png";
     const loginMarkerImgSize = new kakao.maps.Size(44, 44);
-    const loginMarkerImgOption = { offset: new kakao.maps.Point(0, 0) };
+    const loginMarkerImgOption = { offset: new kakao.maps.Point(22, 22) };
     const loginMarkerImg = new kakao.maps.MarkerImage(
       loginMarkerImgSrc,
       loginMarkerImgSize,
@@ -84,7 +84,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
 
     const targetMarkerImgSrc = "https://i.ibb.co/WxSxPQF/user-1.png";
     const targetMarkerImgSize = new kakao.maps.Size(44, 44);
-    const targetMarkerImgOption = { offset: new kakao.maps.Point(0, 0) };
+    const targetMarkerImgOption = { offset: new kakao.maps.Point(22, 22) };
     const targetMarkerImg = new kakao.maps.MarkerImage(
       targetMarkerImgSrc,
       targetMarkerImgSize,
@@ -133,12 +133,12 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
     });
 
     if (midPosition.distance) {
+      const len =
+        Math.round(midPosition.distance) < 1000 ? "1KM 이내" : "2KM 이내";
       const mdIWContetn =
         '<div class="md-info">' +
         '  <div class="info__blank" target="_blank">' +
-        `    <span class="info__title">상대방과 나의 거리 ${Math.round(
-          midPosition.distance
-        )}!</span>` +
+        `    <span class="info__title">상대방과 나의 거리 ${len}!</span>` +
         "  </div>" +
         "</div>";
       const mdInfoWindow = new kakao.maps.CustomOverlay({
@@ -186,11 +186,17 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
         marker.setImage(markerImage)
       );
 
+      console.log(
+        midPosition.result?.finalBusPositionX,
+        midPosition.result?.finalBusPositionY
+      );
+      console.log("before", midPosition.busStationList);
       const busStations = midPosition.busStationList.filter(
         position =>
           position[0] !== midPosition.result?.finalBusPositionX &&
           position[1] !== midPosition.result?.finalBusPositionY
       );
+      console.log(busStations);
       for (let i = 0; i < busStations.length; i += 1) {
         const imageSrcBus = "https://i.ibb.co/jLvfz5W/bus-stop-1.png";
         const imageSizeBus = new kakao.maps.Size(35, 35);
@@ -212,7 +218,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
           image: markerImageBus
         });
 
-        const contentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 ${midPosition?.loginUserTimeList?.[i]} <br> 상대 기준${midPosition?.targetUserTimeList?.[i]} <br>여기까지 <a href="https://map.kakao.com/link/to/목적 정류장!,${midPosition.busStationList[i][1]},${midPosition.busStationList[i][0]}" style="color:blue" target="_blank">길찾기</a></div>`;
+        const contentMain = `<div style="padding:5px;">소요 시간 <br> 나의 기준 ${midPosition?.loginUserTimeList?.[i]}분 <br> 상대 기준${midPosition?.targetUserTimeList?.[i]}분 <br>여기까지 <a href="https://map.kakao.com/link/to/목적 정류장!,${midPosition.busStationList[i][1]},${midPosition.busStationList[i][0]}" style="color:blue" target="_blank">길찾기</a></div>`;
 
         const iwRemoveableBus = true;
 
@@ -272,6 +278,8 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
         } else if (res.data.message === "loginUserPositionNotFound") {
           closeModal();
           alert("주소를 등록해주세요!!");
+        } else {
+          alert("오늘 요청 허가수를 초과했어요.");
         }
       })();
     } else {
