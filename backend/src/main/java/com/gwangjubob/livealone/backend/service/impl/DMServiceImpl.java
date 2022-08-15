@@ -32,7 +32,8 @@ public class DMServiceImpl implements DMService {
 	@Override
 	public boolean sendDM(DMSendDto dmSendDto) {
 		//2개의 데이터 toId, fromId
-		UserEntity toId = userRepository.findById(dmSendDto.getToId()).get();
+
+		UserEntity toId = userRepository.findByNickname(dmSendDto.getToNickname()).get();
 		UserEntity fromId = userRepository.findById(dmSendDto.getFromId()).get();
 		DMEntity dmEntity = DMEntity.builder()
 				.toUserId(toId)

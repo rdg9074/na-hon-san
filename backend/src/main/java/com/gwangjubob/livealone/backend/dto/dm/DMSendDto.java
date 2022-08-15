@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class DMSendDto  {
     String fromId;
-    String toId;
+    String toNickname;
     @NotBlank(message = "이름을 입력해주세요.")
     String content;
     byte[] image;
