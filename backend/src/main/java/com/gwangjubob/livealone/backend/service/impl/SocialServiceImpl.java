@@ -127,7 +127,7 @@ public class SocialServiceImpl implements SocialService {
             JSONObject jsonObjectB = (JSONObject) json.get("response");
             jsonId[0] = jsonObjectB.get("id").toString();
             String nameId = "n" + jsonId[0].substring(1, 10);
-            jsonId[0] = "naver" + jsonId[0];
+            jsonId[0] = "naver" + jsonId[0].substring(0,20);
             //DB에 회원인지 찾기
             Optional<UserEntity> user = userRepository.findById(jsonId[0]);
             if (!user.isPresent()) { //존재하지 않는다면
