@@ -40,4 +40,5 @@ public interface DealService {
 
     long countArea(String area);
 
+    int getApiCount();
 }

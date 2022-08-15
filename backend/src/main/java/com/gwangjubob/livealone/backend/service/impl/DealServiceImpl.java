@@ -835,6 +835,17 @@ public class DealServiceImpl implements DealService {
         return cnt;
     }
 
+    @Override
+    public int getApiCount() {
+        int apiCount = 0;
+        Optional<ApiActionEntity> apiActionEntity = apiActionRepository.findByIdx(1);
+        if(apiActionEntity.isPresent()){
+            ApiActionEntity apiAction = apiActionEntity.get();
+            apiCount = apiAction.getApi();
+        }
+        return apiCount;
+    }
+
 
     private ArrayList<Long> getMidBusStation(int size, ArrayList<List> station, Double userX, Double userY) {
         ArrayList<Long> userTime = new ArrayList<>();
