@@ -27,7 +27,6 @@ public class NoticeController {
     private DMService dmService;
 
     private HttpStatus status = HttpStatus.NOT_FOUND;
-    private Map<String, Object> resultMap;
 
     @Autowired
     NoticeController(NoticeService noticeService, DMService dmService,JwtService jwtService){
@@ -38,8 +37,8 @@ public class NoticeController {
 
     @GetMapping("/user/notice") //알림 조회
     public ResponseEntity<?> viewNotice(HttpServletRequest request) {
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -57,8 +56,8 @@ public class NoticeController {
 
     @GetMapping("/user/notice/count") //알림 개수 조회
     public ResponseEntity<?> countNotice(HttpServletRequest request) {
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if (decodeId != null) {
             try {
@@ -78,8 +77,8 @@ public class NoticeController {
 
     @PutMapping("/user/notice/{idx}") //알림 읽음 처리
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable int idx) {
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null){
             try{
@@ -101,8 +100,8 @@ public class NoticeController {
 
     @DeleteMapping("/user/notice/{idx}") //알림 삭제
     public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable int idx) {
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
 
         if(decodeId != null) {
             try {
@@ -117,7 +116,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-        public String checkToken(HttpServletRequest request){
+        public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
             String accessToken = request.getHeader("Authorization");
             String decodeId = jwtService.decodeToken(accessToken);
             if(!decodeId.equals("timeout")){

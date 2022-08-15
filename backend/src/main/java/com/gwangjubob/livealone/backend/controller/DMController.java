@@ -23,7 +23,6 @@ public class DMController {
     private final UserService userService;
     private final JwtService jwtService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private Map<String, Object> resultMap;
 
     private final DMService dmService;
     DMController(UserService userService,JwtService jwtService,DMService dmService){
@@ -33,8 +32,8 @@ public class DMController {
     }
     @PostMapping("/dm") // DM 메시지 전송
     public ResponseEntity<?> sendDM(@RequestBody DMSendDto dmSendDto, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         try {
             if(decodeId != null){
                 dmSendDto.setFromId(decodeId);
@@ -53,8 +52,8 @@ public class DMController {
     }
     @GetMapping("/dm") // DM 리스트 조회
     public ResponseEntity<?> listDM(HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
                 List<DMViewDto> dmViewDtoList =dmService.listDM(decodeId);
@@ -70,8 +69,8 @@ public class DMController {
     }
     @GetMapping("/dm/{fromId}") // DM 세부조회
     public ResponseEntity<?> listDetailDM(@PathVariable("fromId")String fromId, @RequestParam("lastIdx") int lastIdx, @RequestParam("pageSize") int pageSize, HttpServletRequest request){
-        resultMap = new HashMap<>();
-        String decodeId = checkToken(request);
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
         try {
             if(decodeId != null){
                 Map dmViewDtoList =dmService.listDetailDM(decodeId,fromId,lastIdx,pageSize);
@@ -86,7 +85,7 @@ public class DMController {
 
         return new ResponseEntity<>(resultMap, status);
     }
-    public String checkToken(HttpServletRequest request){
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){
