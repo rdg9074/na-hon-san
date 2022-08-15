@@ -234,7 +234,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getTargetId(String nickname) {
-        return userRepository.findByNickname(nickname).get().getId();
+        if(userRepository.findByNickname(nickname).isPresent()){
+            return userRepository.findByNickname(nickname).get().getId();
+        }
+        return null;
     }
 
     @Override
