@@ -96,6 +96,34 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @GetMapping("/user/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            Cookie oldCookie = null;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null){
+                for (Cookie c: cookies) {
+                    if(c.getName().equals("refresh-token")){
+                        oldCookie = c;
+                    }
+                }
+            }
+            if(oldCookie != null){
+                oldCookie.setValue(null);
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(0);
+                response.addCookie(oldCookie);
+            }
+            status = HttpStatus.OK;
+            resultMap.put("message", okay);
+        }catch (Exception e){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message", fail);
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
     @GetMapping("/user/login") // 엑세스 토큰 재발급
     public  ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
         Map<String, Object> resultMap = new HashMap<>();
