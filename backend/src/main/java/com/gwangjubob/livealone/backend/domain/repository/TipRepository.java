@@ -30,7 +30,7 @@ public interface TipRepository extends JpaRepository<TipEntity, Integer> {
             "order by t.idx DESC")
     Slice<TipEntity> findByOrderByIdxDesc(@Param("lastIdx") Integer lastIdx, Pageable pageable);
     @Query("SELECT t FROM TipEntity t " +
-            "WHERE ((t.idx < :lastIdx And t.view = :lastLike) OR t.view < :lastLike)" +
+            "WHERE ((t.idx < :lastIdx And t.like = :lastLike) OR t.like < :lastLike)" +
             " order by t.like DESC, t.idx DESC")
     Slice<TipEntity> findByOrderByLikeDescAndIdxDesc(@Param("lastLike") Integer lastLike, @Param("lastIdx") Integer lastIdx, Pageable pageable);
     @Query("SELECT t FROM TipEntity t " +
