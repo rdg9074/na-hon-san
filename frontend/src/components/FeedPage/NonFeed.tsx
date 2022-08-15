@@ -40,7 +40,7 @@ function NonFeed({ changed }: NonFeedProps) {
       </div>
       <div className="user-title flex justify-center">
         <p className="notoBold fs-36">
-          나혼자 <span className="fs-48 notoBold">잘</span> 사는 사람들
+          나혼자 <span className="notoBold">잘</span> 사는 사람들
         </p>
       </div>
       <div className="wrapper flex ">

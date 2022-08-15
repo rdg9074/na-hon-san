@@ -17,6 +17,8 @@ interface FollowListProps {
   signal: () => void;
   followModal: string;
   idx: string;
+  isMine: boolean;
+  isOpen: boolean[];
 }
 
 export interface FollowData {
@@ -25,25 +27,34 @@ export interface FollowData {
   profileImg: string;
 }
 
-function FollowList({ signal, followModal, idx }: FollowListProps) {
-  const [data, setData] = useState<Array<FollowData>>();
+function FollowList({
+  signal,
+  followModal,
+  idx,
+  isMine,
+  isOpen
+}: FollowListProps) {
+  const [data, setData] = useState<Array<FollowData>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const isAuthor =
     useAppSelector(state => state.auth.userInfo?.nickname) === idx;
   const inputRef = useRef<HTMLInputElement>(null);
   const [isChanged, setIsChanged] = useState(false);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
       setIsLoading(true);
-      if (followModal === "팔로잉") {
+      if (followModal === "팔로잉" && (isOpen[1] || isMine)) {
         readFollow(idx).then(res => {
           setData(res.data.data);
         });
-      } else {
+      } else if (followModal === "팔로워" && (isOpen[0] || isMine)) {
         readFollower(idx).then(res => {
           setData(res.data.data);
         });
+      } else {
+        setOpen(false);
       }
       setIsLoading(false);
     }
@@ -71,12 +82,16 @@ function FollowList({ signal, followModal, idx }: FollowListProps) {
     }
   };
 
+  if (!open && inputRef.current) {
+    inputRef.current.disabled = true;
+  }
+
   return (
     <div id="follow-list">
       <div className="list-header flex">
         <p className="list-header__title notoBold flex justify-center">
           {followModal}
-          <span>{data ? `(${getCounts(data?.length as number)})` : "(0)"}</span>
+          <span>{data && `(${getCounts(data?.length as number)})`}</span>
         </p>
         <div className="list-header__input-box">
           <img src={SearchIcon} alt="Search" />
@@ -112,7 +127,11 @@ function FollowList({ signal, followModal, idx }: FollowListProps) {
               changed={changed}
             />
           ))}
-          {!data?.length && <p className="notoReg fs-14">아무도 없어요...</p>}
+          {!data?.length && (
+            <p className="notoReg fs-14">
+              {open ? "아무도 없어요..." : "비공개 설정입니다."}
+            </p>
+          )}
         </div>
       )}
       <div className="list-footer notoBold flex">
