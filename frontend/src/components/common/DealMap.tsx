@@ -248,10 +248,14 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
           setLoginPosition(res.data.loginUserPosition);
           setTargetPosition(res.data.targetUserPosition);
           setMidPosition(res.data.midPositionInfo);
-        } else {
-          alert("나나 상대방 주소 없어요 (여기 핸들링)");
+          setIsLoading(true);
+        } else if (res.data.message === "targetUserPositionNotFound") {
+          closeModal();
+          alert("상대방 주소 없어요.");
+        } else if (res.data.message === "loginUserPositionNotFound") {
+          closeModal();
+          alert("주소를 등록해주세요!!");
         }
-        setIsLoading(true);
       })();
     } else {
       makeMap();
