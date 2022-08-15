@@ -1,4 +1,4 @@
-.login-info {
+@mixin user-info {
   position: relative;
   bottom: (30px);
   left: (10px);
@@ -19,7 +19,6 @@
     font-size: (14px);
     font-weight: bold;
     overflow: hidden;
-    background: #d95050;
   }
   .title {
     display: block;
@@ -38,48 +37,26 @@
     bottom: (-12px);
     width: (22px);
     height: (12px);
+  }
+}
+
+.login-info {
+  @include user-info();
+  .blank {
+    background: #d95050;
+  }
+  :after {
+    content: "";
+    position: absolute;
     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
   }
 }
 .target-info {
-  position: relative;
-  bottom: (30px);
-  left: (10px);
-  border-radius: (6px);
-  border: (1px) solid #ccc;
-  border-bottom: (2px) solid #ddd;
-  :nth-of-type(n) {
-    border: 0;
-    box-shadow: 0px 1px 2px #888;
-  }
+  @include user-info();
   .blank {
-    display: block;
-    text-decoration: none;
-    color: #000;
-    text-align: center;
-    border-radius: (6px);
-    font-size: (14px);
-    font-weight: bold;
-    overflow: hidden;
     background: #5882fa;
   }
-  .title {
-    display: block;
-    text-align: center;
-    background: #fff;
-    margin-right: (35px);
-    padding: (10px) (15px);
-    font-size: (14px);
-    font-weight: bold;
-  }
   :after {
-    content: "";
-    position: absolute;
-    margin-left: (-12px);
-    left: 50%;
-    bottom: (-12px);
-    width: (22px);
-    height: (12px);
     background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
   }
 }
@@ -89,9 +66,10 @@
       z-index: -1;
     }
     .map {
-      position: absolute;
+      position: fixed;
       left: 50%;
       top: 50%;
+      z-index: 3;
       .map-exit {
         width: (40px);
         height: (20px);
@@ -174,7 +152,7 @@
 }
 
 @media screen and (max-width: $DESKTOP-VW) {
-  .login-info {
+  @mixin user-info {
     position: relative;
     bottom: vw(30px);
     left: vw(10px);
@@ -191,11 +169,10 @@
       text-decoration: none;
       color: #000;
       text-align: center;
-      border-radius: vw(6px);
+      border-radius: (6px);
       font-size: vw(14px);
       font-weight: bold;
       overflow: hidden;
-      background: #d95050;
     }
     .title {
       display: block;
@@ -214,48 +191,26 @@
       bottom: vw(-12px);
       width: vw(22px);
       height: vw(12px);
+    }
+  }
+
+  .login-info {
+    @include user-info();
+    .blank {
+      background: #d95050;
+    }
+    :after {
+      content: "";
+      position: absolute;
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
   .target-info {
-    position: relative;
-    bottom: vw(30px);
-    left: vw(10px);
-    border-radius: vw(6px);
-    border: vw(1px) solid #ccc;
-    border-bottom: vw(2px) solid #ddd;
-    :nth-of-type(n) {
-      border: 0;
-      box-shadow: 0px 1px 2px #888;
-    }
+    @include user-info();
     .blank {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      text-align: center;
-      border-radius: vw(6px);
-      font-size: vw(14px);
-      font-weight: bold;
-      overflow: hidden;
       background: #5882fa;
     }
-    .title {
-      display: block;
-      text-align: center;
-      background: #fff;
-      margin-right: vw(35px);
-      padding: vw(10px) vw(15px);
-      font-size: vw(14px);
-      font-weight: bold;
-    }
     :after {
-      content: "";
-      position: absolute;
-      margin-left: vw(-12px);
-      left: 50%;
-      bottom: vw(-12px);
-      width: vw(22px);
-      height: vw(12px);
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
@@ -265,35 +220,22 @@
         z-index: -1;
       }
       .map {
-        position: absolute;
-        left: 50%;
-        top: 50%;
         .map-exit {
           width: vw(40px);
           height: vw(20px);
-          position: absolute;
-          z-index: 100;
           top: vw(-300px);
           left: vw(450px);
-        }
-        .loading-spinner {
-          z-index: 100;
         }
         .map-sight {
           width: vw(900px);
           height: vw(600px);
           background-color: #fff;
-          position: absolute;
-          transform: translate(-50%, -50%);
-          z-index: 99;
         }
         .main-info {
           width: vw(210px);
           height: vw(40px);
           top: vw(-280px);
           right: vw(-420px);
-          position: absolute;
-          z-index: 100;
           .red-bus {
             margin-bottom: vw(10px);
             & > img {
@@ -338,19 +280,10 @@
         }
       }
     }
-    .dimmer {
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 1;
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
   }
 }
 @media screen and (max-width: $TABLET-VW) {
-  .login-info {
+  @mixin user-info {
     position: relative;
     bottom: vw-t(30px);
     left: vw-t(10px);
@@ -371,7 +304,6 @@
       font-size: vw-t(14px);
       font-weight: bold;
       overflow: hidden;
-      background: #d95050;
     }
     .title {
       display: block;
@@ -390,48 +322,26 @@
       bottom: vw-t(-12px);
       width: vw-t(22px);
       height: vw-t(12px);
+    }
+  }
+
+  .login-info {
+    @include user-info();
+    .blank {
+      background: #d95050;
+    }
+    :after {
+      content: "";
+      position: absolute;
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
   .target-info {
-    position: relative;
-    bottom: vw-t(30px);
-    left: vw-t(10px);
-    border-radius: vw-t(6px);
-    border: vw-t(1px) solid #ccc;
-    border-bottom: vw-t(2px) solid #ddd;
-    :nth-of-type(n) {
-      border: 0;
-      box-shadow: 0px 1px 2px #888;
-    }
+    @include user-info();
     .blank {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      text-align: center;
-      border-radius: vw-t(6px);
-      font-size: vw-t(14px);
-      font-weight: bold;
-      overflow: hidden;
       background: #5882fa;
     }
-    .title {
-      display: block;
-      text-align: center;
-      background: #fff;
-      margin-right: vw-t(35px);
-      padding: vw-t(10px) vw-t(15px);
-      font-size: vw-t(14px);
-      font-weight: bold;
-    }
     :after {
-      content: "";
-      position: absolute;
-      margin-left: vw-t(-12px);
-      left: 50%;
-      bottom: vw-t(-12px);
-      width: vw-t(22px);
-      height: vw-t(12px);
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
@@ -441,14 +351,13 @@
         z-index: -1;
       }
       .map {
-        position: absolute;
+        position: fixed;
         left: 50%;
-        top: 50%;
+        top: 30%;
+        z-index: 30;
         .map-exit {
           width: vw-t(40px);
           height: vw-t(20px);
-          position: absolute;
-          z-index: 100;
           top: vw-t(-220px);
           left: vw-t(300px);
         }
@@ -459,9 +368,6 @@
           width: vw-t(600px);
           height: vw-t(450px);
           background-color: #fff;
-          position: absolute;
-          transform: translate(-50%, -50%);
-          z-index: 99;
         }
         .main-info {
           width: vw-t(160px);
@@ -514,19 +420,10 @@
         }
       }
     }
-    .dimmer {
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 1;
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
   }
 }
 @media screen and (max-width: $PHONE-VW) {
-  .login-info {
+  @mixin user-info {
     position: relative;
     bottom: vw-p(30px);
     left: vw-p(10px);
@@ -543,11 +440,10 @@
       text-decoration: none;
       color: #000;
       text-align: center;
-      border-radius: vw-p(6px);
+      border-radius: (6px);
       font-size: vw-p(14px);
       font-weight: bold;
       overflow: hidden;
-      background: #d95050;
     }
     .title {
       display: block;
@@ -566,48 +462,26 @@
       bottom: vw-p(-12px);
       width: vw-p(22px);
       height: vw-p(12px);
+    }
+  }
+
+  .login-info {
+    @include user-info();
+    .blank {
+      background: #d95050;
+    }
+    :after {
+      content: "";
+      position: absolute;
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
   .target-info {
-    position: relative;
-    bottom: vw-p(30px);
-    left: vw-p(10px);
-    border-radius: vw-p(6px);
-    border: vw-p(1px) solid #ccc;
-    border-bottom: vw-p(2px) solid #ddd;
-    :nth-of-type(n) {
-      border: 0;
-      box-shadow: 0px 1px 2px #888;
-    }
+    @include user-info();
     .blank {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      text-align: center;
-      border-radius: vw-p(6px);
-      font-size: vw-p(14px);
-      font-weight: bold;
-      overflow: hidden;
       background: #5882fa;
     }
-    .title {
-      display: block;
-      text-align: center;
-      background: #fff;
-      margin-right: vw-p(35px);
-      padding: vw-p(10px) vw-p(15px);
-      font-size: vw-p(14px);
-      font-weight: bold;
-    }
     :after {
-      content: "";
-      position: absolute;
-      margin-left: vw-p(-12px);
-      left: 50%;
-      bottom: vw-p(-12px);
-      width: vw-p(22px);
-      height: vw-p(12px);
       background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
     }
   }
@@ -617,9 +491,9 @@
         z-index: -1;
       }
       .map {
-        position: absolute;
+        position: fixed;
         left: 50%;
-        top: 50%;
+        top: 30%;
         .map-exit {
           width: vw-p(40px);
           height: vw-p(20px);
@@ -636,7 +510,6 @@
           height: vw-p(360px);
           background-color: #fff;
           position: absolute;
-          transform: translate(-50%, -50%);
           z-index: 99;
         }
         .main-info {
@@ -689,15 +562,6 @@
           }
         }
       }
-    }
-    .dimmer {
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 1;
-      position: fixed;
-      top: 0;
-      left: 0;
     }
   }
 }
