@@ -46,6 +46,9 @@
     .title {
       font-size: (48px);
       margin-bottom: (64px);
+      & > span {
+        color: $MAIN_YELLOW;
+      }
     }
 
     #card-list + .title {
