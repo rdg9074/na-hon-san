@@ -23,7 +23,7 @@ public class DMController {
     private final UserService userService;
     private final JwtService jwtService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private static Map<String, Object> resultMap;
+    private Map<String, Object> resultMap;
 
     private final DMService dmService;
     DMController(UserService userService,JwtService jwtService,DMService dmService){
