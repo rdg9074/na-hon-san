@@ -150,6 +150,7 @@ function AccountSettingPage() {
     if (tmpNickName) {
       userInfo.nickname = tmpNickName;
     }
+    userInfo.profileMsg = tmpText;
     delete userInfo.area;
     delete userInfo.backgroundImg;
     const res = await setAccount(userInfo as UserInfoType);

@@ -91,7 +91,9 @@ function FollowList({
       <div className="list-header flex">
         <p className="list-header__title notoBold flex justify-center">
           {followModal}
-          <span>{data && `(${getCounts(data?.length as number)})`}</span>
+          <span>
+            {data && open && `(${getCounts(data?.length as number)})`}
+          </span>
         </p>
         <div className="list-header__input-box">
           <img src={SearchIcon} alt="Search" />
