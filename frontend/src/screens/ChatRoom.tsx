@@ -17,6 +17,7 @@ function ChatRoom() {
   const [dmList, setDmList] = useState<Array<ChatProps>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [firstLoading, setFirstLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [page, setPage] = useState(0);
   const [lastIdx, setLastIdx] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
@@ -41,7 +42,9 @@ function ChatRoom() {
       } else {
         setDmList([...dmList, ...res.data.list]);
       }
-      setLastIdx(res.data.list[res.data.list.length - 1].idx);
+      if (res.data.list.length !== 0) {
+        setLastIdx(res.data.list[res.data.list.length - 1].idx);
+      }
     }
     setIsLoading(false);
   };
@@ -54,15 +57,19 @@ function ChatRoom() {
     });
   };
 
-  const submitDm = async (content: string, image?: string) => {
-    setDmList([{ type: "send", content }, ...dmList]);
-    await sendDm(withId, content, image);
+  const submitDm = async (content: string, image: string | null) => {
+    if (!isSending) {
+      setIsSending(true);
+      setDmList([{ type: "send", content, image }, ...dmList]);
+      await sendDm(withId, content, image);
+      setIsSending(false);
+    }
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (e.target.value !== "" && firstLoading) {
-        submitDm(e.target.value);
+        submitDm(e.target.value, null);
         e.target.value = "";
       }
     }
@@ -86,7 +93,8 @@ function ChatRoom() {
 
   // 한 파일을 받아서 sendDm
   const receiveFile = async (data: string) => {
-    await sendDm(withId, "", data.replace("data:image/jpeg;base64,", ""));
+    await submitDm("", data.replace("data:image/jpeg;base64,", ""));
+    setSendFile(null);
   };
 
   useEffect(() => {
@@ -130,7 +138,12 @@ function ChatRoom() {
           {dmList.length !== 0 ? (
             <>
               {dmList.map((dm: ChatProps) => (
-                <Chat type={dm.type} content={dm.content} key={v4()} />
+                <Chat
+                  type={dm.type}
+                  content={dm.content}
+                  key={v4()}
+                  image={dm.image}
+                />
               ))}
               {!isEnd &&
                 (isLoading ? (
