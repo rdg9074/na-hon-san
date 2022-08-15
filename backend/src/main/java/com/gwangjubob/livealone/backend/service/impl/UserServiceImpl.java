@@ -244,9 +244,11 @@ public class UserServiceImpl implements UserService {
     public Map<String, Double> getPosition(String id) {
         Map<String, Double> position = new HashMap<>();
 
-        if(!userRepository.findById(id).get().getArea().isEmpty()){
-            double positionX = userRepository.findById(id).get().getAreaX();
-            double positionY = userRepository.findById(id).get().getAreaY();
+        UserEntity user = userRepository.findById(id).get();
+
+        if(user.getArea()!=null){
+            Double positionX = userRepository.findById(id).get().getAreaX();
+            Double positionY = userRepository.findById(id).get().getAreaY();
 
             position.put("positionX", positionX);
             position.put("positionY", positionY);

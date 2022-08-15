@@ -33,7 +33,7 @@ public class DealController {
     private final UserFeedService userFeedService;
     private final UserService userService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private static Map<String, Object> resultMap;
+    private Map<String, Object> resultMap;
 
     @Autowired
     DealController(JwtService jwtService, DealService dealService, UserFeedService userFeedService, UserService userService)
@@ -292,10 +292,19 @@ public class DealController {
                 // 사용자 위치 구하는 서비스 호출
                 resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
                 resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
+
                 // 중간 위치 구하는 서비스 호출
-                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
 //                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
-                resultMap.put("message", okay);
+
+                if(userService.getPosition(loginUserId).get("positionX")==null){
+                    resultMap.put("message","loginUserPositionNotFound");
+                }else if(userService.getPosition(targetUserId).get("positionX")==null){
+                    resultMap.put("message","targetUserPositionNotFound");
+                }else{
+                    resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
+                    resultMap.put("message",okay);
+                }
+
                 status = HttpStatus.OK;
             } catch (Exception e) {
                 resultMap.put("message", fail);
@@ -317,10 +326,19 @@ public class DealController {
                 // 사용자 위치 구하는 서비스 호출
                 resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
                 resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
+
                 // 중간 위치 구하는 서비스 호출
-//                resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
-                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
-                resultMap.put("message", okay);
+//                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
+
+                if(userService.getPosition(loginUserId).get("positionX")==null){
+                    resultMap.put("message","loginUserPositionNotFound");
+                }else if(userService.getPosition(targetUserId).get("positionX")==null){
+                    resultMap.put("message","targetUserPositionNotFound");
+                }else{
+                    resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
+                    resultMap.put("message",okay);
+                }
+
                 status = HttpStatus.OK;
             } catch (Exception e) {
                 resultMap.put("message", fail);

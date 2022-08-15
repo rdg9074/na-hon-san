@@ -555,11 +555,11 @@ public class DealServiceImpl implements DealService {
         ArrayList<List> busStation = new ArrayList<>();
         ArrayList<List> busStationList = new ArrayList<>();
 
-        double loginUserX = userService.getPosition(loginUserId).get("positionX");
-        double loginUserY = userService.getPosition(loginUserId).get("positionY");
+        Double loginUserX = userService.getPosition(loginUserId).get("positionX");
+        Double loginUserY = userService.getPosition(loginUserId).get("positionY");
 
-        double targetUserX = userService.getPosition(targetUserId).get("positionX");
-        double targetUserY = userService.getPosition(targetUserId).get("positionY");
+        Double targetUserX = userService.getPosition(targetUserId).get("positionX");
+        Double targetUserY = userService.getPosition(targetUserId).get("positionY");
 
         Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
 
@@ -739,11 +739,11 @@ public class DealServiceImpl implements DealService {
         ArrayList<Long> targetUserTime = new ArrayList<>();
         ArrayList<Long> loginUserTime = new ArrayList<>();
         ArrayList<List> busStationList = new ArrayList<>();
-        double loginUserX = userService.getPosition(loginUserId).get("positionX");
-        double loginUserY = userService.getPosition(loginUserId).get("positionY");
+        Double loginUserX = userService.getPosition(loginUserId).get("positionX");
+        Double loginUserY = userService.getPosition(loginUserId).get("positionY");
 
-        double targetUserX = userService.getPosition(targetUserId).get("positionX");
-        double targetUserY = userService.getPosition(targetUserId).get("positionY");
+        Double targetUserX = userService.getPosition(targetUserId).get("positionX");
+        Double targetUserY = userService.getPosition(targetUserId).get("positionY");
 
         Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
 
