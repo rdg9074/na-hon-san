@@ -89,13 +89,19 @@ public class DMServiceImpl implements DMService {
 						nickname = d.getFromUserId().getNickname();
 						otherId = d.getFromUserId().getId();
 					}
+					byte[] profileImg = null;
+					if(user.getId().equals(d.getFromUserId().getId())){
+						profileImg = d.getToUserId().getProfileImg();
+					} else if(user.getId().equals(d.getToUserId().getId())){
+						profileImg = d.getFromUserId().getProfileImg();
+					}
 
 					int cnt = dmRepository.findCount(id, otherId);
 
 					DMViewDto dmViewDto = DMViewDto.builder()
 							.idx(d.getIdx())
 							.fromId(d.getFromUserId().getId())
-							.toProfileImg(d.getToUserId().getProfileImg())
+							.toProfileImg(profileImg)
 							.toId(d.getToUserId().getId())
 							.content(d.getContent())
 							.image(d.getImage())
