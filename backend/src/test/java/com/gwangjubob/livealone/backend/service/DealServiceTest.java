@@ -539,8 +539,8 @@ public class DealServiceTest {
 
     @Test
     public void 두_사용자_거리_조회() {
-        Double loginUserX = 126.877498406332;
-        Double loginUserY = 35.1841322155411;
+        Double loginUserX = 126.701172788021;
+        Double loginUserY = 35.1712946488375;
 
         Double targetUserX = 126.876826236529;
         Double targetUserY = 35.1849575358041;
