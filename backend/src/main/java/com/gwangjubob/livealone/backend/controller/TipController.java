@@ -30,7 +30,7 @@ public class TipController {
     private static final String fail = "FAIL";
     private static final String timeOut = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND;
-    private static Map<String, Object> resultMap;
+    private Map<String, Object> resultMap;
 
     public TipController(TipService tipService, JwtService jwtService, TipCommentService tipCommentService, UserFeedService userFeedService){
         this.tipService = tipService;
