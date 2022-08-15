@@ -143,6 +143,7 @@ public class DMServiceImpl implements DMService {
 		}
 		result.put("list",dmViewDtoList);
 		result.put("fromProfileImg",fromUserEntity.getProfileImg());
+		result.put("fromNickname", fromUserEntity.getNickname());
 		result.put("hasNext",hasNext);
 		return result;
 	}
