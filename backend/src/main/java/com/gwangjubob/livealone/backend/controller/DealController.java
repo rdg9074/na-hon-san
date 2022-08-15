@@ -291,7 +291,7 @@ public class DealController {
         if(loginUserId != null) {
             try {
 
-                if(apiCount > 990){ // 호출 횟수 넘어가면 중간위치 조회 x
+                if(apiCount > 985){ // 호출 횟수 넘어가면 중간위치 조회 x
                     resultMap.put("message", "too many API Usage");
                     status = HttpStatus.OK;
                 }else{
