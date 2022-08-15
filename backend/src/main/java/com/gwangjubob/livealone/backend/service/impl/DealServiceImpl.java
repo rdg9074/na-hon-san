@@ -738,54 +738,72 @@ public class DealServiceImpl implements DealService {
         ArrayList<Long> targetUserTime = new ArrayList<>();
         ArrayList<Long> loginUserTime = new ArrayList<>();
         ArrayList<List> busStationList = new ArrayList<>();
+        double loginUserX = userService.getPosition(loginUserId).get("positionX");
+        double loginUserY = userService.getPosition(loginUserId).get("positionY");
 
-        targetUserTime.add(17L);
-        targetUserTime.add(17L);
-        targetUserTime.add(15L);
-        targetUserTime.add(15L);
-        targetUserTime.add(14L);
+        double targetUserX = userService.getPosition(targetUserId).get("positionX");
+        double targetUserY = userService.getPosition(targetUserId).get("positionY");
 
-        loginUserTime.add(19L);
-        loginUserTime.add(20L);
-        loginUserTime.add(22L);
-        loginUserTime.add(22L);
-        loginUserTime.add(22L);
+        Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
 
-        ArrayList<Double> list1 = new ArrayList<>();
-        list1.add(0,126.83852);
-        list1.add(1, 35.19075);
-        ArrayList<Double> list2 = new ArrayList<>();
-        list2.add(0,126.83853);
-        list2.add(1, 35.19048);
-        ArrayList<Double> list3 = new ArrayList<>();
-        list3.add(0,126.83691);
-        list3.add(1, 35.18916);
-        ArrayList<Double> list4 = new ArrayList<>();
-        list4.add(0,126.837135);
-        list4.add(1, 35.189053);
-        ArrayList<Double> list5 = new ArrayList<>();
-        list5.add(0,126.83512);
-        list5.add(1, 35.190735);
-        busStationList.add(list1);
-        busStationList.add(list2);
-        busStationList.add(list3);
-        busStationList.add(list4);
-        busStationList.add(list5);
+        if (distanceMeter <= 2000) {
+            System.out.println("두 사용자 간의 거리가 2km 이내입니다. ");
+            info.put("distance", distanceMeter);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("targetUserTotalTime", 17);
-        result.put("finalBusPositionX", 126.83852);
-        result.put("loginUserTotalTime", 19);
-        result.put("finalBusPositionY", 35.19075);
+            double midXd = (loginUserX + targetUserX) / 2;
+            double midYd = (loginUserY + targetUserY) / 2;
 
-        info.put("result", result);
-        info.put("loginUserTime", loginUserTime);
-        info.put("targetUserTime", targetUserTime);
-        info.put("busStationList", busStationList);
-        info.put("radius","500");
-        info.put("midXPosition",126.837844095768);
-        info.put("midYPosition",35.19097170925615);
+            info.put("midXPosition", midXd);
+            info.put("midYPosition", midYd);
 
+        } else {
+            targetUserTime.add(17L);
+            targetUserTime.add(17L);
+            targetUserTime.add(15L);
+            targetUserTime.add(15L);
+            targetUserTime.add(14L);
+
+            loginUserTime.add(19L);
+            loginUserTime.add(20L);
+            loginUserTime.add(22L);
+            loginUserTime.add(22L);
+            loginUserTime.add(22L);
+
+            ArrayList<Double> list1 = new ArrayList<>();
+            list1.add(0, 126.83852);
+            list1.add(1, 35.19075);
+            ArrayList<Double> list2 = new ArrayList<>();
+            list2.add(0, 126.83853);
+            list2.add(1, 35.19048);
+            ArrayList<Double> list3 = new ArrayList<>();
+            list3.add(0, 126.83691);
+            list3.add(1, 35.18916);
+            ArrayList<Double> list4 = new ArrayList<>();
+            list4.add(0, 126.837135);
+            list4.add(1, 35.189053);
+            ArrayList<Double> list5 = new ArrayList<>();
+            list5.add(0, 126.83512);
+            list5.add(1, 35.190735);
+            busStationList.add(list1);
+            busStationList.add(list2);
+            busStationList.add(list3);
+            busStationList.add(list4);
+            busStationList.add(list5);
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("targetUserTotalTime", 17);
+            result.put("finalBusPositionX", 126.83852);
+            result.put("loginUserTotalTime", 19);
+            result.put("finalBusPositionY", 35.19075);
+
+            info.put("result", result);
+            info.put("loginUserTime", loginUserTime);
+            info.put("targetUserTime", targetUserTime);
+            info.put("busStationList", busStationList);
+            info.put("radius", "500");
+            info.put("midXPosition", 126.837844095768);
+            info.put("midYPosition", 35.19097170925615);
+        }
         return info;
     }
 
