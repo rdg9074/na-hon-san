@@ -1,6 +1,7 @@
 .left {
 }
-.right > p {
+.right > .chat-content,
+.right > img {
   margin-left: auto;
   background-color: #efefef;
 }
@@ -10,6 +11,11 @@
 
   & + #chat {
     margin-bottom: (8px);
+  }
+
+  .chat__img {
+    width: (160px);
+    height: (90px);
   }
   .chat-content {
     padding: (8px);
@@ -27,6 +33,12 @@
     & + #chat {
       margin-bottom: vw(8px);
     }
+
+    .chat__img {
+      width: vw(160px);
+      height: vw(90px);
+    }
+
     .chat-content {
       padding: vw(8px);
 
@@ -43,6 +55,10 @@
     & + #chat {
       margin-bottom: vw-t(8px);
     }
+    .chat__img {
+      width: vw-t(160px);
+      height: vw-t(90px);
+    }
     .chat-content {
       padding: vw-t(8px);
 
@@ -58,6 +74,10 @@
 
     & + #chat {
       margin-bottom: vw-p(8px);
+    }
+    .chat__img {
+      width: vw-p(160px);
+      height: vw-p(90px);
     }
     .chat-content {
       padding: vw-p(8px);

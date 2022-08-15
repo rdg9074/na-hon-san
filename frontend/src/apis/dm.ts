@@ -25,14 +25,14 @@ export const getDmDetailList = async (withId: string, lastIdx: number) => {
 };
 
 export const sendDm = async (
-  toId: string,
+  toNickname: string,
   content: string | null = null,
   image: string | null = null
 ) => {
   const accessToken = sessionStorage.getItem("access-token");
   const res = await API.post(
     "/dm",
-    { toId, content, image },
+    { toNickname, content, image },
     {
       headers: { Authorization: `${accessToken}` }
     }
