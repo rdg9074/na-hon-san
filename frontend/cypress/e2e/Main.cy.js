@@ -94,14 +94,14 @@ describe("메인페이지 테스트", () => {
 
   describe("메인페이지 꿀팁", () => {
     it("꿀팁 리스트 확인", () => {
-      cy.contains("현재 핫한 꿀팁들!")
+      cy.contains("가장 많이 본 꿀팁!")
         .next()
         .children("#card")
         .should("have.length", 6);
     });
 
     it("꿀팁 리스트 클릭시 해당 게시물이동", () => {
-      cy.contains("현재 핫한 꿀팁들!")
+      cy.contains("가장 많이 본 꿀팁!")
         .next()
         .children("#card")
         .first()
@@ -116,14 +116,14 @@ describe("메인페이지 테스트", () => {
   });
   describe("메인페이지 꿀딜", () => {
     it("꿀딜 리스트 확인", () => {
-      cy.contains("현재 핫한 꿀딜들!")
+      cy.contains(/.*(에서 가장 많이 본 꿀딜!)$/)
         .next()
         .children("#card")
         .should("have.length", 6);
     });
 
     it("꿀딜 리스트 클릭시 해당 게시물이동", () => {
-      cy.contains("현재 핫한 꿀딜들!")
+      cy.contains(/.*(에서 가장 많이 본 꿀딜!)$/)
         .next()
         .children("#card")
         .first()

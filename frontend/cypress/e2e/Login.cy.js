@@ -11,8 +11,8 @@ describe("로그인 테스트", () => {
   const logout = async () => {
     cy.get('[alt="나혼자잘산다로고"]');
     cy.get("body").then($body => {
-      if ($body.find('[alt="더미유저"]').length > 0) {
-        cy.get('[alt="더미유저"]').click();
+      if ($body.find('[alt="유저프로필"]').length > 0) {
+        cy.get('[alt="유저프로필"]').click();
         cy.get("#profile-tool-tip .content").last().click();
       }
     });
