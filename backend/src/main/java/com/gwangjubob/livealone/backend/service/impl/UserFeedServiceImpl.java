@@ -190,8 +190,8 @@ public class UserFeedServiceImpl implements UserFeedService {
                 postViewDto.setTitle(tipEntity.getTitle());
                 postViewDto.setBannerImg(tipEntity.getBannerImg());
                 postViewDto.setViewCnt(tipEntity.getView());
-                postViewDto.setLikeCnt(0); // 미구현
-                postViewDto.setCommentCnt(0); //미구현
+                postViewDto.setLikeCnt(tipEntity.getLike()); // 미구현
+                postViewDto.setCommentCnt(tipEntity.getComment()); //미구현
                 postViewDtoList.add(postViewDto);
             }
 
@@ -203,8 +203,8 @@ public class UserFeedServiceImpl implements UserFeedService {
                 postViewDto.setTitle(dealEntity.getTitle());
                 postViewDto.setBannerImg(dealEntity.getBannerImg());
                 postViewDto.setViewCnt(dealEntity.getView());
-                postViewDto.setLikeCnt(0); // 미구현
-                postViewDto.setCommentCnt(0); //미구현
+                postViewDto.setLikeCnt(dealEntity.getLikes()); // 미구현
+                postViewDto.setCommentCnt(dealEntity.getComment()); //미구현
                 postViewDtoList.add(postViewDto);
             }
         }
