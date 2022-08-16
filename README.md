@@ -106,7 +106,7 @@ SNS 서비스 인만큼 사용자를 팔로우할 수도 있습니다.
 
 4. DM
 
-<img src="https://user-images.githubusercontent.com/94892374/184846157-c7a9579e-cf20-42f7-a927-6a3a4e4727a5.png" weight="800" height="600">
+<img src="https://user-images.githubusercontent.com/94892374/184846157-c7a9579e-cf20-42f7-a927-6a3a4e4727a5.png" width="800" height="600">
 
 ```
 다른 사용자와 채팅을 통해서 친목을 도모하거나, 문의를 할 수 있습니다.
