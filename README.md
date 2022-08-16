@@ -31,8 +31,9 @@
 
 
 # 🍯 기술 스택
+<div align="center">
 <img src="https://user-images.githubusercontent.com/94892374/184821551-e373d281-c700-4556-85be-c1579428f266.png" width="600" height="600"/>
-
+</div>
 
 # 🍯 기획 배경
 ### 📃 배경
