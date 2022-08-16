@@ -89,7 +89,7 @@ DM을 통하여 상대방과 채팅을 주고받으며 친목을 다질 수도 �
 
 2. 꿀팁 페이지
 
-<img src="https://user-images.githubusercontent.com/94892374/184842773-60402313-c6a8-473b-b07a-ba9da20524be.png" width="800" height="600">
+<img src="https://user-images.githubusercontent.com/94892374/184847094-8dfb963e-90d8-480b-85c0-3a7a27f30492.gif" width="800" height="600">
 
 ```
 "나혼자잘산다"의 꿀팁 페이지 입니다.
@@ -98,6 +98,8 @@ SNS 서비스 인만큼 사용자를 팔로우할 수도 있습니다.
 ```
 
 3. 꿀딜 페이지
+
+<img src="https://user-images.githubusercontent.com/94892374/184848217-ffee78bf-0372-4aa5-b1f6-aef4c53c6359.gif" width="800" height="600">
 
 ```
 사용자가 입력한 주소를 기준으로 꿀딜 게시글이 보여집니다.
@@ -114,8 +116,11 @@ SNS 서비스 인만큼 사용자를 팔로우할 수도 있습니다.
 
 5. 마이 페이지
 
+<img src="https://user-images.githubusercontent.com/94892374/184848236-0e8a61e0-7081-4473-ab35-0e8fe32c5f9b.gif" width="800" height="600">
+
 ```
 닉네임, 프로필이미지, 상태메시지 등을 수정할 수 있으며 자신이 쓴 게시글과 자신의 팔로우/팔로워 목록을 조회할 수 있습니다.
+또한 알림 설정 여부를 지정할 수 있어 원하는 내용의 알림만 받을 수도 있습니다.
 ```
 
 # 🍯 프로젝트 산출물
