@@ -26,8 +26,9 @@
 ```
 |Front-End|Front-End|Front-End|Back-End|Back-End|Back-End|
 |-----|---|---|---|---|---|
-|<img src="https://user-images.githubusercontent.com/94892374/184822173-9bd185b8-0211-4257-b296-f2822eee7ff1.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184822488-9c7d2472-1aa5-4c48-868b-9723330e8315.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184822471-8ba26cb2-8f4a-4dd9-9087-66e42e082cb2.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184821932-b84901eb-5d77-4766-bb51-a0e54a3bfb88.png" width="150" height="150"/>|이미지|
+|<img src="https://user-images.githubusercontent.com/94892374/184822173-9bd185b8-0211-4257-b296-f2822eee7ff1.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184822488-9c7d2472-1aa5-4c48-868b-9723330e8315.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184822471-8ba26cb2-8f4a-4dd9-9087-66e42e082cb2.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184821932-b84901eb-5d77-4766-bb51-a0e54a3bfb88.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184829418-9243aebf-efeb-4ced-b0a3-56460434935e" width="150" height="150"/>|
 |염진호(팀장)|고요한(팀원)|유광석(팀원)|김혜진(팀원)|정지원(팀원)|최 강(팀원)|
+
 
 # 🍯 기술 스택
 <img src="https://user-images.githubusercontent.com/94892374/184821551-e373d281-c700-4556-85be-c1579428f266.png" width="600" height="600"/>
