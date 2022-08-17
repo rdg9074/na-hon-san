@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import org.json.simple.parser.JSONParser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -224,7 +225,8 @@ public class UserServiceTest {
             System.out.println("FAIL");
         }
     }
-    @Test
+
+    @Disabled
     public void 이메일_전송_테스트(){
         //given
         SimpleMailMessage message = new SimpleMailMessage();

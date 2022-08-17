@@ -192,7 +192,6 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) throws Exception{
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
-        System.out.println(decodeId);
         if (decodeId != null){
             try {
                 userInfoDto.setId(decodeId);

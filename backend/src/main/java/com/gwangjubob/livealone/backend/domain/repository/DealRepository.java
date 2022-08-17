@@ -18,6 +18,7 @@ public interface DealRepository extends JpaRepository<DealEntity, Integer> {
     Optional<DealEntity> findByIdx(Integer postIdx);
     List<DealEntity> findByUser(UserEntity userEntity);
     List<DealEntity> findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(UserEntity user,String category,String state,String area);
+    List<DealEntity> findTop6ByUserNotAndCategoryAndStateOrderByViewDesc(UserEntity userEntity, String category, String state);
     @Query(value = "select d from DealCommentEntity d where d.deal=:dealEntity order by (case when d.upIdx = 0 then d.idx else d.upIdx end), d.upIdx desc")
     List<DealCommentEntity> findByDealOrderBycomment(DealEntity dealEntity);
     Optional<DealEntity> findTop1ByOrderByIdxDesc();
@@ -83,5 +84,6 @@ public interface DealRepository extends JpaRepository<DealEntity, Integer> {
     @Query("select d from DealEntity d where d.state = :state and d.category in (:categorys) and d.title like %:keyword% and d.idx < :idx and d.area = :area")
     Slice<DealEntity> findCategoryTitleIdxArea(String state, List<String> categorys, String keyword, Integer idx, String area, Pageable pageable); //카테고리 검색어 최신순 지역
     int countByUserId(String id);
+
 
 }
