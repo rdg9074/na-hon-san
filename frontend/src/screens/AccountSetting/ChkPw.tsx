@@ -19,7 +19,7 @@ function FindPw() {
       setSpinner(true);
       const res = await passwordChk(password);
       if (res === "SUCCESS") {
-        navigate("/account/set", { replace: true });
+        navigate("/account/set", { state: true });
       } else {
         setErrMsg(true);
         setSpinner(false);

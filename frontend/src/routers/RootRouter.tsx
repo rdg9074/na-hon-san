@@ -4,6 +4,7 @@ import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./RootLayout.scss";
 import loadingSpinner from "@images/LoadingSpinner.svg";
+import RequireAuth from "@components/common/RequireAuth";
 
 const Main = lazy(() => import("@screens/Main"));
 const FeedPage = lazy(() => import("@screens/FeedPage"));
@@ -61,29 +62,86 @@ function RootRouter() {
             <Route path="/tip">
               <Route index element={<TipPage />} />
               <Route path="detail/:id" element={<TipDetail />} />
-              <Route path="create" element={<TipEdit />} />
-              <Route path="edit/:id" element={<TipUpdate />} />
+              <Route
+                path="create"
+                element={
+                  <RequireAuth>
+                    <TipEdit />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="edit/:id"
+                element={
+                  <RequireAuth>
+                    <TipUpdate />
+                  </RequireAuth>
+                }
+              />
               <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/feed" element={<FeedPage />} />
             <Route path="/deal">
               <Route index element={<DealPage />} />
               <Route path="detail/:id" element={<DealDetailPage />} />
-              <Route path="create" element={<DealEdit />} />
-              <Route path="edit/:id" element={<DealUpdate />} />
+              <Route
+                path="create"
+                element={
+                  <RequireAuth>
+                    <DealEdit />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="edit/:id"
+                element={
+                  <RequireAuth>
+                    <DealUpdate />
+                  </RequireAuth>
+                }
+              />
               <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/userfeed/:nickName" element={<UserFeedPage />} />
             <Route path="/account/*">
-              <Route index element={<ChkPw />} />
-              <Route path="set" element={<AccountSettingPage />} />
-              <Route path="withdrawal" element={<Withdrawal />} />
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ChkPw />
+                  </RequireAuth>
+                }
+              />
+
+              <Route
+                path="set"
+                element={
+                  <RequireAuth>
+                    <AccountSettingPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="withdrawal"
+                element={
+                  <RequireAuth>
+                    <Withdrawal />
+                  </RequireAuth>
+                }
+              />
             </Route>
             <Route path="/join/*">
               <Route index element={<Join />} />
               <Route path="chkEmail" element={<ChkEmail type="login" />} />
               <Route path="detail" element={<JoinDetail />} />
-              <Route path="more" element={<JoinMore />} />
+              <Route
+                path="more"
+                element={
+                  <RequireAuth>
+                    <JoinMore />
+                  </RequireAuth>
+                }
+              />
               <Route path="welcome" element={<Welcome />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
@@ -97,8 +155,22 @@ function RootRouter() {
             <Route path="/oauth/kakao" element={<KakaoOauthHandler />} />
             <Route path="/oauth/naver" element={<NaverOauthHandler />} />
             <Route path="letters">
-              <Route index element={<Letters />} />
-              <Route path="detail" element={<ChatRoom />} />
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <Letters />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="detail"
+                element={
+                  <RequireAuth>
+                    <ChatRoom />
+                  </RequireAuth>
+                }
+              />
               <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />

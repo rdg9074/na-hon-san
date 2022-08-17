@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import "./Withdrawal.scss";
 import { withdrawal } from "@apis/setAccount";
 import LoadingSpinner from "@images/LoadingSpinner.svg";
@@ -13,6 +13,12 @@ function FindPw() {
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  if (!location.state) {
+    alert("비정상적인 접근입니다.");
+    return <Navigate to="/" />;
+  }
 
   const goBack = () => {
     navigate(-1);

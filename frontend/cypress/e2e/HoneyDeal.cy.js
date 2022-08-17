@@ -9,16 +9,20 @@ const login = () => {
 };
 
 const logout = async () => {
-  cy.get("#main-nav-bar .right-nav__link").last().click();
-  cy.get("#profile-tool-tip .content").last().click();
-  cy.wait(500);
+  cy.get('[alt="나혼자잘산다로고"]');
+  cy.get("body").then($body => {
+    if ($body.find('[alt="유저프로필"]').length > 0) {
+      cy.get('[alt="유저프로필"]').click();
+      cy.get("#profile-tool-tip .content").last().click();
+    }
+  });
 };
 
 context("꿀딜페이지 테스트", () => {
   before(() => {
-    cy.viewport(1440, 900);
-
     cy.visit("https://i7c208.p.ssafy.io/deal/");
+    cy.viewport(1440, 900);
+    logout();
   });
 
   after(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Editor from "@components/common/s3Uploader/Editor";
 import "./DealEdit.scss";
@@ -24,6 +24,14 @@ function DealEdit() {
   const titleRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const userInfo = useAppSelector(state => state.auth.userInfo);
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    } else if (userInfo && !userInfo.area) {
+      navigate("/join/more");
+    }
+  }, []);
 
   const back = () => {
     navigate("/deal");
