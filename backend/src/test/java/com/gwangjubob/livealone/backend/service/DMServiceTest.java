@@ -9,6 +9,7 @@ import com.gwangjubob.livealone.backend.domain.repository.MailRepository;
 import com.gwangjubob.livealone.backend.domain.repository.NoticeRepository;
 import com.gwangjubob.livealone.backend.domain.repository.UserRepository;
 import com.gwangjubob.livealone.backend.dto.dm.DMSendDto;
+import com.gwangjubob.livealone.backend.dto.dm.DMViewDto;
 import com.gwangjubob.livealone.backend.service.impl.DMServiceImpl;
 import com.gwangjubob.livealone.backend.service.impl.MailService;
 import org.assertj.core.api.Assertions;
@@ -28,10 +29,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -58,11 +58,12 @@ public class DMServiceTest {
     public void 메시지_전송_성공_테스트() {
         // given
         final UserEntity fromId = userRepository.findById("test").get();
-        final UserEntity toUserId = userRepository.findById("ssafy").get();
+        final UserEntity toUserId = userRepository.findById("test11").get();
         final DMEntity dmEntity = DMEntity.builder()
                 .fromUserId(fromId)
                 .toUserId(toUserId)
                 .content("test2")
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
 
         // when
@@ -96,10 +97,11 @@ public class DMServiceTest {
         Assertions.assertThat(res.getContent()).isEqualTo(dmEntity.getContent());
     }
     @Test
+    @Disabled
     public void 메시지_전송_없는_메시지_테스트() {
         // given
         final UserEntity fromId = userRepository.findById("test").get();
-        final UserEntity toUserId = userRepository.findById("ssafy").get();
+        final UserEntity toUserId = userRepository.findById("test11").get();
         final DMEntity dmEntity = DMEntity.builder()
                 .fromUserId(fromId)
                 .toUserId(toUserId)
@@ -151,19 +153,48 @@ public class DMServiceTest {
     @Test
     public void 메시지_세부_조회_테스트(){
         // given
-        UserEntity toId = userRepository.findById("test").get();
-        UserEntity fromId = userRepository.findById("ssafy").get();
+        List<DMViewDto> dmViewDtoList = new ArrayList<>();
+        UserEntity toUserEntity = userRepository.findById("test").get();
+        UserEntity fromUserEntity = userRepository.findById("test11").get();
+        Optional<DMEntity> tmpIdx = dmRepository.findTop1ByOrderByIdxDesc();
         Integer lastIdx = 0;
         Pageable pageable = PageRequest.ofSize(5);
 
+        if(lastIdx == 0 && tmpIdx.isPresent()){ // null 이면 가장 최신 게시글 찾아줘야함
+            lastIdx = tmpIdx.get().getIdx() + 1;
+        }
+        Slice<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toUserEntity,fromUserEntity,lastIdx,pageable);
+        Map<String, Object> result = new HashMap<>();
+        boolean hasNext = false;
 
-        // when
-        Slice<DMEntity> dmEntityList = dmRepository.findByToUserIdAndFromUserId(toId, fromId,lastIdx,pageable);
+        if(!dmEntityList.isEmpty()){
+            hasNext = dmEntityList.hasNext();
 
-        // thens
-//        for (int i = 0; i < dmEntityList.size(); i++) {
-//            System.out.println(dmEntityList.get(i).toString());
-//        }
+            for(DMEntity dmEntity : dmEntityList){
+
+                DMViewDto dmViewDto = new DMViewDto();
+                if(dmEntity.getFromUserId().getId().equals("test")){
+                    dmViewDto.setType("send");
+                }else{
+                    dmViewDto.setType("recv");
+                    dmEntity.setRead(true);
+                    dmRepository.save(dmEntity);
+                }
+                dmViewDto.setIdx(dmEntity.getIdx());
+                dmViewDto.setFromId(dmEntity.getFromUserId().getId());
+                dmViewDto.setToId(dmEntity.getToUserId().getId());
+                dmViewDto.setTime(dmEntity.getTime());
+                dmViewDto.setRead(dmEntity.getRead());
+                dmViewDto.setNickname(dmEntity.getFromUserId().getNickname());
+                dmViewDto.setContent(dmEntity.getContent());
+                dmViewDto.setImage((dmEntity.getImage()));
+                dmViewDtoList.add(dmViewDto);
+            }
+        }
+        result.put("list",dmViewDtoList);
+        result.put("fromProfileImg",fromUserEntity.getProfileImg());
+        result.put("fromNickname", fromUserEntity.getNickname());
+        result.put("hasNext",hasNext);
     }
 
     @Test

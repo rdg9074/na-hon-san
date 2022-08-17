@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @ExtendWith(SpringExtension.class)
@@ -482,7 +483,7 @@ public class TipServiceTest {
             UserLikeTipsEntity likeTipsEntity = UserLikeTipsEntity.builder()
                     .tip(tipEntity)
                     .user(userEntity)
-                    .time(LocalDateTime.now())
+                    .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .build();
             userLikeTipsRepository.save(likeTipsEntity);
 
@@ -497,6 +498,7 @@ public class TipServiceTest {
                         .fromUserId(userId)
                         .postType("tip")
                         .postIdx(tipEntity.getIdx())
+                        .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                         .build();
 
                 noticeRepository.save(noticeEntity);
@@ -526,7 +528,7 @@ public class TipServiceTest {
         Map<String, Object> resultMap = new HashMap<>();
 
         String testId = "test";
-        Integer postIdx = 49;
+        Integer postIdx = 207;
 
         UserEntity user = userRepository.findById(testId).get();
         TipEntity tip = tipRepository.findByIdx(postIdx).get();

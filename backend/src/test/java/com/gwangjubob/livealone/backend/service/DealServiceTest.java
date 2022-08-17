@@ -256,10 +256,10 @@ public class DealServiceTest {
     @Test
     public void 꿀딜_댓글_삭제(){
         Map<String, Object> resultMap = new HashMap<>();
-        Integer postIdx = 69;
-        Integer idx = 30;
+        Integer postIdx = 121;
+        Integer idx = 108;
 
-        String userId = "test";
+        String userId = "aa981204@naver.com";
         Optional<DealCommentEntity> optionalDealComment = dealCommentRepository.findById(idx);
         DealEntity deal = dealRepository.findByIdx(postIdx).get();
 
