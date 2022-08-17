@@ -17,7 +17,7 @@
 </div>
 
 # :loudspeaker: 배포 주소
-> 정식 버전 : https://i7208.p.ssafy.io/
+> 정식 버전 : https://i7c208.p.ssafy.io/
 
 
 # 🍯 팀원 소개
