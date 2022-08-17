@@ -198,7 +198,11 @@ function DealUpdate() {
               className="deal-header-area-info_button notoReg"
               type="button"
               onClick={() => {
-                navigate("/account");
+                if (userInfo?.social === "normal") {
+                  navigate("/account");
+                } else {
+                  navigate("/join/more");
+                }
               }}
             >
               변경
