@@ -1,5 +1,10 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useParams,
+  Navigate
+} from "react-router-dom";
 import { useAppSelector } from "@store/hooks";
 import Editor from "@components/common/s3Uploader/Editor";
 import "./DealUpdate.scss";
@@ -28,6 +33,11 @@ function DealUpdate() {
   const navigate = useNavigate();
   const location = useLocation();
   const userInfo = useAppSelector(state => state.auth.userInfo);
+
+  if (!location.state) {
+    alert("비정상적인 접근입니다.");
+    return <Navigate to="/deal" />;
+  }
 
   useEffect(() => {
     const articleInfo = location.state as dealArticle;
