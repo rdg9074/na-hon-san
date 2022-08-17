@@ -22,35 +22,35 @@ pipeline {
         //         }
         //     }
         // }
-        // stage("e2e test"){
-        //     steps{
-        //         script{
-        //             try {
-        //                 sh 'docker stop e2e'
-        //                 sh 'docker rm e2e'
-        //                 sh 'docker rmi front-e2e'
-        //             } catch (e) {
-        //                 sh 'echo "fail remove e2e-test-images"'
-        //             }
-        //             try{
-        //                 sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
-        //                 sh 'docker run -d --name e2e front-e2e /app/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
-        //             }catch(e){
-        //                 sh 'echo "테스트 실패"'
+        stage("e2e test"){
+            steps{
+                script{
+                    try {
+                        sh 'docker stop e2e'
+                        sh 'docker rm e2e'
+                        sh 'docker rmi front-e2e'
+                    } catch (e) {
+                        sh 'echo "fail remove e2e-test-images"'
+                    }
+                    try{
+                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
+                        sh 'docker run -d --name e2e front-e2e /app/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
+                    }catch(e){
+                        sh 'echo "테스트 실패"'
                         
-        //             }
+                    }
                     
-        //         }
-        //     }
-        //     post {
-        //         success{
-        //             sh 'echo  e2e 테스트 실패 성공'
-        //         }
-        //         failure{
-        //             sh 'echo e2e 테스트 실패'
-        //         }
-        //     }
-        // }
+                }
+            }
+            post {
+                success{
+                    sh 'echo  e2e 테스트 실패 성공'
+                }
+                failure{
+                    sh 'echo e2e 테스트 실패'
+                }
+            }
+        }
         stage("build"){
             steps {
                 script{
