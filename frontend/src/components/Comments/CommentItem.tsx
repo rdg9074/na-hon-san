@@ -89,7 +89,9 @@ function CommentItem({
           </div>
           {type === "Deal" && (
             <div className="comment-head-map flex justify-end">
-              {isArticleAuthor && <MapModal targetUser={info.userNickname} />}
+              {isArticleAuthor && !isAuthor && (
+                <MapModal targetUser={info.userNickname} />
+              )}
             </div>
           )}
         </div>

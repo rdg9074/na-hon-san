@@ -106,7 +106,7 @@ function DealEdit() {
           </p>
         </div>
         <div className="deal-header-category flex">
-          <p className="category-label notoMid">Category</p>
+          <p className="category-label notoMid">카테고리</p>
           <div className="deal-header-category-box flex">
             {dealCategory.map(item => {
               return (
@@ -125,7 +125,7 @@ function DealEdit() {
           </div>
         </div>
         <div className="deal-header-area">
-          <p className="deal-header-area_label notoMid">User Area</p>
+          <p className="deal-header-area_label notoMid">거래 지역</p>
           <div className="deal-header-area-info flex">
             <input
               type="text"
@@ -169,7 +169,7 @@ function DealEdit() {
             className="deal-header-preview_container flex column justify-center align-center"
           >
             <p className="deal-header-preview_container-title notoMid">
-              Thumnail
+              배너이미지
             </p>
             <div className="deal-header-preview_img flex justify-center align-center">
               {thumnail ? (
@@ -198,7 +198,7 @@ function DealEdit() {
         </div>
       </div>
       <div className="deal-content flex column align-center">
-        <p className="notoMid">Content</p>
+        <p className="notoMid">내용</p>
         <input
           ref={titleRef}
           className="deal-title"
