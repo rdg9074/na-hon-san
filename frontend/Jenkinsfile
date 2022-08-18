@@ -1,0 +1,73 @@
+pipeline {
+    agent any
+    stages {
+        // stage("unit test"){
+        //     steps{
+        //         script{
+        //             try {
+        //                 sh 'docker rmi front-unit'
+        //             } catch (e) {
+        //                 sh 'echo "fail remove test-images"'
+        //             }
+        //         }
+        //         sh 'docker build -t front-unit -f ./frontend/Dockerfile.unit ./frontend'
+        //         // sh 'docker run front-test npm run test'
+        //     }
+        //     post {
+        //         success{
+        //             sh 'echo unit 테스트 성공!!'
+        //         }
+        //         failure{
+        //             sh 'echo unit 테스트 실패'
+        //         }
+        //     }
+        // }
+        stage("e2e test"){
+            steps{
+                script{
+                    try {
+                        sh 'docker stop e2e'
+                        sh 'docker rm e2e'
+                        sh 'docker rmi front-e2e'
+                    } catch (e) {
+                        sh 'echo "fail remove e2e-test-images"'
+                    }
+                    try{
+                        sh 'docker build -t front-e2e -f ./frontend/Dockerfile.e2e ./frontend --build-arg CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}'
+                        sh 'docker run -d --name e2e front-e2e /app/node_modules/.bin/cypress run --record --key ${CYPRESS_RECORD_KEY}'
+                    }catch(e){
+                        sh 'echo "테스트 실패"'
+                        
+                    }
+                    
+                }
+            }
+            post {
+                success{
+                    sh 'echo  e2e 테스트 실패 성공'
+                }
+                failure{
+                    sh 'echo e2e 테스트 실패'
+                }
+            }
+        }
+        stage("build"){
+            steps {
+                script{
+                    try {
+                        sh 'docker stop frontend'
+                        sh 'docker rm frontend'
+                        sh 'docker rmi wlsgh97/nahonsan-frontend'
+                    } catch (e) {
+                        sh 'echo "fail to stop and remove container"'
+                    }
+                }
+                sh 'docker build -t wlsgh97/nahonsan-frontend ./frontend --build-arg KAKAO_MAP=${KAKAO_MAP} --build-arg AWS_ACCESS_KEY=${AWS_ACCESS_KEY} --build-arg AWS_SECRET_KEY=${AWS_SECRET_KEY}  --build-arg KAKAO_ID=${KAKAO_ID} --build-arg NAVER_ID=${NAVER_ID} --build-arg GOOGLE_ID=${GOOGLE_ID} '
+                sh 'echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin'
+                echo 'Build image...'
+                sh "docker push wlsgh97/nahonsan-frontend"
+                sh "docker run -d -p 3000:3000 --name frontend wlsgh97/nahonsan-frontend"
+            }
+        }    
+    }    
+}

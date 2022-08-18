@@ -1,0 +1,95 @@
+#feed-page {
+  .card-list {
+    width: (1170px);
+    margin-top: (40px);
+  }
+  .carousel-label {
+    margin-top: (80px);
+    & p {
+      & span {
+        color: $MAIN_YELLOW;
+        margin: 0px 12px 0px 12px;
+      }
+    }
+  }
+  .loading-spinner {
+    margin-top: (50px);
+    height: (60px);
+    width: (60px);
+  }
+  #infinity-study-card-list {
+    margin-top: (40px);
+  }
+}
+@media screen and (max-width: $DESKTOP-VW) {
+  #feed-page {
+    .card-list {
+      width: vw(1170px);
+      margin-top: vw(40px);
+    }
+    .carousel-label {
+      margin-top: vw(80px);
+      & p {
+        & span {
+          margin: 0px vw(12px) 0px vw(12px);
+        }
+      }
+    }
+    .loading-spinner {
+      margin-top: vw(50px);
+      height: vw(60px);
+      width: vw(60px);
+    }
+    #infinity-study-card-list {
+      margin-top: vw(40px);
+    }
+  }
+}
+@media screen and (max-width: $TABLET-VW) {
+  #feed-page {
+    .card-list {
+      width: vw-t(678px);
+      margin-top: vw-t(40px);
+    }
+    .carousel-label {
+      margin-top: vw-t(80px);
+      & p {
+        & span {
+          margin: 0px vw-t(12px) 0px vw-t(12px);
+        }
+      }
+    }
+    .loading-spinner {
+      margin-top: vw-t(50px);
+      height: vw-t(60px);
+      width: vw-t(60px);
+    }
+    #infinity-study-card-list {
+      margin-top: vw-t(40px);
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #feed-page {
+    .card-list {
+      width: vw-p(320px);
+      margin-top: vw-p(28px);
+    }
+    .carousel-label {
+      margin-top: vw-p(80px);
+      & p {
+        & span {
+          margin: 0px vw-p(4px) 0px vw-p(4px);
+        }
+      }
+    }
+    .loading-spinner {
+      margin-top: vw-p(50px);
+      height: vw-p(60px);
+      width: vw-p(60px);
+    }
+    #infinity-study-card-list {
+      margin-top: vw-p(40px);
+    }
+  }
+}

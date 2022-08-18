@@ -1,0 +1,236 @@
+#join-detail {
+  margin: (44px) (483px) (169px) (484px);
+  padding: (64px) (72px);
+  border: 1px solid $GRAY_DB;
+  border-radius: (20px);
+
+  .header {
+    &__title {
+      margin-bottom: (32px);
+    }
+  }
+  .form {
+    &__type {
+      margin-bottom: (8px);
+    }
+    &__input {
+      margin-bottom: (16px);
+      padding: (12px);
+      width: (329px);
+      height: (48px);
+      border: 1px solid $GRAY_DB;
+      border-radius: (4px);
+
+      &:disabled {
+        background-color: $GRAY_DB;
+      }
+    }
+    .input-nickName {
+      width: (218px);
+      margin-right: (20px);
+    }
+    &__btn--dupli {
+      width: (88px);
+      height: (48px);
+      background-color: $MAIN_YELLOW;
+      border-radius: (16px);
+    }
+    .password,
+    .password-chk {
+      margin-bottom: (8px);
+
+      &-msg {
+        margin-bottom: (16px);
+        color: $RED;
+      }
+    }
+    .success {
+      color: $NAVER;
+    }
+    .dummy {
+      height: (12px);
+      margin-bottom: (16px);
+    }
+    &__btn {
+      margin-top: (40px);
+      width: (329px);
+      height: (48px);
+      background-color: $MAIN_YELLOW;
+      border-radius: (4px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #join-detail {
+    margin: vw(44px) vw(483px) vw(169px) vw(484px);
+    padding: vw(64px) vw(72px);
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+
+    .header {
+      &__title {
+        margin-bottom: vw(32px);
+      }
+    }
+    .form {
+      &__type {
+        margin-bottom: vw(8px);
+      }
+      &__input {
+        margin-bottom: vw(16px);
+        padding: vw(12px);
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+
+        &:disabled {
+          background-color: $GRAY_DB;
+        }
+      }
+      .input-nickName {
+        width: vw(218px);
+        margin-right: vw(20px);
+      }
+      &__btn--dupli {
+        width: vw(88px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(16px);
+      }
+      .password,
+      .password-chk {
+        margin-bottom: vw(8px);
+
+        &-msg {
+          margin-bottom: vw(16px);
+          color: $RED;
+        }
+      }
+      .success {
+        color: $NAVER;
+      }
+      .dummy {
+        height: vw(12px);
+        margin-bottom: vw(16px);
+      }
+      &__btn {
+        margin-top: vw(40px);
+        width: vw(329px);
+        height: vw(48px);
+        background-color: $MAIN_YELLOW;
+        border-radius: vw(4px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #join-detail {
+    margin: vw-t(72px) vw-t(147px) vw-t(138px) vw-t(148px);
+    padding: vw-t(64px) vw-t(72px);
+    border-radius: vw-t(20px);
+    .header {
+      &__title {
+        margin-bottom: vw-t(32px);
+      }
+    }
+    .form {
+      &__type {
+        margin-bottom: vw-t(8px);
+      }
+      &__input {
+        margin-bottom: vw-t(16px);
+        padding: vw-t(12px);
+        width: vw-t(329px);
+        height: vw-t(48px);
+        border-radius: vw-t(4px);
+      }
+
+      .input-nickName {
+        width: vw-t(218px);
+        margin-right: vw-t(20px);
+      }
+      &__btn--dupli {
+        width: vw-t(88px);
+        height: vw-t(48px);
+        border-radius: vw-t(16px);
+      }
+
+      .password,
+      .password-chk {
+        margin-bottom: vw-t(8px);
+
+        &-msg {
+          margin-bottom: vw-t(16px);
+        }
+      }
+      .dummy {
+        height: vw-t(12px);
+        margin-bottom: vw-t(16px);
+      }
+      &__btn {
+        margin-top: vw-t(40px);
+        width: vw-t(329px);
+        height: vw-t(48px);
+        border-radius: vw-t(4px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #join-detail {
+    margin: vw-p(63px) vw-p(23px) vw-p(84px) vw-p(23px);
+    padding: 0;
+    border: none;
+    border-radius: vw-p(20px);
+    .header {
+      &__title {
+        margin-bottom: vw-p(32px);
+      }
+    }
+    .form {
+      &__type {
+        margin-bottom: vw-p(8px);
+      }
+      &__input {
+        margin-bottom: vw-p(16px);
+        padding: vw-p(12px);
+        width: vw-p(329px);
+        height: vw-p(48px);
+        border-radius: vw-p(4px);
+      }
+
+      .input-nickName {
+        width: vw-p(218px);
+        margin-right: vw-p(20px);
+      }
+      &__btn--dupli {
+        width: vw-p(88px);
+        height: vw-p(48px);
+        border-radius: vw-p(16px);
+      }
+
+      .password,
+      .password-chk {
+        margin-bottom: vw-p(8px);
+
+        &-msg {
+          margin-bottom: vw-p(16px);
+        }
+      }
+      .dummy {
+        height: vw-p(12px);
+        margin-bottom: vw-p(16px);
+      }
+      &__btn {
+        margin-top: vw-p(40px);
+        width: vw-p(329px);
+        height: vw-p(48px);
+        border-radius: vw-p(4px);
+      }
+    }
+  }
+}

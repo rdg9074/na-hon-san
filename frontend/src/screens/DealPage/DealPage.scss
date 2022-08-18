@@ -1,0 +1,582 @@
+#deal-page {
+  .deal-banner {
+    width: 100%;
+    height: (428px);
+    overflow: hidden;
+    & > img {
+      width: 100%;
+    }
+  }
+  .intro {
+    width: (1070px);
+    margin-top: (60px);
+    height: (240px);
+    &-info {
+      padding-top: (18px);
+      width: 65%;
+      &__title {
+        justify-content: space-between;
+        padding-right: (24px);
+        & > p {
+          & > span {
+            color: $MAIN_YELLOW;
+          }
+        }
+        & > button {
+          font-size: (24px);
+          width: (140px);
+          background-color: $MAIN_YELLOW;
+          border-radius: (12px);
+        }
+      }
+      &__desc {
+        padding-left: (24px);
+        padding-right: (24px);
+        margin-top: (80px);
+        font-size: (24px);
+        line-height: (36px);
+      }
+    }
+    &-container {
+      width: 35%;
+      text-align: center;
+      &__img {
+        width: (120px);
+        height: (120px);
+      }
+      &__count {
+        margin-top: (24px);
+        line-height: 36px;
+        font-size: (24px);
+        & > span {
+          margin-top: (12px);
+          margin-right: (8px);
+          font-size: (36px);
+          color: $MAIN_YELLOW;
+        }
+      }
+    }
+  }
+  .hotdeal {
+    margin-top: (120px);
+    width: (1170px);
+  }
+  .deal {
+    margin-top: (80px);
+    width: (1170px);
+    &-header {
+      justify-content: space-between;
+      & div {
+        position: relative;
+        height: (36px);
+        & > img {
+          top: 6px;
+          left: 8px;
+          position: absolute;
+          height: 24px;
+          width: 24px;
+        }
+        & > input {
+          padding-left: 36px;
+          padding-right: 36px;
+          width: (470px);
+          border: solid 2px $MAIN_YELLOW;
+          border-radius: (8px);
+          height: (36px);
+        }
+      }
+    }
+    &-tag {
+      margin-top: (80px);
+      & > button {
+        background-color: #d9d9d9;
+        font-size: (24px);
+        margin-right: (30px);
+        border-radius: (12px);
+        height: (48px);
+        padding-left: (12px);
+        padding-right: (12px);
+      }
+    }
+    &-state {
+      justify-content: space-evenly;
+      & > button {
+        padding: 12px;
+        font-size: (24px);
+        margin-top: (48px);
+      }
+    }
+    &-sort {
+      position: relative;
+      justify-content: flex-end;
+      margin-top: (24px);
+      & > button {
+        width: 45%;
+        font-size: (24px);
+      }
+    }
+    .selected {
+      background-color: $MAIN_YELLOW;
+    }
+  }
+  #card-list {
+    margin-top: (48px);
+  }
+  select {
+    background-color: #fff;
+    height: 36px;
+    width: 150px;
+    border-radius: (6px);
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url("../../assets/images/SelectArrow.svg") no-repeat 95% 50%/12px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  select::-ms-expand {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #deal-page {
+    .deal-banner {
+      width: 100%;
+      height: vw(428px);
+    }
+    .intro {
+      width: vw(1070px);
+      margin-top: vw(60px);
+      height: vw(240px);
+      &-info {
+        padding-top: vw(18px);
+        width: 65%;
+        &__title {
+          justify-content: space-between;
+          padding-right: vw(24px);
+          & > p {
+            & > span {
+              color: $MAIN_YELLOW;
+            }
+          }
+          & > button {
+            font-size: vw(24px);
+            width: vw(140px);
+            background-color: $MAIN_YELLOW;
+            border-radius: vw(12px);
+          }
+        }
+        &__desc {
+          padding-left: vw(24px);
+          padding-right: vw(24px);
+          margin-top: vw(80px);
+          font-size: vw(24px);
+          line-height: vw(36px);
+        }
+      }
+      &-container {
+        width: 35%;
+        text-align: center;
+        &__img {
+          width: vw(120px);
+          height: vw(120px);
+        }
+        &__count {
+          margin-top: vw(24px);
+          line-height: 36px;
+          font-size: vw(24px);
+          & > span {
+            margin-top: vw(12px);
+            font-size: vw(36px);
+            color: $MAIN_YELLOW;
+          }
+        }
+      }
+    }
+    .hotdeal {
+      margin-top: vw(120px);
+      width: vw(1170px);
+    }
+    .deal {
+      margin-top: vw(80px);
+      width: vw(1170px);
+      &-header {
+        justify-content: space-between;
+        & div {
+          position: relative;
+          height: vw(36px);
+          & > img {
+            top: vw(12px);
+            left: vw(8px);
+            position: absolute;
+            height: vw(24px);
+            width: vw(24px);
+          }
+          & > input {
+            padding-left: vw(36px);
+            padding-right: vw(36px);
+            width: vw(470px);
+            border: solid 2px $MAIN_YELLOW;
+            border-radius: vw(8px);
+            height: vw(48px);
+            font-size: vw(16px);
+          }
+        }
+      }
+      &-tag {
+        margin-top: vw(80px);
+        & > button {
+          background-color: #d9d9d9;
+          font-size: vw(24px);
+          margin-right: vw(30px);
+          border-radius: vw(12px);
+          height: vw(48px);
+          padding-left: vw(12px);
+          padding-right: vw(12px);
+        }
+      }
+      &-state {
+        justify-content: space-evenly;
+        & > button {
+          padding: 12px;
+          font-size: vw(24px);
+          margin-top: vw(48px);
+        }
+      }
+      &-sort {
+        justify-content: flex-end;
+        margin-top: vw(24px);
+        & > button {
+          width: 45%;
+          font-size: vw(24px);
+        }
+      }
+    }
+    #card-list {
+      margin-top: vw(48px);
+    }
+    select {
+      height: 36px;
+      width: 150px;
+      border-radius: (6px);
+      border: none;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    select::-ms-expand {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: $TABLET-VW) {
+    #deal-page {
+      width: vw-t(768px);
+      .deal-banner {
+        width: 100%;
+        height: vw-t(400px);
+      }
+      .intro {
+        width: vw-t(668px);
+        margin-top: vw-t(60px);
+        height: vw-t(240px);
+        &-info {
+          padding-top: vw-t(18px);
+          width: 65%;
+          &__title {
+            justify-content: space-between;
+            padding-right: vw-t(24px);
+            & > p {
+              & > span {
+                color: $MAIN_YELLOW;
+              }
+            }
+            & > button {
+              font-size: vw-t(24px);
+              width: vw-t(140px);
+              background-color: $MAIN_YELLOW;
+              border-radius: vw-t(12px);
+            }
+          }
+          &__desc {
+            padding-left: vw-t(24px);
+            padding-right: vw-t(24px);
+            margin-top: vw-t(80px);
+            font-size: vw-t(24px);
+            line-height: vw-t(36px);
+          }
+        }
+        &-container {
+          width: 35%;
+          text-align: center;
+          &__img {
+            width: vw-t(120px);
+            height: vw-t(120px);
+          }
+          &__count {
+            margin-top: vw-t(24px);
+            line-height: vw-t(36px);
+            font-size: vw-t(24px);
+            & > span {
+              margin-top: vw-t(12px);
+              font-size: vw-t(36px);
+              color: $MAIN_YELLOW;
+            }
+          }
+        }
+      }
+      .hotdeal {
+        margin-top: vw-t(120px);
+        width: vw-t(768px);
+        padding: vw-t(36px);
+        & > p {
+          text-align: center;
+        }
+      }
+      .deal {
+        margin-top: vw-t(0px);
+        width: vw-t(768px);
+        padding: vw-t(36px);
+        &-header {
+          justify-content: space-between;
+          flex-direction: column;
+          & > p {
+            text-align: center;
+          }
+          & div {
+            position: relative;
+            height: vw-t(36px);
+            margin-bottom: vw-t(24px);
+            & > img {
+              top: vw-t(36px);
+              left: vw-t(12px);
+              position: absolute;
+              height: vw-t(24px);
+              width: vw-t(24px);
+            }
+            & > input {
+              margin-top: vw-t(24px);
+              padding-left: vw-t(48px);
+              padding-right: vw-t(48px);
+              width: 100%;
+              border: solid 2px $MAIN_YELLOW;
+              border-radius: vw-t(8px);
+              height: vw-t(48px);
+              font-size: vw-t(24px);
+            }
+          }
+        }
+        &-tag {
+          margin-top: vw-t(60px);
+          & > button {
+            background-color: #d9d9d9;
+            font-size: vw-t(24px);
+            margin-top: vw-t(16px);
+            margin-right: vw-t(30px);
+            border-radius: vw-t(12px);
+            height: vw-t(48px);
+            padding-left: vw-t(12px);
+            padding-right: vw-t(12px);
+          }
+        }
+        &-state {
+          justify-content: space-evenly;
+          & > button {
+            padding: 12px;
+            font-size: vw-t(24px);
+            margin-top: vw-t(24px);
+          }
+        }
+        &-sort {
+          justify-content: flex-end;
+          margin-top: vw-t(18px);
+          & > button {
+            width: 45%;
+            font-size: vw-t(24px);
+          }
+        }
+      }
+      #card-list {
+        margin-top: vw-t(48px);
+      }
+    }
+    select {
+      height: 36px;
+      width: 150px;
+      border-radius: (6px);
+      border: none;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    select::-ms-expand {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: $PHONE-VW) {
+    #deal-page {
+      width: vw-p(375px);
+      .deal-banner {
+        width: 100%;
+        height: vw-p(233px);
+      }
+      .intro {
+        flex-direction: column;
+        align-items: center;
+        width: 80%;
+        margin-top: vw-p(20px);
+        &-info {
+          padding-top: vw-p(18px);
+          width: 100%;
+          &__title {
+            justify-content: space-between;
+            align-items: center;
+            & > p {
+              & > span {
+                color: $MAIN_YELLOW;
+              }
+            }
+            & > button {
+              font-size: vw-p(12px);
+              font-weight: bold;
+              width: vw-p(70px);
+              background-color: $MAIN_YELLOW;
+              border-radius: vw-p(12px);
+              height: vw-p(36px);
+            }
+          }
+          &__desc {
+            padding-left: vw-p(24px);
+            padding-right: vw-p(24px);
+            margin-top: vw-p(80px);
+            font-size: vw-p(24px);
+            line-height: vw-p(36px);
+          }
+        }
+        &-container {
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: center;
+          width: 100%;
+          text-align: center;
+          &__img {
+            width: vw-p(120px);
+            height: vw-p(120px);
+          }
+          &__count {
+            margin-top: vw-p(36px);
+            line-height: vw-p(36px);
+            font-size: vw-p(24px);
+            & > span {
+              margin-top: vw-p(12px);
+              font-size: vw-p(36px);
+              color: $MAIN_YELLOW;
+            }
+          }
+        }
+      }
+      .hotdeal {
+        margin-top: vw-p(220px);
+        width: vw-p(375px);
+        padding: vw-p(12px);
+        & > p {
+          text-align: center;
+        }
+      }
+      .deal {
+        width: vw-p(375px);
+        padding: vw-p(24px);
+        &-header {
+          justify-content: space-between;
+          flex-direction: column;
+          & > p {
+            text-align: center;
+          }
+          & div {
+            position: relative;
+            height: vw-p(36px);
+            margin-bottom: vw-p(24px);
+            & > img {
+              top: vw-p(36px);
+              left: vw-p(12px);
+              position: absolute;
+              height: vw-p(24px);
+              width: vw-p(24px);
+            }
+            & > input {
+              margin-top: vw-p(24px);
+              padding-left: vw-p(48px);
+              padding-right: vw-p(48px);
+              width: 100%;
+              border: solid 2px $MAIN_YELLOW;
+              border-radius: vw-p(8px);
+              height: vw-p(48px);
+              font-size: vw-p(16px);
+            }
+          }
+        }
+        &-tag {
+          margin-top: vw-p(36px);
+          & > button {
+            background-color: #d9d9d9;
+            font-size: vw-p(16px);
+            margin-top: vw-p(8px);
+            margin-right: vw-p(12px);
+            border-radius: vw-p(6px);
+            height: vw-p(24px);
+            padding-left: vw-p(12px);
+            padding-right: vw-p(12px);
+          }
+        }
+        &-state {
+          justify-content: space-evenly;
+          & > button {
+            padding: 6px;
+            font-size: vw-p(24px);
+            margin-top: vw-p(24px);
+          }
+        }
+        &-sort {
+          justify-content: flex-end;
+          margin-top: vw-p(18px);
+          & > button {
+            width: 45%;
+            font-size: vw-p(24px);
+          }
+        }
+      }
+      select {
+        height: 36px;
+        width: 100px;
+        border-radius: (6px);
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      select::-ms-expand {
+        display: none;
+      }
+    }
+    .p-none {
+      display: none;
+    }
+    #card-list {
+      margin-top: vw-p(48px);
+    }
+  }
+}
+.active {
+  color: $MAIN_YELLOW;
+  border-bottom: solid 2px $MAIN_YELLOW;
+}
+
+select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
