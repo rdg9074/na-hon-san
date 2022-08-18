@@ -211,10 +211,7 @@ function DealMap({ closeModal, targetUser }: DealMapProps) {
         );
         const markerBus = new kakao.maps.Marker({
           map,
-          position: new kakao.maps.LatLng(
-            midPosition.busStationList[i][1],
-            midPosition.busStationList[i][0]
-          ),
+          position: new kakao.maps.LatLng(busStations[i][1], busStations[i][0]),
           image: markerImageBus
         });
 
