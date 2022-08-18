@@ -14,7 +14,6 @@ const API = axios.create({
     withCredentials: true
   }
 });
-const navigate = useNavigate();
 export const setUpInterceptors = (store: any) => {
   const { dispatch } = store;
   API.interceptors.response.use(
@@ -26,7 +25,7 @@ export const setUpInterceptors = (store: any) => {
       if (err.response.data.message === "refreshTimeout") {
         dispatch(resetUserInfo());
         deleteRefreshToken();
-        navigate("/");
+        window.location.href = "/";
       } else if (err.response.status === 401) {
         await refreshAccessToken();
         const accessToken = sessionStorage.getItem("access-token");
