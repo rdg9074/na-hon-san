@@ -1,0 +1,451 @@
+@mixin user-info {
+  position: relative;
+  top: (-20px);
+  left: (20px);
+  border-radius: (6px);
+  border: (1px) solid #ccc;
+  border-bottom: (2px) solid #ddd;
+  float: left;
+  :nth-of-type(n) {
+    border: 0;
+    box-shadow: 0px 1px 2px #888;
+  }
+  .info__blank {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    border-radius: (6px);
+    font-size: (12px);
+    font-weight: bold;
+    overflow: hidden;
+  }
+  .info__title {
+    display: block;
+    text-align: center;
+    background: #fff;
+    margin-right: (35px);
+    padding: (10px) (15px);
+    font-size: (12px);
+    font-weight: bold;
+  }
+  :after {
+    content: "";
+    position: absolute;
+    margin-left: (-12px);
+    left: 50%;
+    bottom: (-12px);
+    width: (22px);
+    height: (12px);
+  }
+}
+
+.login-info {
+  @include user-info();
+  .info__blank {
+    background: #d95050;
+  }
+  :after {
+    content: "";
+    position: absolute;
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+  }
+}
+.target-info {
+  @include user-info();
+  .info__blank {
+    background: #5882fa;
+  }
+  :after {
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+  }
+}
+
+.md-info {
+  @include user-info();
+  .info__blank {
+    background: rgb(252, 253, 131);
+  }
+  :after {
+    background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+  }
+}
+#dealmap {
+  .container {
+    & > button {
+      z-index: -1;
+    }
+    .map {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 9;
+      .map-exit {
+        width: (40px);
+        height: (20px);
+        position: absolute;
+        z-index: 10;
+        top: (-300px);
+        left: (450px);
+      }
+      .loading-spinner {
+        z-index: 100;
+      }
+      .map-sight {
+        width: (900px);
+        height: (600px);
+        background-color: #fff;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+      .main-info {
+        width: (210px);
+        height: (40px);
+        top: (-280px);
+        right: (-420px);
+        position: absolute;
+        z-index: 100;
+        .red-bus {
+          margin-bottom: (10px);
+          & > img {
+            width: (40px);
+            height: (40px);
+          }
+          & > p {
+            width: (210px);
+            height: (40px);
+            background-color: #d95050;
+            text-align: center;
+            padding: (10px);
+            border-radius: (12px);
+            border-width: (3px);
+            border-style: solid;
+            border-color: #d95050;
+            font-weight: bold;
+            color: #fff;
+            font-size: 16px;
+          }
+        }
+        .yellow-bus {
+          & > img {
+            width: (40px);
+            height: (40px);
+          }
+          & > p {
+            width: (210px);
+            height: (40px);
+            background-color: #ffbf00;
+            text-align: center;
+            padding: (10px);
+            border-radius: (12px);
+            border-width: (3px);
+            border-style: solid;
+            border-color: #ffbf00;
+            font-weight: bold;
+            color: #fff;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  .dimmer {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin user-info {
+    position: relative;
+    top: (-20px);
+    left: (20px);
+    border-radius: (6px);
+    border: (1px) solid #ccc;
+    border-bottom: (2px) solid #ddd;
+    float: left;
+    :nth-of-type(n) {
+      border: 0;
+      box-shadow: 0px 1px 2px #888;
+    }
+    .info__blank {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+      border-radius: (6px);
+      font-size: (12px);
+      font-weight: bold;
+      overflow: hidden;
+    }
+    .info__title {
+      display: block;
+      text-align: center;
+      background: #fff;
+      margin-right: (35px);
+      padding: (10px) (15px);
+      font-size: (12px);
+      font-weight: bold;
+    }
+    :after {
+      content: "";
+      position: absolute;
+      margin-left: (-12px);
+      left: 50%;
+      bottom: (-12px);
+      width: (22px);
+      height: (12px);
+    }
+  }
+
+  .login-info {
+    @include user-info();
+    .info__blank {
+      background: #d95050;
+    }
+    :after {
+      content: "";
+      position: absolute;
+      background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+    }
+  }
+  .target-info {
+    @include user-info();
+    .info__blank {
+      background: #5882fa;
+    }
+    :after {
+      background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+    }
+  }
+  .md-info {
+    @include user-info();
+    .info__blank {
+      background: rgb(252, 253, 131);
+    }
+    :after {
+      background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+    }
+  }
+  #dealmap {
+    .container {
+      & > button {
+        z-index: -1;
+      }
+      .map {
+        .map-exit {
+          width: vw(40px);
+          height: vw(20px);
+          top: vw(-300px);
+          left: vw(450px);
+        }
+        .map-sight {
+          width: vw(900px);
+          height: vw(600px);
+          background-color: #fff;
+        }
+        .main-info {
+          width: vw(210px);
+          height: vw(40px);
+          top: vw(-280px);
+          right: vw(-420px);
+          .red-bus {
+            margin-bottom: vw(10px);
+            & > img {
+              width: vw(40px);
+              height: vw(40px);
+            }
+            & > p {
+              width: vw(210px);
+              height: vw(40px);
+              background-color: #d95050;
+              text-align: center;
+              padding: vw(10px);
+              border-radius: vw(12px);
+              border-width: vw(3px);
+              border-style: solid;
+              border-color: #d95050;
+              font-weight: bold;
+              color: #fff;
+              font-size: vw(16px);
+            }
+          }
+          .yellow-bus {
+            & > img {
+              width: vw(40px);
+              height: vw(40px);
+            }
+            & > p {
+              width: vw(210px);
+              height: vw(40px);
+              background-color: #ffbf00;
+              text-align: center;
+              padding: vw(10px);
+              border-radius: vw(12px);
+              border-width: vw(3px);
+              border-style: solid;
+              border-color: #ffbf00;
+              font-weight: bold;
+              color: #fff;
+              font-size: vw(16px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $TABLET-VW) {
+  #dealmap {
+    .container {
+      & > button {
+        z-index: -1;
+      }
+      .map {
+        position: fixed;
+        left: 50%;
+        top: 30%;
+        .map-exit {
+          width: vw-t(40px);
+          height: vw-t(20px);
+          top: vw-t(-220px);
+          left: vw-t(300px);
+        }
+        .map-sight {
+          width: vw-t(600px);
+          height: vw-t(450px);
+          background-color: #fff;
+        }
+        .main-info {
+          width: vw-t(160px);
+          height: vw-t(30px);
+          top: vw-t(-210px);
+          right: vw-t(-280px);
+          position: absolute;
+          .red-bus {
+            margin-bottom: vw-t(10px);
+            & > img {
+              width: vw-t(30px);
+              height: vw-t(30px);
+            }
+            & > p {
+              width: vw-t(160px);
+              height: vw-t(30px);
+              background-color: #d95050;
+              text-align: center;
+              padding: vw-t(6px);
+              border-radius: vw-t(12px);
+              border-width: vw-t(3px);
+              border-style: solid;
+              border-color: #d95050;
+              font-weight: bold;
+              white-space: nowrap;
+              color: #fff;
+              font-size: vw-t(10px);
+            }
+          }
+          .yellow-bus {
+            & > img {
+              width: vw-t(30px);
+              height: vw-t(30px);
+            }
+            & > p {
+              width: vw-t(160px);
+              height: vw-t(30px);
+              background-color: #ffbf00;
+              text-align: center;
+              padding: vw-t(6px);
+              border-radius: vw-t(12px);
+              border-width: vw-t(3px);
+              border-style: solid;
+              border-color: #ffbf00;
+              font-weight: bold;
+              white-space: nowrap;
+              color: #fff;
+              font-size: vw-t(10px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #dealmap {
+    .container {
+      & > button {
+        z-index: -1;
+      }
+      .map {
+        position: fixed;
+        left: 50%;
+        top: 30%;
+        .map-exit {
+          width: vw-p(40px);
+          height: vw-p(20px);
+          position: absolute;
+          top: vw-p(-185px);
+          left: vw-p(160px);
+        }
+        .map-sight {
+          width: vw-p(360px);
+          height: vw-p(360px);
+          background-color: #fff;
+        }
+        .main-info {
+          width: vw-p(140px);
+          height: vw-p(20px);
+          top: vw-p(-170px);
+          right: vw-p(-170px);
+          .red-bus {
+            margin-bottom: vw-p(5px);
+            & > img {
+              width: vw-p(20px);
+              height: vw-p(20px);
+            }
+            & > p {
+              width: vw-p(140px);
+              height: vw-p(20px);
+              background-color: #d95050;
+              text-align: center;
+              padding: vw-p(3px);
+              border-radius: vw-p(12px);
+              border-width: vw-p(3px);
+              border-style: solid;
+              border-color: #d95050;
+              font-weight: bold;
+              color: #fff;
+              font-size: vw-t(5px);
+            }
+          }
+          .yellow-bus {
+            & > img {
+              width: vw-p(20px);
+              height: vw-p(20px);
+            }
+            & > p {
+              width: vw-p(140px);
+              height: vw-p(20px);
+              background-color: #ffbf00;
+              text-align: center;
+              padding: vw-p(3px);
+              border-radius: vw-p(12px);
+              border-width: vw-p(3px);
+              border-style: solid;
+              border-color: #ffbf00;
+              font-weight: bold;
+              color: #fff;
+              font-size: vw-t(5px);
+            }
+          }
+        }
+      }
+    }
+  }
+}

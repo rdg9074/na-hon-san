@@ -1,0 +1,258 @@
+@mixin btn {
+  width: (329px);
+  height: (48px);
+  border-radius: (4px);
+}
+
+#join {
+  margin: (44px) (483px) (160px) (484px);
+  padding: (64px) (72px) (58px) (72px);
+
+  border: 1px solid $GRAY_DB;
+  border-radius: (20px);
+  .header {
+    &__title {
+      margin-bottom: (40px);
+      line-height: (35px);
+    }
+  }
+  .or {
+    width: 329px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: (32px) 0 (20px) 0;
+    height: (20px);
+    &__line {
+      width: (138px);
+      height: (1px);
+      background-color: $GRAY_CB;
+    }
+    &__title {
+      color: $GRAY-CB;
+      margin: 0 (12px);
+    }
+  }
+  .form {
+    &__title {
+      margin-bottom: (20px);
+    }
+    &__input {
+      margin-bottom: (12px);
+      padding: (12px);
+      width: (329px);
+      height: (48px);
+      border: 1px solid $GRAY_DB;
+      border-radius: (4px);
+    }
+    &__msg {
+      margin-bottom: (40px);
+      color: $RED;
+    }
+    .dummy {
+      margin-bottom: 40px;
+      height: 12px;
+    }
+    &__btn {
+      margin-bottom: (24px);
+      @include btn();
+      background-color: $MAIN_YELLOW;
+    }
+  }
+  .footer {
+    color: $GRAY_76;
+    &__msg {
+      margin-right: (8px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin btn {
+    width: vw(329px);
+    height: vw(48px);
+    border-radius: vw(4px);
+  }
+
+  #join {
+    margin: vw(44px) vw(483px) vw(160px) vw(484px);
+    padding: vw(64px) vw(72px) vw(58px) vw(72px);
+
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+    .header {
+      &__title {
+        margin-bottom: vw(40px);
+        line-height: vw(35px);
+      }
+    }
+    .or {
+      width: vw(329px);
+      margin: vw(32px) 0 vw(20px) 0;
+      height: vw(20px);
+      &__line {
+        width: vw(138px);
+        height: vw(1px);
+        background-color: $GRAY_CB;
+      }
+      &__title {
+        color: $GRAY-CB;
+        margin: 0 vw(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw(20px);
+      }
+      &__input {
+        margin-bottom: vw(12px);
+        padding: vw(12px);
+        width: vw(329px);
+        height: vw(48px);
+        border: 1px solid $GRAY_DB;
+        border-radius: vw(4px);
+      }
+      &__msg {
+        margin-bottom: vw(40px);
+        color: $RED;
+      }
+      .dummy {
+        margin-bottom: vw(40px);
+        height: vw(12px);
+      }
+
+      &__btn {
+        margin-bottom: vw(24px);
+        @include btn();
+        background-color: $MAIN_YELLOW;
+      }
+    }
+    .footer {
+      color: $GRAY_76;
+      &__msg {
+        margin-right: vw(8px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  @mixin btn {
+    width: vw-t(329px);
+    height: vw-t(48px);
+    border-radius: vw-t(4px);
+  }
+
+  #join {
+    margin: vw-t(40px) vw-t(148px) vw-t(164px) vw-t(147px);
+    padding: vw-t(64px) vw-t(72px) vw-t(57px) vw-t(72px);
+
+    border-radius: vw-t(20px);
+    .header {
+      &__title {
+        margin-bottom: vw-t(40px);
+        line-height: vw-t(35px);
+      }
+    }
+    .or {
+      width: vw-t(329px);
+      margin: vw-t(32px) 0 vw-t(20px) 0;
+      height: vw-t(20px);
+      &__line {
+        width: vw-t(138px);
+        height: vw-t(1px);
+      }
+      &__title {
+        margin: 0 vw-t(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-t(20px);
+      }
+      &__input {
+        margin-bottom: vw-t(12px);
+
+        width: vw-t(329px);
+        height: vw-t(48px);
+        border-radius: vw-t(4px);
+      }
+      &__msg {
+        margin-bottom: vw-t(40px);
+      }
+      .dummy {
+        margin-bottom: vw-t(40px);
+        height: vw-t(12px);
+      }
+      &__btn {
+        margin-bottom: vw-t(24px);
+        @include btn();
+      }
+    }
+    .footer {
+      &__msg {
+        margin-right: vw-t(8px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  @mixin btn {
+    width: vw-p(329px);
+    height: vw-p(48px);
+    border-radius: vw-p(4px);
+  }
+
+  #join {
+    margin: vw-p(32px) vw-p(23px) vw-p(89px) vw-p(23px);
+    padding: 0;
+    border: none;
+    border-radius: vw-p(20px);
+    .header {
+      &__title {
+        margin-bottom: vw-p(24px);
+        line-height: vw-p(35px);
+      }
+    }
+    .or {
+      width: vw-p(329px);
+      margin: vw-p(32px) 0 vw-p(20px) 0;
+      height: vw-p(20px);
+      &__line {
+        width: vw-p(138px);
+        height: vw-p(1px);
+      }
+      &__title {
+        margin: 0 vw-p(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-p(20px);
+      }
+      &__input {
+        margin-bottom: vw-p(12px);
+
+        width: vw-p(329px);
+        height: vw-p(48px);
+        border-radius: vw-p(4px);
+      }
+      &__msg {
+        margin-bottom: vw-p(40px);
+      }
+      .dummy {
+        margin-bottom: vw-p(40px);
+        height: vw-p(12px);
+      }
+      &__btn {
+        margin-bottom: vw-p(24px);
+        @include btn();
+      }
+    }
+    .footer {
+      &__msg {
+        margin-right: vw-p(8px);
+      }
+    }
+  }
+}

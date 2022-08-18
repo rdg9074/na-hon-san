@@ -1,0 +1,413 @@
+@mixin boaderRaduisTop {
+  border-top-right-radius: (28px);
+  border-top-left-radius: (28px);
+}
+
+#card-skeleton {
+  @keyframes skeleton-opacity {
+    // 0% {
+    // opacity: 1;
+    // }
+    50% {
+      opacity: 0.5;
+    }
+    // 100% {
+    // opacity: 0.75;
+    // }
+  }
+  animation: skeleton-opacity 1s infinite linear;
+  @keyframes loading {
+    0% {
+      transform: translateX(0);
+    }
+    50%,
+    100% {
+      transform: translateX(370px);
+    }
+  }
+
+  .skeleton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 100%;
+    background: linear-gradient(to right, #bfbfbf, #bfbfbf, #c5c5c5);
+    // animation: loading 2s infinite linear;
+  }
+  .skeleton {
+    background-color: $SKELETON;
+    overflow: hidden;
+    position: relative;
+  }
+
+  position: relative;
+  width: (370px);
+
+  .card-header {
+    margin-bottom: (8px);
+
+    &__user-img {
+      margin-left: (12px);
+      margin-right: (16px);
+
+      width: (40px);
+      height: (40px);
+      border-radius: 50%;
+    }
+
+    &__user-name {
+      width: 120px;
+      height: 14px;
+    }
+  }
+
+  .card-main {
+    margin-bottom: (24px);
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.25);
+    @include boaderRaduisTop();
+    .img-container {
+      position: relative;
+      overflow: hidden;
+      @include boaderRaduisTop();
+      width: (370px);
+      height: (232px);
+    }
+
+    &__thumnail {
+      position: absolute;
+      right: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      @include boaderRaduisTop();
+    }
+
+    .card-label {
+      position: absolute;
+      top: (24px);
+      left: (280px);
+      &__top {
+        @mixin top {
+          width: (60px);
+          height: (24px);
+        }
+
+        &--tip {
+          background-color: $SKELETON;
+          @include top();
+        }
+      }
+      &__bottom {
+        width: (60px);
+        height: (16px);
+        background-color: rgba(240, 236, 236, 0.25);
+      }
+
+      &__img {
+        margin-right: (5px);
+        width: (12.5px);
+        min-height: (14px);
+      }
+    }
+
+    &__title {
+      height: (64px);
+      background-color: #e6e6e6;
+      padding: (22px) (20px);
+    }
+  }
+  .card-footer {
+    .icon-container {
+      &__icon {
+        margin-right: (14px);
+        width: (27px);
+        height: (27px);
+      }
+
+      & + .icon-container {
+        margin-left: (40px);
+      }
+
+      &__cnt {
+        width: 24px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin boaderRaduisTop {
+    border-top-right-radius: vw(28px);
+    border-top-left-radius: vw(28px);
+  }
+
+  #card-skeleton {
+    position: relative;
+    width: vw(370px);
+    .card-header {
+      margin-bottom: vw(8px);
+
+      &__user-img {
+        margin-left: vw(12px);
+        margin-right: vw(16px);
+
+        width: vw(40px);
+        height: vw(40px);
+      }
+
+      &__user-name {
+        width: vw(120px);
+        height: vw(14px);
+      }
+    }
+
+    .card-main {
+      margin-bottom: vw(24px);
+      box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.25);
+      @include boaderRaduisTop();
+      .img-container {
+        overflow: hidden;
+        @include boaderRaduisTop();
+        width: vw(370px);
+        height: vw(232px);
+      }
+
+      &__thumnail {
+        @include boaderRaduisTop();
+      }
+
+      .card-label {
+        position: absolute;
+        top: vw(24px);
+        left: vw(280px);
+        &__top {
+          @mixin top {
+            width: vw(60px);
+            height: vw(24px);
+          }
+
+          &--tip {
+            @include top();
+          }
+        }
+        &__bottom {
+          width: vw(60px);
+          height: vw(16px);
+        }
+
+        &__img {
+          margin-right: vw(5px);
+
+          width: vw(12.5px);
+          min-height: vw(14px);
+        }
+      }
+
+      &__title {
+        height: vw(64px);
+
+        padding: vw(22px) vw(20px);
+      }
+    }
+    .card-footer {
+      .icon-container {
+        &__icon {
+          margin-right: vw(14px);
+          width: vw(27px);
+          height: vw(27px);
+        }
+
+        & + .icon-container {
+          margin-left: vw(40px);
+        }
+
+        &__cnt {
+          width: vw(24px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  @mixin boaderRaduisTop {
+    border-top-right-radius: vw-t(28px);
+    border-top-left-radius: vw-t(28px);
+  }
+
+  #card-skeleton {
+    width: vw-t(326px);
+    .card-header {
+      margin-bottom: vw-t(12px);
+
+      &__user-img {
+        margin-left: vw-t(8px);
+        margin-right: vw-t(16px);
+
+        width: vw-t(36px);
+        height: vw-t(36px);
+      }
+
+      &__user-name {
+        width: vw-t(120px);
+        height: vw-t(14px);
+      }
+    }
+
+    .card-main {
+      margin-bottom: vw-t(16px);
+      @include boaderRaduisTop();
+      .img-container {
+        @include boaderRaduisTop();
+        width: vw-t(326px);
+        height: vw-t(189px);
+      }
+
+      &__thumnail {
+        // width: vw-t(326px);
+        // height: vw-t(189px);
+        @include boaderRaduisTop();
+      }
+
+      .card-label {
+        top: vw-t(24px);
+        left: vw-t(238px);
+        &__top {
+          @mixin top {
+            width: vw-t(60px);
+            height: vw-t(24px);
+          }
+
+          &--tip {
+            @include top();
+          }
+        }
+        &__bottom {
+          width: vw-t(60px);
+          height: vw-t(16px);
+        }
+
+        &__img {
+          margin-right: vw-t(5px);
+          width: vw-t(12.5px);
+          min-height: vw-t(14px);
+        }
+      }
+
+      &__title {
+        height: vw-t(53px);
+        padding: vw-t(22px) vw-t(20px);
+      }
+    }
+    .card-footer {
+      .icon-container {
+        &__icon {
+          margin-right: vw-t(14px);
+          width: vw-t(27px);
+          height: vw-t(27px);
+        }
+
+        & + .icon-container {
+          margin-left: vw-t(40px);
+        }
+        &__cnt {
+          width: vw-t(24px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  @mixin boaderRaduisTop {
+    border-top-right-radius: vw-p(28px);
+    border-top-left-radius: vw-p(28px);
+  }
+
+  #card-skeleton {
+    width: vw-p(326px);
+    .card-header {
+      margin-bottom: vw-p(12px);
+
+      &__user-img {
+        margin-left: vw-p(8px);
+        margin-right: vw-p(16px);
+
+        width: vw-p(36px);
+        height: vw-p(36px);
+      }
+
+      &__user-name {
+        width: vw-p(120px);
+        height: vw-p(14px);
+      }
+    }
+
+    .card-main {
+      margin-bottom: vw-p(16px);
+      @include boaderRaduisTop();
+      .img-container {
+        @include boaderRaduisTop();
+        width: vw-p(326px);
+        height: vw-p(189px);
+      }
+
+      &__thumnail {
+        // width: vw-p(326px);
+        // height: vw-p(189px);
+        @include boaderRaduisTop();
+      }
+
+      .card-label {
+        top: vw-p(24px);
+        left: vw-p(238px);
+        &__top {
+          @mixin top {
+            width: vw-p(60px);
+            height: vw-p(24px);
+          }
+
+          &--tip {
+            @include top();
+          }
+          &--deal {
+            @include top();
+          }
+        }
+        &__bottom {
+          width: vw-p(60px);
+          height: vw-p(16px);
+        }
+
+        &__img {
+          margin-right: vw-p(5px);
+          width: vw-p(12.5px);
+          min-height: vw-p(14px);
+        }
+      }
+
+      &__title {
+        height: vw-p(53px);
+        padding: vw-p(22px) vw-p(20px);
+      }
+    }
+    .card-footer {
+      .icon-container {
+        &__icon {
+          margin-right: vw-p(14px);
+          width: vw-p(27px);
+          height: vw-p(27px);
+        }
+
+        & + .icon-container {
+          margin-left: vw-p(40px);
+        }
+        &__cnt {
+          width: vw-p(24px);
+        }
+      }
+    }
+  }
+}
