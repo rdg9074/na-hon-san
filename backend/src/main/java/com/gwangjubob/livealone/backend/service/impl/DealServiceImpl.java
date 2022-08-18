@@ -133,11 +133,10 @@ public class DealServiceImpl implements DealService {
             DealEntity deal = optionalDeal.get();
             UserEntity user = optionalUser.get();
             String area = user.getArea().split(" ")[0];
-            deal.setArea(area);
-            dealRepository.save(deal);
             if(deal.getUser().getId().equals(user.getId())){
                 dealMapper.updateFromDto(dealDto, deal);
                 deal.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+                deal.setArea(area);
                 DealEntity res =dealRepository.save(deal);
                 data = dealMapper.toDto(res);
             } else{
