@@ -161,8 +161,8 @@ public class UserController {
     public ResponseEntity<?> sendMail(@RequestBody MailSendDto mailSendDto) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            if (mailService.emailCheck(mailSendDto)) { // 이메일 체크 함수 호출
-                mailService.mailSend(mailSendDto); // 이메일 전송 - 비동기
+            if (mailService.emailCheck(mailSendDto)) {
+                mailService.mailSend(mailSendDto);
                 resultMap.put("message", okay);
             }else {
                 resultMap.put("message", fail);
@@ -177,7 +177,7 @@ public class UserController {
     public ResponseEntity<?> checkMail(@ModelAttribute("MailCheckDto") MailCheckDto mailCheckDto) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            if (mailService.checkAuthNumber(mailCheckDto)) { // 인증번호 체크 서비스 호출
+            if (mailService.checkAuthNumber(mailCheckDto)) {
                 resultMap.put("message", okay);
             } else {
                 resultMap.put("message", fail);
@@ -196,7 +196,7 @@ public class UserController {
         if (decodeId != null){
             try {
                 userInfoDto.setId(decodeId);
-                UserInfoDto user = userService.updateUser(userInfoDto); //회원 수정 서비스 호출
+                UserInfoDto user = userService.updateUser(userInfoDto);
                 if (user != null){
                     resultMap.put("data", user);
                     resultMap.put("message", okay);
@@ -218,7 +218,7 @@ public class UserController {
         if (decodeId != null){
             try {
                 userMoreDTO.setUserId(decodeId);
-                userService.moreUpdate(userMoreDTO); //추가 정보 수정 서비스 호출
+                userService.moreUpdate(userMoreDTO);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
@@ -227,7 +227,7 @@ public class UserController {
             }
         } else{
             try {
-                userService.moreUpdate(userMoreDTO); //추가 정보 수정 서비스 호출
+                userService.moreUpdate(userMoreDTO);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
@@ -243,7 +243,7 @@ public class UserController {
         String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try {
-                userService.userDelete(decodeId); // 회원 탈퇴 서비스 호출
+                userService.userDelete(decodeId);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e){
@@ -259,7 +259,7 @@ public class UserController {
         String decodeId = checkToken(request, resultMap);
         if (decodeId != null) {
             try {
-                if (userService.passwordCheckUser(decodeId, userLoginDto.getPassword())) { //비밀번호 확인 서비스 호출
+                if (userService.passwordCheckUser(decodeId, userLoginDto.getPassword())) {
                     resultMap.put("message", okay);
                 } else {
                     resultMap.put("message", fail);
@@ -278,7 +278,7 @@ public class UserController {
         String decodeId = checkToken(request, resultMap);
         if (decodeId != null){
             try {
-                UserInfoDto user = userService.infoUser(decodeId); //회원 조회 서비스 호출
+                UserInfoDto user = userService.infoUser(decodeId);
                 if(user != null){
                     resultMap.put("message", okay);
                     resultMap.put("data", user);

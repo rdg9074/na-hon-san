@@ -45,7 +45,7 @@ public class TipController {
 
         if(decodeId != null){
             try{
-                int postIdx = tipService.createTip(decodeId, tipCreateDto); // 꿀팁 게시글 작성 서비스 호출
+                int postIdx = tipService.createTip(decodeId, tipCreateDto);
                 resultMap.put("postIdx", postIdx);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
@@ -63,7 +63,7 @@ public class TipController {
         Map<String, Object> resultMap = new HashMap<>();
 
         try{
-            Map<String, Object> result = tipService.viewTip(tipListDto); // 카테고리별 게시글 목록 조회
+            Map<String, Object> result = tipService.viewTip(tipListDto);
             if(result != null){
                 resultMap.put("data", result.get("list"));
                 resultMap.put("hasNext", result.get("hasNext"));
@@ -99,7 +99,7 @@ public class TipController {
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = "isLogin";
         if(request != null && request.getHeader("Authorization") != null){
-            decodeId = checkToken(request, resultMap); // 로그인 한 상태 ssafy
+            decodeId = checkToken(request, resultMap);
         }
 
         // 만료안됐을때 - 로그인을 했다는 전제
@@ -109,7 +109,7 @@ public class TipController {
                     resultMap.put("isLike", tipService.clickLikeButton(decodeId, idx));
                     resultMap.put("isFollow", userFeedService.checkFollowTip(decodeId, idx));
                 }
-                TipDetailViewDto dto = tipService.detailViewTip(idx); // 게시글 세부 조회 서비스 호출
+                TipDetailViewDto dto = tipService.detailViewTip(idx);
                 Cookie oldCookie = null;
                 Cookie[] cookies = request.getCookies();
                 if(cookies != null){
@@ -137,7 +137,7 @@ public class TipController {
                     response.addCookie(newCookie);
                 }
                 resultMap.put("tip",dto);
-                List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx); // 게시글 관련 댓글 조회 서비스 호출
+                List<TipCommentViewDto> list = tipCommentService.viewTipComment(idx);
                 resultMap.put("tipComments", list);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
@@ -156,7 +156,7 @@ public class TipController {
 
         if(decodeId != null){
             try{
-                tipService.updateTip(decodeId, tipUpdateDto, idx); // 게시글 정보 수정 서비스 호출
+                tipService.updateTip(decodeId, tipUpdateDto, idx);
                 resultMap.put("message",okay);
                 status = HttpStatus.OK;
             }catch(Exception e){
@@ -175,7 +175,7 @@ public class TipController {
 
         if(decodeId != null){
             try{
-                tipService.deleteTip(decodeId, idx); // 게시글 삭제 서비스 호출
+                tipService.deleteTip(decodeId, idx);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch (Exception e){
@@ -194,7 +194,7 @@ public class TipController {
 
         if(decodeId != null){
             try{
-                tipCommentService.createTipComment(decodeId, tipCommentCreateDto); // 꿀팁 댓글 작성 서비스 호출
+                tipCommentService.createTipComment(decodeId, tipCommentCreateDto);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch (Exception e){
@@ -213,7 +213,7 @@ public class TipController {
 
         if(decodeId != null){
             try{
-                tipCommentService.updateTipComment(decodeId, idx, tipCommentUpdateDto); // 댓글 수정 서비스 호출
+                tipCommentService.updateTipComment(decodeId, idx, tipCommentUpdateDto);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             }catch (Exception e){

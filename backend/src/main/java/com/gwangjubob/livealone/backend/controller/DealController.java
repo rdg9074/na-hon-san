@@ -25,8 +25,6 @@ public class DealController {
     private static final String okay = "SUCCESS";
     private static final String fail = "FAIL";
     private static final String timeOut = "access-token timeout";
-    private static final String noAreaLoginUser = "login user has not area";
-    private static final String noAreaTargetUser = "target user has not area";
 
     private final JwtService jwtService;
     private final DealService dealService;
@@ -286,12 +284,12 @@ public class DealController {
         Map<String, Object> resultMap = new HashMap<>();
         String loginUserId = checkToken(request, resultMap);
         String targetUserId = userService.getTargetId(nickname);
-        int apiCount = dealService.getApiCount(); // api 호출횟수
+        int apiCount = dealService.getApiCount();
         System.out.println(apiCount);
         if(loginUserId != null) {
             try {
 
-                if(apiCount > 985){ // 호출 횟수 넘어가면 중간위치 조회 x
+                if(apiCount > 985){
                     resultMap.put("message", "too many API Usage");
                     status = HttpStatus.OK;
                 }else{
@@ -309,40 +307,6 @@ public class DealController {
                     }
                     status = HttpStatus.OK;
                 }
-            } catch (Exception e) {
-                resultMap.put("message", fail);
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
-            }
-        }
-
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-    @GetMapping("/honeyDeal/position/test/{nickname}") // 꿀딜 좌표 조회
-    public ResponseEntity<?> getPositionTest(HttpServletRequest request, @PathVariable String nickname){
-        Map<String, Object> resultMap = new HashMap<>();
-        String loginUserId = checkToken(request, resultMap);
-        String targetUserId = userService.getTargetId(nickname);
-
-        if(loginUserId != null) {
-            try {
-                // 사용자 위치 구하는 서비스 호출
-                resultMap.put("loginUserPosition", userService.getPosition(loginUserId));
-                resultMap.put("targetUserPosition", userService.getPosition(targetUserId));
-
-                // 중간 위치 구하는 서비스 호출
-//                resultMap.put("midPositionInfo", dealService.searchMidPositionTest(loginUserId, targetUserId));
-
-                if(userService.getPosition(loginUserId).get("positionX")==null){
-                    resultMap.put("message","loginUserPositionNotFound");
-                }else if(userService.getPosition(targetUserId).get("positionX")==null){
-                    resultMap.put("message","targetUserPositionNotFound");
-                }else{
-                    resultMap.put("midPositionInfo",dealService.searchMidPosition(loginUserId,targetUserId));
-                    resultMap.put("message",okay);
-                }
-
-                status = HttpStatus.OK;
             } catch (Exception e) {
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
