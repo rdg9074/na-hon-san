@@ -755,10 +755,11 @@ public class DealServiceImpl implements DealService {
     @Override
     public long countArea(String area) {
         long cnt = 0;
+        String state = "거래 대기";
         if(area.equals("전체")){
-            cnt = dealRepository.count();
+            cnt = dealRepository.countAllByState(state);
         } else{
-            cnt = dealRepository.countAllByArea(area);
+            cnt = dealRepository.countAllByAreaAndState(area, state);
         }
         return cnt;
     }
