@@ -65,7 +65,7 @@ public class NoticeServiceTest {
     @Test
     public void 읽지_않은_알림개수_조회(){
         // given
-        String decodeId = "ssafy";
+        String decodeId = "test";
         long test = 3;
         // when
         long count = noticeService.countNotice(decodeId);

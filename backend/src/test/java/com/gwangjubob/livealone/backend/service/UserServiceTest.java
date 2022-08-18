@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import org.json.simple.parser.JSONParser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @SpringBootTest
@@ -222,7 +225,8 @@ public class UserServiceTest {
             System.out.println("FAIL");
         }
     }
-    @Test
+
+    @Disabled
     public void 이메일_전송_테스트(){
         //given
         SimpleMailMessage message = new SimpleMailMessage();
@@ -239,6 +243,7 @@ public class UserServiceTest {
                 .id(toId)
                 .type(fromId)
                 .number(authKey)
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
         mailRepository.saveAndFlush(dummyMail);
         javaMailSender.send(message); //메일 전송
@@ -246,6 +251,7 @@ public class UserServiceTest {
                 .id(toId)
                 .type("0")
                 .number(authKey)
+                .time(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
         mailRepository.saveAndFlush(mail);
         //thens

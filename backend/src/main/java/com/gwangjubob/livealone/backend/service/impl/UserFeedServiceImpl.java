@@ -283,13 +283,18 @@ public class UserFeedServiceImpl implements UserFeedService {
 
         List<DealEntity> dealEntityList = new ArrayList<>();
         List<DealDto> result = new ArrayList<>();
+        List<DealEntity> findTop6 = new ArrayList<>();
         for(UserCategoryEntity userCategoryEntity : userCategoryEntityList){ // 사용자가 선택한 카테고리 목록
-            List<DealEntity> findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(user.get(),userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
+            String userArea= null;
+            if(user.get().getArea().isEmpty()){ // 전체 조회
+                findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateOrderByViewDesc(user.get(),userCategoryEntity.getCategory(),"거래 대기");
+            }else{ // 지역으로 조회
+                findTop6 = dealRepository.findTop6ByUserNotAndCategoryAndStateAndAreaOrderByViewDesc(user.get(),userCategoryEntity.getCategory(),"거래 대기",user.get().getArea().substring(0,3));
+            }
             if(!findTop6.isEmpty()){
                 for(DealEntity dealEntity : findTop6){
                     dealEntityList.add(dealEntity);
                 }
-
             }
         }
         HashMap<Integer,Boolean> map = new HashMap<>();//
