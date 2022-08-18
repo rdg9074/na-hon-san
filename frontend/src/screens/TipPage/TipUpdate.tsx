@@ -26,7 +26,6 @@ function TipUpdate() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 수정 전 데이터 불러오기
   useEffect(() => {
     const articleInfo = location.state as Article;
     if (articleInfo.bannerImg) {
@@ -43,7 +42,6 @@ function TipUpdate() {
     navigate(`/tip/detail/${id}`);
   };
 
-  // 썸네일 인풋태그열기 > 파일내리기 > 파일 받기
   const clickInput = () => {
     imgInput.current?.click();
   };
@@ -62,12 +60,10 @@ function TipUpdate() {
     setThumnail(data);
   }, []);
 
-  // 카테고리 변경
   const changeCategory = (cate: string) => {
     setCategory(cate);
   };
 
-  // 유효성 검사
   const chkForm = () => {
     if (!titleRef.current?.value) {
       setErrMsg("제목을 입력해주세요.");
@@ -83,7 +79,6 @@ function TipUpdate() {
     setChk(true);
   };
 
-  // 검사 > 에디터에서 밸류 받기 > DB 전송
   const receiveValue = async (data: string) => {
     const payload = {
       category,

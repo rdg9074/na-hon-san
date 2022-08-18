@@ -54,13 +54,13 @@ function CardCarousel() {
   useEffect(() => {
     if (window.innerWidth > 768) {
       setCurrentView({
-        total: 2,
-        trans: 40
+        total: 1,
+        trans: 50
       });
     } else if (window.innerWidth > 375) {
       setCurrentView({
-        total: 3,
-        trans: 25
+        total: 2,
+        trans: 33.5
       });
     } else
       setCurrentView({

@@ -25,16 +25,10 @@ export const uploadFile = (file: File) => {
 export const deleteFile = (url: string) => {
   const fileUrl = url.split("amazonaws.com/").pop();
   const del = new AWS.S3();
-  del.deleteObject(
-    {
-      Bucket: "gwangjubob",
-      Key: fileUrl as string
-    }
-    // function (err, data) {
-    // if (err) console.log(err, ㄴerr.stack);
-    // else console.log(data);
-    // }
-  );
+  del.deleteObject({
+    Bucket: "gwangjubob",
+    Key: fileUrl as string
+  });
 };
 
 export default {};

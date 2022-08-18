@@ -46,7 +46,6 @@ function CommentEdit({
     }
   }, []);
 
-  // 썸네일 인풋태그열기 > 파일내리기 > 파일 받기
   const clickInput = () => {
     imgInput.current?.click();
   };
@@ -80,13 +79,11 @@ function CommentEdit({
     if (!loading) {
       setLoading(true);
       if (isAuthor) {
-        // 수정일 경우
         const data = {
           content: inputRef.current?.value as string,
           bannerImg: commentImg.replace("data:image/jpeg;base64,", "")
         };
         await commentEdit(commentInfo.idx, data, type);
-        // 대댓글일 경우
       } else {
         const data = {
           postIdx,

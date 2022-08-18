@@ -15,8 +15,6 @@ interface EditorProps {
 function Editor({ editorValue, getValue, update }: EditorProps) {
   const [value, setValue] = useState("");
   const [tmpImg, setTmpImg] = useState([""]);
-
-  // 에디터 커스텀
   const quillRef = useRef<any>(null);
   const toolbarOptions = [["image"], [{ color: [] }, { background: [] }]];
   const modules = {
@@ -25,10 +23,7 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
     }
   };
   useEffect(() => {
-    // 에디터 이미지 첨부 시 커스텀 이미지핸들러 실행
-
     const handleImage = () => {
-      // 인풋 만들어서 업로드
       const input = document.createElement("input");
       input.setAttribute("type", "file");
       input.setAttribute("accept", "image/*");
@@ -41,8 +36,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
           const newImg = new Image();
           const imgUrl = URL.createObjectURL(file);
           newImg.src = imgUrl;
-
-          // 캔버스에 그리면서 리사이징, 컴포넌트로 사용하던거랑 조금 달라서 따로 구현
           const canvas = document.createElement("canvas");
           newImg.onload = async () => {
             const ctx = canvas.getContext("2d");
@@ -51,8 +44,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
             ctx?.drawImage(newImg, 0, 0, 400, 400);
             const dataUrl = canvas.toDataURL("image/jpeg");
             URL.revokeObjectURL(imgUrl);
-
-            // 캔버스로 그리면 dataurl 생성, 생성 된 dataurl > Blob > File 순으로 변경
             const newFile = new File([dataurlToBlob(dataUrl)], v1());
             const url = await uploadFile(newFile);
             setTmpImg(cur => [...cur, url]);
@@ -69,7 +60,6 @@ function Editor({ editorValue, getValue, update }: EditorProps) {
     }
   }, []);
 
-  // update 프롭스가 전달되면 디폴트값 설정
   useEffect(() => {
     if (update) {
       setValue(update);

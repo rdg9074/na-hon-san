@@ -29,7 +29,6 @@ export const commentDelete = async (idx: number, type: string) => {
       Authorization: accessToken
     }
   });
-  console.log(res);
   return res.data;
 };
 

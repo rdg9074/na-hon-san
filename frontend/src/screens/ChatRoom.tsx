@@ -75,12 +75,10 @@ function ChatRoom() {
     }
   };
 
-  // 이미지 인풋 열기
   const clickInput = () => {
     imgInput.current?.click();
   };
 
-  // 이미지 파일 읽고 유효성검사 후 리사이징
   const fileread = () => {
     if (imgInput.current?.files) {
       const file = imgInput.current.files[0];
@@ -91,7 +89,6 @@ function ChatRoom() {
     }
   };
 
-  // 한 파일을 받아서 sendDm
   const receiveFile = async (data: string) => {
     await submitDm("", data.replace("data:image/jpeg;base64,", ""));
     setSendFile(null);

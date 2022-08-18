@@ -25,7 +25,6 @@ function CommentInput({ articleIdx, changed, type }: CommentInputProps) {
   const isLoggedIn = !!useAppSelector(state => state.auth.userInfo);
   const navigate = useNavigate();
 
-  // 썸네일 인풋태그열기 > 파일내리기 > 파일 받기
   const clickInput = () => {
     imgInput.current?.click();
   };

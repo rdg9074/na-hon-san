@@ -27,7 +27,6 @@ function TipEdit() {
     navigate("/tip");
   };
 
-  // 썸네일 인풋태그열기 > 파일내리기 > 파일 받기
   const clickInput = () => {
     imgInput.current?.click();
   };
@@ -46,12 +45,10 @@ function TipEdit() {
     setThumnail(data);
   }, []);
 
-  // 카테고리 변경
   const changeCategory = (cate: string) => {
     setCategory(cate);
   };
 
-  // 유효성 검사
   const chkForm = () => {
     if (!titleRef.current?.value) {
       setErrMsg("제목을 입력해주세요.");
@@ -67,7 +64,6 @@ function TipEdit() {
     setChk(true);
   };
 
-  // 검사 > 에디터에서 밸류 받기 > DB 전송
   const receiveValue = async (data: string) => {
     const payload = {
       category,

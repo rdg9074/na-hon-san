@@ -26,7 +26,6 @@ function DealPage() {
           userInfo?.area?.split(" ")[0].slice(0, 2) as string
         );
         setAreaDetail(res.countArea);
-        // setAreaDetail()
       } else {
         const res = await areaCount("전체");
         setAreaDetail(res.countArea);

@@ -1,10 +1,10 @@
 #usercarousel {
   .empty-message {
-    width: (970px);
+    width: (1250px);
     height: (395px);
     text-align: center;
   }
-  width: (970px);
+  width: (1250px);
   margin-top: (60px);
   position: relative;
   .container {
@@ -47,10 +47,10 @@
 @media screen and(max-width :$DESKTOP-VW) {
   #usercarousel {
     .empty-message {
-      width: vw(970px);
+      width: vw(1250px);
       height: vw(395px);
     }
-    width: vw(970px);
+    width: vw(1250px);
     margin-top: vw(60px);
     #card {
       margin-left: vw(24px);
@@ -76,24 +76,24 @@
 @media screen and(max-width :$TABLET-VW) {
   #usercarousel {
     .empty-message {
-      width: vw-t(568px);
+      width: vw-t(733px);
       height: vw-t(333px);
     }
-    width: vw-t(568px);
+    width: vw-t(733px);
     margin-top: vw-t(60px);
     #card {
       margin-left: vw-t(24px);
       margin-right: vw-t(24px);
     }
     .prevbtn {
-      left: vw-t(-36px);
+      left: vw-t(-4px);
       & > img {
         height: vw-t(48px);
         width: vw-t(48px);
       }
     }
     .nextbtn {
-      right: vw-t(-36px);
+      right: vw-t(-4px);
       & > img {
         height: vw-t(48px);
         width: vw-t(48px);

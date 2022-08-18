@@ -20,6 +20,4 @@ export const dmSlice = createSlice({
   }
 });
 
-// export const {} = dmSlice.actions;
-
 export default dmSlice.reducer;
