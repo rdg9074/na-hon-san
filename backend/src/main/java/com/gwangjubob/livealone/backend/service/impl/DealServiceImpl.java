@@ -132,6 +132,9 @@ public class DealServiceImpl implements DealService {
         if(optionalDeal.isPresent() && optionalUser.isPresent()){
             DealEntity deal = optionalDeal.get();
             UserEntity user = optionalUser.get();
+            String area = user.getArea().split(" ")[0];
+            deal.setArea(area);
+            dealRepository.save(deal);
             if(deal.getUser().getId().equals(user.getId())){
                 dealMapper.updateFromDto(dealDto, deal);
                 deal.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
