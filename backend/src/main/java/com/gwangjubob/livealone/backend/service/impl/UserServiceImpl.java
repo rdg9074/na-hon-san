@@ -113,21 +113,23 @@ public class UserServiceImpl implements UserService {
     public void moreUpdate(UserMoreDTO userMoreDTO) {
         UserEntity user = userRepository.findById(userMoreDTO.getUserId()).get();
         if(user != null){
-            user.setArea(userMoreDTO.getArea());
-            userRepository.save(user);
-            String area = userMoreDTO.getArea().split(" ")[0].substring(0,2);
+            if(!userMoreDTO.getArea().isBlank()){
+                String area = userMoreDTO.getArea().split(" ")[0].substring(0,2);
+                user.setArea(userMoreDTO.getArea());
+                userRepository.save(user);
+                List<DealEntity> deals = dealRepository.findByUser(user);
+                if(!deals.isEmpty()){
+                    for(DealEntity deal : deals){
+                        deal.setArea(area);
+                        dealRepository.save(deal);
+                    }
+                }
+            }
             Map<String, Double> location = getXYLocation(user.getId());
-
             user.setAreaX(location.get("areaX"));
             user.setAreaY(location.get("areaY"));
             userRepository.save(user);
-            List<DealEntity> deals = dealRepository.findByUser(user);
-            if(!deals.isEmpty()){
-                for(DealEntity deal : deals){
-                    deal.setArea(area);
-                    dealRepository.save(deal);
-                }
-            }
+
             List<UserCategoryEntity> delCategorys = userCategoryRepository.findByUser(user);
             for (UserCategoryEntity uc : delCategorys) {
                 userCategoryRepository.delete(uc);
