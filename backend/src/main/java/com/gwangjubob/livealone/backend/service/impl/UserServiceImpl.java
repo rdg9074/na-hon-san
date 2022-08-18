@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         if(user != null){
             user.setArea(userMoreDTO.getArea());
             userRepository.save(user);
-            String area = userMoreDTO.getArea().split(" ")[0];
+            String area = userMoreDTO.getArea().split(" ")[0].substring(0,2);
             Map<String, Double> location = getXYLocation(user.getId());
 
             user.setAreaX(location.get("areaX"));
