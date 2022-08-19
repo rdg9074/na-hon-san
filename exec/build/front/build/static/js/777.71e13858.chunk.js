@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[777],{73414:function(e,a,c){c(72791);a.Z=c.p+"static/media/HoneyRecipe.c0d707a7e2265a5233877f7b87f8e3a4.svg"},63748:function(e,a,c){c(72791);a.Z=c.p+"static/media/HoneyTem.440c6e232ac0918178fad0a1ee9f2dca.svg"},4377:function(e,a,c){c(72791);a.Z=c.p+"static/media/HoneyTip.ecc15a0363772807787077baac741713.svg"}}]);
+//# sourceMappingURL=777.71e13858.chunk.js.map

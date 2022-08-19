@@ -1,0 +1,99 @@
+#alarm-tool-tip {
+  color: $BLACK;
+  border-radius: (4px);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+
+  &::before {
+    content: "";
+    position: absolute;
+    border-bottom: (20px) solid $HEADER_TOOLTIP;
+    border-right: (10px) solid transparent;
+    border-left: (10px) solid transparent;
+    top: (-20px);
+    left: (165px);
+  }
+
+  .alarm-list {
+    width: (329px);
+    max-height: (384px);
+    overflow-y: auto;
+  }
+
+  .no-content {
+    height: (64px);
+    background-color: $HEADER_TOOLTIP;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #alarm-tool-tip {
+    color: $BLACK;
+    border-radius: vw(4px);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-bottom: vw(20px) solid $HEADER_TOOLTIP;
+      border-right: vw(10px) solid transparent;
+      border-left: vw(10px) solid transparent;
+      top: vw(-20px);
+      left: vw(165px);
+    }
+
+    .alarm-list {
+      width: vw(329px);
+      max-height: vw(384px);
+      overflow-y: auto;
+    }
+
+    .no-content {
+      height: vw(64px);
+      background-color: $HEADER_TOOLTIP;
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #alarm-tool-tip {
+    border-radius: vw-t(4px);
+
+    &::before {
+      border-bottom: vw-t(20px) solid $HEADER_TOOLTIP;
+      border-right: vw-t(10px) solid transparent;
+      border-left: vw-t(10px) solid transparent;
+      top: vw-t(-20px);
+      left: vw-t(165px);
+    }
+
+    .alarm-list {
+      width: vw-t(329px);
+      max-height: vw-t(384px);
+    }
+
+    .no-content {
+      height: vw-t(64px);
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #alarm-tool-tip {
+    border-radius: vw-p(4px);
+    &::before {
+      border-bottom: vw-p(20px) solid $HEADER_TOOLTIP;
+      border-right: vw-p(10px) solid transparent;
+      border-left: vw-p(10px) solid transparent;
+      top: vw-p(-20px);
+    }
+
+    .alarm-list {
+      width: vw-p(329px);
+      max-height: vw-p(384px);
+    }
+
+    .no-content {
+      height: vw-p(64px);
+    }
+  }
+}

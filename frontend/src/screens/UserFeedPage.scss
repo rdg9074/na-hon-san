@@ -1,0 +1,375 @@
+#userfeed-page {
+  .grey {
+    background-color: #d9d9d9;
+  }
+  .yellow {
+    background-color: $MAIN_YELLOW;
+  }
+  padding-bottom: (40px);
+  .profile {
+    margin-top: (60px);
+    position: relative;
+    width: (570px);
+    &-background {
+      height: (200px);
+      & .sk {
+        height: 200px;
+        border-radius: (24px);
+      }
+      &__img {
+        border-radius: (24px);
+        height: (200px);
+      }
+    }
+    &-user {
+      position: absolute;
+      top: (140px);
+      left: (225px);
+      width: (120px);
+      &__img {
+        background-color: #fff;
+        height: (120px);
+        width: (120px);
+        border-radius: 100%;
+      }
+    }
+  }
+  .info {
+    margin-top: (80px);
+    width: (320px);
+    text-align: center;
+
+    &__nickname {
+      position: relative;
+      font-size: (24px);
+      & img {
+        top: 0;
+        left: (280px);
+        position: absolute;
+        height: (24px);
+        width: (24px);
+      }
+    }
+    &__follow {
+      justify-content: space-evenly;
+      margin-top: (12px);
+      font-size: (12px);
+      & > button > span {
+        margin-left: (8px);
+      }
+    }
+    &__btn {
+      justify-content: space-evenly;
+      margin-top: (12px);
+      & > button {
+        font-family: "NotoSansBold";
+        height: (32px);
+        width: (100px);
+        font-size: (16px);
+        border-radius: (12px);
+      }
+    }
+    &__state {
+      justify-content: center;
+      width: 100%;
+      & textarea {
+        margin-top: (20px);
+        padding: (12px);
+        width: (320px);
+        height: (140px);
+        resize: none;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+  .feed {
+    width: (970px);
+    margin-top: (60px);
+    &-tag {
+      width: 100%;
+      justify-content: space-evenly;
+      margin-bottom: (40px);
+      & > button {
+        font-size: (24px);
+        height: (48px);
+        & > span {
+          margin-left: (8px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #userfeed-page {
+    padding-bottom: vw(40px);
+    .profile {
+      margin-top: vw(60px);
+      position: relative;
+      width: vw(570px);
+      &-background {
+        height: vw(200px);
+        &__img {
+          border-radius: vw(24px);
+          height: vw(200px);
+        }
+      }
+      &-user {
+        position: absolute;
+        top: vw(140px);
+        left: vw(225px);
+        width: vw(120px);
+        &__img {
+          background-color: #fff;
+          height: vw(120px);
+          width: vw(120px);
+          border-radius: 100%;
+        }
+      }
+    }
+    .info {
+      margin-top: vw(80px);
+      width: vw(320px);
+      text-align: center;
+      &__nickname {
+        position: relative;
+        font-size: vw(24px);
+        & img {
+          top: 0;
+          left: vw(280px);
+          position: absolute;
+          height: vw(24px);
+          width: vw(24px);
+        }
+      }
+      &__follow {
+        justify-content: space-evenly;
+        margin-top: vw(12px);
+        font-size: vw(12px);
+        & > p > span {
+          margin-left: (8px);
+        }
+      }
+      &__btn {
+        justify-content: space-evenly;
+        margin-top: vw(12px);
+        & > button {
+          font-family: "NotoSansBold";
+          height: vw(32px);
+          width: vw(100px);
+          font-size: vw(16px);
+          border-radius: vw(12px);
+        }
+      }
+      &__state {
+        & textarea {
+          margin-top: (20px);
+          padding: (12px);
+          width: (320px);
+          height: (140px);
+        }
+      }
+    }
+    .feed {
+      width: vw(970px);
+      margin-top: vw(60px);
+      &-tag {
+        width: 100%;
+        justify-content: space-evenly;
+        margin-bottom: vw(40px);
+        & > button {
+          font-size: (24px);
+          height: (48px);
+          & > span {
+            margin-left: (8px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #userfeed-page {
+    padding-bottom: vw-t(40px);
+    .profile {
+      margin-top: vw-t(60px);
+      position: relative;
+      width: vw-t(570px);
+      &-background {
+        height: vw-t(200px);
+        &__img {
+          border-radius: vw-t(24px);
+          height: vw-t(200px);
+        }
+      }
+      &-user {
+        position: absolute;
+        top: vw-t(140px);
+        left: vw-t(225px);
+        width: vw-t(120px);
+        &__img {
+          background-color: #fff;
+          height: vw-t(120px);
+          width: vw-t(120px);
+          border-radius: 100%;
+        }
+      }
+    }
+    .info {
+      margin-top: vw-t(80px);
+      width: vw-t(320px);
+      text-align: center;
+      &__nickname {
+        position: relative;
+        font-size: vw-t(24px);
+        & img {
+          top: 0;
+          left: vw-t(280px);
+          position: absolute;
+          height: vw-t(24px);
+          width: vw-t(24px);
+        }
+      }
+      &__follow {
+        justify-content: space-evenly;
+        margin-top: vw-t(12px);
+        font-size: vw-t(12px);
+        & > p > span {
+          margin-left: (8px);
+        }
+      }
+      &__btn {
+        justify-content: space-evenly;
+        margin-top: vw-t(12px);
+        & > button {
+          font-family: "NotoSansBold";
+          height: vw-t(32px);
+          width: vw-t(100px);
+          font-size: vw-t(16px);
+          border-radius: vw-t(12px);
+        }
+      }
+      &__state {
+        text-align: start;
+        font-size: vw-t(16px);
+        padding-left: vw-t(24px);
+        padding-right: vw-t(24px);
+        line-height: vw-t(24px);
+      }
+    }
+    .feed {
+      width: vw-t(748px);
+      padding: vw-t(20px);
+      margin-top: vw-t(60px);
+      &-tag {
+        width: 100%;
+        justify-content: space-evenly;
+        margin-bottom: vw-t(40px);
+        & > button {
+          font-size: vw-t(24px);
+          height: vw-t(48px);
+          & > span {
+            margin-left: vw-t(8px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #userfeed-page {
+    padding-bottom: vw-p(40px);
+    .profile {
+      margin-top: vw-p(40px);
+      position: relative;
+      width: 100%;
+      &-background {
+        height: vw-p(200px);
+        & .sk {
+          border-radius: 0px;
+        }
+        &__img {
+          height: vw-p(200px);
+          border-radius: 0px;
+        }
+      }
+      &-user {
+        position: absolute;
+        top: vw-p(140px);
+        left: vw-p(125px);
+        width: vw-p(120px);
+        &__img {
+          background-color: #fff;
+          height: vw-p(125px);
+          width: vw-p(125px);
+          border-radius: 100%;
+        }
+      }
+    }
+    .info {
+      margin-top: vw-p(80px);
+      width: vw-p(320px);
+      text-align: center;
+      &__nickname {
+        position: relative;
+        font-size: vw-p(24px);
+        & img {
+          top: 0;
+          left: vw-p(280px);
+          position: absolute;
+          height: vw-p(24px);
+          width: vw-p(24px);
+        }
+      }
+      &__follow {
+        justify-content: space-evenly;
+        margin-top: vw-p(12px);
+        font-size: vw-p(12px);
+        & > p > span {
+          margin-left: (8px);
+        }
+      }
+      &__btn {
+        justify-content: space-evenly;
+        margin-top: vw-p(12px);
+        & > button {
+          font-family: "NotoSansBold";
+          height: vw-p(32px);
+          width: vw-p(100px);
+          font-size: vw-p(16px);
+          border-radius: vw-p(12px);
+        }
+      }
+      &__state {
+        text-align: start;
+        font-size: vw-p(10px);
+        padding-left: vw-p(36px);
+        padding-right: vw-p(12px);
+        line-height: vw-p(20px);
+      }
+    }
+    .feed {
+      width: vw-p(375px);
+      margin-top: vw-p(20px);
+      &-tag {
+        width: 100%;
+        justify-content: space-evenly;
+        & > button {
+          font-size: vw-p(16px);
+          height: vw-p(48px);
+          & > span {
+            margin-left: vw-p(8px);
+          }
+        }
+      }
+    }
+  }
+}
+
+.active {
+  color: $MAIN_YELLOW;
+  border-bottom: solid 2px $MAIN_YELLOW;
+}

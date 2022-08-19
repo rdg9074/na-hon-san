@@ -1,0 +1,255 @@
+@mixin box {
+  width: (329px);
+  height: (48px);
+  border-radius: (4px);
+}
+
+#login {
+  margin: (44px) (483px) (41px) (484px);
+  padding: (64px) (72px) (48px) (72px);
+
+  border: 1px solid $GRAY_DB;
+  border-radius: (20px);
+  .header {
+    &__title {
+      margin-bottom: (40px);
+      line-height: (35px);
+    }
+  }
+  .or {
+    margin: (32px) 0;
+    height: (20px);
+    &__line {
+      width: (138px);
+      height: (1px);
+      background-color: $GRAY_CB;
+    }
+    &__title {
+      white-space: nowrap;
+      color: $GRAY-CB;
+      margin: 0 (12px);
+    }
+  }
+  .form {
+    &__title {
+      margin-bottom: (12px);
+    }
+
+    &__input {
+      @include box();
+      margin-bottom: (20px);
+      padding: (12px);
+      border: 1px solid $GRAY_DB;
+    }
+
+    &__msg {
+      height: 12px;
+      margin-bottom: (28px);
+      color: $RED;
+    }
+
+    &__btn {
+      @include box();
+      margin-bottom: (24px);
+      background-color: $MAIN_YELLOW;
+    }
+  }
+  .footer {
+    color: $GRAY_76;
+    &__container + .footer__container {
+      margin-top: (8px);
+    }
+    &__msg {
+      margin-right: (8px);
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  @mixin box {
+    width: vw(329px);
+    height: vw(48px);
+    border-radius: vw(4px);
+  }
+
+  #login {
+    margin: vw(44px) vw(483px) vw(41px) vw(484px);
+    padding: vw(64px) vw(72px) vw(48px) vw(72px);
+
+    border: 1px solid $GRAY_DB;
+    border-radius: vw(20px);
+    .header {
+      &__title {
+        margin-bottom: vw(40px);
+        line-height: vw(35px);
+      }
+    }
+    .or {
+      margin: vw(32px) 0;
+      height: vw(20px);
+      &__line {
+        width: vw(138px);
+        height: vw(1px);
+        background-color: $GRAY_CB;
+      }
+      &__title {
+        color: $GRAY-CB;
+        margin: 0 vw(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw(12px);
+      }
+
+      &__input {
+        @include box();
+        margin-bottom: vw(20px);
+        padding: vw(12px);
+        border: 1px solid $GRAY_DB;
+      }
+
+      &__msg {
+        height: vw(12px);
+        margin-bottom: vw(28px);
+        color: $RED;
+      }
+
+      &__btn {
+        @include box();
+        margin-bottom: vw(24px);
+        background-color: $MAIN_YELLOW;
+      }
+    }
+    .footer {
+      color: $GRAY_76;
+      &__container + .footer__container {
+        margin-top: vw(8px);
+      }
+      &__msg {
+        margin-right: vw(8px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  @mixin box {
+    width: vw-t(329px);
+    height: vw-t(48px);
+    border-radius: vw-t(4px);
+  }
+
+  #login {
+    margin: vw-t(44px) vw-t(148px) vw-t(41px) vw-t(147px);
+    padding: vw-t(64px) vw-t(72px) vw-t(48px) vw-t(72px);
+
+    border-radius: vw-t(20px);
+    .header {
+      &__title {
+        margin-bottom: vw-t(40px);
+        line-height: vw-t(35px);
+      }
+    }
+    .or {
+      margin: vw-t(32px) 0;
+      height: vw-t(20px);
+      &__line {
+        width: vw-t(138px);
+        height: vw-t(1px);
+      }
+      &__title {
+        margin: 0 vw-t(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-t(12px);
+      }
+
+      &__input {
+        @include box();
+        margin-bottom: vw-t(20px);
+        padding: vw-t(12px);
+      }
+
+      &__msg {
+        height: vw-t(12px);
+        margin-bottom: vw-t(28px);
+      }
+
+      &__btn {
+        @include box();
+        margin-bottom: vw-t(24px);
+      }
+    }
+    .footer {
+      &__container + .footer__container {
+        margin-top: vw-t(8px);
+      }
+      &__msg {
+        margin-right: vw-t(8px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  @mixin box {
+    width: vw-p(329px);
+    height: vw-p(48px);
+    border-radius: vw-p(4px);
+  }
+
+  #login {
+    margin: vw-p(32px) vw-p(23px) vw-p(21px) vw-p(23px);
+    padding: 0;
+    border: 0;
+    .header {
+      &__title {
+        margin-bottom: vw-p(24px);
+        line-height: vw-p(35px);
+      }
+    }
+    .or {
+      margin: vw-p(16px) 0;
+      height: vw-p(20px);
+      &__line {
+        width: vw-p(138px);
+        height: vw-p(1px);
+      }
+      &__title {
+        margin: 0 vw-p(12px);
+      }
+    }
+    .form {
+      &__title {
+        margin-bottom: vw-p(12px);
+      }
+
+      &__input {
+        @include box();
+        margin-bottom: vw-p(20px);
+        padding: vw-p(12px);
+      }
+
+      &__msg {
+        height: vw-p(12px);
+        margin-bottom: vw-p(28px);
+      }
+
+      &__btn {
+        @include box();
+        margin-bottom: vw-p(24px);
+      }
+    }
+    .footer {
+      &__container + .footer__container {
+        margin-top: vw-p(8px);
+      }
+      &__msg {
+        margin-right: vw-p(8px);
+      }
+    }
+  }
+}

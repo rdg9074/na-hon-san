@@ -1,0 +1,429 @@
+#reply-item {
+  margin-bottom: (24px);
+  .reply-item {
+    width: (470px);
+    margin: auto;
+    & .arrow {
+      width: 10%;
+      padding-top: (8px);
+      & img {
+        width: (24px);
+        height: (24px);
+      }
+    }
+    & .reply-wrapper {
+      width: 90%;
+      border-radius: (24px);
+      border: 1px solid #d9d9d9;
+      padding: (12px);
+      .reply-head {
+        width: 90%;
+        height: (52px);
+        border-bottom: 1px solid #d9d9d9;
+        &-profile {
+          width: 70%;
+          &_img {
+            margin-right: (16px);
+            & img {
+              width: (32px);
+              height: (32px);
+              border-radius: (12px);
+            }
+          }
+          &_info {
+            font-size: (12px);
+            & :nth-child(2) {
+              margin-top: (4px);
+              font-size: (10px);
+              color: #888;
+            }
+          }
+        }
+        &-map {
+          width: 30%;
+          align-items: center;
+          & img {
+            width: (32px);
+            height: (32px);
+          }
+        }
+      }
+    }
+    .reply-body {
+      padding: (20px) (4px) (12px) (4px);
+      width: 90%;
+      .reply-img-container {
+        margin-right: (24px);
+        align-items: center;
+        & img {
+          width: (80px);
+          height: (80px);
+          border-radius: (12px);
+        }
+      }
+      &-content {
+        width: 100%;
+        justify-content: space-between;
+        &_text {
+          font-size: (12px);
+        }
+        &_btn {
+          margin-top: (24px);
+          justify-content: flex-end;
+          & > button {
+            margin-right: (8px);
+            font-size: (10px);
+            color: #666;
+          }
+        }
+      }
+    }
+    & .edit-input {
+      & > button {
+        margin-left: (4px);
+      }
+      width: (470px);
+      margin-top: (32px);
+      justify-content: space-between;
+      & .empty-space {
+        width: 10%;
+      }
+      & #comment-input {
+        width: 90%;
+        & > input[type="text"] {
+          width: 100%;
+          height: (36px);
+          border: solid 2px #d9d9d9;
+          border-radius: (12px);
+          padding-left: (12px);
+          padding-right: (40px);
+          font-size: (12px);
+          &:focus {
+            box-shadow: none;
+          }
+          &::placeholder {
+            font-size: (12px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #reply-item {
+    margin-bottom: vw(24px);
+    .reply-item {
+      width: vw(470px);
+      margin: auto;
+      & .arrow {
+        width: 10%;
+        padding-top: vw(8px);
+        & img {
+          width: vw(24px);
+          height: vw(24px);
+        }
+      }
+      & .reply-wrapper {
+        width: 90%;
+        border-radius: vw(24px);
+        border: 1px solid #d9d9d9;
+        padding: vw(12px);
+        .reply-head {
+          width: 90%;
+          height: vw(52px);
+          border-bottom: 1px solid #d9d9d9;
+          &-profile {
+            width: 70%;
+            &_img {
+              margin-right: vw(16px);
+              & > img {
+                width: vw(32px);
+                height: vw(32px);
+                border-radius: vw(12px);
+              }
+            }
+            &_info {
+              font-size: vw(12px);
+              & :nth-childvw(2) {
+                margin-top: vw(4px);
+                font-size: vw(10px);
+                color: #888;
+              }
+            }
+          }
+          &-map {
+            width: 30%;
+            align-items: center;
+            & img {
+              width: vw(32px);
+              height: vw(32px);
+            }
+          }
+        }
+      }
+      .reply-body {
+        padding: vw(20px) vw(4px) vw(12px) vw(4px);
+        width: 90%;
+        .reply-img-container {
+          margin-right: vw(24px);
+          align-items: center;
+          & img {
+            width: vw(80px);
+            height: vw(80px);
+            border-radius: vw(12px);
+          }
+        }
+        &-content {
+          justify-content: space-between;
+          &_text {
+            font-size: vw(12px);
+          }
+          &_btn {
+            margin-top: vw(24px);
+            justify-content: flex-end;
+            & > button {
+              margin-right: vw(8px);
+              font-size: vw(12px);
+              color: #666;
+            }
+          }
+        }
+      }
+      & .edit-input {
+        width: vw(470px);
+        margin-top: vw(32px);
+        justify-content: space-between;
+        & .empty-space {
+          width: 10%;
+        }
+        & #comment-input {
+          width: 90%;
+          & > input[type="text"] {
+            width: 100%;
+            height: (36px);
+            border: solid 2px #d9d9d9;
+            border-radius: vw(12px);
+            padding-left: vw(12px);
+            font-size: vw(12px);
+            &:focus {
+              box-shadow: none;
+            }
+            &::placeholder {
+              font-size: vw(12px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #reply-item {
+    margin-bottom: vw-t(24px);
+    .reply-item {
+      width: vw-t(370px);
+      margin: auto;
+      & .arrow {
+        width: 10%;
+        padding-top: vw-t(8px);
+        & img {
+          width: vw-t(24px);
+          height: vw-t(24px);
+        }
+      }
+      & .reply-wrapper {
+        width: 90%;
+        border-radius: vw-t(24px);
+        padding: vw-t(12px);
+        .reply-head {
+          width: 90%;
+          height: vw-t(52px);
+          &-profile {
+            width: 70%;
+            &_img {
+              margin-right: vw-t(16px);
+              & img {
+                width: vw-t(32px);
+                height: vw-t(32px);
+                border-radius: vw-t(12px);
+              }
+            }
+            &_info {
+              font-size: vw-t(12px);
+              & :nth-childvw-t(2) {
+                margin-top: vw-t(4px);
+                font-size: vw-t(10px);
+                color: #888;
+              }
+            }
+          }
+          &-map {
+            width: 30%;
+            align-items: center;
+            & img {
+              width: vw-t(32px);
+              height: vw-t(32px);
+            }
+          }
+        }
+      }
+      .reply-body {
+        padding: vw-t(20px) vw-t(4px) vw-t(12px) vw-t(4px);
+        width: 90%;
+        .reply-img-container {
+          margin-right: vw-t(24px);
+          align-items: center;
+          & img {
+            width: vw-t(80px);
+            height: vw-t(80px);
+            border-radius: vw-t(12px);
+          }
+        }
+        &-content {
+          justify-content: space-between;
+          &_text {
+            font-size: vw-t(12px);
+          }
+          &_btn {
+            margin-top: vw-t(24px);
+            justify-content: flex-end;
+            & > button {
+              margin-right: vw-t(8px);
+              font-size: vw-t(12px);
+              color: #666;
+            }
+          }
+        }
+      }
+      & .edit-input {
+        width: vw-t(370px);
+        margin-top: vw-t(32px);
+        justify-content: space-between;
+        & .empty-space {
+          width: 10%;
+        }
+        & #comment-input {
+          width: 90%;
+          & > input[type="text"] {
+            width: 100%;
+            height: (36px);
+            border: solid 2px #d9d9d9;
+            border-radius: vw-t(12px);
+            padding-left: vw-t(12px);
+            font-size: vw-t(12px);
+            &:focus {
+              box-shadow: none;
+            }
+            &::placeholder {
+              font-size: vw-t(12px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #reply-item {
+    margin-bottom: vw-p(24px);
+    .reply-item {
+      width: vw-p(320px);
+      margin: auto;
+      & .arrow {
+        width: 10%;
+        padding-top: vw-p(8px);
+        & img {
+          width: vw-p(24px);
+          height: vw-p(24px);
+        }
+      }
+      & .reply-wrapper {
+        width: 90%;
+        border-radius: vw-p(12px);
+        padding: vw-p(12px);
+        .reply-head {
+          width: 90%;
+          height: vw-p(52px);
+          &-profile {
+            width: 70%;
+            &_img {
+              margin-right: vw-p(16px);
+              & img {
+                width: vw-p(32px);
+                height: vw-p(32px);
+                border-radius: vw-p(12px);
+              }
+            }
+            &_info {
+              font-size: vw-p(12px);
+              & :nth-childvw-p(2) {
+                margin-top: vw-p(4px);
+                font-size: vw-p(10px);
+              }
+            }
+          }
+          &-map {
+            width: 30%;
+            & img {
+              width: vw-p(32px);
+              height: vw-p(32px);
+            }
+          }
+        }
+      }
+      .reply-body {
+        padding: vw-p(20px) vw-p(4px) vw-p(12px) vw-p(4px);
+        width: 90%;
+        .img-container {
+          margin-right: vw-p(24px);
+          & img {
+            width: vw-p(80px);
+            height: vw-p(80px);
+            border-radius: vw-p(12px);
+          }
+        }
+        &-content {
+          &_text {
+            font-size: vw-p(12px);
+          }
+          &_btn {
+            margin-top: vw-p(24px);
+            & > button {
+              margin-right: vw-p(12px);
+              font-size: vw-p(10px);
+            }
+          }
+        }
+      }
+      & .edit-input {
+        width: vw-p(320px);
+        margin-left: vw-p(4px);
+        margin-top: vw-p(32px);
+        justify-content: space-between;
+        & .empty-space {
+          width: 10%;
+        }
+        & #comment-input {
+          width: 90%;
+          & > input[type="text"] {
+            width: 100%;
+            height: (36px);
+            border: solid 2px #d9d9d9;
+            border-radius: vw-p(12px);
+            padding-left: vw-p(12px);
+            font-size: vw-p(12px);
+            &:focus {
+              box-shadow: none;
+            }
+            &::placeholder {
+              font-size: vw-p(12px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
