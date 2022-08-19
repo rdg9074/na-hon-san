@@ -1,0 +1,187 @@
+#news {
+  width: (800px);
+  height: (240px);
+  margin-top: (40px);
+  border-bottom: 1px solid black;
+
+  .item {
+    &__img {
+      width: (200px);
+      height: (200px);
+      margin-right: (40px);
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &__content {
+      width: (560px);
+      height: (200px);
+      &__head {
+        width: (560px);
+        height: (80px);
+        align-items: center;
+        &__title {
+          font-size: (24px);
+        }
+        &__date {
+          font-size: (16px);
+        }
+      }
+      &__description {
+        width: (560px);
+        height: (82px);
+        font-size: (20px);
+        padding-bottom: (2px);
+
+        white-space: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
+}
+@media screen and (max-width: $DESKTOP-VW) {
+  #news {
+    width: vw(800px);
+    height: vw(248px);
+    margin-top: vw(52px);
+    border-bottom: 1px solid black;
+
+    .item {
+      &__img {
+        width: vw(200px);
+        height: vw(200px);
+        margin-right: vw(40px);
+        & > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &__content {
+        width: vw(560px);
+        height: vw(200px);
+        &__head {
+          width: vw(560px);
+          height: vw(80px);
+          align-items: center;
+          &__title {
+            font-size: vw(24px);
+          }
+          &__date {
+            font-size: vw(16px);
+          }
+        }
+        &__description {
+          width: vw(560px);
+          height: vw(81px);
+          font-size: vw(20px);
+          padding-bottom: vw(2px);
+
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $TABLET-VW) {
+  #news {
+    width: vw-t(540px);
+    height: vw-t(152px);
+    margin-top: vw-t(30px);
+    border-bottom: 1px solid black;
+
+    .item {
+      &__img {
+        width: vw-t(120px);
+        height: vw-t(120px);
+        margin-right: vw-t(20px);
+        & > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &__content {
+        width: vw-t(400px);
+        height: vw-t(120px);
+        &__head {
+          width: vw-t(400px);
+          height: vw-t(48px);
+          align-items: center;
+          &__title {
+            font-size: vw-t(16px);
+          }
+          &__date {
+            font-size: vw-t(12px);
+          }
+        }
+        &__description {
+          width: vw-t(400px);
+          height: vw-t(45px);
+          font-size: vw-t(15px);
+          padding-bottom: vw-t(2px);
+
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #news {
+    width: vw-p(260px);
+    height: vw-p(80px);
+    margin-top: vw-p(20px);
+    border-bottom: 1px solid black;
+
+    .item {
+      &__img {
+        width: vw-p(60px);
+        height: vw-p(60px);
+        margin-right: vw-p(10px);
+        & > img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &__content {
+        width: vw-p(190px);
+        height: vw-p(60px);
+        &__head {
+          width: vw-p(190px);
+          height: vw-p(24px);
+          align-items: center;
+          &__title {
+            font-size: vw-p(12px);
+          }
+          &__date {
+            font-size: vw-p(8px);
+          }
+        }
+        &__description {
+          width: vw-p(190px);
+          height: vw-p(25px);
+          font-size: vw-p(8px);
+          // padding-bottom: vw-p(2px);
+
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+}

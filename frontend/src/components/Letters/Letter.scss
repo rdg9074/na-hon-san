@@ -1,0 +1,141 @@
+.read {
+  color: $SKELETON;
+  .letter__count {
+    visibility: hidden;
+  }
+}
+#letter {
+  width: (329px);
+  height: (100px);
+  border-bottom: 1px solid $GRAY_9E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .letter {
+    &__user-img {
+      margin: 0 (8px);
+      width: (48px);
+      height: (48px);
+      border-radius: 50%;
+    }
+    &__user-nick-name {
+      margin-bottom: (4px);
+    }
+    &__desc {
+      margin-right: (8px);
+      width: (219px);
+      line-height: (16px);
+    }
+    &__sub {
+      height: (40px);
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    &__count {
+      padding: 4px;
+      width: 24px;
+      border-radius: 40px;
+      background-color: $SKELETON;
+    }
+
+    &__time {
+      white-space: nowrap;
+    }
+  }
+}
+@media screen and (max-width: $DESKTOP-VW) {
+  #letter {
+    width: vw(329px);
+    height: vw(100px);
+
+    .letter {
+      &__user-img {
+        margin: 0 vw(8px);
+        width: vw(48px);
+        height: vw(48px);
+      }
+      &__user-nick-name {
+        margin-bottom: vw(4px);
+      }
+      &__desc {
+        margin-right: vw(8px);
+        width: vw(219px);
+        line-height: vw(16px);
+      }
+      &__sub {
+        height: vw(40px);
+      }
+      &__count {
+        padding: vw(4px);
+        border-radius: vw(40px);
+      }
+      &__time {
+      }
+    }
+  }
+}
+@media screen and (max-width: $TABLET-VW) {
+  #letter {
+    width: vw-t(329px);
+    height: vw-t(100px);
+
+    .letter {
+      &__user-img {
+        margin: 0 vw-t(8px);
+        width: vw-t(48px);
+        height: vw-t(48px);
+      }
+      &__user-nick-name {
+        margin-bottom: vw-t(4px);
+      }
+      &__desc {
+        margin-right: vw-t(8px);
+        width: vw-t(219px);
+        line-height: vw-t(16px);
+      }
+
+      &__sub {
+        height: vw-t(40px);
+      }
+      &__count {
+        padding: vw-t(4px);
+        border-radius: vw-t(40px);
+      }
+      &__time {
+      }
+    }
+  }
+}
+@media screen and (max-width: $PHONE-VW) {
+  #letter {
+    width: vw-p(329px);
+    height: vw-p(100px);
+
+    .letter {
+      &__user-img {
+        margin: 0 vw-p(8px);
+        width: vw-p(48px);
+        height: vw-p(48px);
+      }
+      &__user-nick-name {
+        margin-bottom: vw-p(4px);
+      }
+      &__desc {
+        margin-right: vw-p(8px);
+        width: vw-p(219px);
+        line-height: vw-p(16px);
+      }
+
+      &__sub {
+        height: vw-p(40px);
+      }
+      &__count {
+        padding: vw-p(4px);
+        border-radius: vw-p(40px);
+      }
+      &__time {
+      }
+    }
+  }
+}

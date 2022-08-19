@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage("git"){
+            steps{
+                git branch: 'back', credentialsId: 'gitlabidpw', url: 'https://lab.ssafy.com/s07-webmobile1-sub1/S07P11C208.git'
+            }
+        }
+        stage('build') {
+            steps{
+                sh "ls -a"
+                dir('backend') {
+                    script{
+                        try{
+                            sh "chmod +x gradlew"
+                            sh "./gradlew bootBuildImage --imageName=spring"
+                        } catch(e){
+                            echo "fail build"
+                        }
+                    }
+                    script{
+                        try{
+                            sh "docker stop spring"
+                            sh "docker rm spring"
+                        } catch(e){
+                            echo "container none"
+                        }
+                    }
+                    sh "docker run -d -p 8083:8083 --name spring spring "
+                }
+            }
+        }
+    }
+}

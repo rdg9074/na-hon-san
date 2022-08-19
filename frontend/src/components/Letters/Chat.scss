@@ -1,0 +1,89 @@
+.left {
+}
+.right > .chat-content,
+.right > img {
+  margin-left: auto;
+  background-color: #efefef;
+}
+#chat {
+  width: (313px); //329-16
+  display: flex;
+
+  & + #chat {
+    margin-bottom: (8px);
+  }
+
+  .chat__img {
+    width: (160px);
+    height: (90px);
+  }
+  .chat-content {
+    padding: (8px);
+
+    max-width: (240px);
+    border: 1px solid #efefef;
+    border-radius: (16px);
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #chat {
+    width: vw(313px); //329-16
+
+    & + #chat {
+      margin-bottom: vw(8px);
+    }
+
+    .chat__img {
+      width: vw(160px);
+      height: vw(90px);
+    }
+
+    .chat-content {
+      padding: vw(8px);
+
+      max-width: vw(240px);
+      border-radius: vw(16px);
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #chat {
+    width: vw-t(313px); //329-16
+
+    & + #chat {
+      margin-bottom: vw-t(8px);
+    }
+    .chat__img {
+      width: vw-t(160px);
+      height: vw-t(90px);
+    }
+    .chat-content {
+      padding: vw-t(8px);
+
+      max-width: vw-t(240px);
+      border-radius: vw-t(16px);
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #chat {
+    width: vw-p(313px); //329-16
+
+    & + #chat {
+      margin-bottom: vw-p(8px);
+    }
+    .chat__img {
+      width: vw-p(160px);
+      height: vw-p(90px);
+    }
+    .chat-content {
+      padding: vw-p(8px);
+
+      max-width: vw-p(240px);
+      border-radius: vw-p(16px);
+    }
+  }
+}

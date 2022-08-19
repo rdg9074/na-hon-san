@@ -1,0 +1,15 @@
+@keyframes show {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.sk {
+  background-color: #d9d9d9;
+  animation: show 1s;
+}

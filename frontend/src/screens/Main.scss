@@ -1,0 +1,206 @@
+#main {
+  .banner {
+    width: 100%;
+    height: (428px);
+    background-color: #323232;
+
+    align-items: center;
+    justify-content: center;
+
+    &-info {
+      margin-right: 685px; //add
+      color: $WHITE;
+      &__desc {
+        margin-bottom: (44px);
+        line-height: (58px);
+      }
+      &__btn--move-list {
+        width: (232px);
+        height: (64px);
+
+        color: $BLACK;
+        background-color: $MAIN_YELLOW;
+        border-radius: (16px);
+      }
+    }
+    &-chat {
+      .banner-chats {
+        align-items: flex-end;
+        &__item {
+          padding: 0 (32px);
+          height: (69px);
+
+          border-radius: (8px);
+          background-color: $KAKAO-YELLOW;
+          & + .banner-chats__item {
+            margin-top: (16px);
+          }
+        }
+      }
+    }
+  }
+  .main {
+    width: 1440px; //add
+    margin-top: (64px);
+
+    .title {
+      font-size: (48px);
+      margin-bottom: (64px);
+      & > span {
+        color: $MAIN_YELLOW;
+      }
+    }
+
+    #card-list + .title {
+      margin-top: (108px);
+    }
+  }
+  #card-list {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: $DESKTOP-VW) {
+  #main {
+    .banner {
+      padding: vw(95px) vw(141px) vw(94px) vw(129px);
+      height: vw(428px);
+      background-color: #323232;
+
+      justify-content: space-between;
+
+      &-info {
+        margin-right: 0;
+        color: $WHITE;
+        &__desc {
+          margin-bottom: vw(44px);
+          line-height: vw(58px);
+        }
+        &__btn--move-list {
+          width: vw(232px);
+          height: vw(64px);
+
+          color: $BLACK;
+          background-color: $MAIN_YELLOW;
+          border-radius: vw(16px);
+        }
+      }
+      &-chat {
+        .banner-chats {
+          align-items: flex-end;
+          &__item {
+            padding: 0 (32px);
+            height: vw(69px);
+
+            border-radius: vw(8px);
+            background-color: $KAKAO-YELLOW;
+            & + .banner-chats__item {
+              margin-top: vw(16px);
+            }
+          }
+        }
+      }
+    }
+    .main {
+      width: 100vw;
+      margin-top: vw(64px);
+
+      .title {
+        font-size: vw(48px);
+        margin-bottom: vw(64px);
+      }
+
+      #card-list + .title {
+        margin-top: vw(108px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #main {
+    .banner {
+      padding: vw-t(80px) vw-t(48px) vw-t(81px) vw-t(55px);
+
+      width: vw-t(768px);
+      height: vw-t(400px);
+
+      &-info {
+        &__desc {
+          margin-bottom: vw-t(44px);
+          line-height: vw-t(58px);
+        }
+        &__btn--move-list {
+          width: vw-t(232px);
+          height: vw-t(64px);
+          border-radius: vw-t(16px);
+        }
+      }
+      &-chat {
+        .banner-chats {
+          &__item {
+            padding: 0 (32px);
+            height: vw-t(69px);
+
+            border-radius: vw-t(8px);
+            & + .banner-chats__item {
+              margin-top: vw-t(16px);
+            }
+          }
+        }
+      }
+    }
+    .main {
+      margin-top: vw-t(64px);
+
+      .title {
+        font-size: vw-t(36px);
+        margin-bottom: vw-t(48px);
+      }
+
+      #card-list + .title {
+        margin-top: vw-t(80px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #main {
+    .banner {
+      padding: vw-p(16px) 0 vw-p(24px) vw-p(24px);
+
+      width: vw-p(375px);
+      height: vw-p(233px);
+
+      &-info {
+        &__desc {
+          margin-bottom: vw-p(29px);
+          font-size: vw-p(36px);
+          line-height: vw-p(52px);
+        }
+        &__btn--move-list {
+          width: vw-p(211px);
+          height: vw-p(60px);
+          font-size: vw-p(20px);
+          border-radius: vw-p(16px);
+        }
+      }
+      &-chat {
+        display: none;
+      }
+    }
+    .main {
+      margin-top: vw-p(16px);
+
+      .title {
+        font-size: vw-p(36px);
+        margin-bottom: vw-p(16px);
+      }
+
+      #card-list + .title {
+        margin-top: vw-p(80px);
+      }
+    }
+  }
+}
