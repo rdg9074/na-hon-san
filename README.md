@@ -76,7 +76,7 @@ DM을 통하여 상대방과 채팅을 주고받으며 친목을 다질 수도 �
 ## 🎞 시연 영상 
 
 <div align="center">
-<img src="/uploads/f77c4c7ea74ee8a0eb2008ac8ab3283e/나혼자잘산다_시연영상_최종_.mp4" width="800" height="600">
+<img src="/uploads/f9d51c8384327cdc0e0e03cc005b7b79/시연영상_나혼산_배속__exported__4_.mp4" width="800" height="600">
 </div>
 
 ## 🛠 주요 기능
