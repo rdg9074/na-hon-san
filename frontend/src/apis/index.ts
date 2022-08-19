@@ -1,6 +1,7 @@
 import { resetUserInfo } from "@store/ducks/auth/authSlice";
 import axios from "axios";
-import { refreshAccessToken } from "./auth";
+import { useNavigate } from "react-router-dom";
+import { deleteRefreshToken, refreshAccessToken } from "./auth";
 
 // export const BASE_URL = "http://i7c208.p.ssafy.io:8083/api"; // 개발 주소
 export const BASE_URL = "/api";
@@ -13,7 +14,6 @@ const API = axios.create({
     withCredentials: true
   }
 });
-
 export const setUpInterceptors = (store: any) => {
   const { dispatch } = store;
   API.interceptors.response.use(
@@ -24,6 +24,8 @@ export const setUpInterceptors = (store: any) => {
       const originalRequest = err.config;
       if (err.response.data.message === "refreshTimeout") {
         dispatch(resetUserInfo());
+        deleteRefreshToken();
+        window.location.href = "/";
       } else if (err.response.status === 401) {
         await refreshAccessToken();
         const accessToken = sessionStorage.getItem("access-token");

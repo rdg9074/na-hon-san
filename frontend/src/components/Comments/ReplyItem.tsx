@@ -92,7 +92,7 @@ function ReplyItem({
               </div>
               {type === "Deal" && (
                 <div className="reply-head-map flex justify-end">
-                  {isArticleAuthor && (
+                  {isArticleAuthor && !isAuthor && (
                     <MapModal targetUser={info.userNickname} />
                   )}
                 </div>
