@@ -1,9 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:mariadb://i7c208.p.ssafy.io:3306/s07p11c208?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8&amp
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: ssafy
-    password: ssafy
+
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -15,24 +11,7 @@ spring:
   devtools:
     livereload:
       enabled: true
-  mail:
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: 'true'
-          auth: 'true'
-    host: smtp.gmail.com
-    username: gwangjubob@gmail.com
-    debug: 'true'
-    password: lnmavxicqizyxxdo
-    default:
-      encoding: UTF-8
-    port: '587'
-    transport:
-      protocol: smtp
-    restart:
-      enabled: true
+
 
 logging:
   level:
