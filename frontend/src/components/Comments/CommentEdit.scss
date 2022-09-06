@@ -1,0 +1,44 @@
+#comment-input {
+  position: relative;
+  input[type="file"] {
+    position: absolute;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+  }
+  & .preview {
+    position: absolute;
+    bottom: (40px);
+    left: (36px);
+    width: (100px);
+    height: (100px);
+    border-radius: (12px);
+    z-index: 1;
+  }
+  & .img-preview {
+    position: absolute;
+    width: (20px);
+    height: (20px);
+    top: (-24px);
+    left: (12px);
+    &:hover {
+      cursor: pointer;
+    }
+    & img {
+      width: (20px);
+      height: (20px);
+      margin-right: (4px);
+    }
+  }
+  & > button {
+    position: absolute;
+    right: (6px);
+    padding: (8px);
+    & > img {
+      width: (20px);
+      height: (20px);
+    }
+  }
+}

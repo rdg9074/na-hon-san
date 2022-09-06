@@ -1,0 +1,313 @@
+//add
+.nav-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0px 3px 4px rgba(229, 229, 229, 0.65);
+}
+
+#main-nav-bar {
+  width: 1440px; //add
+  height: (100px);
+
+  padding: 0 (135px) 0 (66px);
+  .logo {
+    margin-right: (16px);
+
+    width: (50px);
+    height: (50px);
+  }
+  .title {
+    margin-right: (76px);
+    white-space: nowrap;
+  }
+
+  .nav-container {
+    width: 100%;
+
+    .left-nav {
+      &__link + .left-nav__link {
+        margin-left: (40px);
+      }
+
+      .btn--active {
+        color: $MAIN_YELLOW;
+      }
+
+      .btn--unactive {
+        color: $MAIN_GRAY;
+      }
+    }
+
+    .right-nav {
+      color: #9c9c9c;
+
+      &__link + .right-nav__link {
+        margin-left: (28px);
+      }
+
+      .alarm,
+      .msg,
+      .profile {
+        position: relative;
+
+        &__icon {
+          width: (30px);
+          height: (30px);
+        }
+
+        &__cnt {
+          position: absolute;
+          top: (-6px);
+          right: (-8px);
+
+          padding: (2px) (4px);
+
+          height: (16px);
+
+          background-color: $RED;
+          color: $WHITE;
+
+          border-radius: (8px);
+        }
+      }
+      .user {
+        border-radius: 50%;
+        width: (40px);
+        height: (40px);
+      }
+    }
+  }
+}
+
+#alarm-tool-tip {
+  position: absolute;
+  top: (50px);
+  left: (-160px);
+  z-index: 1;
+}
+
+#profile-tool-tip {
+  position: absolute;
+  top: (30px);
+  left: (-95px);
+  z-index: 2;
+}
+
+@media screen and(max-width :$DESKTOP-VW) {
+  #main-nav-bar {
+    position: relative;
+
+    width: 100%;
+    height: vw(100px);
+
+    padding: 0 vw(135px) 0 vw(66px);
+    box-shadow: 0px 3px 4px rgba(229, 229, 229, 0.65);
+
+    .logo {
+      margin-right: vw(16px);
+
+      width: vw(50px);
+      height: vw(50px);
+    }
+    .title {
+      margin-right: vw(76px);
+      white-space: nowrap;
+    }
+
+    .nav-container {
+      width: 100%;
+
+      .left-nav {
+        &__link + .left-nav__link {
+          margin-left: vw(40px);
+        }
+
+        .btn--active {
+          color: $MAIN_YELLOW;
+        }
+
+        .btn--unactive {
+          color: $MAIN_GRAY;
+        }
+      }
+
+      .right-nav {
+        color: #9c9c9c;
+
+        &__link + .right-nav__link {
+          margin-left: vw(28px);
+        }
+
+        .alarm,
+        .msg,
+        .profile {
+          position: relative;
+
+          &__icon {
+            width: vw(30px);
+            height: vw(30px);
+          }
+
+          &__cnt {
+            position: absolute;
+            top: vw(-6px);
+            right: vw(-8px);
+
+            padding: vw(2px) vw(4px);
+
+            height: vw(16px);
+
+            background-color: $RED;
+            color: $WHITE;
+
+            border-radius: vw(8px);
+          }
+        }
+        .user {
+          width: vw(40px);
+          height: vw(40px);
+        }
+      }
+    }
+  }
+
+  #alarm-tool-tip {
+    position: absolute;
+    top: vw(50px);
+    left: vw(-160px);
+  }
+
+  #profile-tool-tip {
+    position: absolute;
+    top: vw(30px);
+    left: vw(-95px);
+  }
+}
+
+@media screen and (max-width: $TABLET-VW) {
+  #main-nav-bar {
+    height: vw-t(100px);
+    padding: 0 vw-t(40px);
+
+    .logo {
+      margin-right: vw-t(25px);
+
+      width: vw-t(65px);
+      height: vw-t(60px);
+    }
+
+    .nav-container {
+      .left-nav {
+        &__link + .left-nav__link {
+          margin-left: vw-t(24px);
+        }
+      }
+
+      .right-nav {
+        &__link + .right-nav__link {
+          margin-left: vw-t(20px);
+        }
+
+        .alarm,
+        .msg,
+        .profile {
+          &__icon {
+            width: vw-t(30px);
+            height: vw-t(30px);
+          }
+
+          &__cnt {
+            top: vw-t(-6px);
+            right: vw-t(-8px);
+
+            padding: vw-t(2px) vw-t(4px);
+
+            height: vw-t(16px);
+
+            border-radius: vw-t(8px);
+          }
+        }
+
+        .user {
+          width: vw-t(48px);
+          height: vw-t(48px);
+        }
+      }
+    }
+  }
+
+  #alarm-tool-tip {
+    top: vw-t(50px);
+    left: vw-t(-160px);
+  }
+
+  #profile-tool-tip {
+    top: vw-t(30px);
+    left: vw-t(-100px);
+  }
+}
+
+@media screen and (max-width: $PHONE-VW) {
+  #main-nav-bar {
+    height: vw-p(100px);
+    padding: 0 vw-p(16px) 0 vw-p(24px);
+
+    .logo {
+      margin-right: vw-p(15px);
+
+      width: vw-p(32px);
+      height: vw-p(32px);
+    }
+
+    .nav-container {
+      .left-nav {
+        &__link {
+          font-size: vw-p(18px);
+        }
+        &__link + .left-nav__link {
+          margin-left: vw-p(17px);
+        }
+      }
+
+      .right-nav {
+        &__link {
+          font-size: vw-p(14px);
+        }
+
+        &__link + .right-nav__link {
+          margin-left: vw-p(14px);
+        }
+
+        .alarm,
+        .msg,
+        .profile {
+          &__icon {
+            width: vw-p(24px);
+            height: vw-p(24px);
+          }
+
+          &__cnt {
+            top: vw-p(-6px);
+            right: vw-p(-8px);
+
+            padding: vw-p(2px) vw-p(4px);
+
+            height: vw-p(16px);
+
+            border-radius: vw-p(8px);
+          }
+        }
+
+        .user {
+          width: vw-p(32px);
+          height: vw-p(32px);
+        }
+      }
+    }
+    #profile-tool-tip {
+      top: vw-p(30px);
+      left: vw-p(-100px);
+    }
+  }
+}
