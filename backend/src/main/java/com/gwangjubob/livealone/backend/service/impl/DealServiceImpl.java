@@ -70,7 +70,7 @@ public class DealServiceImpl implements DealService {
             UserEntity user = optionalUser.get();
             DealEntity deal = dealMapper.toEntity(dealDto);
             deal.setUser(user);
-            String area = user.getArea().split(" ")[0];
+            String area = user.getArea().split(" ")[0].substring(0, 2);
             deal.setArea(area);
             deal.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             dealRepository.save(deal);
@@ -132,9 +132,11 @@ public class DealServiceImpl implements DealService {
         if(optionalDeal.isPresent() && optionalUser.isPresent()){
             DealEntity deal = optionalDeal.get();
             UserEntity user = optionalUser.get();
+            String area = user.getArea().split(" ")[0].substring(0,2);
             if(deal.getUser().getId().equals(user.getId())){
                 dealMapper.updateFromDto(dealDto, deal);
                 deal.setUpdateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+                deal.setArea(area);
                 DealEntity res =dealRepository.save(deal);
                 data = dealMapper.toDto(res);
             } else{
@@ -749,88 +751,15 @@ public class DealServiceImpl implements DealService {
         return info;
     }
 
-    @Override
-    public Map<String, Object> searchMidPositionTest(String loginUserId, String targetUserId) {
-        Map<String, Object> info = new HashMap<>();
-        ArrayList<Long> targetUserTime = new ArrayList<>();
-        ArrayList<Long> loginUserTime = new ArrayList<>();
-        ArrayList<List> busStationList = new ArrayList<>();
-        Double loginUserX = userService.getPosition(loginUserId).get("positionX");
-        Double loginUserY = userService.getPosition(loginUserId).get("positionY");
-
-        Double targetUserX = userService.getPosition(targetUserId).get("positionX");
-        Double targetUserY = userService.getPosition(targetUserId).get("positionY");
-
-        Double distanceMeter = distance(loginUserY, loginUserX, targetUserY, targetUserX, "meter");
-
-        if (distanceMeter <= 2000) {
-            System.out.println("두 사용자 간의 거리가 2km 이내입니다. ");
-            info.put("distance", distanceMeter);
-
-            double midXd = (loginUserX + targetUserX) / 2;
-            double midYd = (loginUserY + targetUserY) / 2;
-
-            info.put("midXPosition", midXd);
-            info.put("midYPosition", midYd);
-
-        } else {
-            targetUserTime.add(17L);
-            targetUserTime.add(17L);
-            targetUserTime.add(15L);
-            targetUserTime.add(15L);
-            targetUserTime.add(14L);
-
-            loginUserTime.add(19L);
-            loginUserTime.add(20L);
-            loginUserTime.add(22L);
-            loginUserTime.add(22L);
-            loginUserTime.add(22L);
-
-            ArrayList<Double> list1 = new ArrayList<>();
-            list1.add(0, 126.83852);
-            list1.add(1, 35.19075);
-            ArrayList<Double> list2 = new ArrayList<>();
-            list2.add(0, 126.83853);
-            list2.add(1, 35.19048);
-            ArrayList<Double> list3 = new ArrayList<>();
-            list3.add(0, 126.83691);
-            list3.add(1, 35.18916);
-            ArrayList<Double> list4 = new ArrayList<>();
-            list4.add(0, 126.837135);
-            list4.add(1, 35.189053);
-            ArrayList<Double> list5 = new ArrayList<>();
-            list5.add(0, 126.83512);
-            list5.add(1, 35.190735);
-            busStationList.add(list1);
-            busStationList.add(list2);
-            busStationList.add(list3);
-            busStationList.add(list4);
-            busStationList.add(list5);
-
-            Map<String, Object> result = new HashMap<>();
-            result.put("targetUserTotalTime", 17);
-            result.put("finalBusPositionX", 126.83852);
-            result.put("loginUserTotalTime", 19);
-            result.put("finalBusPositionY", 35.19075);
-
-            info.put("result", result);
-            info.put("loginUserTime", loginUserTime);
-            info.put("targetUserTime", targetUserTime);
-            info.put("busStationList", busStationList);
-            info.put("radius", "500");
-            info.put("midXPosition", 126.837844095768);
-            info.put("midYPosition", 35.19097170925615);
-        }
-        return info;
-    }
 
     @Override
     public long countArea(String area) {
         long cnt = 0;
+        String state = "거래 대기";
         if(area.equals("전체")){
-            cnt = dealRepository.count();
+            cnt = dealRepository.countAllByState(state);
         } else{
-            cnt = dealRepository.countAllByArea(area);
+            cnt = dealRepository.countAllByAreaAndState(area, state);
         }
         return cnt;
     }

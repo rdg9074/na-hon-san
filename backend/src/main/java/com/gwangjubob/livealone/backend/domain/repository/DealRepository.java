@@ -13,7 +13,8 @@ import java.util.Optional;
 
 public interface DealRepository extends JpaRepository<DealEntity, Integer> {
 
-
+    long countAllByState(String state);
+    long countAllByAreaAndState(String area, String state);
     long countAllByArea(String area);
     Optional<DealEntity> findByIdx(Integer postIdx);
     List<DealEntity> findByUser(UserEntity userEntity);

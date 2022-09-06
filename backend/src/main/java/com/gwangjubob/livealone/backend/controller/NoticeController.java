@@ -61,8 +61,8 @@ public class NoticeController {
 
         if (decodeId != null) {
             try {
-                long countNotice = noticeService.countNotice(decodeId); // 읽지 않은 알림 개수 조회 서비스 호출
-                long countDM = dmService.countDM(decodeId); // 읽지 않은 DM 개수 조회 서비스 호출
+                long countNotice = noticeService.countNotice(decodeId);
+                long countDM = dmService.countDM(decodeId);
                 resultMap.put("countNotice", countNotice);
                 resultMap.put("countDM", countDM);
                 resultMap.put("message", okay);
@@ -82,7 +82,7 @@ public class NoticeController {
 
         if(decodeId != null){
             try{
-                boolean result = noticeService.readNotice(decodeId, idx); // 알림 읽음 처리 서비스 호출
+                boolean result = noticeService.readNotice(decodeId, idx);
                 if(result){
                     resultMap.put("message", okay);
                     status = HttpStatus.OK;
@@ -105,7 +105,7 @@ public class NoticeController {
 
         if(decodeId != null) {
             try {
-                noticeService.deleteNotice(decodeId, idx); // 알림 삭제 서비스 호출
+                noticeService.deleteNotice(decodeId, idx);
                 resultMap.put("message", okay);
                 status = HttpStatus.OK;
             } catch (Exception e) {

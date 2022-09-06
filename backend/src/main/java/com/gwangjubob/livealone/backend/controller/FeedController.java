@@ -29,15 +29,13 @@ public class FeedController {
     private static final String notAllowed = "notAllowed";
     private final UserService userService;
     private final JwtService jwtService;
-    private final MailService mailService;
     private static HttpStatus status = HttpStatus.NOT_FOUND;
 
     private final UserFeedService userFeedService;
     @Autowired
-    FeedController(UserService userService , UserFeedService userFeedService, JwtService jwtService, MailService mailService){
+    FeedController(UserService userService , UserFeedService userFeedService, JwtService jwtService){
         this.userService = userService;
         this.jwtService = jwtService;
-        this.mailService = mailService;
         this.userFeedService = userFeedService;
     }
 
@@ -82,7 +80,7 @@ public class FeedController {
             try{
                 String fromId = userService.NicknameToId(fromNickname);
                 UserInfoDto userInfoDto =  userService.infoUser(fromId);
-                if(userInfoDto.getFollowOpen()) {// 대상 id가 팔로우 설정이 되어있다면 조회하기
+                if(userInfoDto.getFollowOpen()) {
                     List<FollowViewDto> result = userFeedService.listFollow(fromId);
                     resultMap.put("data",result);
                 }else if(userInfoDto.getId().equals(decodeId)){
@@ -113,7 +111,7 @@ public class FeedController {
             try{
                 String fromId = userService.NicknameToId(fromNickname);
                 UserInfoDto userInfoDto =  userService.infoUser(fromId);
-                if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
+                if(userInfoDto.getFollowerOpen()){
                     List<FollowViewDto> result = userFeedService.listFollower(fromId);
                     resultMap.put("data",result);
                 }else if(userInfoDto.getId().equals(decodeId)) {
@@ -138,7 +136,7 @@ public class FeedController {
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
-            if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
+            if(userInfoDto.getFollowerOpen()){
                 List<FollowViewDto> result = userFeedService.searchFollow(fromId,keyword);
                 resultMap.put("data",result);
             }else{
@@ -159,7 +157,7 @@ public class FeedController {
         try{
             String fromId = userService.NicknameToId(fromNickname);
             UserInfoDto userInfoDto =  userService.infoUser(fromId);
-            if(userInfoDto.getFollowerOpen()){// 대상 id가 팔로워 설정이 되어있다면 조회하기
+            if(userInfoDto.getFollowerOpen()){
                 List<FollowViewDto> result = userFeedService.searchFollower(fromId,keyword);
                 resultMap.put("data",result);
             }else{
@@ -177,12 +175,12 @@ public class FeedController {
     public ResponseEntity<?> feedProfile(@PathVariable("nickname")String fromNickname,HttpServletRequest request){
 //        Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> resultMap = new HashMap<>();
-        String accessToken = request.getHeader("Authorization"); // 로그인 했는지 체크?
+        String accessToken = request.getHeader("Authorization");
         String decodeId = checkToken(request, resultMap);
         String fromId = userService.NicknameToId(fromNickname);
         ProfileViewDto result = null;
         try{
-            if(accessToken != null && decodeId == null){ // 로그인 했는데 인증 만료라면
+            if(accessToken != null && decodeId == null){
                     resultMap.put("result",fail);
                     status = HttpStatus.UNAUTHORIZED;
             }else{ //서비스 호출

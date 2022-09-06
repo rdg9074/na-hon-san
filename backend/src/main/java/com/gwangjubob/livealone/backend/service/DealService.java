@@ -36,8 +36,6 @@ public interface DealService {
 
     Map<String,Object> searchMidPosition(String loginUserId, String targetUserId);
 
-    Map<String,Object> searchMidPositionTest(String loginUserId, String targetUserId);
-
     long countArea(String area);
 
     int getApiCount();
